@@ -9,5 +9,6 @@ public class PlayerInput : MonoBehaviour
     {
         Move = Input.GetAxis("Vertical"); // W/S
         Turn = Input.GetAxis("Horizontal"); // A/D
+
     }
 }
