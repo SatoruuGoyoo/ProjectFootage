@@ -4,20 +4,25 @@ public class PlayerMotor : MonoBehaviour
 {
     public PlayerConfig config;
 
+    private CharacterController characterController;
+
+    private void Awake()
+    {
+        characterController = GetComponent<CharacterController>();
+    }
+
     public void Move(float moveInput)
     {
         if (config == null) return;
 
-        // Movement
         Vector3 movement = transform.forward * moveInput * config.MoveSpeed * Time.deltaTime;
-        transform.position += movement;
+        characterController.Move(movement);
     }
 
     public void Turn(float turnInput)
     {
         if (config == null) return;
 
-        // Rotation
         float turnAmount = turnInput * config.TurnSpeed * Time.deltaTime;
         transform.Rotate(0, turnAmount, 0);
     }

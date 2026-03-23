@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     private PlayerMotor motor;
     private PlayerView view;
 
+    private PlayerMode currentMode = PlayerMode.ExplorationMode;
+
     private void Awake()
     {
         input = GetComponent<PlayerInput>();
@@ -15,11 +17,26 @@ public class PlayerController : MonoBehaviour
         view = GetComponent<PlayerView>();
     }
 
+    private void OnEnable()
+    {
+        GameEvents.OnPlayerModeChanged += OnPlayerModeChanged;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.OnPlayerModeChanged -= OnPlayerModeChanged;
+    }
+
+    private void OnPlayerModeChanged(PlayerMode newMode)
+    {
+        currentMode = newMode;
+    }
+
     private void Update()
     {
-        motor.Move(input.Move);
-        motor.Turn(input.Turn);
+        if (currentMode == PlayerMode.ExplorationMode)
+            motor.Move(input.Move);
 
-        // Update the view based on the current state (e.g., health, movement)
+        motor.Turn(input.Turn);
     }
 }
