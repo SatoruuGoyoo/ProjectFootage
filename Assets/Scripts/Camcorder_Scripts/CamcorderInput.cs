@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class CamcorderInput : MonoBehaviour
 {
     public bool LiftCamera { get; private set; }
+    public float TiltCamera { get; private set; }
 
     private PlayerInputActions actions;
 
@@ -29,7 +30,7 @@ public class CamcorderInput : MonoBehaviour
         LiftCamera = actions.Exploration.LiftCamera.WasPressedThisFrame() ||
                      actions.Camera.PutDownCamera.WasPressedThisFrame();
 
-        if (LiftCamera)
-            Debug.Log("LiftCamera detectado");
+        TiltCamera = actions.Camera.TiltCamera.ReadValue<float>();
+
     }
 }

@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CamcorderController : MonoBehaviour
@@ -24,6 +25,9 @@ public class CamcorderController : MonoBehaviour
         {
             ToggleCamera();
         }
+
+        if (isCameraUp)
+            GetComponent<CamcorderMotor>().Tilt(input.TiltCamera);
     }
 
     private void ToggleCamera()
@@ -36,4 +40,5 @@ public class CamcorderController : MonoBehaviour
         else
             GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
     }
+
 }
