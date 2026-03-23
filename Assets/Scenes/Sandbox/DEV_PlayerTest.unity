@@ -1101,6 +1101,7 @@ GameObject:
   - component: {fileID: 1146533034}
   - component: {fileID: 1146533036}
   - component: {fileID: 1146533035}
+  - component: {fileID: 1146533037}
   m_Layer: 0
   m_Name: Camcorder
   m_TagString: Untagged
@@ -1149,6 +1150,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CamcorderController
   camcorderVisual: {fileID: 1688758542}
+--- !u!114 &1146533037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146533033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbd479941a908f546bcba7d3015e1c8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CamcorderMotor
+  camcorderCamera: {fileID: 1688758543}
+  tiltSpeed: 60
+  tiltMinAngle: -30
+  tiltMaxAngle: 30
 --- !u!1 &1402546137
 GameObject:
   m_ObjectHideFlags: 0
