@@ -307,42 +307,18 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""StartRecording/Recording"",
+                    ""type"": ""Button"",
+                    ""id"": ""20fe3b62-5ef7-4c65-89d3-1d1b5ed1a844"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": ""KeyBoard"",
-                    ""id"": ""4a520b05-bfa3-4e01-ab32-5439ec89ed42"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""TiltCamera"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""1018ec23-de7e-4db8-802d-46fd5e87b12b"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""TiltCamera"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""496bc81d-f7f4-4a01-ab10-694e650cfeb4"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""TiltCamera"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
                 {
                     ""name"": ""Joystick"",
                     ""id"": ""527499c3-abf1-41d3-b2dc-2bcbfbb4ee17"",
@@ -369,6 +345,39 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""name"": ""negative"",
                     ""id"": ""4e284640-d342-4ad8-889d-d02a8f9359b7"",
                     ""path"": ""<Gamepad>/leftStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TiltCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""KeyBoard"",
+                    ""id"": ""4a520b05-bfa3-4e01-ab32-5439ec89ed42"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TiltCamera"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""1018ec23-de7e-4db8-802d-46fd5e87b12b"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TiltCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""496bc81d-f7f4-4a01-ab10-694e650cfeb4"",
+                    ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -463,6 +472,28 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""PutDownCamera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bbc78afe-74ff-4eaf-9aea-3bc07b2ead6a"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""StartRecording/Recording"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a7290d22-d219-4323-8c98-9af8835bf80a"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""StartRecording/Recording"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -479,6 +510,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Camera_TiltCamera = m_Camera.FindAction("TiltCamera", throwIfNotFound: true);
         m_Camera_TurnCamera = m_Camera.FindAction("TurnCamera", throwIfNotFound: true);
         m_Camera_PutDownCamera = m_Camera.FindAction("PutDownCamera", throwIfNotFound: true);
+        m_Camera_StartRecordingRecording = m_Camera.FindAction("StartRecording/Recording", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -681,6 +713,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Camera_TiltCamera;
     private readonly InputAction m_Camera_TurnCamera;
     private readonly InputAction m_Camera_PutDownCamera;
+    private readonly InputAction m_Camera_StartRecordingRecording;
     /// <summary>
     /// Provides access to input actions defined in input action map "Camera".
     /// </summary>
@@ -704,6 +737,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Camera/PutDownCamera".
         /// </summary>
         public InputAction @PutDownCamera => m_Wrapper.m_Camera_PutDownCamera;
+        /// <summary>
+        /// Provides access to the underlying input action "Camera/StartRecordingRecording".
+        /// </summary>
+        public InputAction @StartRecordingRecording => m_Wrapper.m_Camera_StartRecordingRecording;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -739,6 +776,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @PutDownCamera.started += instance.OnPutDownCamera;
             @PutDownCamera.performed += instance.OnPutDownCamera;
             @PutDownCamera.canceled += instance.OnPutDownCamera;
+            @StartRecordingRecording.started += instance.OnStartRecordingRecording;
+            @StartRecordingRecording.performed += instance.OnStartRecordingRecording;
+            @StartRecordingRecording.canceled += instance.OnStartRecordingRecording;
         }
 
         /// <summary>
@@ -759,6 +799,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @PutDownCamera.started -= instance.OnPutDownCamera;
             @PutDownCamera.performed -= instance.OnPutDownCamera;
             @PutDownCamera.canceled -= instance.OnPutDownCamera;
+            @StartRecordingRecording.started -= instance.OnStartRecordingRecording;
+            @StartRecordingRecording.performed -= instance.OnStartRecordingRecording;
+            @StartRecordingRecording.canceled -= instance.OnStartRecordingRecording;
         }
 
         /// <summary>
@@ -849,5 +892,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnPutDownCamera(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "StartRecording/Recording" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnStartRecordingRecording(InputAction.CallbackContext context);
     }
 }

@@ -5,6 +5,9 @@ public class CamcorderInput : MonoBehaviour
 {
     public bool LiftCamera { get; private set; }
     public float TiltCamera { get; private set; }
+    public bool IsPreparingRecording { get; private set; }
+    public bool IsRecordingReleased { get; private set; }
+    public bool StartedRecording { get; private set; }
 
     private PlayerInputActions actions;
 
@@ -31,6 +34,12 @@ public class CamcorderInput : MonoBehaviour
                      actions.Camera.PutDownCamera.WasPressedThisFrame();
 
         TiltCamera = actions.Camera.TiltCamera.ReadValue<float>();
+
+        IsPreparingRecording = actions.Camera.@StartRecordingRecording.IsPressed(); // StartRecording/Recording 
+
+        StartedRecording = actions.Camera.@StartRecordingRecording.WasPressedThisFrame(); // StartRecording/Recording
+
+        IsRecordingReleased = actions.Camera.@StartRecordingRecording.WasReleasedThisFrame(); // StartRecording/Recording
 
     }
 }
