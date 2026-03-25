@@ -20,6 +20,7 @@ public class CamcorderController : MonoBehaviour
     private CamcorderMode currentCamMode = CamcorderMode.Idle;
     private CamcorderRecorder recorder;
     private CamcorderPlayback playback;
+    private CamcorderStorage storage;
 
     // Private methods and variables
     private CamcorderInput input;
@@ -29,7 +30,8 @@ public class CamcorderController : MonoBehaviour
     {
         input = GetComponent<CamcorderInput>();
         recorder = GetComponent<CamcorderRecorder>();
-        playback = GetComponent<CamcorderPlayback>();
+       // playback = GetComponent<CamcorderPlayback>();
+        storage = GetComponent<CamcorderStorage>();
     }
 
     private void Start()
@@ -104,9 +106,10 @@ public class CamcorderController : MonoBehaviour
                     if (input.IsRecordingReleased || recordTimer >= recordDuration)
                     {
                         recorder.StopRecording();
+                        storage.AddRecording(recorder.GetRecording());
                         recordTimer = 0f;
                         Debug.Log("Stop recording");
-                        playback.PlayRecording(recorder.GetRecording());
+                        //playback.PlayRecording(recorder.GetRecording());
                         currentCamMode = CamcorderMode.Idle;
                     }
                     break;
