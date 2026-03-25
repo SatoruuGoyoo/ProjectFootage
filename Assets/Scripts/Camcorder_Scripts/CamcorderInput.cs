@@ -10,7 +10,9 @@ public class CamcorderInput : MonoBehaviour
     public bool IsRecordingReleased { get; private set; }
     public bool StartedRecording { get; private set; }
     public bool OpenCloseMenu { get; private set; }
-    public float NavigateMenu { get; private set; }
+    public bool NavigateRight { get; private set; }
+    public bool NavigateLeft { get; private set; }
+
     public bool PlayPauseRecording { get; private set; }
     public bool RewindRecording { get; private set; }
     public bool FastForwardRecording { get; private set; }
@@ -53,7 +55,8 @@ public class CamcorderInput : MonoBehaviour
 
         // Menu Camera Mode Inputs
         OpenCloseMenu = actions.MenuCamera.OpenClose.WasPressedThisFrame();
-        NavigateMenu = actions.MenuCamera.Navigate.ReadValue<float>();
+        NavigateRight = actions.MenuCamera.Navigate.WasPressedThisFrame() && actions.MenuCamera.Navigate.ReadValue<float>() > 0.1f;
+        NavigateLeft = actions.MenuCamera.Navigate.WasPressedThisFrame() && actions.MenuCamera.Navigate.ReadValue<float>() < -0.1f;
         PlayPauseRecording = actions.MenuCamera.PlayPause.WasPressedThisFrame();
         RewindRecording = actions.MenuCamera.Rewind.IsPressed();
         FastForwardRecording = actions.MenuCamera.FastForward.IsPressed();

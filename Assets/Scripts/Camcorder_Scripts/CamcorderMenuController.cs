@@ -6,6 +6,9 @@ public class CamcorderMenuController : MonoBehaviour
     private CamcorderStorage storage;
     private CamcorderPlayback playback;
     private CamcorderInput input;
+    private CamcorderMenuUI ui;
+
+    public GameObject camcorderMenuPanel;
 
     private bool IsMenuOpen = false;
 
@@ -16,6 +19,7 @@ public class CamcorderMenuController : MonoBehaviour
         storage = GetComponent<CamcorderStorage>();
         playback = GetComponent<CamcorderPlayback>();
         input = GetComponent<CamcorderInput>();
+        ui = GetComponent<CamcorderMenuUI>();
     }
 
     private void Update()
@@ -23,7 +27,11 @@ public class CamcorderMenuController : MonoBehaviour
         ToggleMenu();
 
         if (IsMenuOpen)
+        {
             HandleNavigation();
+            HandlePlayback();
+        }
+            
     }
 
     private void OpenMenu()
@@ -31,6 +39,8 @@ public class CamcorderMenuController : MonoBehaviour
         if (!IsMenuOpen)
         {
             IsMenuOpen = true;
+            camcorderMenuPanel.SetActive(true);
+            ui.UpdateUI(currentRecordingIndex);
             GameEvents.PlayerModeChanged(PlayerMode.MenuCameraMode);
         }
     }
@@ -40,6 +50,8 @@ public class CamcorderMenuController : MonoBehaviour
         if (IsMenuOpen)
         {
             IsMenuOpen = false;
+            currentRecordingIndex = 0;
+            camcorderMenuPanel.SetActive(false);
             GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
         }
     }
@@ -61,15 +73,27 @@ public class CamcorderMenuController : MonoBehaviour
     }
     private void HandleNavigation()
     {
-        if (input.NavigateMenu > 0.1f)
-        {
+        if (storage.GetAllRecordings().Count == 0) return;
+
+        if (input.NavigateRight)
             currentRecordingIndex++;
-        }
-        else if (input.NavigateMenu < -0.1f)
-        {
+        else if (input.NavigateLeft)
             currentRecordingIndex--;
-        }
 
         currentRecordingIndex = Mathf.Clamp(currentRecordingIndex, 0, storage.GetAllRecordings().Count - 1);
+        ui.UpdateUI(currentRecordingIndex);
+    }
+
+    private void HandlePlayback()
+    {
+        if (!input.PlayPauseRecording) return;
+        if (storage.GetAllRecordings().Count == 0) return;
+
+        if (playback.IsPlaying)
+            playback.PausePlayback();
+        else if (playback.HasRecording && !playback.IsFinished)
+             playback.ResumePlayback();
+        else
+            playback.PlayRecording(storage.GetAllRecordings()[currentRecordingIndex]);
     }
 }

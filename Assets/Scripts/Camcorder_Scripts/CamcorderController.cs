@@ -18,6 +18,7 @@ public class CamcorderController : MonoBehaviour
 
     // State variables
     private CamcorderMode currentCamMode = CamcorderMode.Idle;
+    private PlayerMode currentPlayerMode = PlayerMode.ExplorationMode;
     private CamcorderRecorder recorder;
     private CamcorderPlayback playback;
     private CamcorderStorage storage;
@@ -33,6 +34,7 @@ public class CamcorderController : MonoBehaviour
        // playback = GetComponent<CamcorderPlayback>();
         storage = GetComponent<CamcorderStorage>();
     }
+
 
     private void Start()
     {
@@ -51,11 +53,36 @@ public class CamcorderController : MonoBehaviour
 
         HandleCamcorderState();
 
+    }
 
+    private void OnEnable()
+    {
+        GameEvents.OnPlayerModeChanged += OnPlayerModeChanged;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.OnPlayerModeChanged -= OnPlayerModeChanged;
+    }
+
+    private void OnPlayerModeChanged(PlayerMode newMode)
+    {
+        currentPlayerMode = newMode;
+
+        if (newMode == PlayerMode.MenuCameraMode && isCameraUp)
+        {
+            isCameraUp = false;
+            camcorderVisual.SetActive(false);
+            currentCamMode = CamcorderMode.Idle;
+            prepareTimer = 0f;
+            recordTimer = 0f;
+        }
     }
 
     private void ToggleCamera()
     {
+        if (currentPlayerMode == PlayerMode.MenuCameraMode) return;
+
         isCameraUp = !isCameraUp;
         camcorderVisual.SetActive(isCameraUp);
 
