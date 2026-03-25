@@ -33,20 +33,6 @@ Shader "Custom/PS2Gouraud"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 
-            struct Attributes
-            {
-                float4 positionOS : POSITION;
-                float3 normalOS   : NORMAL;
-                float2 uv         : TEXCOORD0;
-            };
-
-            struct Varyings
-            {
-                float4 positionHCS : SV_POSITION;
-                float2 uv          : TEXCOORD0;
-                float3 vertexLight : TEXCOORD1;
-            };
-
             TEXTURE2D(_MainTex);
             SAMPLER(sampler_MainTex);
 
@@ -58,57 +44,59 @@ Shader "Custom/PS2Gouraud"
                 float  _ShadowStrength;
             CBUFFER_END
 
-            Varyings vert(
-Attributes IN)
+            struct Attributes
             {
-Varyings OUT;
+                float4 positionOS : POSITION;
+                float3 normalOS : NORMAL;
+                float2 uv : TEXCOORD0;
+            };
 
-float3 posWS = TransformObjectToWorld(IN.positionOS.xyz);
-float3 normalWS = TransformObjectToWorldNormal(IN.normalOS);
+            struct Varyings
+            {
+                float4 positionHCS : SV_POSITION;
+                float2 uv : TEXCOORD0;
+                float3 vertexLight : TEXCOORD1;
+            };
 
+            Varyings vert(Attributes IN)
+            {
+                Varyings OUT;
+                float3 posWS = TransformObjectToWorld(IN.positionOS.xyz);
+                float3 normalWS = TransformObjectToWorldNormal(IN.normalOS);
                 OUT.positionHCS = TransformWorldToHClip(posWS);
-                OUT.uv          = TRANSFORM_TEX(IN.uv, _MainTex);
+                OUT.uv = TRANSFORM_TEX(IN.uv, _MainTex);
 
-float3 ambient = _AmbientColor.rgb * _AmbientStrength;
-
-float4 shadowCoord = TransformWorldToShadowCoord(posWS);
-Light mainLight = GetMainLight(shadowCoord);
-float NdotL = saturate(dot(normalWS, mainLight.direction));
-float shadow = lerp(1.0, mainLight.shadowAttenuation, _ShadowStrength);
-float3 lighting = mainLight.color * NdotL * shadow * _LightStrength;
+                float3 ambient = _AmbientColor.rgb * _AmbientStrength;
+                float4 shadowCoord = TransformWorldToShadowCoord(posWS);
+                Light mainLight = GetMainLight(shadowCoord);
+                float NdotL = saturate(dot(normalWS, mainLight.direction));
+                float shadow = lerp(1.0, mainLight.shadowAttenuation, _ShadowStrength);
+                float3 lighting = mainLight.color * NdotL * shadow * _LightStrength;
 
            
-InputData inputData = (InputData) 0;
-                inputData.positionWS =
-posWS;
-                inputData.normalWS   =
-normalWS;
+                InputData inputData = (InputData) 0;
+                inputData.positionWS = posWS;
+                inputData.normalWS = normalWS;
 
-#ifdef _ADDITIONAL_LIGHTS
-uint lightCount = GetAdditionalLightsCount();
-                for (
-uint i = 0u;i <
-lightCount; i++)
+                #ifdef _ADDITIONAL_LIGHTS
+                uint lightCount = GetAdditionalLightsCount();
+                for (uint i = 0u;i < lightCount; i++)
                 {
-                
-Light light = GetAdditionalLight(i, posWS, half4(1, 1, 1, 1));
-float NdotL_add = saturate(dot(normalWS, light.direction));
-                    lighting       += light.color * NdotL_add * light.distanceAttenuation *
-_LightStrength;
+                    Light light = GetAdditionalLight(i, posWS, half4(1, 1, 1, 1));
+                    float NdotL_add = saturate(dot(normalWS, light.direction));
+                    lighting += light.color * NdotL_add * light.distanceAttenuation * _LightStrength;
                 }
                 #endif
 
-                OUT.vertexLight = lighting +
-ambient;
-                return
-OUT;
+                OUT.vertexLight = lighting + ambient;
+                return OUT;
             }
 
-half4 frag(Varyings IN) : SV_Target
-{
- 
-    return half4(IN.vertexLight, 1.0);
-}
+            half4 frag(Varyings IN) : SV_Target
+            {
+                half4 tex = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.uv);
+                return half4(tex.rgb * IN.vertexLight, 1.0);
+            }
 
             ENDHLSL
         }
@@ -132,6 +120,31 @@ half4 frag(Varyings IN) : SV_Target
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/SurfaceInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/ShadowCasterPass.hlsl"
+
+            struct SA
+            {
+                float4 pos : POSITION;
+                float3 nor : NORMAL;
+            };
+            struct SV
+            {
+                float4 pos : SV_POSITION;
+            };
+
+            SV vertShadow(SA IN)
+            {
+                SV OUT;
+                float3 posWS = TransformObjectToWorld(IN.pos.xyz);
+                float3 norWS = TransformObjectToWorldNormal(IN.nor);
+                posWS = ApplyShadowBias(posWS, norWS, _LightDirection);
+                OUT.pos = TransformWorldToHClip(posWS);
+                return OUT;
+            }
+
+            half4 fragShadow(SV IN) : SV_Target
+            {
+                return 0;
+            }
             ENDHLSL
         }
     }
