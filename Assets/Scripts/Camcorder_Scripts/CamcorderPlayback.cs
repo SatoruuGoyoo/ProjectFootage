@@ -2,22 +2,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class CamcorderPlayback : MonoBehaviour
 {
-    public RawImage debugImage;
-    public List<Texture2D> framesToPlay;
+    [Header("Setup")]
+    public GameObject playbackPanel;
+    public RawImage playbackImage;
+
+    public bool HasRecording => framesToPlay != null && framesToPlay.Count > 0;
+    public bool IsFinished => framesToPlay != null && currentFrame >= framesToPlay.Count;
+
+    private List<Texture2D> framesToPlay;
     private int currentFrame = 0;
     private float playbackTimer = 0f;
     [SerializeField] private float playbackInterval = 0.125f;
+
     private bool isPlaying = false;
+    public bool IsPlaying => isPlaying;
+
+    private void Start()
+    {
+        playbackPanel.SetActive(false);
+    }
 
     private void Update()
     {
         if (!isPlaying) return;
 
         playbackTimer += Time.deltaTime;
-        if(playbackTimer > playbackInterval)
+        if (playbackTimer > playbackInterval)
         {
             playbackTimer = 0f;
             ShowNextFrame();
@@ -30,7 +42,17 @@ public class CamcorderPlayback : MonoBehaviour
         currentFrame = 0;
         playbackTimer = 0f;
         isPlaying = true;
-        debugImage.gameObject.SetActive(true); // activás al arrancar
+        playbackPanel.SetActive(true);
+    }
+
+    public void PausePlayback()
+    {
+        isPlaying = false;
+    }
+
+    public void ResumePlayback()
+    {
+        isPlaying = true;
     }
 
     private void ShowNextFrame()
@@ -38,14 +60,11 @@ public class CamcorderPlayback : MonoBehaviour
         if (currentFrame >= framesToPlay.Count)
         {
             isPlaying = false;
-            debugImage.gameObject.SetActive(false); // desactivás al terminar
+            playbackPanel.SetActive(false);
             return;
         }
 
-        debugImage.texture = framesToPlay[currentFrame];
+        playbackImage.texture = framesToPlay[currentFrame];
         currentFrame++;
     }
-
-
-
 }

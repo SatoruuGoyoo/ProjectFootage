@@ -5,7 +5,7 @@ public class CamcorderRecorder : MonoBehaviour
 {
     public RenderTexture recordingTexture;
     public List<Texture2D> framesRecorded = new List<Texture2D>();
-    public List<Texture2D> GetRecording() => framesRecorded;
+    public List<Texture2D> GetRecording() => new List<Texture2D>(framesRecorded);
 
     public bool IsRecording { get; private set; } = false;
 

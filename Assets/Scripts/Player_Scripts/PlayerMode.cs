@@ -3,5 +3,7 @@ using UnityEngine;
 public enum PlayerMode 
 {
     ExplorationMode,
-    CameraMode
+    CameraMode,
+    RecordingMode,
+    MenuCameraMode
 }
