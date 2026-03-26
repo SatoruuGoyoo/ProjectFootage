@@ -15,6 +15,7 @@ public class CamcorderController : MonoBehaviour
     [SerializeField] private int recordDuration = 5;
     [SerializeField] private float mouseSensitivity = 2f;
 
+    public CamcorderMode CurrentCamMode => currentCamMode;
     private CamcorderMode currentCamMode = CamcorderMode.Idle;
     private PlayerMode currentPlayerMode = PlayerMode.ExplorationMode;
     private CamcorderRecorder recorder;
