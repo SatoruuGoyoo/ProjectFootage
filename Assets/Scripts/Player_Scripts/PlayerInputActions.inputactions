@@ -230,6 +230,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "RecordingRotate",
+                    "type": "Value",
+                    "id": "650a9269-05a8-454a-b67b-6676f45930ef",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "RecordingTilt",
+                    "type": "Value",
+                    "id": "923fbb37-59de-4763-915f-24ca4c5bed9c",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -406,6 +424,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "StartRecording/Recording",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7454d0b3-75a5-4a0f-b79e-dd6aabc00472",
+                    "path": "<Mouse>/delta/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RecordingRotate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3dc6e92b-682b-4f43-8373-8516e7f43e92",
+                    "path": "<Mouse>/delta/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RecordingTilt",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -316,6 +316,24 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RecordingRotate"",
+                    ""type"": ""Value"",
+                    ""id"": ""650a9269-05a8-454a-b67b-6676f45930ef"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""RecordingTilt"",
+                    ""type"": ""Value"",
+                    ""id"": ""923fbb37-59de-4763-915f-24ca4c5bed9c"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -492,6 +510,28 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""StartRecording/Recording"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7454d0b3-75a5-4a0f-b79e-dd6aabc00472"",
+                    ""path"": ""<Mouse>/delta/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RecordingRotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3dc6e92b-682b-4f43-8373-8516e7f43e92"",
+                    ""path"": ""<Mouse>/delta/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RecordingTilt"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -793,6 +833,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Camera_TurnCamera = m_Camera.FindAction("TurnCamera", throwIfNotFound: true);
         m_Camera_PutDownCamera = m_Camera.FindAction("PutDownCamera", throwIfNotFound: true);
         m_Camera_StartRecordingRecording = m_Camera.FindAction("StartRecording/Recording", throwIfNotFound: true);
+        m_Camera_RecordingRotate = m_Camera.FindAction("RecordingRotate", throwIfNotFound: true);
+        m_Camera_RecordingTilt = m_Camera.FindAction("RecordingTilt", throwIfNotFound: true);
         // MenuCamera
         m_MenuCamera = asset.FindActionMap("MenuCamera", throwIfNotFound: true);
         m_MenuCamera_OpenClose = m_MenuCamera.FindAction("Open/Close", throwIfNotFound: true);
@@ -1005,6 +1047,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Camera_TurnCamera;
     private readonly InputAction m_Camera_PutDownCamera;
     private readonly InputAction m_Camera_StartRecordingRecording;
+    private readonly InputAction m_Camera_RecordingRotate;
+    private readonly InputAction m_Camera_RecordingTilt;
     /// <summary>
     /// Provides access to input actions defined in input action map "Camera".
     /// </summary>
@@ -1032,6 +1076,14 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Camera/StartRecordingRecording".
         /// </summary>
         public InputAction @StartRecordingRecording => m_Wrapper.m_Camera_StartRecordingRecording;
+        /// <summary>
+        /// Provides access to the underlying input action "Camera/RecordingRotate".
+        /// </summary>
+        public InputAction @RecordingRotate => m_Wrapper.m_Camera_RecordingRotate;
+        /// <summary>
+        /// Provides access to the underlying input action "Camera/RecordingTilt".
+        /// </summary>
+        public InputAction @RecordingTilt => m_Wrapper.m_Camera_RecordingTilt;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1070,6 +1122,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @StartRecordingRecording.started += instance.OnStartRecordingRecording;
             @StartRecordingRecording.performed += instance.OnStartRecordingRecording;
             @StartRecordingRecording.canceled += instance.OnStartRecordingRecording;
+            @RecordingRotate.started += instance.OnRecordingRotate;
+            @RecordingRotate.performed += instance.OnRecordingRotate;
+            @RecordingRotate.canceled += instance.OnRecordingRotate;
+            @RecordingTilt.started += instance.OnRecordingTilt;
+            @RecordingTilt.performed += instance.OnRecordingTilt;
+            @RecordingTilt.canceled += instance.OnRecordingTilt;
         }
 
         /// <summary>
@@ -1093,6 +1151,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @StartRecordingRecording.started -= instance.OnStartRecordingRecording;
             @StartRecordingRecording.performed -= instance.OnStartRecordingRecording;
             @StartRecordingRecording.canceled -= instance.OnStartRecordingRecording;
+            @RecordingRotate.started -= instance.OnRecordingRotate;
+            @RecordingRotate.performed -= instance.OnRecordingRotate;
+            @RecordingRotate.canceled -= instance.OnRecordingRotate;
+            @RecordingTilt.started -= instance.OnRecordingTilt;
+            @RecordingTilt.performed -= instance.OnRecordingTilt;
+            @RecordingTilt.canceled -= instance.OnRecordingTilt;
         }
 
         /// <summary>
@@ -1341,6 +1405,20 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnStartRecordingRecording(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "RecordingRotate" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRecordingRotate(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "RecordingTilt" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRecordingTilt(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "MenuCamera" which allows adding and removing callbacks.

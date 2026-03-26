@@ -35,9 +35,11 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         if (currentMode == PlayerMode.MenuCameraMode) return;
+        if (currentMode == PlayerMode.RecordingMode) return;
 
         if (currentMode == PlayerMode.ExplorationMode)
             motor.Move(input.Move);
-            motor.Turn(input.Turn);
+
+        motor.Turn(input.Turn);
     }
 }

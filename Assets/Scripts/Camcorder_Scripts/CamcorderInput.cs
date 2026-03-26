@@ -5,6 +5,8 @@ using UnityEngine.Rendering;
 public class CamcorderInput : MonoBehaviour
 {
     public bool LiftCamera { get; private set; }
+    public float RecordingRotate { get; private set; }
+    public float RecordingTilt { get; private set; }
     public float TiltCamera { get; private set; }
     public bool IsPreparingRecording { get; private set; }
     public bool IsRecordingReleased { get; private set; }
@@ -47,6 +49,9 @@ public class CamcorderInput : MonoBehaviour
         // Camcorder Mode Inputs
         LiftCamera = actions.Exploration.LiftCamera.WasPressedThisFrame() ||
                      actions.Camera.PutDownCamera.WasPressedThisFrame();
+
+        RecordingRotate = actions.Camera.RecordingRotate.ReadValue<float>();
+        RecordingTilt = actions.Camera.RecordingTilt.ReadValue<float>();
 
         TiltCamera = actions.Camera.TiltCamera.ReadValue<float>();
         IsPreparingRecording = actions.Camera.@StartRecordingRecording.IsPressed(); // StartRecording/Recording 
