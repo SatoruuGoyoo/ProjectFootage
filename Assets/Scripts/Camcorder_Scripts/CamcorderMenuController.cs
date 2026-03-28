@@ -3,14 +3,25 @@ using UnityEngine;
 
 public class CamcorderMenuController : MonoBehaviour
 {
+    [Header("FPS View")]
+    public Camera fpsCamera;
+    public GameObject fpsHandModel;
+
+    [Header("Menu UI")]
+    public Canvas menuCanvas;
+
+    [Header("Transition")]
+    public CamcorderTransition transition;
+
+    private Camera activeFixedCamera;
+
     private CamcorderStorage storage;
     private CamcorderPlayback playback;
     private CamcorderInput input;
     private CamcorderMenuUI ui;
 
-    public GameObject camcorderMenuPanel;
-
-    private bool IsMenuOpen = false;
+    private bool isMenuOpen = false;
+    public bool IsMenuOpen => isMenuOpen;
 
     private int currentRecordingIndex = 0;
 
@@ -22,55 +33,86 @@ public class CamcorderMenuController : MonoBehaviour
         ui = GetComponent<CamcorderMenuUI>();
     }
 
+    private void Start()
+    {
+        fpsCamera.gameObject.SetActive(false);
+        fpsHandModel.SetActive(false);
+        menuCanvas.gameObject.SetActive(false);
+    }
+
     private void Update()
-    {   
+    {
         ToggleMenu();
 
-        if (IsMenuOpen)
+        if (isMenuOpen)
         {
             HandleNavigation();
             HandlePlayback();
         }
-            
     }
 
     private void OpenMenu()
     {
-        if (!IsMenuOpen)
-        {
-            IsMenuOpen = true;
-            camcorderMenuPanel.SetActive(true);
-            ui.UpdateUI(currentRecordingIndex);
-            GameEvents.PlayerModeChanged(PlayerMode.MenuCameraMode);
-        }
+        if (isMenuOpen || transition.IsTransitioning) return;
+
+        isMenuOpen = true;
+        GameEvents.PlayerModeChanged(PlayerMode.MenuCameraMode);
+
+        // Guardar la fixed camera activa ANTES de la transición
+        activeFixedCamera = FindActiveFixedCamera();
+
+        transition.Play(
+            onSwitch: () =>
+            {
+                // Se ejecuta cuando la pantalla está completamente negra
+                if (activeFixedCamera != null)
+                    activeFixedCamera.gameObject.SetActive(false);
+
+                fpsCamera.gameObject.SetActive(true);
+                fpsHandModel.SetActive(true);
+                menuCanvas.gameObject.SetActive(true);
+                ui.UpdateUI(currentRecordingIndex);
+            }
+        );
     }
 
     private void CloseMenu()
     {
-        if (IsMenuOpen)
-        {
-            IsMenuOpen = false;
-            currentRecordingIndex = 0;
-            camcorderMenuPanel.SetActive(false);
-            GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
-        }
+        if (!isMenuOpen || transition.IsTransitioning) return;
+
+        isMenuOpen = false;
+        currentRecordingIndex = 0;
+
+        transition.Play(
+            onSwitch: () =>
+            {
+                fpsCamera.gameObject.SetActive(false);
+                fpsHandModel.SetActive(false);
+                menuCanvas.gameObject.SetActive(false);
+
+                if (activeFixedCamera != null)
+                    activeFixedCamera.gameObject.SetActive(true);
+
+                activeFixedCamera = null;
+            },
+            onComplete: () =>
+            {
+                GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
+            }
+        );
     }
 
     private void ToggleMenu()
     {
         if (input.OpenCloseMenu)
         {
-            if (IsMenuOpen)
-            {
+            if (isMenuOpen)
                 CloseMenu();
-            }
             else
-            {
                 OpenMenu();
-            }
-
         }
     }
+
     private void HandleNavigation()
     {
         if (storage.GetAllRecordings().Count == 0) return;
@@ -92,8 +134,18 @@ public class CamcorderMenuController : MonoBehaviour
         if (playback.IsPlaying)
             playback.PausePlayback();
         else if (playback.HasRecording && !playback.IsFinished)
-             playback.ResumePlayback();
+            playback.ResumePlayback();
         else
             playback.PlayRecording(storage.GetAllRecordings()[currentRecordingIndex]);
+    }
+
+    private Camera FindActiveFixedCamera()
+    {
+        foreach (Camera cam in Camera.allCameras)
+        {
+            if (cam != fpsCamera && cam.enabled)
+                return cam;
+        }
+        return null;
     }
 }

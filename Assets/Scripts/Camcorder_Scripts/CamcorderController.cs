@@ -46,6 +46,8 @@ public class CamcorderController : MonoBehaviour
 
         if (newMode == PlayerMode.MenuCameraMode && isCameraUp)
         {
+            // Solo resetear estado de grabación, NO tocar el visual.
+            // El MenuController maneja la vista FPS y el modelo ahora.
             isCameraUp = false;
             camcorderVisual.SetActive(false);
             currentCamMode = CamcorderMode.Idle;
@@ -61,6 +63,9 @@ public class CamcorderController : MonoBehaviour
 
     private void Update()
     {
+        // No permitir levantar/bajar cámara si estamos en el menú
+        if (currentPlayerMode == PlayerMode.MenuCameraMode) return;
+
         if (input.LiftCamera)
             ToggleCamera();
 
@@ -72,8 +77,6 @@ public class CamcorderController : MonoBehaviour
 
     private void ToggleCamera()
     {
-        if (currentPlayerMode == PlayerMode.MenuCameraMode) return;
-
         isCameraUp = !isCameraUp;
         camcorderVisual.SetActive(isCameraUp);
 
