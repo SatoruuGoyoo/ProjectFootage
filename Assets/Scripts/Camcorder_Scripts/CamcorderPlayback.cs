@@ -34,6 +34,7 @@ public class CamcorderPlayback : MonoBehaviour
             playbackTimer = 0f;
             ShowNextFrame();
         }
+
     }
 
     public void PlayRecording(List<Texture2D> frames)
@@ -66,5 +67,27 @@ public class CamcorderPlayback : MonoBehaviour
 
         playbackImage.texture = framesToPlay[currentFrame];
         currentFrame++;
+    }
+
+    public void RewindFrame()
+    {
+        if (currentFrame > 0)
+        {
+            currentFrame--;
+            playbackImage.texture = framesToPlay[currentFrame];
+
+            // Maybe Clamp?
+        }
+    }
+
+    public void FastForwardFrame()
+    {
+        if (currentFrame < framesToPlay.Count - 1)
+        {
+            currentFrame++;
+            playbackImage.texture = framesToPlay[currentFrame];
+
+            // Maybe Clamp?
+        }
     }
 }

@@ -63,9 +63,12 @@ public class CamcorderInput : MonoBehaviour
         NavigateRight = actions.MenuCamera.Navigate.WasPressedThisFrame() && actions.MenuCamera.Navigate.ReadValue<float>() > 0.1f;
         NavigateLeft = actions.MenuCamera.Navigate.WasPressedThisFrame() && actions.MenuCamera.Navigate.ReadValue<float>() < -0.1f;
         PlayPauseRecording = actions.MenuCamera.PlayPause.WasPressedThisFrame();
+
         RewindRecording = actions.MenuCamera.Rewind.IsPressed();
         FastForwardRecording = actions.MenuCamera.FastForward.IsPressed();
+
         RotateRecording = actions.MenuCamera.Rotate.ReadValue<float>();
+
 
 
 

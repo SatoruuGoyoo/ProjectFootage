@@ -15,6 +15,9 @@ public class CamcorderMenuController : MonoBehaviour
 
     private Camera activeFixedCamera;
 
+    private float frameStepTimer = 0f;
+    [SerializeField] private float frameStepDelay = 0.15f;
+
     private CamcorderStorage storage;
     private CamcorderPlayback playback;
     private CamcorderInput input;
@@ -128,15 +131,37 @@ public class CamcorderMenuController : MonoBehaviour
 
     private void HandlePlayback()
     {
-        if (!input.PlayPauseRecording) return;
         if (storage.GetAllRecordings().Count == 0) return;
 
-        if (playback.IsPlaying)
-            playback.PausePlayback();
-        else if (playback.HasRecording && !playback.IsFinished)
-            playback.ResumePlayback();
-        else
-            playback.PlayRecording(storage.GetAllRecordings()[currentRecordingIndex]);
+        if (input.PlayPauseRecording)
+        {
+            if (playback.IsPlaying)
+                playback.PausePlayback();
+            else if (playback.HasRecording && !playback.IsFinished)
+                playback.ResumePlayback();
+            else
+                playback.PlayRecording(storage.GetAllRecordings()[currentRecordingIndex]);
+        }
+
+        if (!playback.IsPlaying && playback.HasRecording)
+        {
+            if (input.RewindRecording || input.FastForwardRecording)
+            {
+                frameStepTimer += Time.deltaTime;
+                if (frameStepTimer >= frameStepDelay)
+                {
+                    frameStepTimer = 0f;
+                    if (input.RewindRecording)
+                        playback.RewindFrame();
+                    if (input.FastForwardRecording)
+                        playback.FastForwardFrame();
+                }
+            }
+            else
+            {
+                frameStepTimer = frameStepDelay; // First frame step immediately when button is pressed
+            }
+        }
     }
 
     private Camera FindActiveFixedCamera()
