@@ -84,6 +84,7 @@ float _LightmapInt;
 float _DetailStr;
 float _SphereStr;
 float _EmissionStr;
+float _LightSteps;
 CBUFFER_END
 
       TEXTURE2D(_MainTex); SAMPLER(sampler_MainTex);
@@ -104,13 +105,15 @@ struct Attributes
 struct Varyings
 {
     float4 positionCS : SV_POSITION;
-    float2 uv : TEXCOORD0;
-    float2 uv2 : TEXCOORD1;
-    float2 uvDetail : TEXCOORD2;
-    float2 uvSphere : TEXCOORD3;
-    float3 lighting : TEXCOORD4;
-    float4 vertexColor : TEXCOORD5;
-    float fogCoord : TEXCOORD6; // ← fog
+    float3 positionWS : TEXCOORD0;
+    float3 normalWS : TEXCOORD1;
+    float2 uv : TEXCOORD2;
+    float2 uv2 : TEXCOORD3;
+    float2 uvDetail : TEXCOORD4;
+    float2 uvSphere : TEXCOORD5;
+    float3 lighting : TEXCOORD6;
+    float4 vertexColor : TEXCOORD7;
+    float fogCoord : TEXCOORD8; 
 };
 
       // ── Blinn-Phong ────────────────────────────────────────────────────
