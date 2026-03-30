@@ -84,7 +84,7 @@ float _SphereStr;
 float _EmissionStr;
 CBUFFER_END
 
-      TEXTURE2D(_MainTex);SAMPLER(sampler_MainTex);
+      TEXTURE2D(_MainTex); SAMPLER(sampler_MainTex);
       TEXTURE2D(_LightMap);    SAMPLER(sampler_LightMap);
       TEXTURE2D(_DetailTex);   SAMPLER(sampler_DetailTex);
       TEXTURE2D(_SphereTex);   SAMPLER(sampler_SphereTex);
@@ -239,4 +239,4 @@ float4 frag(Varyings IN) : SV_Target
       ENDHLSL
     }
   }
-}
+} 
