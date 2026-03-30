@@ -19,6 +19,8 @@ public class CamcorderInput : MonoBehaviour
     public bool RewindRecording { get; private set; }
     public bool FastForwardRecording { get; private set; }
     public float RotateRecording { get; private set; }
+    public bool DiscardRecording { get; private set; }
+
 
 
 
@@ -50,6 +52,7 @@ public class CamcorderInput : MonoBehaviour
         LiftCamera = actions.Exploration.LiftCamera.WasPressedThisFrame() ||
                      actions.Camera.PutDownCamera.WasPressedThisFrame();
 
+        
         RecordingRotate = actions.Camera.RecordingRotate.ReadValue<float>();
         RecordingTilt = actions.Camera.RecordingTilt.ReadValue<float>();
 
@@ -63,11 +66,10 @@ public class CamcorderInput : MonoBehaviour
         NavigateRight = actions.MenuCamera.Navigate.WasPressedThisFrame() && actions.MenuCamera.Navigate.ReadValue<float>() > 0.1f;
         NavigateLeft = actions.MenuCamera.Navigate.WasPressedThisFrame() && actions.MenuCamera.Navigate.ReadValue<float>() < -0.1f;
         PlayPauseRecording = actions.MenuCamera.PlayPause.WasPressedThisFrame();
-
         RewindRecording = actions.MenuCamera.Rewind.IsPressed();
         FastForwardRecording = actions.MenuCamera.FastForward.IsPressed();
-
         RotateRecording = actions.MenuCamera.Rotate.ReadValue<float>();
+        DiscardRecording = actions.MenuCamera.Discard.WasPressedThisFrame();
 
 
 

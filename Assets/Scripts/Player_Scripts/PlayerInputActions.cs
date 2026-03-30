@@ -660,6 +660,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Discard"",
+                    ""type"": ""Button"",
+                    ""id"": ""57e14e22-d51e-4b59-bf2c-2844091621c1"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -882,6 +891,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Rotate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4f355db1-b94e-4b3a-aacc-caa71795e1d0"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Discard"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -909,6 +929,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_MenuCamera_Rewind = m_MenuCamera.FindAction("Rewind", throwIfNotFound: true);
         m_MenuCamera_FastForward = m_MenuCamera.FindAction("FastForward", throwIfNotFound: true);
         m_MenuCamera_Rotate = m_MenuCamera.FindAction("Rotate", throwIfNotFound: true);
+        m_MenuCamera_Discard = m_MenuCamera.FindAction("Discard", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -1266,6 +1287,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_MenuCamera_Rewind;
     private readonly InputAction m_MenuCamera_FastForward;
     private readonly InputAction m_MenuCamera_Rotate;
+    private readonly InputAction m_MenuCamera_Discard;
     /// <summary>
     /// Provides access to input actions defined in input action map "MenuCamera".
     /// </summary>
@@ -1301,6 +1323,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "MenuCamera/Rotate".
         /// </summary>
         public InputAction @Rotate => m_Wrapper.m_MenuCamera_Rotate;
+        /// <summary>
+        /// Provides access to the underlying input action "MenuCamera/Discard".
+        /// </summary>
+        public InputAction @Discard => m_Wrapper.m_MenuCamera_Discard;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1345,6 +1371,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Rotate.started += instance.OnRotate;
             @Rotate.performed += instance.OnRotate;
             @Rotate.canceled += instance.OnRotate;
+            @Discard.started += instance.OnDiscard;
+            @Discard.performed += instance.OnDiscard;
+            @Discard.canceled += instance.OnDiscard;
         }
 
         /// <summary>
@@ -1374,6 +1403,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Rotate.started -= instance.OnRotate;
             @Rotate.performed -= instance.OnRotate;
             @Rotate.canceled -= instance.OnRotate;
+            @Discard.started -= instance.OnDiscard;
+            @Discard.performed -= instance.OnDiscard;
+            @Discard.canceled -= instance.OnDiscard;
         }
 
         /// <summary>
@@ -1535,5 +1567,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnRotate(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Discard" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDiscard(InputAction.CallbackContext context);
     }
 }

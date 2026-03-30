@@ -51,6 +51,7 @@ public class CamcorderMenuController : MonoBehaviour
         {
             HandleNavigation();
             HandlePlayback();
+            HandleDiscard();
         }
     }
 
@@ -161,6 +162,22 @@ public class CamcorderMenuController : MonoBehaviour
             {
                 frameStepTimer = frameStepDelay; // First frame step immediately when button is pressed
             }
+        }
+    }
+
+    private void HandleDiscard()
+    {
+        if (storage.GetAllRecordings().Count == 0) return;
+        if (input.DiscardRecording)
+        {
+            storage.DiscardRecording(currentRecordingIndex);
+
+            if (storage.GetAllRecordings().Count == 0)
+                currentRecordingIndex = 0;
+            else
+                currentRecordingIndex = Mathf.Clamp(currentRecordingIndex, 0, storage.GetAllRecordings().Count - 1);
+
+            ui.UpdateUI(currentRecordingIndex);
         }
     }
 
