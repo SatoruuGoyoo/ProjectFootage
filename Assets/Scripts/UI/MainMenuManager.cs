@@ -5,21 +5,20 @@ namespace SM.UI
 {
     public class MainMenuManager : MonoBehaviour
     {
+        [Header("Scene References")]
+        [SerializeField] private string gameSceneName = "GameScene";
         [Header("Panels")]
         [SerializeField] private GameObject mainPanel;
         [SerializeField] private GameObject optionsPanel;
 
         private void Start()
         {
-            // Aseguramos que el panel principal esté visible al iniciar
             ShowMainPanel();
         }
 
         public void OnPlayClicked()
         {
-            // Temporal: Carga la escena principal (índice 1). 
-            // Escalabilidad: Aquí se puede llamar un panel de "Save Slots" en el futuro.
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene(gameSceneName);
         }
 
         public void OnOptionsClicked()
