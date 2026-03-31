@@ -73,6 +73,7 @@ public class CamcorderPlayback : MonoBehaviour
     {
         if (currentFrame > 0)
         {
+            GameEvents.FrameChanged(currentFrame - 1);
             currentFrame--;
             playbackImage.texture = framesToPlay[currentFrame];
 
@@ -84,6 +85,7 @@ public class CamcorderPlayback : MonoBehaviour
     {
         if (currentFrame < framesToPlay.Count - 1)
         {
+            GameEvents.FrameChanged(currentFrame + 1);
             currentFrame++;
             playbackImage.texture = framesToPlay[currentFrame];
 

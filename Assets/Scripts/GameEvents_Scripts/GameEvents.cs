@@ -5,6 +5,7 @@ public static class GameEvents
     // Events for player health and death
     public static event Action OnPlayerDeath;
     public static event Action <float> OnHealthChanged;
+    public static event Action<int> OnFrameChanged;
 
     // Events for PlayerMode
     public static event Action <PlayerMode>OnPlayerModeChanged;
@@ -15,6 +16,11 @@ public static class GameEvents
         OnPlayerModeChanged?.Invoke(newMode);
     }
 
+
+    public static void FrameChanged(int frame)
+    {
+        OnFrameChanged?.Invoke(frame);
+    }
 
 
     // Methods for Player health and death

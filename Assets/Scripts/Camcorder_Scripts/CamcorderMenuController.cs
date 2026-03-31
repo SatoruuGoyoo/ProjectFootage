@@ -160,7 +160,7 @@ public class CamcorderMenuController : MonoBehaviour
             }
             else
             {
-                frameStepTimer = frameStepDelay; // First frame step immediately when button is pressed
+                frameStepTimer = 0f;
             }
         }
     }
