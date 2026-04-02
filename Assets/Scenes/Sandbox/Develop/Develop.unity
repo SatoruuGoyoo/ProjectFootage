@@ -592,7 +592,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CamcorderPlayback
   playbackPanel: {fileID: 1018122430}
   playbackImage: {fileID: 35731838}
-  liveTexture: {fileID: 8400000, guid: ffb0013606e860a46827bf05339461a2, type: 2}
   playbackInterval: 0.125
 --- !u!114 &75215362
 MonoBehaviour:
@@ -2271,7 +2270,7 @@ GameObject:
   - component: {fileID: 410841268}
   - component: {fileID: 410841267}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: ClockHang
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2290,7 +2289,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ClockController
   hourHandPivot: {fileID: 1303795155}
-  anglePerFrame: 10
+  rotationSpeed: 30
 --- !u!4 &410841268
 Transform:
   m_ObjectHideFlags: 0
@@ -5717,8 +5716,8 @@ GameObject:
   - component: {fileID: 1303795158}
   - component: {fileID: 1303795157}
   - component: {fileID: 1303795156}
-  m_Layer: 7
-  m_Name: Cube (1)
+  m_Layer: 6
+  m_Name: HandH_Pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6980,7 +6979,7 @@ GameObject:
   - component: {fileID: 1569427320}
   - component: {fileID: 1569427319}
   - component: {fileID: 1569427318}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
