@@ -21,10 +21,6 @@ public class CamcorderInput : MonoBehaviour
     public float RotateRecording { get; private set; }
     public bool DiscardRecording { get; private set; }
 
-
-
-
-
     private PlayerInputActions actions;
 
     private void Awake()

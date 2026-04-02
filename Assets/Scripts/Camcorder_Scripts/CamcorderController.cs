@@ -77,6 +77,9 @@ public class CamcorderController : MonoBehaviour
 
     private void ToggleCamera()
     {
+        if(currentPlayerMode == PlayerMode.MenuCameraMode) return;
+        if(currentCamMode == CamcorderMode.Recording) return;
+
         isCameraUp = !isCameraUp;
         camcorderVisual.SetActive(isCameraUp);
 

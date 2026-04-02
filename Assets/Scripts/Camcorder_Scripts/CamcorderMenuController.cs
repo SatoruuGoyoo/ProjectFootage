@@ -22,6 +22,7 @@ public class CamcorderMenuController : MonoBehaviour
     private CamcorderPlayback playback;
     private CamcorderInput input;
     private CamcorderMenuUI ui;
+    private CamcorderController controller;
 
     private bool isMenuOpen = false;
     public bool IsMenuOpen => isMenuOpen;
@@ -34,6 +35,7 @@ public class CamcorderMenuController : MonoBehaviour
         playback = GetComponent<CamcorderPlayback>();
         input = GetComponent<CamcorderInput>();
         ui = GetComponent<CamcorderMenuUI>();
+        controller = GetComponent<CamcorderController>();
     }
 
     private void Start()
@@ -58,6 +60,7 @@ public class CamcorderMenuController : MonoBehaviour
     private void OpenMenu()
     {
         if (isMenuOpen || transition.IsTransitioning) return;
+        if (controller.CurrentCamMode == CamcorderMode.Recording) return;
 
         isMenuOpen = true;
         GameEvents.PlayerModeChanged(PlayerMode.MenuCameraMode);
@@ -168,6 +171,7 @@ public class CamcorderMenuController : MonoBehaviour
     private void HandleDiscard()
     {
         if (storage.GetAllRecordings().Count == 0) return;
+        if (playback.IsPlaying) return;
         if (input.DiscardRecording)
         {
             storage.DiscardRecording(currentRecordingIndex);
