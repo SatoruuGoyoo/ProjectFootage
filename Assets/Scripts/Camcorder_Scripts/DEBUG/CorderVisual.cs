@@ -3,8 +3,7 @@ using UnityEngine.UI;
 
 /// <summary>
 /// Camcorder viewfinder HUD — estilo Handycam 90s.
-/// Reemplaza el gizmo debug por un overlay que parece un viewfinder real.
-/// Se activa cuando la camcorder está levantada, cambia según el estado.
+/// Muestra: frustum de proyección en 3D, límites de tilt, indicador REC y timecode.
 /// </summary>
 public class CorderVisual : MonoBehaviour
 {
@@ -31,42 +30,29 @@ public class CorderVisual : MonoBehaviour
     [SerializeField] private Color hudColor = new Color(1f, 1f, 1f, 0.85f);
     [SerializeField] private Color recColor = new Color(1f, 0.08f, 0.08f, 0.95f);
     [SerializeField] private Color prepColor = new Color(1f, 0.85f, 0f, 0.9f);
-    [SerializeField] private Color dimColor = new Color(1f, 1f, 1f, 0.35f);
 
     [Header("Blink")]
     [SerializeField] private float recBlinkSpeed = 2.5f;
 
-    // UI Elements
+    // UI
     private Canvas hudCanvas;
     private CanvasGroup hudGroup;
 
-    // REC indicator (top-left)
+    // REC indicator
     private Image recDot;
     private Text recText;
     private Text timecodeText;
 
-    // Focus brackets (center)
-    private RectTransform[] bracketCorners = new RectTransform[4]; // TL, TR, BL, BR
 
-    // Battery (top-right)
-    private Image batteryBody;
-    private Image batteryTip;
-    private Image[] batteryBars = new Image[4];
 
-    // Bottom bar
-    private Text dateText;
-    private Text modeText;
-
-    // Scanline overlay
-    private Image scanlineOverlay;
-    private Material scanlineMaterial;
-
-    // GL Drawing (frustum + tilt)
+    // GL
     private Material glMaterial;
 
     // State
     private float recordingTime = 0f;
     private bool wasRecording = false;
+
+    // ?????????????????????????????????????????????????????????????????
 
     private void Awake()
     {
@@ -76,8 +62,6 @@ public class CorderVisual : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (scanlineMaterial != null)
-            DestroyImmediate(scanlineMaterial);
         if (glMaterial != null)
             DestroyImmediate(glMaterial);
     }
@@ -94,13 +78,10 @@ public class CorderVisual : MonoBehaviour
         CamcorderMode mode = GetCurrentMode();
         UpdateRecIndicator(mode);
         UpdateTimecode(mode);
-        UpdateFocusBrackets(mode);
-        UpdateBattery();
-        UpdateBottomBar(mode);
-        UpdateScanlines(mode);
+
     }
 
-    #region — State —
+    // ??????????????????????????? State ???????????????????????????????
 
     private CamcorderMode GetCurrentMode()
     {
@@ -113,9 +94,7 @@ public class CorderVisual : MonoBehaviour
         return CamcorderMode.Idle;
     }
 
-    #endregion
-
-    #region — GL Drawing (Frustum + Tilt in 3D) —
+    // ??????????????????????? GL Drawing ??????????????????????????????
 
     private void CreateGLMaterial()
     {
@@ -136,11 +115,8 @@ public class CorderVisual : MonoBehaviour
         CamcorderMode mode = GetCurrentMode();
         Color color = GetStateColor(mode);
 
-        if (showFrustum)
-            DrawFrustum(color, mode);
-
-        if (showTiltLimits)
-            DrawTiltLimits(color, mode);
+        if (showFrustum) DrawFrustum(color, mode);
+        if (showTiltLimits) DrawTiltLimits(color, mode);
     }
 
     private Color GetStateColor(CamcorderMode mode)
@@ -163,11 +139,10 @@ public class CorderVisual : MonoBehaviour
         float halfWidth = halfHeight * aspect;
 
         Vector3 origin = camT.position;
-        Vector3 forward = camT.forward * frustumDistance;
+        Vector3 center = origin + camT.forward * frustumDistance;
         Vector3 up = camT.up * halfHeight;
         Vector3 right = camT.right * halfWidth;
 
-        Vector3 center = origin + forward;
         Vector3 tl = center + up - right;
         Vector3 tr = center + up + right;
         Vector3 bl = center - up - right;
@@ -177,61 +152,41 @@ public class CorderVisual : MonoBehaviour
         GL.PushMatrix();
         GL.MultMatrix(Matrix4x4.identity);
 
-        // ——— Relleno semitransparente del far plane ———
+        // Relleno semitransparente
         GL.Begin(GL.QUADS);
-        Color fillColor = color;
-        fillColor.a = (mode == CamcorderMode.Recording) ? 0.06f : 0.03f;
-        GL.Color(fillColor);
+        Color fill = color;
+        fill.a = (mode == CamcorderMode.Recording) ? 0.06f : 0.03f;
+        GL.Color(fill);
         GL.Vertex(tl); GL.Vertex(tr); GL.Vertex(br); GL.Vertex(bl);
         GL.End();
 
-        // ——— Bordes del frustum ———
         GL.Begin(GL.LINES);
 
-        // Líneas desde el origen a cada esquina (más tenues)
-        Color edgeColor = color;
-        edgeColor.a = color.a * 0.3f;
-        GL.Color(edgeColor);
-        GLLine(origin, tl);
-        GLLine(origin, tr);
-        GLLine(origin, bl);
-        GLLine(origin, br);
+        // Líneas origen ? esquinas (tenues)
+        Color edge = color; edge.a = color.a * 0.3f;
+        GL.Color(edge);
+        GLLine(origin, tl); GLLine(origin, tr);
+        GLLine(origin, bl); GLLine(origin, br);
 
-        // Rectángulo del far plane (más visible)
+        // Rectángulo far plane
         GL.Color(color);
-        GLLine(tl, tr);
-        GLLine(tr, br);
-        GLLine(br, bl);
-        GLLine(bl, tl);
+        GLLine(tl, tr); GLLine(tr, br);
+        GLLine(br, bl); GLLine(bl, tl);
 
-        // ——— Crosshair en el far plane ———
-        Color crossColor = color;
-        crossColor.a = color.a * 0.6f;
-        GL.Color(crossColor);
+        // Crosshair
+        Color cross = color; cross.a = color.a * 0.6f;
+        GL.Color(cross);
+        float cs = halfHeight * 0.15f;
+        GLLine(center + camT.up * cs, center + camT.up * -cs);
+        GLLine(center + camT.right * -cs, center + camT.right * cs);
 
-        float crossSize = halfHeight * 0.15f;
-        Vector3 midTop = center + camT.up * crossSize;
-        Vector3 midBot = center - camT.up * crossSize;
-        Vector3 midLeft = center - camT.right * crossSize;
-        Vector3 midRight = center + camT.right * crossSize;
-        GLLine(midTop, midBot);
-        GLLine(midLeft, midRight);
-
-        // ——— Brackets en las esquinas del far plane ———
-        float bracketLen = halfHeight * 0.2f;
+        // Brackets de esquina
+        float bl2 = halfHeight * 0.2f;
         GL.Color(color);
-        // TL
-        GLLine(tl, tl + camT.right * bracketLen);
-        GLLine(tl, tl - camT.up * bracketLen);
-        // TR
-        GLLine(tr, tr - camT.right * bracketLen);
-        GLLine(tr, tr - camT.up * bracketLen);
-        // BL
-        GLLine(bl, bl + camT.right * bracketLen);
-        GLLine(bl, bl + camT.up * bracketLen);
-        // BR
-        GLLine(br, br - camT.right * bracketLen);
-        GLLine(br, br + camT.up * bracketLen);
+        GLLine(tl, tl + camT.right * bl2); GLLine(tl, tl - camT.up * bl2);
+        GLLine(tr, tr - camT.right * bl2); GLLine(tr, tr - camT.up * bl2);
+        GLLine(bl, bl + camT.right * bl2); GLLine(bl, bl + camT.up * bl2);
+        GLLine(br, br - camT.right * bl2); GLLine(br, br + camT.up * bl2);
 
         GL.End();
         GL.PopMatrix();
@@ -253,25 +208,20 @@ public class CorderVisual : MonoBehaviour
         GL.MultMatrix(Matrix4x4.identity);
         GL.Begin(GL.LINES);
 
-        // Arco de rango de tilt (tenue)
-        Color arcColor = color;
-        arcColor.a = color.a * 0.25f;
-        GL.Color(arcColor);
+        // Arco
+        Color arc = color; arc.a = color.a * 0.25f;
+        GL.Color(arc);
         DrawArc(pivot, minAngle, maxAngle, tiltArcRadius, arcSegments);
 
         // Líneas límite
-        Color limitColor = color;
-        limitColor.a = color.a * 0.6f;
-        GL.Color(limitColor);
-        Vector3 minDir = GetTiltDirection(pivot, minAngle);
-        Vector3 maxDir = GetTiltDirection(pivot, maxAngle);
-        GLLine(pivot.position, pivot.position + minDir * tiltArcRadius * 1.2f);
-        GLLine(pivot.position, pivot.position + maxDir * tiltArcRadius * 1.2f);
+        Color lim = color; lim.a = color.a * 0.6f;
+        GL.Color(lim);
+        GLLine(pivot.position, pivot.position + GetTiltDirection(pivot, minAngle) * tiltArcRadius * 1.2f);
+        GLLine(pivot.position, pivot.position + GetTiltDirection(pivot, maxAngle) * tiltArcRadius * 1.2f);
 
-        // Línea del ángulo actual (blanca, más visible)
+        // Dirección actual
         GL.Color(new Color(1f, 1f, 1f, 0.9f));
-        Vector3 currentDir = camcorderCamera.transform.forward;
-        GLLine(pivot.position, pivot.position + currentDir * tiltArcRadius * 0.9f);
+        GLLine(pivot.position, pivot.position + camcorderCamera.transform.forward * tiltArcRadius * 0.9f);
 
         GL.End();
         GL.PopMatrix();
@@ -279,37 +229,29 @@ public class CorderVisual : MonoBehaviour
 
     private void DrawArc(Transform pivot, float fromAngle, float toAngle, float radius, int segments)
     {
-        Vector3 prevPoint = pivot.position + GetTiltDirection(pivot, fromAngle) * radius;
+        Vector3 prev = pivot.position + GetTiltDirection(pivot, fromAngle) * radius;
         for (int i = 1; i <= segments; i++)
         {
             float t = (float)i / segments;
             float angle = Mathf.Lerp(fromAngle, toAngle, t);
             Vector3 point = pivot.position + GetTiltDirection(pivot, angle) * radius;
-            GLLine(prevPoint, point);
-            prevPoint = point;
+            GLLine(prev, point);
+            prev = point;
         }
     }
 
     private Vector3 GetTiltDirection(Transform pivot, float angle)
-    {
-        return Quaternion.AngleAxis(angle, pivot.right) * pivot.forward;
-    }
+        => Quaternion.AngleAxis(angle, pivot.right) * pivot.forward;
 
-    private void GLLine(Vector3 a, Vector3 b)
-    {
-        GL.Vertex(a);
-        GL.Vertex(b);
-    }
+    private void GLLine(Vector3 a, Vector3 b) { GL.Vertex(a); GL.Vertex(b); }
 
-    #endregion
-
-    #region — HUD Creation —
+    // ??????????????????????? HUD Creation ????????????????????????????
 
     private void CreateHUD()
     {
-        // Root Canvas
         GameObject canvasGO = new GameObject("CorderVisual_Canvas");
         canvasGO.transform.SetParent(transform);
+
         hudCanvas = canvasGO.AddComponent<Canvas>();
         hudCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
         hudCanvas.sortingOrder = 90;
@@ -323,31 +265,25 @@ public class CorderVisual : MonoBehaviour
         hudGroup.blocksRaycasts = false;
 
         CreateRecIndicator(canvasGO.transform);
-        CreateFocusBrackets(canvasGO.transform);
-        CreateBattery(canvasGO.transform);
-        CreateBottomBar(canvasGO.transform);
-        CreateScanlineOverlay(canvasGO.transform);
+
 
         hudCanvas.gameObject.SetActive(false);
     }
 
-    // ——— REC INDICATOR (top-left) ———
-
     private void CreateRecIndicator(Transform parent)
     {
-        // Container
         GameObject container = MakeRect("RecIndicator", parent,
             new Vector2(0, 1), new Vector2(0, 1), new Vector2(0, 1),
             new Vector2(40, -35), new Vector2(280, 60));
 
-        // REC dot — círculo rojo
+        // Dot rojo
         GameObject dotGO = MakeRect("RecDot", container.transform,
             new Vector2(0, 0.5f), new Vector2(0, 0.5f), new Vector2(0, 0.5f),
             new Vector2(0, 0), new Vector2(18, 18));
         recDot = dotGO.AddComponent<Image>();
         recDot.color = recColor;
 
-        // REC text
+        // Texto REC / STBY
         GameObject recGO = MakeRect("RecText", container.transform,
             new Vector2(0, 0.5f), new Vector2(0, 0.5f), new Vector2(0, 0.5f),
             new Vector2(26, 0), new Vector2(60, 24));
@@ -371,183 +307,9 @@ public class CorderVisual : MonoBehaviour
         timecodeText.text = "00:00:00";
     }
 
-    // ——— FOCUS BRACKETS (center) ———
 
-    private void CreateFocusBrackets(Transform parent)
-    {
-        float bracketSize = 70f;
-        float thickness = 2f;
-        float armLength = 22f;
-        float centerOffset = 60f; // Distancia del centro
 
-        // 4 esquinas: TL, TR, BL, BR
-        Vector2[] positions = new Vector2[]
-        {
-            new Vector2(-centerOffset, centerOffset),   // TL
-            new Vector2(centerOffset, centerOffset),    // TR
-            new Vector2(-centerOffset, -centerOffset),  // BL
-            new Vector2(centerOffset, -centerOffset)    // BR
-        };
-
-        // Dirección de los brazos para cada esquina
-        Vector2[][] armDirs = new Vector2[][]
-        {
-            new Vector2[] { Vector2.right, Vector2.down },    // TL: brazo derecha + abajo
-            new Vector2[] { Vector2.left, Vector2.down },     // TR: brazo izquierda + abajo
-            new Vector2[] { Vector2.right, Vector2.up },      // BL: brazo derecha + arriba
-            new Vector2[] { Vector2.left, Vector2.up }        // BR: brazo izquierda + arriba
-        };
-
-        string[] names = { "BracketTL", "BracketTR", "BracketBL", "BracketBR" };
-
-        for (int i = 0; i < 4; i++)
-        {
-            GameObject corner = MakeRect(names[i], parent,
-                new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-                positions[i], new Vector2(bracketSize, bracketSize));
-
-            bracketCorners[i] = corner.GetComponent<RectTransform>();
-
-            // Brazo horizontal
-            GameObject armH = MakeRect("ArmH", corner.transform,
-                new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-                armDirs[i][0] * (armLength * 0.5f),
-                new Vector2(armLength, thickness));
-            Image imgH = armH.AddComponent<Image>();
-            imgH.color = hudColor;
-
-            // Brazo vertical
-            GameObject armV = MakeRect("ArmV", corner.transform,
-                new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-                armDirs[i][1] * (armLength * 0.5f),
-                new Vector2(thickness, armLength));
-            Image imgV = armV.AddComponent<Image>();
-            imgV.color = hudColor;
-        }
-
-        // Punto central pequeño
-        GameObject centerDot = MakeRect("CenterDot", parent,
-            new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-            Vector2.zero, new Vector2(4, 4));
-        Image dotImg = centerDot.AddComponent<Image>();
-        dotImg.color = dimColor;
-    }
-
-    // ——— BATTERY (top-right) ———
-
-    private void CreateBattery(Transform parent)
-    {
-        GameObject container = MakeRect("Battery", parent,
-            new Vector2(1, 1), new Vector2(1, 1), new Vector2(1, 1),
-            new Vector2(-40, -38), new Vector2(48, 22));
-
-        // Body outline
-        GameObject bodyGO = MakeRect("Body", container.transform,
-            new Vector2(0, 0), new Vector2(1, 1), new Vector2(0.5f, 0.5f),
-            Vector2.zero, Vector2.zero);
-        bodyGO.GetComponent<RectTransform>().offsetMin = Vector2.zero;
-        bodyGO.GetComponent<RectTransform>().offsetMax = Vector2.zero;
-
-        // Borde exterior
-        Image bodyOutline = bodyGO.AddComponent<Image>();
-        bodyOutline.color = hudColor;
-        batteryBody = bodyOutline;
-
-        // Interior negro
-        GameObject innerGO = MakeRect("Inner", bodyGO.transform,
-            new Vector2(0, 0), new Vector2(1, 1), new Vector2(0.5f, 0.5f),
-            Vector2.zero, Vector2.zero);
-        innerGO.GetComponent<RectTransform>().offsetMin = new Vector2(2, 2);
-        innerGO.GetComponent<RectTransform>().offsetMax = new Vector2(-2, -2);
-        Image innerImg = innerGO.AddComponent<Image>();
-        innerImg.color = new Color(0, 0, 0, 0.7f);
-
-        // Barras de carga
-        float barWidth = 8f;
-        float barGap = 2f;
-        float startX = 4f;
-        for (int i = 0; i < 4; i++)
-        {
-            GameObject barGO = MakeRect($"Bar{i}", bodyGO.transform,
-                new Vector2(0, 0.5f), new Vector2(0, 0.5f), new Vector2(0, 0.5f),
-                new Vector2(startX + i * (barWidth + barGap), 0),
-                new Vector2(barWidth, 14));
-            batteryBars[i] = barGO.AddComponent<Image>();
-            batteryBars[i].color = hudColor;
-        }
-
-        // Tip (la puntita de la batería)
-        GameObject tipGO = MakeRect("Tip", container.transform,
-            new Vector2(1, 0.5f), new Vector2(1, 0.5f), new Vector2(0, 0.5f),
-            new Vector2(1, 0), new Vector2(4, 10));
-        batteryTip = tipGO.AddComponent<Image>();
-        batteryTip.color = hudColor;
-    }
-
-    // ——— BOTTOM BAR ———
-
-    private void CreateBottomBar(Transform parent)
-    {
-        // Date (bottom-left)
-        GameObject dateGO = MakeRect("DateStamp", parent,
-            new Vector2(0, 0), new Vector2(0, 0), new Vector2(0, 0),
-            new Vector2(40, 30), new Vector2(220, 22));
-        dateText = dateGO.AddComponent<Text>();
-        dateText.font = GetMonoFont();
-        dateText.fontSize = 15;
-        dateText.color = dimColor;
-        dateText.alignment = TextAnchor.MiddleLeft;
-        // Fecha fija estilo VHS
-        dateText.text = "1997.08.14  PM 11:42";
-
-        // Mode (bottom-right)
-        GameObject modeGO = MakeRect("ModeText", parent,
-            new Vector2(1, 0), new Vector2(1, 0), new Vector2(1, 0),
-            new Vector2(-40, 30), new Vector2(100, 22));
-        modeText = modeGO.AddComponent<Text>();
-        modeText.font = GetMonoFont();
-        modeText.fontSize = 15;
-        modeText.color = dimColor;
-        modeText.alignment = TextAnchor.MiddleRight;
-        modeText.text = "SP";
-    }
-
-    // ——— SCANLINE OVERLAY ———
-
-    private void CreateScanlineOverlay(Transform parent)
-    {
-        // Overlay de scanlines finas sobre toda la pantalla
-        // Usa un shader simple que dibuja líneas horizontales
-        GameObject scanGO = MakeRect("Scanlines", parent,
-            new Vector2(0, 0), new Vector2(1, 1), new Vector2(0.5f, 0.5f),
-            Vector2.zero, Vector2.zero);
-        scanGO.GetComponent<RectTransform>().offsetMin = Vector2.zero;
-        scanGO.GetComponent<RectTransform>().offsetMax = Vector2.zero;
-
-        scanlineOverlay = scanGO.AddComponent<Image>();
-
-        // Crear material con shader UI/Default modificado para scanlines
-        Shader shader = Shader.Find("UI/VHSScanlines");
-        if (shader != null)
-        {
-            scanlineMaterial = new Material(shader);
-            scanlineMaterial.SetFloat("_LineCount", 400f);
-            scanlineMaterial.SetFloat("_LineAlpha", 0.08f);
-            scanlineOverlay.material = scanlineMaterial;
-            scanlineOverlay.color = new Color(1, 1, 1, 0.15f);
-        }
-        else
-        {
-            // Fallback: sin scanlines si no encuentra el shader
-            scanlineOverlay.color = Color.clear;
-        }
-
-        scanlineOverlay.raycastTarget = false;
-    }
-
-    #endregion
-
-    #region — HUD Updates —
+    // ??????????????????????? HUD Updates ?????????????????????????????
 
     private void UpdateRecIndicator(CamcorderMode mode)
     {
@@ -559,7 +321,6 @@ public class CorderVisual : MonoBehaviour
 
         if (isRec)
         {
-            // Parpadeo del dot y texto REC
             float blink = (Mathf.Sin(Time.time * recBlinkSpeed * Mathf.PI * 2f) + 1f) * 0.5f;
             recDot.color = new Color(recColor.r, recColor.g, recColor.b, blink);
             recText.color = new Color(recColor.r, recColor.g, recColor.b, blink);
@@ -568,8 +329,6 @@ public class CorderVisual : MonoBehaviour
         else if (isPrep)
         {
             recDot.color = prepColor;
-            recText.color = prepColor;
-            // STBY parpadea rápido
             float blink = Mathf.Sin(Time.time * 6f) > 0 ? 1f : 0.2f;
             recText.color = new Color(prepColor.r, prepColor.g, prepColor.b, blink);
             recText.text = "STBY";
@@ -583,92 +342,25 @@ public class CorderVisual : MonoBehaviour
             recordingTime += Time.deltaTime;
             wasRecording = true;
         }
-        else
+        else if (wasRecording && mode == CamcorderMode.Idle)
         {
-            if (wasRecording && mode == CamcorderMode.Idle)
-            {
-                recordingTime = 0f;
-                wasRecording = false;
-            }
+            recordingTime = 0f;
+            wasRecording = false;
         }
 
-        int totalSeconds = Mathf.FloorToInt(recordingTime);
-        int hours = totalSeconds / 3600;
-        int minutes = (totalSeconds % 3600) / 60;
-        int seconds = totalSeconds % 60;
+        int total = Mathf.FloorToInt(recordingTime);
+        int hours = total / 3600;
+        int minutes = (total % 3600) / 60;
+        int seconds = total % 60;
 
-        // Parpadeo de los dos puntos durante grabación
-        string separator = (mode == CamcorderMode.Recording && Mathf.Sin(Time.time * 4f) > 0) ? ":" : " ";
-        timecodeText.text = $"{hours:00}{separator}{minutes:00}{separator}{seconds:00}";
-
-        timecodeText.color = (mode == CamcorderMode.Recording) ? hudColor : dimColor;
+        string sep = (mode == CamcorderMode.Recording && Mathf.Sin(Time.time * 4f) > 0) ? ":" : " ";
+        timecodeText.text = $"{hours:00}{sep}{minutes:00}{sep}{seconds:00}";
+        timecodeText.color = (mode == CamcorderMode.Recording) ? hudColor : hudColor;
     }
 
-    private void UpdateFocusBrackets(CamcorderMode mode)
-    {
-        Color targetColor;
 
-        switch (mode)
-        {
-            case CamcorderMode.Recording:
-                targetColor = recColor;
-                break;
-            case CamcorderMode.Preparing:
-                targetColor = prepColor;
-                break;
-            default:
-                targetColor = hudColor;
-                break;
-        }
 
-        // Efecto breathing sutil en idle
-        if (mode == CamcorderMode.Idle)
-        {
-            float breath = Mathf.Lerp(0.5f, 0.85f, (Mathf.Sin(Time.time * 1.5f) + 1f) * 0.5f);
-            targetColor.a = breath;
-        }
-
-        foreach (RectTransform corner in bracketCorners)
-        {
-            Image[] arms = corner.GetComponentsInChildren<Image>();
-            foreach (Image arm in arms)
-                arm.color = targetColor;
-        }
-    }
-
-    private void UpdateBattery()
-    {
-        // Simular batería que baja lentamente (puramente cosmético)
-        float fakeLevel = Mathf.PingPong(Time.time * 0.02f, 1f);
-        fakeLevel = 1f - fakeLevel; // Empieza llena
-        int activeBars = Mathf.CeilToInt(fakeLevel * 4f);
-        activeBars = Mathf.Clamp(activeBars, 1, 4);
-
-        for (int i = 0; i < batteryBars.Length; i++)
-        {
-            batteryBars[i].color = (i < activeBars) ? hudColor : new Color(hudColor.r, hudColor.g, hudColor.b, 0.15f);
-        }
-    }
-
-    private void UpdateBottomBar(CamcorderMode mode)
-    {
-        // El modo cambia a LP durante grabación (detalle cosmético)
-        modeText.text = (mode == CamcorderMode.Recording) ? "LP" : "SP";
-        modeText.color = (mode == CamcorderMode.Recording) ? hudColor : dimColor;
-    }
-
-    private void UpdateScanlines(CamcorderMode mode)
-    {
-        if (scanlineMaterial == null) return;
-
-        // Las scanlines se intensifican un poco durante grabación
-        float alpha = (mode == CamcorderMode.Recording) ? 0.12f : 0.06f;
-        scanlineMaterial.SetFloat("_LineAlpha", alpha);
-    }
-
-    #endregion
-
-    #region — Utilities —
+    // ??????????????????????? Utilities ???????????????????????????????
 
     private GameObject MakeRect(string name, Transform parent,
         Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot,
@@ -687,14 +379,8 @@ public class CorderVisual : MonoBehaviour
 
     private Font GetMonoFont()
     {
-        // Intentar fuente monoespaciada, fallback a Arial
-        Font font = Font.CreateDynamicFontFromOSFont("Consolas", 16);
-        if (font == null)
-            font = Font.CreateDynamicFontFromOSFont("Courier New", 16);
-        if (font == null)
-            font = Font.CreateDynamicFontFromOSFont("Arial", 16);
-        return font;
+        return Font.CreateDynamicFontFromOSFont("Consolas", 16)
+            ?? Font.CreateDynamicFontFromOSFont("Courier New", 16)
+            ?? Font.CreateDynamicFontFromOSFont("Arial", 16);
     }
-
-    #endregion
 }
