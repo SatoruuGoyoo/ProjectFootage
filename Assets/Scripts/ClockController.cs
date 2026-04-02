@@ -4,20 +4,10 @@ public class ClockController : MonoBehaviour
 {
     [Header("Setup")]
     public Transform hourHandPivot;
-    [SerializeField] private float anglePerFrame = 6f;
+    [SerializeField] private float rotationSpeed = 30f;
 
-    private void OnEnable()
+    public void Update()
     {
-        GameEvents.OnFrameChanged += UpdateClock;
-    }
-
-    private void OnDisable()
-    {
-        GameEvents.OnFrameChanged -= UpdateClock;
-    }
-
-    public void UpdateClock(int frame)
-    {
-        hourHandPivot.localRotation = Quaternion.Euler(0f, frame * anglePerFrame, 0f);
+        hourHandPivot.Rotate(0f, rotationSpeed * Time.deltaTime, 0f);
     }
 }
