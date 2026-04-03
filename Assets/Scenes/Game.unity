@@ -14429,9 +14429,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DebugControlsUI
   fontSize: 16
+  colKeyWidth: 210
+  colValWidth: 310
   textColor: {r: 1, g: 1, b: 1, a: 1}
+  keyColor: {r: 1, g: 1, b: 1, a: 1}
   bgColor: {r: 0, g: 0, b: 0, a: 0.55}
   schemeColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  editorPreviewScheme: 0
+  tankControls:
+  - key: W/S
+    description: "Avanzar / Retroceder (exploraci\xF3n)"
+  - key: A/D
+    description: "Girar personaje (exploraci\xF3n)"
+  - key: Click Derecho
+    description: Sacar / ocultar camcorder
+  - key: "Mouse (c\xE1mara arriba)"
+    description: Apuntar camcorder
+  - key: Mantener Click Izq
+    description: Preparar y grabar
+  - key: TAB
+    description: "Abrir / Cerrar Men\xFA Camcorder"
+  - key: M
+    description: Cambiar controles
+  modernControls:
+  - key: WASD
+    description: "Moverse (relativo a c\xE1mara)"
+  - key: Click Derecho
+    description: Sacar / ocultar camcorder
+  - key: "Mouse (c\xE1mara arriba)"
+    description: Apuntar camcorder + rotar
+  - key: "WASD (c\xE1mara arriba)"
+    description: Moverse estilo shooter
+  - key: Mantener Click Izq
+    description: Preparar y grabar
+  - key: TAB
+    description: "Abrir / Cerrar Men\xFA Camcorder"
+  - key: M
+    description: Cambiar controles
 --- !u!1 &488263811
 GameObject:
   m_ObjectHideFlags: 0
@@ -54829,10 +54863,10 @@ Light:
   serializedVersion: 12
   m_Type: 0
   m_Color: {r: 1, g: 0.9411765, b: 0.8156863, a: 1}
-  m_Intensity: 8
+  m_Intensity: 10
   m_Range: 12
-  m_SpotAngle: 35
-  m_InnerSpotAngle: 15
+  m_SpotAngle: 120.11882
+  m_InnerSpotAngle: 23.34499
   m_CookieSize2D: {x: 0.5, y: 0.5}
   m_Shadows:
     m_Type: 0
