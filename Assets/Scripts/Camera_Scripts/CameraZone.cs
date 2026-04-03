@@ -6,14 +6,7 @@ public class CameraZone : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            CameraManager manager = FindAnyObjectByType<CameraManager>();
-
-            if (manager != null && zoneCamera != null)
-            {
-                manager.SetCamera(zoneCamera);
-            }
-        }
+        if (other.CompareTag("Player") && zoneCamera != null)
+            CameraManager.Instance?.SetCamera(zoneCamera); 
     }
 }

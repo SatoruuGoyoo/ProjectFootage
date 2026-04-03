@@ -17,29 +17,22 @@ public class PlayerController : MonoBehaviour
         view = GetComponent<PlayerView>();
     }
 
-    private void OnEnable()
-    {
-        GameEvents.OnPlayerModeChanged += OnPlayerModeChanged;
-    }
+    private void OnEnable() => GameEvents.OnPlayerModeChanged += OnPlayerModeChanged;
+    private void OnDisable() => GameEvents.OnPlayerModeChanged -= OnPlayerModeChanged;
 
-    private void OnDisable()
-    {
-        GameEvents.OnPlayerModeChanged -= OnPlayerModeChanged;
-    }
-
-    private void OnPlayerModeChanged(PlayerMode newMode)
-    {
-        currentMode = newMode;
-    }
+    private void OnPlayerModeChanged(PlayerMode newMode) => currentMode = newMode;
 
     private void Update()
     {
         if (currentMode == PlayerMode.MenuCameraMode) return;
-        if (currentMode == PlayerMode.RecordingMode) return;
 
-        if (currentMode == PlayerMode.ExplorationMode)
-            motor.Move(input.Move);
+        // Camara arriba pero sin grabar: movimiento libre normal
+        if (currentMode == PlayerMode.ExplorationMode ||
+            currentMode == PlayerMode.CameraMode)
+            motor.Move(input.Move, CameraManager.Instance.ActiveCamera);
 
-        motor.Turn(input.Turn);
+        // Grabando: shooter-style, solo el mouse rota
+        if (currentMode == PlayerMode.RecordingMode)
+            motor.MoveRelativeToSelf(input.Move);
     }
 }
