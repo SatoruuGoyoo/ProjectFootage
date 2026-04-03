@@ -14,7 +14,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
-  m_Fog: 0
+  m_Fog: 1
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
@@ -2950,7 +2950,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 52d0a6f3c60b14f4ab402847ea5c6f81, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.28
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -3060,8 +3060,9 @@ GameObject:
   - component: {fileID: 192746049}
   - component: {fileID: 192746048}
   - component: {fileID: 192746047}
+  - component: {fileID: 192746050}
   m_Layer: 0
-  m_Name: Point Light
+  m_Name: Spot Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3105,11 +3106,11 @@ Light:
   m_GameObject: {fileID: 192746046}
   m_Enabled: 1
   serializedVersion: 12
-  m_Type: 2
+  m_Type: 0
   m_Color: {r: 1, g: 0.9411765, b: 0.8156863, a: 1}
-  m_Intensity: 3
-  m_Range: 5.0830145
-  m_SpotAngle: 30
+  m_Intensity: 42.49
+  m_Range: 18.551933
+  m_SpotAngle: 38.73792
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
   m_Shadows:
@@ -3169,13 +3170,28 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 192746046}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -22.733, y: 2.82, z: -15.41}
+  m_LocalRotation: {x: 0.06659766, y: -0.70396364, z: 0.06659766, w: 0.70396364}
+  m_LocalPosition: {x: -9.66, y: 5.9, z: -15.41}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 10.809, y: -90, z: 0}
+--- !u!114 &192746050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 192746046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c8bca95f7c947b4db5fb152a0d693d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: com.cqf.urpvolumetricfog.runtime::VolumetricAdditionalLight
+  anisotropy: -0.01
+  scattering: 1.8
+  radius: 0.2
 --- !u!1 &195243184
 GameObject:
   m_ObjectHideFlags: 0
@@ -27905,15 +27921,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CorderVisual
   camcorderCamera: {fileID: 1263851855}
   recorder: {fileID: 767295760}
-  motor: {fileID: 767295761}
   controller: {fileID: 767295763}
-  showViewfinder: 1
-  showFrustum: 1
-  showTiltLimits: 1
   frustumDistance: 5
-  frustumEdgeWidth: 3
-  tiltArcRadius: 1.5
-  arcSegments: 20
+  frameMaterial: {fileID: 2100000, guid: dde72a1a92ff47149a10c65c13911c3b, type: 2}
+  lineWidth: 0.03
   hudColor: {r: 1, g: 1, b: 1, a: 0.85}
   recColor: {r: 1, g: 0.08, b: 0.08, a: 0.95}
   prepColor: {r: 1, g: 0.85, b: 0, a: 0.9}
@@ -30513,7 +30524,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: f4d6d2e422d42bf489e23f6ddd3d642f, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.25
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -54817,6 +54828,7 @@ GameObject:
   - component: {fileID: 1555523947}
   - component: {fileID: 1555523946}
   - component: {fileID: 1555523949}
+  - component: {fileID: 1555523950}
   m_Layer: 0
   m_Name: Spot Light
   m_TagString: Untagged
@@ -54947,6 +54959,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FlashlightController
   camcorderCamera: {fileID: 1852855565}
   positionOffset: {x: 0, y: 0, z: 0}
+--- !u!114 &1555523950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1555523945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c8bca95f7c947b4db5fb152a0d693d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: com.cqf.urpvolumetricfog.runtime::VolumetricAdditionalLight
+  anisotropy: 0.25
+  scattering: 1
+  radius: 0.2
 --- !u!1 &1563961251
 GameObject:
   m_ObjectHideFlags: 0
