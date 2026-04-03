@@ -27,17 +27,4 @@ public class ControlSchemeManager : MonoBehaviour
             Debug.Log($"[ControlScheme] Switched to: {CurrentScheme}");
         }
     }
-
-    private void OnGUI()
-    {
-        GUIStyle style = new GUIStyle(GUI.skin.label)
-        {
-            fontSize = 18,
-            fontStyle = FontStyle.Bold
-        };
-        style.normal.textColor = Color.yellow;
-
-        GUI.Label(new Rect(10, 10, 400, 30),
-            $"Controls: {CurrentScheme}  (M to toggle)", style);
-    }
 }

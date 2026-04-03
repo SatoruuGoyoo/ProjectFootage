@@ -68,9 +68,15 @@ public class CamcorderController : MonoBehaviour
         if (input.LiftCamera)
             ToggleCamera();
 
-        // Idle/Preparing: solo tilt (ambos schemes)
+        // Cámara arriba (Idle/Preparing): mouse controla tilt + rotación body
         if (isCameraUp && currentCamMode != CamcorderMode.Recording)
-            camcorderMotor.Tilt(input.TiltCamera);
+        {
+            camcorderMotor.Tilt(input.RecordingTilt * mouseSensitivity);
+
+            float rotateDelta = input.RecordingRotate * mouseSensitivity
+                                * camcorderMotor.rotateSpeed * Time.deltaTime;
+            playerMotor.RotateDirect(rotateDelta);
+        }
 
         HandleCamcorderState();
     }
