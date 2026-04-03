@@ -29,7 +29,7 @@ public class CamcorderController : MonoBehaviour
         input = GetComponent<CamcorderInput>();
         recorder = GetComponent<CamcorderRecorder>();
         storage = GetComponent<CamcorderStorage>();
-        camcorderMotor = GetComponent<CamcorderMotor>(); // ? agregar
+        camcorderMotor = GetComponent<CamcorderMotor>();
     }
 
     private void OnEnable()
@@ -48,7 +48,6 @@ public class CamcorderController : MonoBehaviour
 
         if (newMode == PlayerMode.MenuCameraMode && isCameraUp)
         {
-            
             isCameraUp = false;
             camcorderVisual.SetActive(false);
             currentCamMode = CamcorderMode.Idle;
@@ -69,7 +68,7 @@ public class CamcorderController : MonoBehaviour
         if (input.LiftCamera)
             ToggleCamera();
 
-        // Idle/Preparing: solo tilt
+        // Idle/Preparing: solo tilt (ambos schemes)
         if (isCameraUp && currentCamMode != CamcorderMode.Recording)
             camcorderMotor.Tilt(input.TiltCamera);
 
@@ -88,7 +87,7 @@ public class CamcorderController : MonoBehaviour
             GameEvents.PlayerModeChanged(PlayerMode.CameraMode);
         else
         {
-            camcorderMotor.ResetRotation(); 
+            camcorderMotor.ResetRotation();
             GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
         }
     }
@@ -123,9 +122,16 @@ public class CamcorderController : MonoBehaviour
 
             case CamcorderMode.Recording:
                 recordTimer += Time.deltaTime;
+
+                // Tilt vertical: solo la cámara de la camcorder
                 camcorderMotor.Tilt(input.RecordingTilt * mouseSensitivity);
-                camcorderMotor.Rotate(input.RecordingRotate * mouseSensitivity);
-                playerMotor.Rotate(input.RecordingRotate * mouseSensitivity);
+
+                // Rotación horizontal: SOLO el body del player.
+                // La camcorder sigue por ser hija — siempre mira al frente.
+                float rotateDelta = input.RecordingRotate * mouseSensitivity
+                                    * camcorderMotor.rotateSpeed * Time.deltaTime;
+                playerMotor.RotateDirect(rotateDelta);
+
                 if (input.IsRecordingReleased || recordTimer >= recordDuration)
                 {
                     recorder.StopRecording();

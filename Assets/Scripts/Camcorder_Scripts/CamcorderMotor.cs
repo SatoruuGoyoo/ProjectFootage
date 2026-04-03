@@ -3,8 +3,10 @@ using UnityEngine;
 public class CamcorderMotor : MonoBehaviour
 {
     [Header("Setup")]
-    public Transform camcorderPivot;   // Gira en Y (horizontal) — nuevo
-    public Transform camcorderCamera;  // Gira en X (tilt)       — el que ya tenías
+    [Tooltip("Gira en Y (horizontal) — ambos schemes")]
+    public Transform camcorderPivot;
+    [Tooltip("Gira en X (tilt) — usado en ambos schemes")]
+    public Transform camcorderCamera;
 
     [Header("Tilt Config")]
     public float tiltSpeed = 60f;
@@ -19,6 +21,10 @@ public class CamcorderMotor : MonoBehaviour
     private float currentTilt = 0f;
     private float currentRotate = 0f;
 
+    /// <summary>El delta sin clamp del último Rotate. Usado para sincronizar al player body.</summary>
+    public float LastRotateDelta { get; private set; }
+
+    /// <summary>Tilt vertical de la cámara (ambos schemes).</summary>
     public void Tilt(float tiltInput)
     {
         currentTilt -= tiltInput * tiltSpeed * Time.deltaTime;
@@ -26,18 +32,28 @@ public class CamcorderMotor : MonoBehaviour
         camcorderCamera.localEulerAngles = new Vector3(currentTilt, 0f, 0f);
     }
 
+    /// <summary>Rotación horizontal del pivot. Expone LastRotateDelta para sync con player.</summary>
     public void Rotate(float rotateInput)
     {
-        currentRotate += rotateInput * rotateSpeed * Time.deltaTime;
+        LastRotateDelta = rotateInput * rotateSpeed * Time.deltaTime;
+
+        if (camcorderPivot == null) return;
+
+        currentRotate += LastRotateDelta;
         currentRotate = Mathf.Clamp(currentRotate, rotateMinAngle, rotateMaxAngle);
         camcorderPivot.localEulerAngles = new Vector3(0f, currentRotate, 0f);
     }
 
+    /// <summary>Reset completo (tilt + rotate si aplica).</summary>
     public void ResetRotation()
     {
-        currentRotate = 0f;
         currentTilt = 0f;
-        camcorderPivot.localEulerAngles = Vector3.zero;
-        camcorderCamera.localEulerAngles = Vector3.zero;
+        currentRotate = 0f;
+
+        if (camcorderCamera != null)
+            camcorderCamera.localEulerAngles = Vector3.zero;
+
+        if (camcorderPivot != null)
+            camcorderPivot.localEulerAngles = Vector3.zero;
     }
 }

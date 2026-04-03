@@ -26,13 +26,40 @@ public class PlayerController : MonoBehaviour
     {
         if (currentMode == PlayerMode.MenuCameraMode) return;
 
-        // Camara arriba pero sin grabar: movimiento libre normal
+        bool isTank = ControlSchemeManager.Instance.CurrentScheme
+                      == ControlSchemeManager.Scheme.Tank;
+
+        if (isTank)
+            UpdateTank();
+        else
+            UpdateModern();
+    }
+
+    // ??? TANK ????????????????????????????????????????????????
+    private void UpdateTank()
+    {
+        // En tank, Recording bloquea todo el movimiento del player
+        if (currentMode == PlayerMode.RecordingMode) return;
+
+        if (currentMode == PlayerMode.ExplorationMode)
+            motor.MoveTank(input.MoveForward);
+
+        motor.Turn(input.Turn);
+    }
+
+    // ??? MODERN ??????????????????????????????????????????????
+    private void UpdateModern()
+    {
+        // Exploration o CameraMode: movimiento relativo a cámara
         if (currentMode == PlayerMode.ExplorationMode ||
             currentMode == PlayerMode.CameraMode)
-            motor.Move(input.Move, CameraManager.Instance.ActiveCamera);
+        {
+            Camera activeCam = CameraManager.Instance?.ActiveCamera;
+            motor.MoveRelativeToCamera(input.MoveVector, activeCam);
+        }
 
-        // Grabando: shooter-style, solo el mouse rota
+        // Recording: shooter-style relativo a sí mismo (mouse rota vía CamcorderController)
         if (currentMode == PlayerMode.RecordingMode)
-            motor.MoveRelativeToSelf(input.Move);
+            motor.MoveRelativeToSelf(input.MoveVector);
     }
 }
