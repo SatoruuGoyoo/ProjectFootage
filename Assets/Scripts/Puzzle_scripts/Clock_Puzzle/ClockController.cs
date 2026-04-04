@@ -6,8 +6,16 @@ public class ClockController : MonoBehaviour
     public Transform hourHandPivot;
     [SerializeField] private float rotationSpeed = 30f;
 
-    public void Update()
+    private ClockPuzzle puzzle;
+
+    private void Awake()
     {
+        puzzle = GetComponent<ClockPuzzle>();
+    }
+
+    private void Update()
+    {
+        if (puzzle != null && puzzle.IsSolved) return;
         hourHandPivot.Rotate(0f, rotationSpeed * Time.deltaTime, 0f);
     }
 }

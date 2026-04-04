@@ -10,9 +10,11 @@ public class CamcorderPlayback : MonoBehaviour
 
     public bool HasRecording => framesToPlay != null && framesToPlay.Count > 0;
     public bool IsFinished => framesToPlay != null && currentFrame >= framesToPlay.Count;
+    public bool PlayerUsedRFF { get; private set; } = false;
 
     private List<Texture2D> framesToPlay;
     private int currentFrame = 0;
+    public int CurrentFrame => currentFrame;
     private float playbackTimer = 0f;
     [SerializeField] private float playbackInterval = 0.125f;
 
@@ -44,6 +46,7 @@ public class CamcorderPlayback : MonoBehaviour
         playbackTimer = 0f;
         isPlaying = true;
         playbackPanel.SetActive(true);
+        PlayerUsedRFF = false;
     }
 
     public void PausePlayback()
@@ -71,6 +74,7 @@ public class CamcorderPlayback : MonoBehaviour
 
     public void RewindFrame()
     {
+        PlayerUsedRFF = true;
         if (currentFrame > 0)
         {
             GameEvents.FrameChanged(currentFrame - 1);
@@ -83,6 +87,7 @@ public class CamcorderPlayback : MonoBehaviour
 
     public void FastForwardFrame()
     {
+        PlayerUsedRFF = true;
         if (currentFrame < framesToPlay.Count - 1)
         {
             GameEvents.FrameChanged(currentFrame + 1);

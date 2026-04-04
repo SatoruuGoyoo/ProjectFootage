@@ -12,6 +12,13 @@ public static class GameEvents
 
     public static event Action <ControlScheme> OnControllerSchemeChanged;
 
+    public static event Action OnClockSolved;
+
+    public static void ClockSolved()
+    {
+        OnClockSolved?.Invoke();
+    }
+
     public static void ControllerSchemeChanged(ControlScheme newScheme)
     {
         OnControllerSchemeChanged?.Invoke(newScheme);
