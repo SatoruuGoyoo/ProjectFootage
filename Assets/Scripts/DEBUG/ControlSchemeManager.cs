@@ -2,28 +2,21 @@ using UnityEngine;
 
 public class ControlSchemeManager : MonoBehaviour
 {
-    public static ControlSchemeManager Instance { get; private set; }
+    [SerializeField] private ControlScheme startingScheme = ControlScheme.Tank;
+    public ControlScheme CurrentScheme { get; private set; }
 
-    public enum Scheme { Tank, Modern }
-
-    [SerializeField] private Scheme startingScheme = Scheme.Tank;
-    public Scheme CurrentScheme { get; private set; }
-
-    public static event System.Action<Scheme> OnSchemeChanged;
-
-    private void Awake()
+    private void Start()
     {
-        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
-        Instance = this;
         CurrentScheme = startingScheme;
+        GameEvents.ControllerSchemeChanged(CurrentScheme);
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.M))
         {
-            CurrentScheme = CurrentScheme == Scheme.Tank ? Scheme.Modern : Scheme.Tank;
-            OnSchemeChanged?.Invoke(CurrentScheme);
+            CurrentScheme = CurrentScheme == ControlScheme.Tank ? ControlScheme.Modern : ControlScheme.Tank;
+            GameEvents.ControllerSchemeChanged(CurrentScheme);
             Debug.Log($"[ControlScheme] Switched to: {CurrentScheme}");
         }
     }

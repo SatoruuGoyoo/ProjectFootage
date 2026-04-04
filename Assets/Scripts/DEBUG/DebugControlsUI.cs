@@ -21,7 +21,7 @@ public class DebugControlsUI : MonoBehaviour
 
     [Header("Editor Preview")]
     [Tooltip("En editor sin Play, elegí qué scheme previsualizar.")]
-    [SerializeField] private ControlSchemeManager.Scheme editorPreviewScheme;
+    [SerializeField] private ControlScheme editorPreviewScheme;
 
     [Header("Tank Controls")]
     [SerializeField]
@@ -49,6 +49,7 @@ public class DebugControlsUI : MonoBehaviour
         new ControlEntry { key = "M",                      description = "Cambiar controles" },
     };
 
+    private ControlScheme currentScheme = ControlScheme.Tank;
 
     private GUIStyle labelStyle;
     private GUIStyle keyStyle;
@@ -57,6 +58,21 @@ public class DebugControlsUI : MonoBehaviour
     private Texture2D bgTex;
     private int lastFontSize;
     private Color lastBgColor;
+
+    private void OnEnable()
+    {
+        GameEvents.OnControllerSchemeChanged += OnSchemeChanged;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.OnControllerSchemeChanged -= OnSchemeChanged;
+    }
+
+    private void OnSchemeChanged(ControlScheme scheme)
+    {
+        currentScheme = scheme;
+    }
 
     private void BuildStyles()
     {
@@ -106,19 +122,17 @@ public class DebugControlsUI : MonoBehaviour
     {
         if (NeedsRebuild()) BuildStyles();
 
-   
         bool isTank;
-        if (Application.isPlaying && ControlSchemeManager.Instance != null)
-            isTank = ControlSchemeManager.Instance.CurrentScheme == ControlSchemeManager.Scheme.Tank;
+        if (Application.isPlaying)
+            isTank = currentScheme == ControlScheme.Tank;
         else
-            isTank = editorPreviewScheme == ControlSchemeManager.Scheme.Tank;
+            isTank = editorPreviewScheme == ControlScheme.Tank;
 
         ControlEntry[] controls = isTank ? tankControls : modernControls;
         string schemeName = isTank ? "TANK" : "MODERN";
 
         if (controls == null || controls.Length == 0) return;
 
-      
         float padding = 12f;
         float lineHeight = fontSize + 6f;
         float totalWidth = colKeyWidth + colValWidth + padding * 2;
@@ -128,20 +142,16 @@ public class DebugControlsUI : MonoBehaviour
         float x = (Screen.width - totalWidth) * 0.5f;
         float y = 8f;
 
-       
         GUI.Box(new Rect(x, y, totalWidth, totalHeight), GUIContent.none, bgStyle);
 
-       
         GUI.Label(
             new Rect(x, y + padding * 0.5f, totalWidth, headerHeight),
             $"[ {schemeName} ]",
             schemeStyle
         );
 
-    
         float startY = y + padding + headerHeight;
 
-    
         keyStyle.normal.textColor = keyColor;
         labelStyle.normal.textColor = textColor;
         schemeStyle.normal.textColor = schemeColor;

@@ -59,7 +59,7 @@ public class PlayerMotor : MonoBehaviour
 
         Quaternion targetRot = Quaternion.LookRotation(currentWorldDir);
         transform.rotation = Quaternion.Slerp(
-            transform.rotation, targetRot, Time.deltaTime * config.TurnSpeed);
+    transform.rotation, targetRot, Time.deltaTime * config.RotationSmoothSpeed);
 
         // Nunca acumular pitch/roll del Slerp
         FlattenRotation();
