@@ -2,18 +2,21 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
+    public static CameraManager Instance { get; private set; }
+
     private Camera currentCamera;
+    public Camera ActiveCamera => currentCamera;
 
-    public void SetCamera(Camera newCamera)
+    private void Awake()
     {
-        if (currentCamera == newCamera) return;
+        Instance = this;
+    }
 
-        if (currentCamera != null)
-            currentCamera.gameObject.SetActive(false);
-
-        currentCamera = newCamera;
-
-        if (currentCamera != null)
-            currentCamera.gameObject.SetActive(true);
+    public void SetCamera(Camera newCam)
+    {
+        if (currentCamera == newCam) return;
+        if (currentCamera != null) currentCamera.gameObject.SetActive(false);
+        currentCamera = newCam;
+        if (currentCamera != null) currentCamera.gameObject.SetActive(true);
     }
 }

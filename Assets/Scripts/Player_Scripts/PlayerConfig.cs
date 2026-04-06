@@ -7,6 +7,10 @@ public class PlayerConfig : ScriptableObject
     [SerializeField] private float moveSpeed = 3f;
     [SerializeField] private float turnSpeed = 120f;
 
+    [Header("Modern")]
+    [SerializeField] private float rotationSmoothSpeed = 8f;
+    public float RotationSmoothSpeed => rotationSmoothSpeed;
+
     [Header("Player Stats")]
     [SerializeField] private int maxHealth = 100;
 

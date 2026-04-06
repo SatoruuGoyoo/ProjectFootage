@@ -10,6 +10,20 @@ public static class GameEvents
     // Events for PlayerMode
     public static event Action <PlayerMode>OnPlayerModeChanged;
 
+    public static event Action <ControlScheme> OnControllerSchemeChanged;
+
+    public static event Action OnClockSolved;
+
+    public static void ClockSolved()
+    {
+        OnClockSolved?.Invoke();
+    }
+
+    public static void ControllerSchemeChanged(ControlScheme newScheme)
+    {
+        OnControllerSchemeChanged?.Invoke(newScheme);
+    }
+
 
     public static void PlayerModeChanged(PlayerMode newMode)
     {
