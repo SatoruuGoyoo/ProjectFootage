@@ -10,98 +10,56 @@ public class CorderVisual : MonoBehaviour
 
     [Header("Frame")]
     [SerializeField] private float frustumDistance = 5f;
-    [SerializeField] private Material frameMaterial;       // opcional — si no asignás usa Sprites/Default
-    [SerializeField] private float lineWidth = 0.03f;
 
     [Header("Style")]
     [SerializeField] private Color hudColor = new Color(1f, 1f, 1f, 0.85f);
     [SerializeField] private Color recColor = new Color(1f, 0.08f, 0.08f, 0.95f);
-    [SerializeField] private Color prepColor = new Color(1f, 0.85f, 0f, 0.9f);
+    [SerializeField] private Color prepColor = new Color(1f, 0.85f, 0f, 0.90f);
 
     [Header("Blink")]
     [SerializeField] private float recBlinkSpeed = 2.5f;
 
-    private LineRenderer[] edges = new LineRenderer[4];
+    
+    private Material _glMat;
 
-    // UI
+    
     private Canvas hudCanvas;
     private Image recDot;
     private Text recText;
     private Text timecodeText;
+    
 
-    // State
     private float recordingTime = 0f;
     private bool wasRecording = false;
 
-    // ?????????????????????????????????????????????
 
     private void Awake()
     {
-        CreateEdges();
+        CreateGLMaterial();
         CreateHUD();
     }
 
     private void Update()
     {
         bool camActive = camcorderCamera != null && camcorderCamera.gameObject.activeInHierarchy;
-        SetEdgesActive(camActive);
         if (hudCanvas != null) hudCanvas.gameObject.SetActive(camActive);
         if (!camActive) return;
 
         var mode = GetCurrentMode();
-        UpdateFrame(mode);
         UpdateRecIndicator(mode);
         UpdateTimecode(mode);
     }
 
-    // ?? State ?????????????????????????????????????
 
-    private CamcorderMode GetCurrentMode()
+    private void OnRenderObject()
     {
-        if (controller != null) return controller.CurrentCamMode;
-        if (recorder != null && recorder.IsRecording) return CamcorderMode.Recording;
-        return CamcorderMode.Idle;
-    }
+        if (camcorderCamera == null || !camcorderCamera.gameObject.activeInHierarchy) return;
+        if (Camera.current == camcorderCamera) return;
 
-    // ?? Frame ?????????????????????????????????????
+        var mode = GetCurrentMode();
+        Color col = GetFrameColor(mode);
 
-    private void CreateEdges()
-    {
-        // Sprites/Default: soporta vertex colors (startColor/endColor del LineRenderer)
-        // y respeta el depth buffer por defecto — las paredes tapan el marco.
-        // Si el usuario asigna su propio material, se usa ese.
-        Material mat = frameMaterial != null
-            ? frameMaterial
-            : new Material(Shader.Find("Sprites/Default")) { hideFlags = HideFlags.HideAndDontSave };
-
-        for (int i = 0; i < 4; i++)
-        {
-            var go = new GameObject($"FrameEdge_{i}");
-            go.transform.SetParent(transform);
-
-            var lr = go.AddComponent<LineRenderer>();
-            lr.positionCount = 2;
-            lr.useWorldSpace = true;
-            lr.startWidth = lineWidth;
-            lr.endWidth = lineWidth;
-            lr.numCapVertices = 4;
-            lr.numCornerVertices = 4;
-            lr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-            lr.receiveShadows = false;
-            lr.material = mat;
-
-            edges[i] = lr;
-        }
-    }
-
-    private void SetEdgesActive(bool active)
-    {
-        foreach (var e in edges)
-            if (e != null) e.gameObject.SetActive(active);
-    }
-
-    private void UpdateFrame(CamcorderMode mode)
-    {
+     
         var camT = camcorderCamera.transform;
         float halfH = frustumDistance * Mathf.Tan(camcorderCamera.fieldOfView * 0.5f * Mathf.Deg2Rad);
         float halfW = halfH * camcorderCamera.aspect;
@@ -112,26 +70,64 @@ public class CorderVisual : MonoBehaviour
         Vector3 bl = c - camT.up * halfH - camT.right * halfW;
         Vector3 br = c - camT.up * halfH + camT.right * halfW;
 
-        edges[0].SetPositions(new[] { tl, tr });
-        edges[1].SetPositions(new[] { tr, br });
-        edges[2].SetPositions(new[] { br, bl });
-        edges[3].SetPositions(new[] { bl, tl });
+        _glMat.SetPass(0);
 
-        Color col = mode switch
+        GL.PushMatrix();
+        GL.Begin(GL.LINES);
+        GL.Color(col);
+
+        // Top
+        GL.Vertex(tl); GL.Vertex(tr);
+        // Right
+        GL.Vertex(tr); GL.Vertex(br);
+        // Bottom
+        GL.Vertex(br); GL.Vertex(bl);
+        // Left
+        GL.Vertex(bl); GL.Vertex(tl);
+
+        GL.End();
+        GL.PopMatrix();
+    }
+
+    private void OnDestroy()
+    {
+        if (_glMat != null) Destroy(_glMat);
+    }
+
+    
+
+    private void CreateGLMaterial()
+    {
+     
+        var shader = Shader.Find("Hidden/Internal-Colored");
+        _glMat = new Material(shader) { hideFlags = HideFlags.HideAndDontSave };
+        _glMat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+        _glMat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+        _glMat.SetInt("_Cull", (int)UnityEngine.Rendering.CullMode.Off);
+        _glMat.SetInt("_ZWrite", 0);
+        _glMat.SetInt("_ZTest", (int)UnityEngine.Rendering.CompareFunction.Always); 
+    }
+
+ 
+
+    private CamcorderMode GetCurrentMode()
+    {
+        if (controller != null) return controller.CurrentCamMode;
+        if (recorder != null && recorder.IsRecording) return CamcorderMode.Recording;
+        return CamcorderMode.Idle;
+    }
+
+    private Color GetFrameColor(CamcorderMode mode)
+    {
+        return mode switch
         {
             CamcorderMode.Recording => recColor,
             CamcorderMode.Preparing => prepColor,
             _ => new Color(hudColor.r, hudColor.g, hudColor.b, 0.5f)
         };
-
-        foreach (var e in edges)
-        {
-            e.startColor = col;
-            e.endColor = col;
-        }
     }
 
-    // ?? HUD ???????????????????????????????????????
+ 
 
     private void CreateHUD()
     {
@@ -156,20 +152,16 @@ public class CorderVisual : MonoBehaviour
 
     private void CreateRecIndicator(Transform parent)
     {
-        // Contenedor anclado top-left
         var container = MakeRect("RecIndicator", parent,
             new Vector2(0, 1), new Vector2(0, 1), new Vector2(0, 1),
             new Vector2(30, -30), new Vector2(220, 50));
 
-        // Fila superior: [dot] [REC/STBY]
-        // Dot — pivot left-center, no se superpone con el texto
         var dotGO = MakeRect("RecDot", container.transform,
             new Vector2(0, 1), new Vector2(0, 1), new Vector2(0, 1),
             new Vector2(0, 0), new Vector2(14, 14));
         recDot = dotGO.AddComponent<Image>();
         recDot.color = recColor;
 
-        // Texto REC/STBY — empieza justo después del dot (14 + 6 = 20)
         var recGO = MakeRect("RecText", container.transform,
             new Vector2(0, 1), new Vector2(0, 1), new Vector2(0, 1),
             new Vector2(22, 2), new Vector2(80, 20));
@@ -181,7 +173,6 @@ public class CorderVisual : MonoBehaviour
         recText.alignment = TextAnchor.MiddleLeft;
         recText.text = "REC";
 
-        // Timecode — debajo de la fila superior
         var tcGO = MakeRect("Timecode", container.transform,
             new Vector2(0, 1), new Vector2(0, 1), new Vector2(0, 1),
             new Vector2(0, -22), new Vector2(200, 18));
@@ -227,7 +218,7 @@ public class CorderVisual : MonoBehaviour
         timecodeText.text = $"{tot / 3600:00}{sep}{(tot % 3600) / 60:00}{sep}{tot % 60:00}";
     }
 
-    // ?? Utils ?????????????????????????????????????
+
 
     private GameObject MakeRect(string name, Transform parent,
         Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot, Vector2 pos, Vector2 size)
