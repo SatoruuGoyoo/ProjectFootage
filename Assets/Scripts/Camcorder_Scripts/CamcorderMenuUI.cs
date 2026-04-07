@@ -20,20 +20,18 @@ public class CamcorderMenuUI : MonoBehaviour
 
     public void UpdateUI(int selectedIndex)
     {
-        List<List<Texture2D>> recordings = storage.GetAllRecordings();
+        List<RecordingData> recordings = storage.GetAllRecordings();
 
         for (int i = 0; i < recordingSlots.Length; i++)
         {
             if (i < recordings.Count)
             {
-                // Tiene metraje — mostrá el primer frame como thumbnail
                 recordingSlots[i].gameObject.SetActive(true);
-                recordingSlots[i].sprite = TextureToSprite(recordings[i][0]);
+                recordingSlots[i].sprite = TextureToSprite(recordings[i].frames[0]); // .frames[0]
                 recordingSlots[i].color = (i == selectedIndex) ? selectedColor : unselectedColor;
             }
             else
             {
-                // Sin metraje — ocultá el slot
                 recordingSlots[i].gameObject.SetActive(false);
             }
         }

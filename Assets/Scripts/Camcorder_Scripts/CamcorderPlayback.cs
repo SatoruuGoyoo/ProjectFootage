@@ -7,35 +7,25 @@ public class CamcorderPlayback : MonoBehaviour
     [Header("Setup")]
     public GameObject playbackPanel;
     public RawImage playbackImage;
+    public AudioSource audioSource; // AudioSource en este mismo GO
 
     public bool HasRecording => framesToPlay != null && framesToPlay.Count > 0;
     public bool IsFinished => framesToPlay != null && currentFrame >= framesToPlay.Count;
+    public bool IsPlaying => isPlaying;
     public bool PlayerUsedRFF { get; private set; } = false;
+    public int CurrentFrame => currentFrame;
 
     private List<Texture2D> framesToPlay;
     private int currentFrame = 0;
-    public int CurrentFrame => currentFrame;
     private float playbackTimer = 0f;
     [SerializeField] private float playbackInterval = 0.125f;
-
     private bool isPlaying = false;
-    public bool IsPlaying => isPlaying;
 
-    // ── Diegetic audio ─────────────────────────────────────────────────────
-    // audioSamplesPerSource[sourceIndex][frameIndex] → volumen 0-1
-    private List<List<float>> audioSamplesPerSource;
-    private CamcorderDiegeticAudio[] diegeticSources;
-
-    // ── Unity ──────────────────────────────────────────────────────────────
-    private void Start()
-    {
-        playbackPanel.SetActive(false);
-    }
+    private void Start() => playbackPanel.SetActive(false);
 
     private void Update()
     {
         if (!isPlaying) return;
-
         playbackTimer += Time.deltaTime;
         if (playbackTimer > playbackInterval)
         {
@@ -44,37 +34,32 @@ public class CamcorderPlayback : MonoBehaviour
         }
     }
 
-    // ── Public API ─────────────────────────────────────────────────────────
-
-    /// <summary>
-    /// Inicia la reproducción. Opcionalmente recibe los samples de audio
-    /// grabados y las referencias a los AudioSources diegéticos para modularlos.
-    /// </summary>
-    public void PlayRecording(List<Texture2D> frames,
-                              List<List<float>> audioSamples = null,
-                              CamcorderDiegeticAudio[] audioSources = null)
+    public void PlayRecording(RecordingData data)
     {
-        framesToPlay = frames;
-        audioSamplesPerSource = audioSamples;
-        diegeticSources = audioSources;
-
+        framesToPlay = data.frames;
         currentFrame = 0;
         playbackTimer = 0f;
         isPlaying = true;
-        playbackPanel.SetActive(true);
         PlayerUsedRFF = false;
+        playbackPanel.SetActive(true);
 
-        ApplyAudioFrame(0);
+        if (data.clip != null && audioSource != null)
+        {
+            audioSource.clip = data.clip;
+            audioSource.Play();
+        }
     }
 
     public void PausePlayback()
     {
         isPlaying = false;
+        audioSource?.Pause();
     }
 
     public void ResumePlayback()
     {
         isPlaying = true;
+        audioSource?.UnPause();
     }
 
     public void RewindFrame()
@@ -82,10 +67,10 @@ public class CamcorderPlayback : MonoBehaviour
         PlayerUsedRFF = true;
         if (currentFrame > 0)
         {
-            GameEvents.FrameChanged(currentFrame - 1);
             currentFrame--;
             playbackImage.texture = framesToPlay[currentFrame];
-            ApplyAudioFrame(currentFrame);
+            GameEvents.FrameChanged(currentFrame);
+            SyncAudio();
         }
     }
 
@@ -94,14 +79,12 @@ public class CamcorderPlayback : MonoBehaviour
         PlayerUsedRFF = true;
         if (currentFrame < framesToPlay.Count - 1)
         {
-            GameEvents.FrameChanged(currentFrame + 1);
             currentFrame++;
             playbackImage.texture = framesToPlay[currentFrame];
-            ApplyAudioFrame(currentFrame);
+            GameEvents.FrameChanged(currentFrame);
+            SyncAudio();
         }
     }
-
-    // ── Privado ────────────────────────────────────────────────────────────
 
     private void ShowNextFrame()
     {
@@ -109,45 +92,18 @@ public class CamcorderPlayback : MonoBehaviour
         {
             isPlaying = false;
             playbackPanel.SetActive(false);
-            ResetAllAudioSources();
+            audioSource?.Stop();
             return;
         }
-
         playbackImage.texture = framesToPlay[currentFrame];
-        ApplyAudioFrame(currentFrame);
         currentFrame++;
     }
 
-    /// <summary>
-    /// Aplica el volumen grabado de cada fuente diegética para el frame dado.
-    /// </summary>
-    private void ApplyAudioFrame(int frameIndex)
+    // Sincroniza el audio al frame actual (rewind/ff)
+    private void SyncAudio()
     {
-        if (diegeticSources == null || audioSamplesPerSource == null) return;
-
-        for (int i = 0; i < diegeticSources.Length; i++)
-        {
-            if (diegeticSources[i] == null) continue;
-
-            // Si hay samples grabados para esta fuente y este frame, los usamos
-            if (i < audioSamplesPerSource.Count &&
-                frameIndex < audioSamplesPerSource[i].Count)
-            {
-                diegeticSources[i].ApplyPlaybackVolume(audioSamplesPerSource[i][frameIndex]);
-            }
-            else
-            {
-                // Frame sin metadato → silencio
-                diegeticSources[i].ApplyPlaybackVolume(0f);
-            }
-        }
-    }
-
-    private void ResetAllAudioSources()
-    {
-        if (diegeticSources == null) return;
-
-        foreach (var source in diegeticSources)
-            source?.ResetVolume();
+        if (audioSource == null || audioSource.clip == null) return;
+        float t = (float)currentFrame / framesToPlay.Count;
+        audioSource.time = t * audioSource.clip.length;
     }
 }

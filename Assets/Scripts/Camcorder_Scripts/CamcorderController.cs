@@ -141,7 +141,7 @@ public class CamcorderController : MonoBehaviour
                 if (input.IsRecordingReleased || recordTimer >= recordDuration)
                 {
                     recorder.StopRecording();
-                    storage.AddRecording(recorder.GetRecording());
+                    storage.AddRecording(recorder.GetRecording(), HallwayAudioManager.Instance?.CurrentClip);
                     recordTimer = 0f;
                     currentCamMode = CamcorderMode.Idle;
                     camcorderMotor.ResetRotation();
