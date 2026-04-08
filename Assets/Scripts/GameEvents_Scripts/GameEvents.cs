@@ -16,9 +16,16 @@ public static class GameEvents
 
     public static event Action<int> OnIterationChanged;
 
+    public static event Action OnPuzzleCompleted;
+
     public static void IterationChanged(int newIteration)
     {
         OnIterationChanged?.Invoke(newIteration);
+    }
+
+    public static void PuzzleCompleted()
+    {
+        OnPuzzleCompleted?.Invoke();
     }
 
     public static void ClockSolved()

@@ -107,6 +107,8 @@ public class PuzzleManager : MonoBehaviour
 
     void TriggerEnding()
     {
+        GameEvents.PuzzleCompleted();
+
         // Acá enchufás el jumpscare antes del Quit
         Application.Quit();
 #if UNITY_EDITOR
