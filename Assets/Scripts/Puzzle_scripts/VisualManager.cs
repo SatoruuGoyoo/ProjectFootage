@@ -15,6 +15,10 @@ public class IterationVisualManager : MonoBehaviour
         }
 
         public MaterialSwap[] materialSwaps;
+
+        [Header("Environment Lighting")]
+        [Range(0f, 1f)]
+        public float environmentIntensity;
     }
 
     [Header("Visuales por iteración")]
@@ -25,7 +29,6 @@ public class IterationVisualManager : MonoBehaviour
 
     private void Start()
     {
-     
         OnIterationChanged(0);
     }
 
@@ -33,12 +36,16 @@ public class IterationVisualManager : MonoBehaviour
     {
         if (iteration >= iterations.Length) return;
 
-        foreach (var swap in iterations[iteration].materialSwaps)
+        var visuals = iterations[iteration];
+
+  
+        foreach (var swap in visuals.materialSwaps)
         {
             if (swap.target == null || swap.material == null) continue;
             swap.target.material = swap.material;
         }
+        RenderSettings.ambientIntensity = visuals.environmentIntensity;
 
-        Debug.Log($"[IterationVisualManager] Visuales iteración {iteration + 1} aplicados.");
+        Debug.Log($"[IterationVisualManager] Iteración {iteration + 1} — Env Intensity: {visuals.environmentIntensity}");
     }
 }
