@@ -107,7 +107,7 @@ public class PuzzleManager : MonoBehaviour
 
     void TriggerEnding()
     {
-        GameEvents.PuzzleCompleted();
+        GameEvents.PuzzleCompleted("DoorPuzzle");
 
         // Acá enchufás el jumpscare antes del Quit
         Application.Quit();

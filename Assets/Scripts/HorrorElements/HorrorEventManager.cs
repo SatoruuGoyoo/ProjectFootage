@@ -39,6 +39,9 @@ public class HorrorEventEntry
     [Tooltip("IterationChanged: número de iteración (0, 1, 2...) que dispara el evento.")]
     public int iterationFilter = 0;
 
+    [Tooltip("PuzzleCompleted: ID del puzzle que dispara este evento (ej: 'DoorPuzzle', 'ClockRoom').\nDejalo vacío para que se dispare con CUALQUIER puzzle completado.")]
+    public string puzzleIdFilter = "";
+
     // ── Acción ───────────────────────────────────────────────────────────────
     [Header("Acción")]
     public HorrorActionType actionType;
@@ -109,7 +112,7 @@ public class HorrorEventManager : MonoBehaviour
     {
         GameEvents.OnClockSolved      -= OnClockSolved;
         GameEvents.OnIterationChanged -= OnIterationChanged;
-        GameEvents.OnPuzzleCompleted  -= OnPuzzleCompleted;
+        GameEvents.OnPuzzleCompleted  -= OnPuzzleCompleted;  // Action<string>
     }
 
     // ── Inicialización ────────────────────────────────────────────────────────
@@ -128,7 +131,7 @@ public class HorrorEventManager : MonoBehaviour
     {
         GameEvents.OnClockSolved      += OnClockSolved;
         GameEvents.OnIterationChanged += OnIterationChanged;
-        GameEvents.OnPuzzleCompleted  += OnPuzzleCompleted;
+        GameEvents.OnPuzzleCompleted  += OnPuzzleCompleted;  // Action<string>
     }
 
     private void SubscribeToZoneTriggers()
@@ -170,11 +173,15 @@ public class HorrorEventManager : MonoBehaviour
                 TryFire(entry);
     }
 
-    private void OnPuzzleCompleted()
+    private void OnPuzzleCompleted(string puzzleId)
     {
         foreach (var entry in events)
-            if (entry.triggerType == HorrorTriggerType.PuzzleCompleted)
-                TryFire(entry);
+        {
+            if (entry.triggerType != HorrorTriggerType.PuzzleCompleted) continue;
+            // Si puzzleIdFilter está vacío acepta cualquier puzzle; si tiene valor filtra por ID exacto
+            bool matches = string.IsNullOrEmpty(entry.puzzleIdFilter) || entry.puzzleIdFilter == puzzleId;
+            if (matches) TryFire(entry);
+        }
     }
 
     // ── Fire ──────────────────────────────────────────────────────────────────

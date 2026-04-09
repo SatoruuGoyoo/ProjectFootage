@@ -16,16 +16,17 @@ public static class GameEvents
 
     public static event Action<int> OnIterationChanged;
 
-    public static event Action OnPuzzleCompleted;
+    public static event Action<string> OnPuzzleCompleted;
 
     public static void IterationChanged(int newIteration)
     {
         OnIterationChanged?.Invoke(newIteration);
     }
 
-    public static void PuzzleCompleted()
+    /// <param name="puzzleId">ID único del puzzle que se completó (ej: "DoorPuzzle", "ClockRoom").</param>
+    public static void PuzzleCompleted(string puzzleId)
     {
-        OnPuzzleCompleted?.Invoke();
+        OnPuzzleCompleted?.Invoke(puzzleId);
     }
 
     public static void ClockSolved()
