@@ -109,8 +109,7 @@ public class PuzzleManager : MonoBehaviour
     {
         GameEvents.PuzzleCompleted("DoorPuzzle");
 
-        // Acá enchufás el jumpscare antes del Quit
-        Application.Quit();
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #endif
