@@ -5,17 +5,15 @@ using UnityEngine.UI;
 public class CamcorderMenuUI : MonoBehaviour
 {
     [Header("Setup")]
-    public Image[] recordingSlots; // 5 slots
+    public Image[] recordingSlots;
     public Color selectedColor = Color.white;
     public Color unselectedColor = new Color(0.5f, 0.5f, 0.5f, 1f);
 
     private CamcorderStorage storage;
-    private CamcorderMenuController menuController;
 
     private void Awake()
     {
         storage = GetComponent<CamcorderStorage>();
-        menuController = GetComponent<CamcorderMenuController>();
     }
 
     public void UpdateUI(int selectedIndex)
@@ -27,7 +25,7 @@ public class CamcorderMenuUI : MonoBehaviour
             if (i < recordings.Count)
             {
                 recordingSlots[i].gameObject.SetActive(true);
-                recordingSlots[i].sprite = TextureToSprite(recordings[i].frames[0]); // .frames[0]
+                recordingSlots[i].sprite = TextureToSprite(recordings[i].frames[0]);
                 recordingSlots[i].color = (i == selectedIndex) ? selectedColor : unselectedColor;
             }
             else

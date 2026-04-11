@@ -3,9 +3,7 @@ using UnityEngine;
 public class CamcorderMotor : MonoBehaviour
 {
     [Header("Setup")]
-    [Tooltip("Gira en Y (horizontal) — ambos schemes")]
     public Transform camcorderPivot;
-    [Tooltip("Gira en X (tilt) — usado en ambos schemes")]
     public Transform camcorderCamera;
 
     [Header("Tilt Config")]
@@ -18,13 +16,11 @@ public class CamcorderMotor : MonoBehaviour
     public float rotateMinAngle = -70f;
     public float rotateMaxAngle = 70f;
 
+    public float LastRotateDelta { get; private set; }
+
     private float currentTilt = 0f;
     private float currentRotate = 0f;
 
-    /// <summary>El delta sin clamp del último Rotate. Usado para sincronizar al player body.</summary>
-    public float LastRotateDelta { get; private set; }
-
-    /// <summary>Tilt vertical de la cámara (ambos schemes).</summary>
     public void Tilt(float tiltInput)
     {
         currentTilt -= tiltInput * tiltSpeed * Time.deltaTime;
@@ -32,11 +28,9 @@ public class CamcorderMotor : MonoBehaviour
         camcorderCamera.localEulerAngles = new Vector3(currentTilt, 0f, 0f);
     }
 
-    /// <summary>Rotación horizontal del pivot. Expone LastRotateDelta para sync con player.</summary>
     public void Rotate(float rotateInput)
     {
         LastRotateDelta = rotateInput * rotateSpeed * Time.deltaTime;
-
         if (camcorderPivot == null) return;
 
         currentRotate += LastRotateDelta;
@@ -44,7 +38,6 @@ public class CamcorderMotor : MonoBehaviour
         camcorderPivot.localEulerAngles = new Vector3(0f, currentRotate, 0f);
     }
 
-    /// <summary>Reset completo (tilt + rotate si aplica).</summary>
     public void ResetRotation()
     {
         currentTilt = 0f;

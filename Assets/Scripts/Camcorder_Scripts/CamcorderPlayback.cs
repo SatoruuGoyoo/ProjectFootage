@@ -7,7 +7,7 @@ public class CamcorderPlayback : MonoBehaviour
     [Header("Setup")]
     public GameObject playbackPanel;
     public RawImage playbackImage;
-    public AudioSource audioSource; // AudioSource en este mismo GO
+    public AudioSource audioSource;
 
     public bool HasRecording => framesToPlay != null && framesToPlay.Count > 0;
     public bool IsFinished => framesToPlay != null && currentFrame >= framesToPlay.Count;
@@ -99,11 +99,9 @@ public class CamcorderPlayback : MonoBehaviour
         currentFrame++;
     }
 
-    // Sincroniza el audio al frame actual (rewind/ff)
     private void SyncAudio()
     {
         if (audioSource == null || audioSource.clip == null) return;
-        float t = (float)currentFrame / framesToPlay.Count;
-        audioSource.time = t * audioSource.clip.length;
+        audioSource.time = ((float)currentFrame / framesToPlay.Count) * audioSource.clip.length;
     }
 }

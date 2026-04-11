@@ -5,7 +5,6 @@ public class CamcorderController : MonoBehaviour
     [Header("Setup")]
     public GameObject camcorderVisual;
     public PlayerMotor playerMotor;
-    private CamcorderMotor camcorderMotor;
 
     [Header("Timing/Runtime")]
     [SerializeField] private float prepareTimer = 0f;
@@ -17,11 +16,13 @@ public class CamcorderController : MonoBehaviour
     [SerializeField] private float mouseSensitivity = 2f;
 
     public CamcorderMode CurrentCamMode => currentCamMode;
+
     private CamcorderMode currentCamMode = CamcorderMode.Idle;
     private PlayerMode currentPlayerMode = PlayerMode.ExplorationMode;
     private CamcorderRecorder recorder;
     private CamcorderStorage storage;
     private CamcorderInput input;
+    private CamcorderMotor camcorderMotor;
     private bool isCameraUp = false;
 
     private void Awake()
@@ -32,15 +33,10 @@ public class CamcorderController : MonoBehaviour
         camcorderMotor = GetComponent<CamcorderMotor>();
     }
 
-    private void OnEnable()
-    {
-        GameEvents.OnPlayerModeChanged += OnPlayerModeChanged;
-    }
+    private void OnEnable() => GameEvents.OnPlayerModeChanged += OnPlayerModeChanged;
+    private void OnDisable() => GameEvents.OnPlayerModeChanged -= OnPlayerModeChanged;
 
-    private void OnDisable()
-    {
-        GameEvents.OnPlayerModeChanged -= OnPlayerModeChanged;
-    }
+    private void Start() => camcorderVisual.SetActive(false);
 
     private void OnPlayerModeChanged(PlayerMode newMode)
     {
@@ -56,11 +52,6 @@ public class CamcorderController : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        camcorderVisual.SetActive(false);
-    }
-
     private void Update()
     {
         if (currentPlayerMode == PlayerMode.MenuCameraMode) return;
@@ -68,14 +59,10 @@ public class CamcorderController : MonoBehaviour
         if (input.LiftCamera)
             ToggleCamera();
 
-        // Cámara arriba (Idle/Preparing): mouse controla tilt + rotación body
         if (isCameraUp && currentCamMode != CamcorderMode.Recording)
         {
             camcorderMotor.Tilt(input.RecordingTilt * mouseSensitivity);
-
-            float rotateDelta = input.RecordingRotate * mouseSensitivity
-                                * camcorderMotor.rotateSpeed * Time.deltaTime;
-            playerMotor.RotateDirect(rotateDelta);
+            playerMotor.RotateDirect(input.RecordingRotate * mouseSensitivity * camcorderMotor.rotateSpeed * Time.deltaTime);
         }
 
         HandleCamcorderState();
@@ -128,15 +115,8 @@ public class CamcorderController : MonoBehaviour
 
             case CamcorderMode.Recording:
                 recordTimer += Time.deltaTime;
-
-                // Tilt vertical: solo la cámara de la camcorder
                 camcorderMotor.Tilt(input.RecordingTilt * mouseSensitivity);
-
-                // Rotación horizontal: SOLO el body del player.
-                // La camcorder sigue por ser hija — siempre mira al frente.
-                float rotateDelta = input.RecordingRotate * mouseSensitivity
-                                    * camcorderMotor.rotateSpeed * Time.deltaTime;
-                playerMotor.RotateDirect(rotateDelta);
+                playerMotor.RotateDirect(input.RecordingRotate * mouseSensitivity * camcorderMotor.rotateSpeed * Time.deltaTime);
 
                 if (input.IsRecordingReleased || recordTimer >= recordDuration)
                 {

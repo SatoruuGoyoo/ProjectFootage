@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class CamcorderMenuController : MonoBehaviour
@@ -13,9 +12,7 @@ public class CamcorderMenuController : MonoBehaviour
     [Header("Transition")]
     public CamcorderTransition transition;
 
-    private Camera activeFixedCamera;
-
-    private float frameStepTimer = 0f;
+    [Header("Timing/TweakDesigner")]
     [SerializeField] private float frameStepDelay = 0.15f;
 
     private CamcorderStorage storage;
@@ -24,10 +21,12 @@ public class CamcorderMenuController : MonoBehaviour
     private CamcorderMenuUI ui;
     private CamcorderController controller;
 
+    private Camera activeFixedCamera;
+    private float frameStepTimer = 0f;
+    private int currentRecordingIndex = 0;
+
     private bool isMenuOpen = false;
     public bool IsMenuOpen => isMenuOpen;
-
-    private int currentRecordingIndex = 0;
 
     private void Awake()
     {
@@ -64,23 +63,18 @@ public class CamcorderMenuController : MonoBehaviour
 
         isMenuOpen = true;
         GameEvents.PlayerModeChanged(PlayerMode.MenuCameraMode);
-
-        // Guardar la fixed camera activa ANTES de la transición
         activeFixedCamera = FindActiveFixedCamera();
 
-        transition.Play(
-            onSwitch: () =>
-            {
-                // Se ejecuta cuando la pantalla está completamente negra
-                if (activeFixedCamera != null)
-                    activeFixedCamera.gameObject.SetActive(false);
+        transition.Play(onSwitch: () =>
+        {
+            if (activeFixedCamera != null)
+                activeFixedCamera.gameObject.SetActive(false);
 
-                fpsCamera.gameObject.SetActive(true);
-                fpsHandModel.SetActive(true);
-                menuCanvas.gameObject.SetActive(true);
-                ui.UpdateUI(currentRecordingIndex);
-            }
-        );
+            fpsCamera.gameObject.SetActive(true);
+            fpsHandModel.SetActive(true);
+            menuCanvas.gameObject.SetActive(true);
+            ui.UpdateUI(currentRecordingIndex);
+        });
     }
 
     private void CloseMenu()
@@ -102,22 +96,18 @@ public class CamcorderMenuController : MonoBehaviour
 
                 activeFixedCamera = null;
             },
-            onComplete: () =>
-            {
-                GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
-            }
+            onComplete: () => GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode)
         );
     }
 
     private void ToggleMenu()
     {
-        if (input.OpenCloseMenu)
-        {
-            if (isMenuOpen)
-                CloseMenu();
-            else
-                OpenMenu();
-        }
+        if (!input.OpenCloseMenu) return;
+
+        if (isMenuOpen)
+            CloseMenu();
+        else
+            OpenMenu();
     }
 
     private void HandleNavigation()
@@ -155,10 +145,8 @@ public class CamcorderMenuController : MonoBehaviour
                 if (frameStepTimer >= frameStepDelay)
                 {
                     frameStepTimer = 0f;
-                    if (input.RewindRecording)
-                        playback.RewindFrame();
-                    if (input.FastForwardRecording)
-                        playback.FastForwardFrame();
+                    if (input.RewindRecording) playback.RewindFrame();
+                    if (input.FastForwardRecording) playback.FastForwardFrame();
                 }
             }
             else
@@ -172,17 +160,16 @@ public class CamcorderMenuController : MonoBehaviour
     {
         if (storage.GetAllRecordings().Count == 0) return;
         if (playback.IsPlaying) return;
-        if (input.DiscardRecording)
-        {
-            storage.DiscardRecording(currentRecordingIndex);
+        if (!input.DiscardRecording) return;
 
-            if (storage.GetAllRecordings().Count == 0)
-                currentRecordingIndex = 0;
-            else
-                currentRecordingIndex = Mathf.Clamp(currentRecordingIndex, 0, storage.GetAllRecordings().Count - 1);
+        storage.DiscardRecording(currentRecordingIndex);
 
-            ui.UpdateUI(currentRecordingIndex);
-        }
+        if (storage.GetAllRecordings().Count == 0)
+            currentRecordingIndex = 0;
+        else
+            currentRecordingIndex = Mathf.Clamp(currentRecordingIndex, 0, storage.GetAllRecordings().Count - 1);
+
+        ui.UpdateUI(currentRecordingIndex);
     }
 
     private Camera FindActiveFixedCamera()

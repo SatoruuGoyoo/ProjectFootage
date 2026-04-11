@@ -2,66 +2,34 @@ using System;
 
 public static class GameEvents
 {
-    // Events for player health and death
+    // Player
     public static event Action OnPlayerDeath;
-    public static event Action <float> OnHealthChanged;
+    public static event Action<float> OnHealthChanged;
+
+    // Player Mode
+    public static event Action<PlayerMode> OnPlayerModeChanged;
+
+    // Control Scheme
+    public static event Action<ControlScheme> OnControllerSchemeChanged;
+
+    // Camcorder
+    public static event Action OnRecordingStarted;
+    public static event Action OnRecordingStopped;
     public static event Action<int> OnFrameChanged;
 
-    // Events for PlayerMode
-    public static event Action <PlayerMode>OnPlayerModeChanged;
-
-    public static event Action <ControlScheme> OnControllerSchemeChanged;
-
+    // Puzzle
     public static event Action OnClockSolved;
-
     public static event Action<int> OnIterationChanged;
-
     public static event Action<string> OnPuzzleCompleted;
 
-    public static void IterationChanged(int newIteration)
-    {
-        OnIterationChanged?.Invoke(newIteration);
-    }
-
-    /// <param name="puzzleId">ID único del puzzle que se completó (ej: "DoorPuzzle", "ClockRoom").</param>
-    public static void PuzzleCompleted(string puzzleId)
-    {
-        OnPuzzleCompleted?.Invoke(puzzleId);
-    }
-
-    public static void ClockSolved()
-    {
-        OnClockSolved?.Invoke();
-    }
-
-    public static void ControllerSchemeChanged(ControlScheme newScheme)
-    {
-        OnControllerSchemeChanged?.Invoke(newScheme);
-    }
-
-
-    public static void PlayerModeChanged(PlayerMode newMode)
-    {
-        OnPlayerModeChanged?.Invoke(newMode);
-    }
-
-
-    public static void FrameChanged(int frame)
-    {
-        OnFrameChanged?.Invoke(frame);
-    }
-
-
-    // Methods for Player health and death
-    public static void PlayerDied()
-    {
-        OnPlayerDeath?.Invoke();
-    }
-
-    public static void HealthChanged(float newHealth)
-    {
-        OnHealthChanged?.Invoke(newHealth);
-    }
-
+    public static void PlayerDied() => OnPlayerDeath?.Invoke();
+    public static void HealthChanged(float newHealth) => OnHealthChanged?.Invoke(newHealth);
+    public static void PlayerModeChanged(PlayerMode newMode) => OnPlayerModeChanged?.Invoke(newMode);
+    public static void ControllerSchemeChanged(ControlScheme scheme) => OnControllerSchemeChanged?.Invoke(scheme);
+    public static void RecordingStarted() => OnRecordingStarted?.Invoke();
+    public static void RecordingStopped() => OnRecordingStopped?.Invoke();
+    public static void FrameChanged(int frame) => OnFrameChanged?.Invoke(frame);
+    public static void ClockSolved() => OnClockSolved?.Invoke();
+    public static void IterationChanged(int iteration) => OnIterationChanged?.Invoke(iteration);
+    public static void PuzzleCompleted(string puzzleId) => OnPuzzleCompleted?.Invoke(puzzleId);
 }
-    

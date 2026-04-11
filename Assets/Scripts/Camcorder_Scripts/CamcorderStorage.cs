@@ -5,8 +5,9 @@ using UnityEngine;
 public struct RecordingData
 {
     public List<Texture2D> frames;
-    public AudioClip clip; // null si no hay audio asociado
+    public AudioClip clip;
 }
+
 public class CamcorderStorage : MonoBehaviour
 {
     private List<RecordingData> recordings = new List<RecordingData>();
