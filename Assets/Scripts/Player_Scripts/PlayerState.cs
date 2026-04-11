@@ -3,39 +3,32 @@ using UnityEngine;
 public class PlayerState : MonoBehaviour
 {
     public PlayerConfig config;
-    [SerializeField] private float health;
-    public float Health => health;
 
-    // Only Testing purposes, remove later
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            TakeDamage(5f); // Example damage value
-        }
-    }
+    public float Health { get; private set; }
 
     private void Start()
     {
-        if (config != null)
-        {
-            health = config.MaxHealth;
-            GameEvents.HealthChanged(health);
-        }
+        if (config == null) return;
+        Health = config.MaxHealth;
+        GameEvents.HealthChanged(Health);
     }
 
-    // Take Damage ? maybe...?
-    private void TakeDamage(float damage)
+    // TODO: remove debug input before shipping
+    private void Update()
     {
-        health -= damage;
-        health = Mathf.Clamp(health, 0, config.MaxHealth);
-        GameEvents.HealthChanged(health);
+        if (Input.GetKeyDown(KeyCode.K))
+            TakeDamage(5f);
+    }
 
-        if (health <= 0)
+    public void TakeDamage(float damage)
+    {
+        Health = Mathf.Clamp(Health - damage, 0, config.MaxHealth);
+        GameEvents.HealthChanged(Health);
+
+        if (Health <= 0)
         {
             GameEvents.PlayerDied();
             Destroy(gameObject);
-            Debug.Log("Player has died.");
         }
     }
 }

@@ -7,6 +7,6 @@ public class CameraZone : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") && zoneCamera != null)
-            CameraManager.Instance?.SetCamera(zoneCamera); 
+            CameraManager.Instance?.SetCamera(zoneCamera);
     }
 }

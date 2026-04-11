@@ -3,38 +3,32 @@ using UnityEngine;
 public class PlayerMotor : MonoBehaviour
 {
     public PlayerConfig config;
-    private CharacterController characterController;
 
-    // === Modern: state para suavizar el cambio de dirección ===
+    private CharacterController characterController;
     private Vector3 currentWorldDir = Vector3.zero;
     private Vector2 lastRawInput = Vector2.zero;
 
-    private void Awake()
-    {
-        characterController = GetComponent<CharacterController>();
-    }
+    private void Awake() => characterController = GetComponent<CharacterController>();
 
-    // ??? TANK ????????????????????????????????????????????????
+    // --- Tank ---
 
-    /// <summary>Mover adelante/atrás relativo al forward del personaje.</summary>
+    // Moves forward/back relative to the character's facing direction
     public void MoveTank(float moveInput)
     {
         if (config == null) return;
-        Vector3 movement = transform.forward * moveInput * config.MoveSpeed * Time.deltaTime;
-        characterController.Move(movement);
+        characterController.Move(transform.forward * moveInput * config.MoveSpeed * Time.deltaTime);
     }
 
-    /// <summary>Rotar al personaje con input directo (A/D). Usa config.TurnSpeed.</summary>
+    // Rotates the character directly using A/D input
     public void Turn(float turnInput)
     {
         if (config == null) return;
-        float turnAmount = turnInput * config.TurnSpeed * Time.deltaTime;
-        transform.Rotate(0, turnAmount, 0);
+        transform.Rotate(0, turnInput * config.TurnSpeed * Time.deltaTime, 0);
     }
 
-    // ??? MODERN ??????????????????????????????????????????????
+    // --- Modern ---
 
-    /// <summary>Movimiento relativo a la cámara activa (exploration/cameraMode).</summary>
+    // Moves relative to the active fixed camera's orientation
     public void MoveRelativeToCamera(Vector2 input, Camera activeCamera)
     {
         if (config == null || activeCamera == null) return;
@@ -57,45 +51,35 @@ public class PlayerMotor : MonoBehaviour
 
         characterController.Move(currentWorldDir * config.MoveSpeed * Time.deltaTime);
 
-        Quaternion targetRot = Quaternion.LookRotation(currentWorldDir);
         transform.rotation = Quaternion.Slerp(
-    transform.rotation, targetRot, Time.deltaTime * config.RotationSmoothSpeed);
+            transform.rotation,
+            Quaternion.LookRotation(currentWorldDir),
+            Time.deltaTime * config.RotationSmoothSpeed);
 
-        // Nunca acumular pitch/roll del Slerp
         FlattenRotation();
     }
 
-    /// <summary>Movimiento shooter-style relativo al personaje (usado al grabar en modern).</summary>
+    // Moves relative to the character's own facing direction (used in recording mode)
     public void MoveRelativeToSelf(Vector2 input)
     {
         if (config == null) return;
 
-        // Forward/right limpios sin pitch — evita que W/S mueva en Y
-        Vector3 flatForward = transform.forward;
-        flatForward.y = 0f;
-        flatForward.Normalize();
+        Vector3 flatForward = new Vector3(transform.forward.x, 0f, transform.forward.z).normalized;
+        Vector3 flatRight = new Vector3(transform.right.x, 0f, transform.right.z).normalized;
 
-        Vector3 flatRight = transform.right;
-        flatRight.y = 0f;
-        flatRight.Normalize();
-
-        Vector3 moveDir = flatForward * input.y + flatRight * input.x;
-        characterController.Move(moveDir * config.MoveSpeed * Time.deltaTime);
+        characterController.Move((flatForward * input.y + flatRight * input.x) * config.MoveSpeed * Time.deltaTime);
     }
 
-    // ??? SHARED ??????????????????????????????????????????????
+    // --- Shared ---
 
-    /// <summary>
-    /// Rotación directa en grados ya calculados. NO multiplica por velocidad ni deltaTime.
-    /// Usado por CamcorderController para mantener sync 1:1 con CamcorderMotor.
-    /// </summary>
+    // Direct yaw rotation in pre-calculated degrees. Used by CamcorderController for 1:1 sync.
     public void RotateDirect(float yawDegrees)
     {
         transform.Rotate(0, yawDegrees, 0);
         FlattenRotation();
     }
 
-    /// <summary>Limpia cualquier pitch/roll residual. Solo Y sobrevive.</summary>
+    // Strips any accumulated pitch/roll — only Y rotation survives
     private void FlattenRotation()
     {
         Vector3 euler = transform.eulerAngles;

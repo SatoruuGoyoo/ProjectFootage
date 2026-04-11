@@ -9,9 +9,9 @@ public class CamcorderTransition : MonoBehaviour
     public Image transitionImage;       // Image fullscreen con material UI/VHSStatic
 
     [Header("Config")]
-    [SerializeField] private float rampUpDuration = 0.25f;    // Estática subiendo
-    [SerializeField] private float holdDuration = 0.05f;      // Mantener cubierto
-    [SerializeField] private float rampDownDuration = 0.2f;   // Estática bajando
+    [SerializeField] private float rampUpDuration = 0.25f;    
+    [SerializeField] private float holdDuration = 0.05f;      
+    [SerializeField] private float rampDownDuration = 0.2f;   
 
     public bool IsTransitioning { get; private set; } = false;
 
@@ -39,24 +39,19 @@ public class CamcorderTransition : MonoBehaviour
         IsTransitioning = true;
         transitionImage.raycastTarget = true;
 
-        // Fase 1: Estática se intensifica de 0 a 1
         float elapsed = 0f;
         while (elapsed < rampUpDuration)
         {
             elapsed += Time.unscaledDeltaTime;
             float t = elapsed / rampUpDuration;
-            // Curva acelerada para que el final sea más agresivo
             SetIntensity(t * t);
             yield return null;
         }
         SetIntensity(1f);
 
-        // Pantalla cubierta de estática — hacer el switch
         onSwitch?.Invoke();
 
         yield return new WaitForSecondsRealtime(holdDuration);
-
-        // Fase 2: Estática se disipa de 1 a 0
         elapsed = 0f;
         while (elapsed < rampDownDuration)
         {

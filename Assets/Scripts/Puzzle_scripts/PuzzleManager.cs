@@ -4,56 +4,48 @@ public class PuzzleManager : MonoBehaviour
 {
     public static PuzzleManager Instance { get; private set; }
 
-    // ─── Datos de iteración ───────────────────────────────────────────────────
-
     [System.Serializable]
     public struct IterationData
     {
-        [Tooltip("3 índices en orden correcto. 0=1A 1=1B 2=1C 3=1D 4=1E 5=1F")]
+        [Tooltip("3 door indices in correct order. 0=1A 1=1B 2=1C 3=1D 4=1E 5=1F")]
         public int[] correctSequence;
-        [Tooltip("Spawn inicial de esta iteración")]
+        [Tooltip("Player spawn point at the start of this iteration")]
         public Transform iterationSpawn;
     }
 
-    [Header("Iteraciones")]
+    [Header("Iterations")]
     public IterationData[] iterations = new IterationData[3];
 
-    [Header("Spawns de puerta correcta")]
-    [Tooltip("Un Transform por puerta (0-5). Al acertar, el jugador aparece acá.")]
+    [Header("Door Spawns")]
+    [Tooltip("One Transform per door (0-5). Player spawns here after a correct door.")]
     public Transform[] doorCorrectSpawns = new Transform[6];
 
-    [Header("Referencias")]
+    [Header("References")]
     public Transform player;
     public CamcorderTransition camcorderTransition;
 
-    // ─── Estado interno ───────────────────────────────────────────────────────
+    private int currentIteration = 0;
+    private int currentStep = 0;
+    private bool puzzleSolved = false;
 
-    private int _currentIteration = 0;
-    private int _currentStep = 0;
-    private bool _puzzleSolved = false;
-
-    // ─── Unity ───────────────────────────────────────────────────────────────
-
-    void Awake()
+    private void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
     }
 
-    void Start()
+    private void Start()
     {
         ValidateSetup();
-        Debug.Log($"[Puzzle] Inicio — Iteración 1.");
+        Debug.Log("[Puzzle] Start — Iteration 1.");
     }
-
-    // ─── API pública ──────────────────────────────────────────────────────────
 
     public void OnDoorEntered(int doorIndex)
     {
-        if (_puzzleSolved) return;
+        if (puzzleSolved) return;
         if (camcorderTransition != null && camcorderTransition.IsTransitioning) return;
 
-        int expected = iterations[_currentIteration].correctSequence[_currentStep];
+        int expected = iterations[currentIteration].correctSequence[currentStep];
 
         if (doorIndex == expected)
             HandleCorrectDoor(doorIndex);
@@ -61,107 +53,85 @@ public class PuzzleManager : MonoBehaviour
             HandleWrongDoor();
     }
 
-    // ─── Lógica ───────────────────────────────────────────────────────────────
-
-    void HandleCorrectDoor(int doorIndex)
+    private void HandleCorrectDoor(int doorIndex)
     {
-        Debug.Log($"[Puzzle] ✓ {DoorName(doorIndex)} — iter {_currentIteration + 1}, paso {_currentStep + 1}/3");
-        _currentStep++;
+        Debug.Log($"[Puzzle] Correct — {DoorName(doorIndex)} | iter {currentIteration + 1}, step {currentStep + 1}/3");
+        currentStep++;
 
-        if (_currentStep >= 3)
-        {
+        if (currentStep >= 3)
             AdvanceIteration();
-        }
         else
-        {
-            // Spawn al otro lado de la puerta correcta (sin volver al inicio)
             TeleportPlayer(doorCorrectSpawns[doorIndex]);
-        }
     }
 
-    void HandleWrongDoor()
+    private void HandleWrongDoor()
     {
-        Debug.Log($"[Puzzle] ✗ Puerta incorrecta — reiniciando iteración {_currentIteration + 1}");
-        _currentStep = 0;
-        TeleportPlayer(iterations[_currentIteration].iterationSpawn);
+        Debug.Log($"[Puzzle] Wrong door — resetting iteration {currentIteration + 1}");
+        currentStep = 0;
+        TeleportPlayer(iterations[currentIteration].iterationSpawn);
     }
 
-    void AdvanceIteration()
+    private void AdvanceIteration()
     {
-        _currentIteration++;
-        _currentStep = 0;
+        currentIteration++;
+        currentStep = 0;
         HallwayAudioManager.Instance?.AdvanceIteration();
-        GameEvents.IterationChanged(_currentIteration);
+        GameEvents.IterationChanged(currentIteration);
 
-        if (_currentIteration >= iterations.Length)
+        if (currentIteration >= iterations.Length)
         {
-            _puzzleSolved = true;
-            Debug.Log("[Puzzle] ★ Puzzle completo.");
+            puzzleSolved = true;
+            Debug.Log("[Puzzle] Puzzle complete.");
             TriggerEnding();
             return;
         }
 
-        Debug.Log($"[Puzzle] → Iteración {_currentIteration + 1} comienza.");
-        TeleportPlayer(iterations[_currentIteration].iterationSpawn);
+        Debug.Log($"[Puzzle] Iteration {currentIteration + 1} begins.");
+        TeleportPlayer(iterations[currentIteration].iterationSpawn);
     }
 
-    void TriggerEnding()
+    private void TriggerEnding()
     {
         GameEvents.PuzzleCompleted("DoorPuzzle");
-
         UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #endif
     }
 
-    // ─── Teleport ─────────────────────────────────────────────────────────────
-
-    void TeleportPlayer(Transform target)
+    private void TeleportPlayer(Transform target)
     {
-        if (target == null) { Debug.LogError("[Puzzle] Spawn null!"); return; }
+        if (target == null) { Debug.LogError("[Puzzle] Spawn is null!"); return; }
 
         if (camcorderTransition != null)
-        {
-            camcorderTransition.Play(
-                onSwitch: () => MovePlayer(target),
-                onComplete: null
-            );
-        }
+            camcorderTransition.Play(onSwitch: () => MovePlayer(target), onComplete: null);
         else
-        {
-            Debug.LogWarning("[Puzzle] Sin CamcorderTransition — teleport directo.");
             MovePlayer(target);
-        }
     }
 
-    void MovePlayer(Transform target)
+    private void MovePlayer(Transform target)
     {
         var cc = player.GetComponent<CharacterController>();
         if (cc != null) cc.enabled = false;
-
         player.position = target.position;
         player.rotation = target.rotation;
-
         if (cc != null) cc.enabled = true;
     }
 
-    // ─── Helpers ──────────────────────────────────────────────────────────────
-
-    void ValidateSetup()
+    private void ValidateSetup()
     {
         if (iterations.Length != 3)
-            Debug.LogWarning("[Puzzle] iterations debería tener 3 elementos.");
+            Debug.LogWarning("[Puzzle] iterations should have exactly 3 elements.");
         foreach (var iter in iterations)
             if (iter.correctSequence == null || iter.correctSequence.Length != 3)
-                Debug.LogWarning("[Puzzle] Cada iteración necesita exactamente 3 puertas en correctSequence.");
+                Debug.LogWarning("[Puzzle] Each iteration needs exactly 3 doors in correctSequence.");
         if (doorCorrectSpawns.Length < 6)
-            Debug.LogWarning("[Puzzle] doorCorrectSpawns necesita 6 transforms (uno por puerta).");
+            Debug.LogWarning("[Puzzle] doorCorrectSpawns needs 6 transforms (one per door).");
         if (camcorderTransition == null)
-            Debug.LogWarning("[Puzzle] CamcorderTransition no asignado — teleport será instantáneo.");
+            Debug.LogWarning("[Puzzle] CamcorderTransition not assigned — teleport will be instant.");
     }
 
-    static string DoorName(int i)
+    private static string DoorName(int i)
     {
         string[] names = { "1A", "1B", "1C", "1D", "1E", "1F" };
         return i >= 0 && i < names.Length ? names[i] : $"?{i}";

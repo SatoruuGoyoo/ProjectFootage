@@ -3,14 +3,11 @@ using UnityEngine;
 public class CameraManager : MonoBehaviour
 {
     public static CameraManager Instance { get; private set; }
-
-    private Camera currentCamera;
     public Camera ActiveCamera => currentCamera;
 
-    private void Awake()
-    {
-        Instance = this;
-    }
+    private Camera currentCamera;
+
+    private void Awake() => Instance = this;
 
     public void SetCamera(Camera newCam)
     {
