@@ -9,6 +9,7 @@ public class CamcorderRecorder : MonoBehaviour
     [Header("Audio Capture")]
     [Tooltip("Componentes que capturan audio real. Agregá uno por cada AudioListener de la escena (ej: cada cámara fija). Solo el de la cámara activa capturará efectivamente.")]
     public CamcorderAudioCapture[] audioCaptures;
+    public CamcorderOwnListener camcorderListener;
 
     [Header("Diegetic Audio (Legacy)")]
     public Transform camViewpoint;
@@ -38,42 +39,30 @@ public class CamcorderRecorder : MonoBehaviour
     {
         framesRecorded.Clear();
         audioSamples.Clear();
-
-        if (diegeticAudioSources != null)
-            foreach (var _ in diegeticAudioSources)
-                audioSamples.Add(new List<float>());
-
+        // ... resto igual, pero sin el loop de audioCaptures.StartCapture()
         captureTimer = 0f;
         IsRecording = true;
-
-        if (audioCaptures != null)
-        {
-            foreach (var cap in audioCaptures)
-                if (cap != null) cap.StartCapture();
-        }
-
-        GameEvents.RecordingStarted();
+        GameEvents.RecordingStarted(); // CamcorderOwnListener escucha esto y hace el swap
     }
 
     public void StopRecording()
     {
         IsRecording = false;
         captureTimer = 0f;
-
-        if (audioCaptures != null)
-        {
-            foreach (var cap in audioCaptures)
-                if (cap != null) cap.StopCapture();
-        }
-
-        GameEvents.RecordingStopped();
+        GameEvents.RecordingStopped(); // CamcorderOwnListener hace el swap de vuelta
     }
 
-    /// <summary>Devuelve el AudioClip capturado por el AudioListener que estuvo activo durante la grabación.</summary>
     public AudioClip GetCapturedAudioClip()
     {
-        if (audioCaptures == null) return null;
+        // Primero intentamos el listener propio de la camcorder
+        if (camcorderListener != null)
+        {
+            var clip = camcorderListener.GetCapturedClip();
+            if (clip != null) return clip;
+        }
 
+        // Fallback: fixed cam captures (legacy)
+        if (audioCaptures == null) return null;
         AudioClip bestClip = null;
         int bestLength = 0;
         foreach (var cap in audioCaptures)
