@@ -39,10 +39,14 @@ public class CamcorderRecorder : MonoBehaviour
     {
         framesRecorded.Clear();
         audioSamples.Clear();
-        // ... resto igual, pero sin el loop de audioCaptures.StartCapture()
+
+        if (diegeticAudioSources != null)
+            foreach (var _ in diegeticAudioSources)
+                audioSamples.Add(new List<float>());
+
         captureTimer = 0f;
         IsRecording = true;
-        GameEvents.RecordingStarted(); // CamcorderOwnListener escucha esto y hace el swap
+        GameEvents.RecordingStarted();
     }
 
     public void StopRecording()
