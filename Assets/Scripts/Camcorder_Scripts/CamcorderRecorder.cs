@@ -6,7 +6,11 @@ public class CamcorderRecorder : MonoBehaviour
     [Header("Recording")]
     public RenderTexture recordingTexture;
 
-    [Header("Diegetic Audio")]
+    [Header("Audio Capture")]
+    [Tooltip("Componentes que capturan audio real. Agregá uno por cada AudioListener de la escena (ej: cada cámara fija). Solo el de la cámara activa capturará efectivamente.")]
+    public CamcorderAudioCapture[] audioCaptures;
+
+    [Header("Diegetic Audio (Legacy)")]
     public Transform camViewpoint;
     public CamcorderDiegeticAudio[] diegeticAudioSources;
 
@@ -41,6 +45,13 @@ public class CamcorderRecorder : MonoBehaviour
 
         captureTimer = 0f;
         IsRecording = true;
+
+        if (audioCaptures != null)
+        {
+            foreach (var cap in audioCaptures)
+                if (cap != null) cap.StartCapture();
+        }
+
         GameEvents.RecordingStarted();
     }
 
@@ -48,7 +59,34 @@ public class CamcorderRecorder : MonoBehaviour
     {
         IsRecording = false;
         captureTimer = 0f;
+
+        if (audioCaptures != null)
+        {
+            foreach (var cap in audioCaptures)
+                if (cap != null) cap.StopCapture();
+        }
+
         GameEvents.RecordingStopped();
+    }
+
+    /// <summary>Devuelve el AudioClip capturado por el AudioListener que estuvo activo durante la grabación.</summary>
+    public AudioClip GetCapturedAudioClip()
+    {
+        if (audioCaptures == null) return null;
+
+        AudioClip bestClip = null;
+        int bestLength = 0;
+        foreach (var cap in audioCaptures)
+        {
+            if (cap == null) continue;
+            var clip = cap.GetCapturedClip();
+            if (clip != null && clip.samples > bestLength)
+            {
+                bestClip = clip;
+                bestLength = clip.samples;
+            }
+        }
+        return bestClip;
     }
 
     public List<float> GetAudioSamples(int sourceIndex)
