@@ -2710,9 +2710,9 @@ VideoPlayer:
   m_EnabledAudioTracks: 01
   m_DirectAudioMutes: 00
   m_ControlledAudioTrackCount: 1
-  m_PlayOnAwake: 0
+  m_PlayOnAwake: 1
   m_SkipOnDrop: 1
-  m_Looping: 0
+  m_Looping: 1
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
   m_VideoShaders: []
@@ -4070,6 +4070,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CamcorderPlayback
   playbackPanel: {fileID: 528403622}
   playbackImage: {fileID: 353543413}
+  audioSource: {fileID: 0}
   playbackInterval: 0.125
 --- !u!114 &534368115
 MonoBehaviour:
@@ -4084,6 +4085,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CamcorderRecorder
   recordingTexture: {fileID: 8400000, guid: ffb0013606e860a46827bf05339461a2, type: 2}
+  audioCaptures: []
+  camcorderListener: {fileID: 0}
+  camViewpoint: {fileID: 0}
+  diegeticAudioSources: []
   framesRecorded:
   - {fileID: 0}
   captureInterval: 0.125
@@ -14623,7 +14628,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerState
   config: {fileID: 11400000, guid: 7be0ea2d58441384fa5a2593870015a8, type: 2}
-  health: 100
 --- !u!114 &1587294557
 MonoBehaviour:
   m_ObjectHideFlags: 0
