@@ -19,6 +19,10 @@ public class IterationVisualManager : MonoBehaviour
         [Header("Environment Lighting")]
         [Range(0f, 1f)]
         public float environmentIntensity;
+
+        [Header("TV Settings")]
+        public GameObject[] objectsToEnable;
+        public GameObject[] objectsToDisable;
     }
 
     [Header("Visuales por iteración")]
@@ -45,6 +49,12 @@ public class IterationVisualManager : MonoBehaviour
             swap.target.material = swap.material;
         }
         RenderSettings.ambientIntensity = visuals.environmentIntensity;
+
+        foreach (var obj in visuals.objectsToEnable)
+            if (obj != null) obj.SetActive(true);
+
+        foreach (var obj in visuals.objectsToDisable)
+            if (obj != null) obj.SetActive(false);
 
         Debug.Log($"[IterationVisualManager] Iteración {iteration + 1} — Env Intensity: {visuals.environmentIntensity}");
     }
