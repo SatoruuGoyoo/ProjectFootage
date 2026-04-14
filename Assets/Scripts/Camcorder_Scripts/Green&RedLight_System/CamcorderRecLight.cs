@@ -80,7 +80,7 @@ public class CamcorderRecLight : MonoBehaviour
     private void PlayAudio(AudioClip clip)
     {
         if (camAudio == null || clip == null) return;
-        if (camAudio.clip == clip) return; // already playing
+        if (camAudio.isPlaying && camAudio.clip == clip) return;
         camAudio.clip = clip;
         camAudio.loop = true;
         camAudio.Play();
