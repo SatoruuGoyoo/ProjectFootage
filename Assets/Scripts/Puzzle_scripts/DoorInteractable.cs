@@ -3,7 +3,7 @@
 [RequireComponent(typeof(Collider))]
 public class DoorInteractable : MonoBehaviour
 {
-    [Header("Identificación")]
+    [Header("Identification")]
     [Range(0, 4)]
     public int doorIndex = 0;
 
@@ -11,7 +11,7 @@ public class DoorInteractable : MonoBehaviour
     public KeyCode knockKey = KeyCode.E;
     public KeyCode openKey = KeyCode.F;
 
-    [Header("Detección de proximidad")]
+    [Header("Proximity")]
     public string playerTag = "Player";
 
     [Header("Audio")]
@@ -23,6 +23,7 @@ public class DoorInteractable : MonoBehaviour
     public GameObject promptUI;
 
     private bool playerNearby = false;
+ 
 
     private void Start()
     {
@@ -38,17 +39,23 @@ public class DoorInteractable : MonoBehaviour
         GameEvents.OnIterationChanged -= OnIterationChanged;
     }
 
-    // Al cambiar iteración el jugador se teletransporta y OnTriggerExit
-    // nunca se dispara — reseteamos la puerta manualmente
+    // Teleport doesn't trigger OnTriggerExit — reset manually on iteration change
     private void OnIterationChanged(int iteration)
     {
         playerNearby = false;
         SetPrompt(false);
+
     }
 
     private void Update()
     {
         if (!playerNearby) return;
+        if (PuzzleManager.Instance == null) return;
+
+        // Block input during transition to prevent spam
+        var transition = PuzzleManager.Instance.camcorderTransition;
+        if (transition != null && transition.IsTransitioning) return;
+
         if (Input.GetKeyDown(knockKey)) Knock();
         if (Input.GetKeyDown(openKey)) Open();
     }
@@ -71,14 +78,12 @@ public class DoorInteractable : MonoBehaviour
     {
         PlaySound(knockSound);
         PuzzleManager.Instance?.OnDoorKnocked(doorIndex);
-        Debug.Log($"[DoorInteractable] Knock — puerta {doorIndex}.");
     }
 
     public void Open()
     {
         PlaySound(openSound);
         PuzzleManager.Instance?.OnDoorOpened(doorIndex);
-        Debug.Log($"[DoorInteractable] Open — puerta {doorIndex}.");
     }
 
     private void PlaySound(AudioClip clip)

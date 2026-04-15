@@ -7,41 +7,37 @@ public class PuzzleManager : MonoBehaviour
     [System.Serializable]
     public struct IterationData
     {
-        [Tooltip("Índice de la puerta objetivo esta iteración (0–4)")]
+        [Tooltip("Target door index for this iteration (0-4)")]
         [Range(0, 4)]
         public int doorIndex;
 
-        [Tooltip("Cantidad exacta de knocks requeridos antes de abrir")]
+        [Tooltip("Exact number of knocks required before opening")]
         [Min(1)]
         public int requiredKnocks;
 
-        [Tooltip("Spawn del jugador al inicio de la iteración y al fallar")]
+        [Tooltip("Player spawn point at iteration start and on failure")]
         public Transform iterationSpawn;
     }
 
-    [Header("Iteraciones (3 en total)")]
+    [Header("Iterations")]
     public IterationData[] iterations = new IterationData[3];
 
-    [Header("Fin del puzzle")]
-    [Tooltip("Spawn tras completar la última iteración correctamente")]
+    [Header("Puzzle End")]
+    [Tooltip("Spawn point after completing the last iteration correctly")]
     public Transform puzzleCompleteSpawn;
 
-    [Header("Referencias")]
+    [Header("References")]
     public Transform player;
     public CamcorderTransition camcorderTransition;
 
-    // ── Estado interno ──────────────────────────────────────────────
     private int currentIteration = 0;
     private int currentKnocks = 0;
     private bool puzzleSolved = false;
 
-    // ── Lectura pública (útil para UI / debug) ──────────────────────
     public int CurrentIteration => currentIteration;
     public int CurrentKnocks => currentKnocks;
-    public int RequiredKnocks => puzzleSolved ? 0
-                                                : iterations[currentIteration].requiredKnocks;
+    public int RequiredKnocks => puzzleSolved ? 0 : iterations[currentIteration].requiredKnocks;
 
-    // ───────────────────────────────────────────────────────────────
     private void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
@@ -51,21 +47,16 @@ public class PuzzleManager : MonoBehaviour
     private void Start()
     {
         ValidateSetup();
-        Debug.Log("[Puzzle] Inicio — Iteración 1.");
+        Debug.Log("[Puzzle] Start — Iteration 1.");
     }
 
-    // ── API pública llamada desde DoorInteractable ──────────────────
-
-    /// <summary>El jugador tocó la puerta con índice doorIndex.</summary>
     public void OnDoorKnocked(int doorIndex)
     {
         if (puzzleSolved) return;
-        // Knockear una puerta incorrecta no hace nada (no acumula ni castiga)
         if (doorIndex != iterations[currentIteration].doorIndex) return;
 
         currentKnocks++;
-        Debug.Log($"[Puzzle] Knock {currentKnocks}/{iterations[currentIteration].requiredKnocks}" +
-                  $" — puerta {doorIndex} (iteración {currentIteration + 1})");
+        Debug.Log($"[Puzzle] Knock {currentKnocks}/{iterations[currentIteration].requiredKnocks} — door {doorIndex} (iteration {currentIteration + 1})");
     }
 
     public void OnDoorOpened(int doorIndex)
@@ -76,47 +67,40 @@ public class PuzzleManager : MonoBehaviour
         int required = iterations[currentIteration].requiredKnocks;
         int correctDoor = iterations[currentIteration].doorIndex;
 
-        // Cualquier cosa incorrecta (puerta equivocada O knocks incorrectos) → castigo
-        bool wrongDoor = doorIndex != correctDoor;
-        bool wrongKnocks = currentKnocks != required;
-
-        if (wrongDoor || wrongKnocks)
+        if (doorIndex != correctDoor || currentKnocks != required)
         {
-            Debug.Log($"[Puzzle] ✗ Incorrecto — puerta {doorIndex} " +
-                      $"(correcta: {correctDoor}), knocks {currentKnocks}/{required}. Reseteando.");
+            Debug.Log($"[Puzzle] Wrong — door {doorIndex} (correct: {correctDoor}), knocks {currentKnocks}/{required}. Resetting.");
             HandleWrongOpen();
             return;
         }
 
-        Debug.Log($"[Puzzle] ✓ Correcto — puerta {doorIndex}, {currentKnocks}/{required} knocks.");
+        Debug.Log($"[Puzzle] Correct — door {doorIndex}, {currentKnocks}/{required} knocks.");
         HandleCorrectOpen();
     }
-
-    // ── Lógica interna ──────────────────────────────────────────────
 
     private void HandleCorrectOpen()
     {
         currentIteration++;
         currentKnocks = 0;
-
         HallwayAudioManager.Instance?.AdvanceIteration();
         GameEvents.IterationChanged(currentIteration);
 
         if (currentIteration >= iterations.Length)
         {
             puzzleSolved = true;
-            Debug.Log("[Puzzle] Puzzle completado.");
+            Debug.Log("[Puzzle] Puzzle complete.");
             TeleportPlayer(puzzleCompleteSpawn, TriggerEnding);
             return;
         }
 
-        Debug.Log($"[Puzzle] Iteración {currentIteration + 1} comienza.");
+        Debug.Log($"[Puzzle] Iteration {currentIteration + 1} begins.");
         TeleportPlayer(iterations[currentIteration].iterationSpawn);
     }
 
     private void HandleWrongOpen()
     {
         currentKnocks = 0;
+        GameEvents.IterationChanged(currentIteration);
         TeleportPlayer(iterations[currentIteration].iterationSpawn);
     }
 
@@ -131,7 +115,7 @@ public class PuzzleManager : MonoBehaviour
 
     private void TeleportPlayer(Transform target, System.Action onComplete = null)
     {
-        if (target == null) { Debug.LogError("[Puzzle] Spawn es null!"); return; }
+        if (target == null) { Debug.LogError("[Puzzle] Spawn is null!"); return; }
 
         if (camcorderTransition != null)
             camcorderTransition.Play(onSwitch: () => MovePlayer(target), onComplete: onComplete);
@@ -151,27 +135,24 @@ public class PuzzleManager : MonoBehaviour
         if (cc != null) cc.enabled = true;
     }
 
-    // ── Validación ──────────────────────────────────────────────────
-
     private void ValidateSetup()
     {
         if (iterations.Length != 3)
-            Debug.LogWarning("[Puzzle] 'iterations' debe tener exactamente 3 elementos.");
+            Debug.LogWarning("[Puzzle] 'iterations' should have exactly 3 elements.");
 
         for (int i = 0; i < iterations.Length; i++)
         {
-            var it = iterations[i];
-            if (it.requiredKnocks <= 0)
-                Debug.LogWarning($"[Puzzle] Iteración {i + 1}: requiredKnocks debe ser >= 1.");
-            if (it.iterationSpawn == null)
-                Debug.LogWarning($"[Puzzle] Iteración {i + 1}: iterationSpawn no asignado.");
+            if (iterations[i].requiredKnocks <= 0)
+                Debug.LogWarning($"[Puzzle] Iteration {i + 1}: requiredKnocks must be >= 1.");
+            if (iterations[i].iterationSpawn == null)
+                Debug.LogWarning($"[Puzzle] Iteration {i + 1}: iterationSpawn not assigned.");
         }
 
         if (puzzleCompleteSpawn == null)
-            Debug.LogWarning("[Puzzle] puzzleCompleteSpawn no asignado.");
+            Debug.LogWarning("[Puzzle] puzzleCompleteSpawn not assigned.");
         if (player == null)
-            Debug.LogError("[Puzzle] player no asignado.");
+            Debug.LogError("[Puzzle] player not assigned.");
         if (camcorderTransition == null)
-            Debug.LogWarning("[Puzzle] CamcorderTransition no asignado — teletransporte será instantáneo.");
+            Debug.LogWarning("[Puzzle] CamcorderTransition not assigned — teleport will be instant.");
     }
 }
