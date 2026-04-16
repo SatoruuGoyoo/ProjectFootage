@@ -107,7 +107,7 @@ public class PuzzleManager : MonoBehaviour
     private void TriggerEnding()
     {
         GameEvents.PuzzleCompleted("DoorPuzzle");
-        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("SCN_MainMenu");
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #endif
