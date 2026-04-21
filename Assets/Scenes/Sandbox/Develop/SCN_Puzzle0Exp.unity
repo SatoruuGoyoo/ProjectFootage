@@ -1714,6 +1714,50 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.0000007, y: 26.345617, z: 2.0000005}
   m_Center: {x: 0, y: -12.172809, z: 0}
+--- !u!1 &101172109
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 101172110}
+  - component: {fileID: 101172111}
+  m_Layer: 0
+  m_Name: FMODManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &101172110
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 101172109}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1104377675}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &101172111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 101172109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4b0333d52fdc0a478522ce9da3e859c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FMODManager
 --- !u!1 &131259727
 GameObject:
   m_ObjectHideFlags: 0
@@ -7255,7 +7299,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 586554672}
-  - component: {fileID: 586554674}
   - component: {fileID: 586554673}
   m_Layer: 0
   m_Name: CAMSFX
@@ -7263,7 +7306,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &586554672
 Transform:
   m_ObjectHideFlags: 0
@@ -7376,19 +7419,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &586554674
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 586554671}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cab2dfdefd6a4f44bb08481f64836347, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TestSFX
-  clip: {fileID: 8300000, guid: 1b3a65ad3045ea44d91a3912a7aebc19, type: 3}
 --- !u!43 &591760201
 Mesh:
   m_ObjectHideFlags: 0
@@ -9624,6 +9654,13 @@ MonoBehaviour:
   prepareDuration: 1
   recordDuration: 15
   mouseSensitivity: 0.5
+  toggleEvent:
+    Guid:
+      Data1: -1897456529
+      Data2: 1133529807
+      Data3: -1360046958
+      Data4: 571779562
+    Path: event:/Camcorder/Camcorder_Toggle
 --- !u!114 &767295764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11902,69 +11939,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 185297215}
   m_LocalEulerAnglesHint: {x: 0, y: -359.999, z: 0}
---- !u!1 &1008957513
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1008957515}
-  - component: {fileID: 1008957514}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1008957514
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1008957513}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
-  CollisionTag: 
-  EventReference:
-    Guid:
-      Data1: -1261723475
-      Data2: 1227439979
-      Data3: -377749098
-      Data4: -2126309298
-    Path: event:/New Event
-  Event: 
-  EventPlayTrigger: 0
-  EventStopTrigger: 0
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 0
-  NonRigidbodyVelocity: 0
-  Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: 1
-  OverrideMaxDistance: 20
---- !u!4 &1008957515
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1008957513}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -64.67286, y: 0.5001, z: -24.8056}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1010583470
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12804,6 +12778,7 @@ Transform:
   - {fileID: 1996519249}
   - {fileID: 1145356295}
   - {fileID: 1021119744}
+  - {fileID: 101172110}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1104377676
@@ -14969,12 +14944,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CamcorderRecLight
   recordingLight: {fileID: 1389182375}
-  camAudio: {fileID: 767295765}
   redColor: {r: 1, g: 0, b: 0, a: 1}
-  redClip: {fileID: 8300000, guid: 0f4cf485665c4b343b53a15567ea0e68, type: 3}
   greenColor: {r: 0, g: 1, b: 0, a: 1}
-  greenClip: {fileID: 8300000, guid: 889195652b16a2c43a82c4c14daecf4b, type: 3}
   blinkSpeed: 2
+  recLightEvent:
+    Guid:
+      Data1: 1476803983
+      Data2: 1152142437
+      Data3: -1145183557
+      Data4: -1026901526
+    Path: event:/Camcorder/RecLight
 --- !u!43 &1393065280
 Mesh:
   m_ObjectHideFlags: 0
@@ -25815,4 +25794,3 @@ SceneRoots:
   - {fileID: 477273145}
   - {fileID: 1526772124}
   - {fileID: 461532515}
-  - {fileID: 1008957515}
