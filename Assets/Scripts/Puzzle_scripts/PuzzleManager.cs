@@ -1,4 +1,6 @@
 using UnityEngine;
+using FMODUnity;
+using FMOD.Studio;
 
 public class PuzzleManager : MonoBehaviour
 {

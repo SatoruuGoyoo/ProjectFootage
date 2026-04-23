@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using FMODUnity;
+using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
 public class DoorInteractable : MonoBehaviour
@@ -14,22 +15,22 @@ public class DoorInteractable : MonoBehaviour
     [Header("Proximity")]
     public string playerTag = "Player";
 
-    [Header("Audio")]
-    public AudioSource audioSource;
-    public AudioClip knockSound;
-    public AudioClip openSound;
+    [Header("FMOD")]
+    [SerializeField] private EventReference knockEvent;
+    [SerializeField] private EventReference openEvent;
 
     [Header("Prompt UI")]
     public GameObject promptUI;
 
     private bool playerNearby = false;
- 
+    private float knockCooldown = 0.5f; // Cooldown to prevent spamming
+    [SerializeField] private float knockCoolDuration = 0.5f;
+
 
     private void Start()
     {
         var col = GetComponent<Collider>();
         if (!col.isTrigger) col.isTrigger = true;
-
         SetPrompt(false);
         GameEvents.OnIterationChanged += OnIterationChanged;
     }
@@ -49,14 +50,20 @@ public class DoorInteractable : MonoBehaviour
 
     private void Update()
     {
+        if (knockCooldown > 0f) knockCooldown -= Time.deltaTime;
+
         if (!playerNearby) return;
         if (PuzzleManager.Instance == null) return;
 
-        // Block input during transition to prevent spam
         var transition = PuzzleManager.Instance.camcorderTransition;
         if (transition != null && transition.IsTransitioning) return;
 
-        if (Input.GetKeyDown(knockKey)) Knock();
+        if (Input.GetKeyDown(knockKey) && knockCooldown <= 0f)
+        {
+            Knock();
+            knockCooldown = knockCoolDuration;
+        }
+
         if (Input.GetKeyDown(openKey)) Open();
     }
 
@@ -76,20 +83,14 @@ public class DoorInteractable : MonoBehaviour
 
     public void Knock()
     {
-        PlaySound(knockSound);
+        FMODManager.Instance.PlayOneShot(knockEvent, transform.position);
         PuzzleManager.Instance?.OnDoorKnocked(doorIndex);
     }
 
     public void Open()
     {
-        PlaySound(openSound);
+        FMODManager.Instance.PlayOneShot(openEvent, transform.position);
         PuzzleManager.Instance?.OnDoorOpened(doorIndex);
-    }
-
-    private void PlaySound(AudioClip clip)
-    {
-        if (audioSource != null && clip != null)
-            audioSource.PlayOneShot(clip);
     }
 
     private void SetPrompt(bool active)

@@ -1,18 +1,15 @@
 using UnityEngine;
+using FMODUnity;
+using FMOD.Studio;
 public class HallwayAudioManager : MonoBehaviour
 {
     public static HallwayAudioManager Instance { get; private set; }
-    [Tooltip("Un clip por iteración, en orden.")]
-    public AudioClip[] iterationClips = new AudioClip[3];
 
-    [Header("Ambient")]
-    [Tooltip("AudioSource del GO de música de ambiente.")]
-    public AudioSource ambientSource;
-    [Tooltip("Un clip de ambiente por iteración, en orden.")]
-    public AudioClip[] ambientClips = new AudioClip[3];
+    [Header("FMOD")]
+    [SerializeField] private EventReference ambienceEvent;
 
+    private EventInstance ambienceInstance;
     private int _currentIteration = 0;
-    public AudioClip CurrentClip => iterationClips[_currentIteration];
 
     void Awake()
     {
@@ -20,14 +17,22 @@ public class HallwayAudioManager : MonoBehaviour
         Instance = this;
     }
 
+    private void Start()
+    {
+        ambienceInstance = FMODManager.Instance.CreateEventInstance(ambienceEvent);
+        ambienceInstance.start();
+        RuntimeManager.StudioSystem.setParameterByName("Iteration", _currentIteration); // Global parameter to control iteration-based changes in the ambience track
+    }
+
+    private void OnDestroy()
+    {
+        ambienceInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        ambienceInstance.release();
+    }
+
     public void AdvanceIteration()
     {
-        _currentIteration = Mathf.Clamp(_currentIteration + 1, 0, iterationClips.Length - 1);
-
-        if (ambientSource != null && _currentIteration < ambientClips.Length && ambientClips[_currentIteration] != null)
-        {
-            ambientSource.clip = ambientClips[_currentIteration];
-            ambientSource.Play();
-        }
+        _currentIteration = Mathf.Clamp( _currentIteration + 1, 0, 2 );
+        RuntimeManager.StudioSystem.setParameterByName("Iteration", (float)_currentIteration); // Update the global parameter to reflect the new iteration
     }
 }

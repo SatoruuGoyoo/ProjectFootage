@@ -9656,11 +9656,11 @@ MonoBehaviour:
   mouseSensitivity: 0.5
   toggleEvent:
     Guid:
-      Data1: -1897456529
-      Data2: 1133529807
-      Data3: -1360046958
-      Data4: 571779562
-    Path: event:/Camcorder/Camcorder_Toggle
+      Data1: 1185672532
+      Data2: 1311482268
+      Data3: -2037995890
+      Data4: -862189175
+    Path: event:/Camcorder/Toggle
 --- !u!114 &767295764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21001,15 +21001,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8108ca3a981a00e47a8a04dd40758667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HallwayAudioManager
-  iterationClips:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 8300000, guid: 1d8e08c2df558a8458de1ce397af1c0c, type: 3}
-  ambientSource: {fileID: 175536480}
-  ambientClips:
-  - {fileID: 8300000, guid: 05ba7f19136c9c348bd2cf96fdae6a80, type: 3}
-  - {fileID: 8300000, guid: 7936d1459e1aaf64cb4ea2da7299b6fb, type: 3}
-  - {fileID: 8300000, guid: 5d8b0213a9ffbdd4caeddf2e32dd68f8, type: 3}
+  ambienceEvent:
+    Guid:
+      Data1: 191432853
+      Data2: 1255834826
+      Data3: -289474149
+      Data4: -275988174
+    Path: event:/Ambience/Room
 --- !u!4 &1996519249
 Transform:
   m_ObjectHideFlags: 0
@@ -23197,10 +23195,22 @@ MonoBehaviour:
   knockKey: 101
   openKey: 102
   playerTag: Player
-  audioSource: {fileID: 919132147593792962}
-  knockSound: {fileID: 8300000, guid: a391bd7cdce9c4445a8edc18cfc23dbf, type: 3}
-  openSound: {fileID: 8300000, guid: 8e70080e9c6f5e74b85115bf9024bdca, type: 3}
+  knockEvent:
+    Guid:
+      Data1: 1435262203
+      Data2: 1145788708
+      Data3: -1779109475
+      Data4: 2080549222
+    Path: event:/SFX/Door/Knock
+  openEvent:
+    Guid:
+      Data1: -62331636
+      Data2: 1092895546
+      Data3: 1869626786
+      Data4: 2027761013
+    Path: event:/SFX/Door/Open
   promptUI: {fileID: 1204949322}
+  knockCoolDuration: 1
 --- !u!82 &919132147593792962
 AudioSource:
   m_ObjectHideFlags: 0
@@ -23333,10 +23343,22 @@ MonoBehaviour:
   knockKey: 101
   openKey: 102
   playerTag: Player
-  audioSource: {fileID: 919132148039411083}
-  knockSound: {fileID: 8300000, guid: a391bd7cdce9c4445a8edc18cfc23dbf, type: 3}
-  openSound: {fileID: 8300000, guid: 8e70080e9c6f5e74b85115bf9024bdca, type: 3}
+  knockEvent:
+    Guid:
+      Data1: 1435262203
+      Data2: 1145788708
+      Data3: -1779109475
+      Data4: 2080549222
+    Path: event:/SFX/Door/Knock
+  openEvent:
+    Guid:
+      Data1: -62331636
+      Data2: 1092895546
+      Data3: 1869626786
+      Data4: 2027761013
+    Path: event:/SFX/Door/Open
   promptUI: {fileID: 1204949322}
+  knockCoolDuration: 1
 --- !u!82 &919132148039411083
 AudioSource:
   m_ObjectHideFlags: 0
@@ -23469,10 +23491,22 @@ MonoBehaviour:
   knockKey: 101
   openKey: 102
   playerTag: Player
-  audioSource: {fileID: 919132148101571474}
-  knockSound: {fileID: 8300000, guid: a391bd7cdce9c4445a8edc18cfc23dbf, type: 3}
-  openSound: {fileID: 8300000, guid: 8e70080e9c6f5e74b85115bf9024bdca, type: 3}
+  knockEvent:
+    Guid:
+      Data1: 1435262203
+      Data2: 1145788708
+      Data3: -1779109475
+      Data4: 2080549222
+    Path: event:/SFX/Door/Knock
+  openEvent:
+    Guid:
+      Data1: -62331636
+      Data2: 1092895546
+      Data3: 1869626786
+      Data4: 2027761013
+    Path: event:/SFX/Door/Open
   promptUI: {fileID: 1204949322}
+  knockCoolDuration: 1
 --- !u!82 &919132148101571474
 AudioSource:
   m_ObjectHideFlags: 0
@@ -23605,10 +23639,22 @@ MonoBehaviour:
   knockKey: 101
   openKey: 102
   playerTag: Player
-  audioSource: {fileID: 919132148277466160}
-  knockSound: {fileID: 8300000, guid: a391bd7cdce9c4445a8edc18cfc23dbf, type: 3}
-  openSound: {fileID: 8300000, guid: 8e70080e9c6f5e74b85115bf9024bdca, type: 3}
+  knockEvent:
+    Guid:
+      Data1: 1435262203
+      Data2: 1145788708
+      Data3: -1779109475
+      Data4: 2080549222
+    Path: event:/SFX/Door/Knock
+  openEvent:
+    Guid:
+      Data1: -62331636
+      Data2: 1092895546
+      Data3: 1869626786
+      Data4: 2027761013
+    Path: event:/SFX/Door/Open
   promptUI: {fileID: 1204949322}
+  knockCoolDuration: 0.5
 --- !u!82 &919132148277466160
 AudioSource:
   m_ObjectHideFlags: 0
@@ -23759,10 +23805,22 @@ MonoBehaviour:
   knockKey: 101
   openKey: 102
   playerTag: Player
-  audioSource: {fileID: 919132148846943730}
-  knockSound: {fileID: 8300000, guid: a391bd7cdce9c4445a8edc18cfc23dbf, type: 3}
-  openSound: {fileID: 8300000, guid: 8e70080e9c6f5e74b85115bf9024bdca, type: 3}
+  knockEvent:
+    Guid:
+      Data1: 1435262203
+      Data2: 1145788708
+      Data3: -1779109475
+      Data4: 2080549222
+    Path: event:/SFX/Door/Knock
+  openEvent:
+    Guid:
+      Data1: -62331636
+      Data2: 1092895546
+      Data3: 1869626786
+      Data4: 2027761013
+    Path: event:/SFX/Door/Open
   promptUI: {fileID: 1204949322}
+  knockCoolDuration: 1
 --- !u!82 &919132148846943730
 AudioSource:
   m_ObjectHideFlags: 0
