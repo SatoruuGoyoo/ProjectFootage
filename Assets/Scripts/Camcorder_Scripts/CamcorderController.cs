@@ -1,4 +1,6 @@
 using UnityEngine;
+using FMODUnity;
+using FMOD.Studio;
 
 public class CamcorderController : MonoBehaviour
 {
@@ -14,6 +16,9 @@ public class CamcorderController : MonoBehaviour
     [SerializeField] private int prepareDuration = 1;
     [SerializeField] private int recordDuration = 5;
     [SerializeField] private float mouseSensitivity = 2f;
+
+    [Header("FMOD")]
+    [SerializeField] private EventReference toggleEvent;
 
     public CamcorderMode CurrentCamMode => currentCamMode;
 
@@ -76,6 +81,9 @@ public class CamcorderController : MonoBehaviour
         isCameraUp = !isCameraUp;
         camcorderVisual.SetActive(isCameraUp);
 
+        // Play toggle
+        FMODManager.Instance.PlayOneShot(toggleEvent, transform.position);
+
         if (isCameraUp)
             GameEvents.PlayerModeChanged(PlayerMode.CameraMode);
         else
@@ -121,7 +129,7 @@ public class CamcorderController : MonoBehaviour
                 if (input.IsRecordingReleased || recordTimer >= recordDuration)
                 {
                     recorder.StopRecording();
-                    storage.AddRecording(recorder.GetRecording(), HallwayAudioManager.Instance?.CurrentClip);
+                    storage.AddRecording(recorder.GetRecording(), null);
                     recordTimer = 0f;
                     currentCamMode = CamcorderMode.Idle;
                     camcorderMotor.ResetRotation();
