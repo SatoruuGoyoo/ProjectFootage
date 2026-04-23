@@ -9,8 +9,8 @@ public class CamcorderMenuController : MonoBehaviour
     [Header("Menu UI")]
     public Canvas menuCanvas;
 
-    [Header("Transition")]
-    public CamcorderTransition transition;
+    //[Header("Transition")]
+    //public CamcorderTransition transition;
 
     [Header("Timing/TweakDesigner")]
     [SerializeField] private float frameStepDelay = 0.15f;
@@ -58,15 +58,14 @@ public class CamcorderMenuController : MonoBehaviour
 
     private void OpenMenu()
     {
-        if (isMenuOpen || transition.IsTransitioning) return;
+        //if (isMenuOpen || transition.IsTransitioning) return;
         if (controller.CurrentCamMode == CamcorderMode.Recording) return;
 
         isMenuOpen = true;
         GameEvents.PlayerModeChanged(PlayerMode.MenuCameraMode);
         activeFixedCamera = FindActiveFixedCamera();
 
-        transition.Play(onSwitch: () =>
-        {
+        
             if (activeFixedCamera != null)
                 activeFixedCamera.gameObject.SetActive(false);
 
@@ -74,30 +73,26 @@ public class CamcorderMenuController : MonoBehaviour
             fpsHandModel.SetActive(true);
             menuCanvas.gameObject.SetActive(true);
             ui.UpdateUI(currentRecordingIndex);
-        });
+        
     }
 
     private void CloseMenu()
     {
-        if (!isMenuOpen || transition.IsTransitioning) return;
+        
 
         isMenuOpen = false;
         currentRecordingIndex = 0;
+        fpsCamera.gameObject.SetActive(false);
+        fpsHandModel.SetActive(false);
+        menuCanvas.gameObject.SetActive(false);
 
-        transition.Play(
-            onSwitch: () =>
-            {
-                fpsCamera.gameObject.SetActive(false);
-                fpsHandModel.SetActive(false);
-                menuCanvas.gameObject.SetActive(false);
+        if (activeFixedCamera != null)
+            activeFixedCamera.gameObject.SetActive(true);
 
-                if (activeFixedCamera != null)
-                    activeFixedCamera.gameObject.SetActive(true);
+        activeFixedCamera = null;
+        GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
 
-                activeFixedCamera = null;
-            },
-            onComplete: () => GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode)
-        );
+        
     }
 
     private void ToggleMenu()

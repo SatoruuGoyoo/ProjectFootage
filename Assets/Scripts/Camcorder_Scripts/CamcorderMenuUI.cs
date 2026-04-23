@@ -1,13 +1,29 @@
+// CamcorderMenuUI.cs
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CamcorderMenuUI : MonoBehaviour
 {
-    [Header("Setup")]
+    [Header("Panels")]
+    public GameObject noRecordingPanel;   // el panel azul — SIEMPRE activo
+    public TextMeshProUGUI noRecordingText; // solo el texto se oculta
+    public GameObject recordingsPanel;
+
+    [Header("Recording Slots")]
+    // Los 5 Image del RecordingsPanel (el thumbnail)
     public Image[] recordingSlots;
-    public Color selectedColor = Color.white;
-    public Color unselectedColor = new Color(0.5f, 0.5f, 0.5f, 1f);
+
+    // Un Image hijo de cada slot que actúa como marco de selección.
+    // Ponelo como child de cada Image slot, mismo tamaño, color sólido, stretch.
+    // En código lo controlamos nosotros.
+    public Image[] selectionBorders;
+
+    [Header("Colores")]
+    public Color colorSelected = Color.white;
+    public Color colorUnselected = new Color(0.45f, 0.45f, 0.45f, 1f);
+    public Color borderColor = new Color(1f, 0.30f, 0.30f, 1f);
 
     private CamcorderStorage storage;
 
@@ -19,24 +35,37 @@ public class CamcorderMenuUI : MonoBehaviour
     public void UpdateUI(int selectedIndex)
     {
         List<RecordingData> recordings = storage.GetAllRecordings();
+        bool hasRecordings = recordings.Count > 0;
+
+        // El panel azul de fondo nunca se apaga
+        noRecordingText.gameObject.SetActive(!hasRecordings);
+        recordingsPanel.SetActive(hasRecordings);
 
         for (int i = 0; i < recordingSlots.Length; i++)
         {
-            if (i < recordings.Count)
+            bool hasData = i < recordings.Count;
+            bool isSelected = hasData && i == selectedIndex;
+
+            // — Thumbnail —
+            recordingSlots[i].gameObject.SetActive(hasData);
+
+            if (hasData)
             {
-                recordingSlots[i].gameObject.SetActive(true);
                 recordingSlots[i].sprite = TextureToSprite(recordings[i].frames[0]);
-                recordingSlots[i].color = (i == selectedIndex) ? selectedColor : unselectedColor;
+                recordingSlots[i].color = isSelected ? colorSelected : colorUnselected;
             }
-            else
+
+            // — Borde de selección —
+            if (selectionBorders != null && i < selectionBorders.Length)
             {
-                recordingSlots[i].gameObject.SetActive(false);
+                selectionBorders[i].gameObject.SetActive(isSelected);
+                selectionBorders[i].color = borderColor;
             }
         }
     }
 
-    private Sprite TextureToSprite(Texture2D texture)
+    private Sprite TextureToSprite(Texture2D tex)
     {
-        return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.one * 0.5f);
+        return Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), Vector2.one * 0.5f);
     }
 }
