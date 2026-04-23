@@ -552,6 +552,13 @@ MonoBehaviour:
   prepareDuration: 1
   recordDuration: 15
   mouseSensitivity: 0.5
+  toggleEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!114 &34444087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -718,10 +725,22 @@ MonoBehaviour:
   knockKey: 101
   openKey: 102
   playerTag: Player
-  audioSource: {fileID: 70397515}
-  knockSound: {fileID: 8300000, guid: a391bd7cdce9c4445a8edc18cfc23dbf, type: 3}
-  openSound: {fileID: 8300000, guid: 8e70080e9c6f5e74b85115bf9024bdca, type: 3}
+  knockEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  openEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   promptUI: {fileID: 1623715480}
+  knockCoolDuration: 0.5
 --- !u!65 &70397517
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1317,10 +1336,22 @@ MonoBehaviour:
   knockKey: 101
   openKey: 102
   playerTag: Player
-  audioSource: {fileID: 86829900}
-  knockSound: {fileID: 8300000, guid: a391bd7cdce9c4445a8edc18cfc23dbf, type: 3}
-  openSound: {fileID: 8300000, guid: 8e70080e9c6f5e74b85115bf9024bdca, type: 3}
+  knockEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  openEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   promptUI: {fileID: 1623715480}
+  knockCoolDuration: 0.5
 --- !u!65 &86829902
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1741,10 +1772,22 @@ MonoBehaviour:
   knockKey: 101
   openKey: 102
   playerTag: Player
-  audioSource: {fileID: 147278281}
-  knockSound: {fileID: 8300000, guid: a391bd7cdce9c4445a8edc18cfc23dbf, type: 3}
-  openSound: {fileID: 8300000, guid: 8e70080e9c6f5e74b85115bf9024bdca, type: 3}
+  knockEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  openEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   promptUI: {fileID: 1623715480}
+  knockCoolDuration: 0.5
 --- !u!65 &147278283
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4486,15 +4529,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8108ca3a981a00e47a8a04dd40758667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HallwayAudioManager
-  iterationClips:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 8300000, guid: 1d8e08c2df558a8458de1ce397af1c0c, type: 3}
-  ambientSource: {fileID: 1496244660}
-  ambientClips:
-  - {fileID: 8300000, guid: 05ba7f19136c9c348bd2cf96fdae6a80, type: 3}
-  - {fileID: 8300000, guid: 7936d1459e1aaf64cb4ea2da7299b6fb, type: 3}
-  - {fileID: 8300000, guid: 5d8b0213a9ffbdd4caeddf2e32dd68f8, type: 3}
+  ambienceEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!1 &458806035
 GameObject:
   m_ObjectHideFlags: 0
@@ -6428,12 +6469,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CamcorderRecLight
   recordingLight: {fileID: 609704715}
-  camAudio: {fileID: 34444076}
   redColor: {r: 1, g: 0, b: 0, a: 1}
-  redClip: {fileID: 8300000, guid: 0f4cf485665c4b343b53a15567ea0e68, type: 3}
   greenColor: {r: 0, g: 1, b: 0, a: 1}
-  greenClip: {fileID: 8300000, guid: 889195652b16a2c43a82c4c14daecf4b, type: 3}
   blinkSpeed: 2
+  recLightEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!114 &609704714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9740,10 +9785,22 @@ MonoBehaviour:
   knockKey: 101
   openKey: 102
   playerTag: Player
-  audioSource: {fileID: 787157062}
-  knockSound: {fileID: 8300000, guid: a391bd7cdce9c4445a8edc18cfc23dbf, type: 3}
-  openSound: {fileID: 8300000, guid: 8e70080e9c6f5e74b85115bf9024bdca, type: 3}
+  knockEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  openEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   promptUI: {fileID: 1623715480}
+  knockCoolDuration: 0.5
 --- !u!65 &787157064
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24256,7 +24313,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!223 &1973585813
 Canvas:
   m_ObjectHideFlags: 0
@@ -25276,10 +25333,22 @@ MonoBehaviour:
   knockKey: 101
   openKey: 102
   playerTag: Player
-  audioSource: {fileID: 2094353342}
-  knockSound: {fileID: 8300000, guid: a391bd7cdce9c4445a8edc18cfc23dbf, type: 3}
-  openSound: {fileID: 8300000, guid: 8e70080e9c6f5e74b85115bf9024bdca, type: 3}
+  knockEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  openEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   promptUI: {fileID: 1623715480}
+  knockCoolDuration: 0.5
 --- !u!65 &2094353344
 BoxCollider:
   m_ObjectHideFlags: 0
