@@ -52,6 +52,7 @@ public class CamcorderMenuController : MonoBehaviour
         {
             HandleNavigation();
             HandlePlayback();
+            HandleStop();
             HandleDiscard();
         }
     }
@@ -109,13 +110,17 @@ public class CamcorderMenuController : MonoBehaviour
     {
         if (storage.GetAllRecordings().Count == 0) return;
 
-        if (input.NavigateRight)
-            currentRecordingIndex++;
-        else if (input.NavigateLeft)
-            currentRecordingIndex--;
+        bool navigated = false;
 
-        currentRecordingIndex = Mathf.Clamp(currentRecordingIndex, 0, storage.GetAllRecordings().Count - 1);
-        ui.UpdateUI(currentRecordingIndex);
+        if (input.NavigateRight) { currentRecordingIndex++; navigated = true; }
+        else if (input.NavigateLeft) { currentRecordingIndex--; navigated = true; }
+
+        if (navigated)
+        {
+            if (playback.IsPlaying) playback.StopPlayback(); 
+            currentRecordingIndex = Mathf.Clamp(currentRecordingIndex, 0, storage.GetAllRecordings().Count - 1);
+            ui.UpdateUI(currentRecordingIndex);
+        }
     }
 
     private void HandlePlayback()
@@ -166,7 +171,14 @@ public class CamcorderMenuController : MonoBehaviour
 
         ui.UpdateUI(currentRecordingIndex);
     }
+    private void HandleStop()
+    {
+        if (!input.StopRecording) return;
+        if (!playback.HasRecording) return;
 
+        playback.StopPlayback(); 
+        ui.UpdateUI(currentRecordingIndex);
+    }
     private Camera FindActiveFixedCamera()
     {
         foreach (Camera cam in Camera.allCameras)

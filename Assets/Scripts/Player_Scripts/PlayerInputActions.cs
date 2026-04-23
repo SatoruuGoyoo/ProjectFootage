@@ -625,6 +625,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Stop"",
+                    ""type"": ""Button"",
+                    ""id"": ""65513894-9c28-4bdc-b522-852e719466cf"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -858,6 +867,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Discard"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5ac505ad-ee9e-4a38-81ed-5dec35e82981"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Stop"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -886,6 +906,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_MenuCamera_FastForward = m_MenuCamera.FindAction("FastForward", throwIfNotFound: true);
         m_MenuCamera_Rotate = m_MenuCamera.FindAction("Rotate", throwIfNotFound: true);
         m_MenuCamera_Discard = m_MenuCamera.FindAction("Discard", throwIfNotFound: true);
+        m_MenuCamera_Stop = m_MenuCamera.FindAction("Stop", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -1244,6 +1265,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_MenuCamera_FastForward;
     private readonly InputAction m_MenuCamera_Rotate;
     private readonly InputAction m_MenuCamera_Discard;
+    private readonly InputAction m_MenuCamera_Stop;
     /// <summary>
     /// Provides access to input actions defined in input action map "MenuCamera".
     /// </summary>
@@ -1283,6 +1305,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "MenuCamera/Discard".
         /// </summary>
         public InputAction @Discard => m_Wrapper.m_MenuCamera_Discard;
+        /// <summary>
+        /// Provides access to the underlying input action "MenuCamera/Stop".
+        /// </summary>
+        public InputAction @Stop => m_Wrapper.m_MenuCamera_Stop;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1330,6 +1356,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Discard.started += instance.OnDiscard;
             @Discard.performed += instance.OnDiscard;
             @Discard.canceled += instance.OnDiscard;
+            @Stop.started += instance.OnStop;
+            @Stop.performed += instance.OnStop;
+            @Stop.canceled += instance.OnStop;
         }
 
         /// <summary>
@@ -1362,6 +1391,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Discard.started -= instance.OnDiscard;
             @Discard.performed -= instance.OnDiscard;
             @Discard.canceled -= instance.OnDiscard;
+            @Stop.started -= instance.OnStop;
+            @Stop.performed -= instance.OnStop;
+            @Stop.canceled -= instance.OnStop;
         }
 
         /// <summary>
@@ -1530,5 +1562,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnDiscard(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Stop" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnStop(InputAction.CallbackContext context);
     }
 }

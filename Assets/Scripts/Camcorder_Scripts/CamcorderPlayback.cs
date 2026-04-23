@@ -61,6 +61,15 @@ public class CamcorderPlayback : MonoBehaviour
         isPlaying = true;
         audioSource?.UnPause();
     }
+    public void StopPlayback()
+    {
+        isPlaying = false;
+        currentFrame = 0;
+        playbackTimer = 0f;
+        framesToPlay = null;
+        playbackPanel.SetActive(false);
+        audioSource?.Stop();
+    }
 
     public void RewindFrame()
     {

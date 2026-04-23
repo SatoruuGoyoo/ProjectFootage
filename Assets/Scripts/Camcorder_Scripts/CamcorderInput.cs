@@ -22,6 +22,8 @@ public class CamcorderInput : MonoBehaviour
     public float RotateRecording { get; private set; }
     public bool DiscardRecording { get; private set; }
 
+    public bool StopRecording { get; private set; }
+
     private PlayerInputActions actions;
 
     private void Awake() => actions = new PlayerInputActions();
@@ -60,5 +62,6 @@ public class CamcorderInput : MonoBehaviour
         FastForwardRecording = actions.MenuCamera.FastForward.IsPressed();
         RotateRecording = actions.MenuCamera.Rotate.ReadValue<float>();
         DiscardRecording = actions.MenuCamera.Discard.WasPressedThisFrame();
+        StopRecording = actions.MenuCamera.Stop.WasPressedThisFrame();
     }
 }
