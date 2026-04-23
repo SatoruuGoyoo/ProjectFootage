@@ -79,7 +79,7 @@ public class CamcorderMenuController : MonoBehaviour
 
     private void CloseMenu()
     {
-        
+        if (playback.HasRecording) playback.StopPlayback(); 
 
         isMenuOpen = false;
         currentRecordingIndex = 0;
@@ -92,8 +92,6 @@ public class CamcorderMenuController : MonoBehaviour
 
         activeFixedCamera = null;
         GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
-
-        
     }
 
     private void ToggleMenu()
@@ -110,17 +108,11 @@ public class CamcorderMenuController : MonoBehaviour
     {
         if (storage.GetAllRecordings().Count == 0) return;
 
-        bool navigated = false;
+        if (input.NavigateRight) currentRecordingIndex++;
+        else if (input.NavigateLeft) currentRecordingIndex--;
 
-        if (input.NavigateRight) { currentRecordingIndex++; navigated = true; }
-        else if (input.NavigateLeft) { currentRecordingIndex--; navigated = true; }
-
-        if (navigated)
-        {
-            if (playback.IsPlaying) playback.StopPlayback(); 
-            currentRecordingIndex = Mathf.Clamp(currentRecordingIndex, 0, storage.GetAllRecordings().Count - 1);
-            ui.UpdateUI(currentRecordingIndex);
-        }
+        currentRecordingIndex = Mathf.Clamp(currentRecordingIndex, 0, storage.GetAllRecordings().Count - 1);
+        ui.UpdateUI(currentRecordingIndex);
     }
 
     private void HandlePlayback()
@@ -137,7 +129,8 @@ public class CamcorderMenuController : MonoBehaviour
                 playback.PlayRecording(storage.GetAllRecordings()[currentRecordingIndex]);
         }
 
-        if (!playback.IsPlaying && playback.HasRecording)
+     
+        if (playback.HasRecording)
         {
             if (input.RewindRecording || input.FastForwardRecording)
             {
