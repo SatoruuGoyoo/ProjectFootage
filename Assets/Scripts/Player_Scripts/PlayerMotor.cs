@@ -6,20 +6,29 @@ public class PlayerMotor : MonoBehaviour
 
     private CharacterController characterController;
     private Vector3 currentWorldDir = Vector3.zero;
+    private Vector3 lastValidDir = Vector3.zero;
     private Vector2 lastRawInput = Vector2.zero;
+    private float currentSpeedTank = 0f;
+    private float currentSpeedModern = 0f;
+    private float verticalVelocity = 0f;
 
     private void Awake() => characterController = GetComponent<CharacterController>();
 
     // --- Tank ---
 
-    // Moves forward/back relative to the character's facing direction
     public void MoveTank(float moveInput)
     {
         if (config == null) return;
-        characterController.Move(transform.forward * moveInput * config.MoveSpeed * Time.deltaTime);
+
+        float targetSpeed = moveInput * config.MoveSpeed;
+        currentSpeedTank = Mathf.MoveTowards(currentSpeedTank, targetSpeed, config.Acceleration * Time.deltaTime);
+
+        ApplyGravity();
+        Vector3 movement = transform.forward * currentSpeedTank * Time.deltaTime;
+        movement.y = verticalVelocity * Time.deltaTime;
+        characterController.Move(movement);
     }
 
-    // Rotates the character directly using A/D input
     public void Turn(float turnInput)
     {
         if (config == null) return;
@@ -28,7 +37,6 @@ public class PlayerMotor : MonoBehaviour
 
     // --- Modern ---
 
-    // Moves relative to the active fixed camera's orientation
     public void MoveRelativeToCamera(Vector2 input, Camera activeCamera)
     {
         if (config == null || activeCamera == null) return;
@@ -45,21 +53,35 @@ public class PlayerMotor : MonoBehaviour
         if (!hasInput)
             currentWorldDir = Vector3.zero;
         else if (inputChanged)
+        {
             currentWorldDir = (camForward * input.y + camRight * input.x).normalized;
+            lastValidDir = currentWorldDir;
+        }
 
-        if (currentWorldDir.sqrMagnitude < 0.01f) return;
+        float targetSpeed = hasInput ? config.MoveSpeed : 0f;
+        currentSpeedModern = Mathf.MoveTowards(currentSpeedModern, targetSpeed, config.Acceleration * Time.deltaTime);
 
-        characterController.Move(currentWorldDir * config.MoveSpeed * Time.deltaTime);
+        ApplyGravity();
 
-        transform.rotation = Quaternion.Slerp(
-            transform.rotation,
-            Quaternion.LookRotation(currentWorldDir),
-            Time.deltaTime * config.RotationSmoothSpeed);
+        if (currentSpeedModern < 0.01f)
+        {
+            characterController.Move(new Vector3(0f, verticalVelocity * Time.deltaTime, 0f));
+            return;
+        }
 
-        FlattenRotation();
+        characterController.Move(lastValidDir * currentSpeedModern * Time.deltaTime
+            + Vector3.up * verticalVelocity * Time.deltaTime);
+
+        if (hasInput && currentSpeedModern > 0.1f)
+        {
+            transform.rotation = Quaternion.Slerp(
+                transform.rotation,
+                Quaternion.LookRotation(lastValidDir),
+                Time.deltaTime * config.RotationSmoothSpeed);
+            FlattenRotation();
+        }
     }
 
-    // Moves relative to the character's own facing direction (used in recording mode)
     public void MoveRelativeToSelf(Vector2 input)
     {
         if (config == null) return;
@@ -67,7 +89,14 @@ public class PlayerMotor : MonoBehaviour
         Vector3 flatForward = new Vector3(transform.forward.x, 0f, transform.forward.z).normalized;
         Vector3 flatRight = new Vector3(transform.right.x, 0f, transform.right.z).normalized;
 
-        characterController.Move((flatForward * input.y + flatRight * input.x) * config.MoveSpeed * Time.deltaTime);
+        Vector3 inputDir = flatForward * input.y + flatRight * input.x;
+        float targetSpeed = inputDir.sqrMagnitude > 0.01f ? config.MoveSpeed * config.RecordingSpeedMultiplier : 0f;
+        currentSpeedModern = Mathf.MoveTowards(currentSpeedModern, targetSpeed, config.Acceleration * Time.deltaTime);
+
+        ApplyGravity();
+        Vector3 movement = inputDir.normalized * currentSpeedModern * Time.deltaTime;
+        movement.y = verticalVelocity * Time.deltaTime;
+        characterController.Move(movement);
     }
 
     // --- Shared ---
@@ -75,8 +104,16 @@ public class PlayerMotor : MonoBehaviour
     // Direct yaw rotation in pre-calculated degrees. Used by CamcorderController for 1:1 sync.
     public void RotateDirect(float yawDegrees)
     {
-        transform.Rotate(0, yawDegrees, 0);
+        transform.Rotate(0, yawDegrees * config.RecordingRotationMultiplier, 0);
         FlattenRotation();
+    }
+
+    private void ApplyGravity()
+    {
+        if (characterController.isGrounded)
+            verticalVelocity = -2f;
+        else
+            verticalVelocity += Physics.gravity.y * config.GravityMultiplier * Time.deltaTime;
     }
 
     // Strips any accumulated pitch/roll — only Y rotation survives
