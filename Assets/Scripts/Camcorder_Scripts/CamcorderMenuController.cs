@@ -147,11 +147,13 @@ public class CamcorderMenuController : MonoBehaviour
                     frameStepTimer = 0f;
                     if (input.RewindRecording) playback.RewindFrame();
                     if (input.FastForwardRecording) playback.FastForwardFrame();
+                    PlaybackAudioManager.Instance?.OnRFF();
                 }
             }
             else
             {
                 frameStepTimer = 0f;
+                PlaybackAudioManager.Instance?.OnRFFStopped();
             }
         }
     }
