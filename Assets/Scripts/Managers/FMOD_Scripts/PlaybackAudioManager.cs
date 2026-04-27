@@ -1,6 +1,7 @@
-using UnityEngine;
-using FMODUnity;
 using FMOD.Studio;
+using FMODUnity;
+using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 public class PlaybackAudioManager : MonoBehaviour
 {
@@ -41,7 +42,7 @@ public class PlaybackAudioManager : MonoBehaviour
     }
 
     // Called by CamcorderMenuController on Rewind/FastForward
-    public void OnRFF()
+    public void OnRFF(bool isRewind)
     {
         if (!isActive) return;
 
@@ -50,6 +51,15 @@ public class PlaybackAudioManager : MonoBehaviour
 
         if (state != PLAYBACK_STATE.PLAYING)
             reverseInstance.start();
+
+        // -1 = rewind (original), 2 = fastforward (faster reverse)
+        reverseInstance.setParameterByName("Speed", isRewind ? -1f : 2f);
+    }
+
+    public void OnRFFStopped()
+    {
+        // Speed = 0 = reverse (play/pause)
+        reverseInstance.setParameterByName("Speed", 0f);
     }
 
     // Called when R/FF stops
