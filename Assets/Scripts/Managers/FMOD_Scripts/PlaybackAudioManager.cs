@@ -41,6 +41,26 @@ public class PlaybackAudioManager : MonoBehaviour
         isActive = iteration >= activeIteration;
     }
 
+    public void OnPlaybackStarted()
+    {
+        Debug.Log($"[PlaybackAudio] OnPlaybackStarted — isActive: {isActive}");
+        if (!isActive) return;
+
+        PLAYBACK_STATE state;
+        reverseInstance.getPlaybackState(out state);
+
+        if (state != PLAYBACK_STATE.PLAYING)
+            reverseInstance.start();
+
+        // Speed = 0 = reverse normal during play
+        reverseInstance.setParameterByName("Speed", 0.50f);
+    }
+
+    public void OnPlaybackStopped()
+    {
+        reverseInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+    }
+
     // Called by CamcorderMenuController on Rewind/FastForward
     public void OnRFF(bool isRewind)
     {
@@ -59,12 +79,7 @@ public class PlaybackAudioManager : MonoBehaviour
     public void OnRFFStopped()
     {
         // Speed = 0 = reverse (play/pause)
-        reverseInstance.setParameterByName("Speed", 0f);
+        reverseInstance.setParameterByName("Speed", -0.24f);
     }
 
-    // Called when R/FF stops
-    public void OnRFFStopped()
-    {
-        reverseInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-    }
 }

@@ -130,11 +130,20 @@ public class CamcorderMenuController : MonoBehaviour
         if (input.PlayPauseRecording)
         {
             if (playback.IsPlaying)
+            {
                 playback.PausePlayback();
+                PlaybackAudioManager.Instance?.OnPlaybackStopped();
+            }
             else if (playback.HasRecording && !playback.IsFinished)
+            {
                 playback.ResumePlayback();
+                PlaybackAudioManager.Instance?.OnPlaybackStarted();
+            }
             else
+            {
                 playback.PlayRecording(storage.GetAllRecordings()[currentRecordingIndex]);
+                PlaybackAudioManager.Instance?.OnPlaybackStarted();
+            }
         }
 
         if (!playback.IsPlaying && playback.HasRecording)
@@ -145,9 +154,16 @@ public class CamcorderMenuController : MonoBehaviour
                 if (frameStepTimer >= frameStepDelay)
                 {
                     frameStepTimer = 0f;
-                    if (input.RewindRecording) playback.RewindFrame();
-                    if (input.FastForwardRecording) playback.FastForwardFrame();
-                    PlaybackAudioManager.Instance?.OnRFF();
+                    if (input.RewindRecording)
+                    {
+                        playback.RewindFrame();
+                        PlaybackAudioManager.Instance?.OnRFF(true);
+                    }
+                    if (input.FastForwardRecording)
+                    {
+                        playback.FastForwardFrame();
+                        PlaybackAudioManager.Instance?.OnRFF(false);
+                    }
                 }
             }
             else
