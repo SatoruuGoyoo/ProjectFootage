@@ -14,11 +14,11 @@ public class PlayerState : MonoBehaviour
     }
 
     // TODO: remove debug input before shipping
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.K))
-            TakeDamage(5f);
-    }
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.K))
+    //        TakeDamage(5f);
+    //}
 
     public void TakeDamage(float damage)
     {
