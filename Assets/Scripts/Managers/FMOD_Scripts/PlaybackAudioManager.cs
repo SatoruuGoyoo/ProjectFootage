@@ -22,8 +22,17 @@ public class PlaybackAudioManager : MonoBehaviour
         Instance = this;
     }
 
-    private void OnEnable() => GameEvents.OnIterationChanged += OnIterationChanged;
-    private void OnDisable() => GameEvents.OnIterationChanged -= OnIterationChanged;
+    private void OnEnable()
+    {
+        GameEvents.OnIterationChanged += OnIterationChanged;
+        GameEvents.OnPlaybackEnded += OnPlaybackStopped;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.OnIterationChanged -= OnIterationChanged;
+        GameEvents.OnPlaybackEnded -= OnPlaybackStopped;
+    }
 
     private void Start()
     {
@@ -79,7 +88,7 @@ public class PlaybackAudioManager : MonoBehaviour
     public void OnRFFStopped()
     {
         // Speed = 0 = reverse (play/pause)
-        reverseInstance.setParameterByName("Speed", -0.24f);
+        reverseInstance.setParameterByName("Speed", 0.50f);
     }
 
 }

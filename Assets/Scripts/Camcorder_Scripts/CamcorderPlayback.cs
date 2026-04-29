@@ -69,6 +69,7 @@ public class CamcorderPlayback : MonoBehaviour
         framesToPlay = null;
         playbackPanel.SetActive(false);
         audioSource?.Stop();
+        GameEvents.PlaybackEnded();
     }
 
     public void RewindFrame()
@@ -102,6 +103,7 @@ public class CamcorderPlayback : MonoBehaviour
             isPlaying = false;
             playbackPanel.SetActive(false);
             audioSource?.Stop();
+            GameEvents.PlaybackEnded();
             return;
         }
         playbackImage.texture = framesToPlay[currentFrame];

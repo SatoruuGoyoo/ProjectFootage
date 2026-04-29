@@ -17,6 +17,7 @@ public static class GameEvents
     public static event Action OnRecordingStopped;
     public static event Action<int> OnFrameChanged;
     public static event Action<bool> OnCamcorderLightChanged;
+    public static event Action OnPlaybackEnded;
 
     // Puzzle
     public static event Action OnClockSolved;
@@ -35,6 +36,7 @@ public static class GameEvents
     public static void RecordingStopped() => OnRecordingStopped?.Invoke();
     public static void FrameChanged(int frame) => OnFrameChanged?.Invoke(frame);
     public static void CamcorderLightChanged(bool isGreen) => OnCamcorderLightChanged?.Invoke(isGreen);
+    public static void PlaybackEnded() => OnPlaybackEnded?.Invoke();
 
     // PUZZLE
     public static void ClockSolved() => OnClockSolved?.Invoke();

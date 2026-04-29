@@ -9,9 +9,6 @@ public class CamcorderMenuController : MonoBehaviour
     [Header("Menu UI")]
     public Canvas menuCanvas;
 
-    //[Header("Transition")]
-    //public CamcorderTransition transition;
-
     [Header("Timing/TweakDesigner")]
     [SerializeField] private float frameStepDelay = 0.15f;
 
@@ -20,10 +17,12 @@ public class CamcorderMenuController : MonoBehaviour
     private CamcorderInput input;
     private CamcorderMenuUI ui;
     private CamcorderController controller;
+    private IterationPlaybackAudio[] iterationAudios;
 
     private Camera activeFixedCamera;
     private float frameStepTimer = 0f;
     private int currentRecordingIndex = 0;
+    private bool wasRFF = false; // was rewinding or fast-forwarding, used to trigger audio changes on frame step
 
     private bool isMenuOpen = false;
     public bool IsMenuOpen => isMenuOpen;
@@ -35,6 +34,7 @@ public class CamcorderMenuController : MonoBehaviour
         input = GetComponent<CamcorderInput>();
         ui = GetComponent<CamcorderMenuUI>();
         controller = GetComponent<CamcorderController>();
+        iterationAudios = FindObjectsByType<IterationPlaybackAudio>(FindObjectsSortMode.None);
     }
 
     private void Start()
@@ -59,27 +59,26 @@ public class CamcorderMenuController : MonoBehaviour
 
     private void OpenMenu()
     {
-        //if (isMenuOpen || transition.IsTransitioning) return;
         if (controller.CurrentCamMode == CamcorderMode.Recording) return;
 
         isMenuOpen = true;
         GameEvents.PlayerModeChanged(PlayerMode.MenuCameraMode);
         activeFixedCamera = FindActiveFixedCamera();
 
-        
-            if (activeFixedCamera != null)
-                activeFixedCamera.gameObject.SetActive(false);
+        if (activeFixedCamera != null)
+            activeFixedCamera.gameObject.SetActive(false);
 
-            fpsCamera.gameObject.SetActive(true);
-            fpsHandModel.SetActive(true);
-            menuCanvas.gameObject.SetActive(true);
-            ui.UpdateUI(currentRecordingIndex);
-        
+        fpsCamera.gameObject.SetActive(true);
+        fpsHandModel.SetActive(true);
+        menuCanvas.gameObject.SetActive(true);
+        ui.UpdateUI(currentRecordingIndex);
     }
 
     private void CloseMenu()
     {
-        if (playback.HasRecording) playback.StopPlayback(); 
+        if (playback.HasRecording) 
+            playback.StopPlayback();
+            foreach (var audio in iterationAudios) audio.OnPlaybackStopped();
 
         isMenuOpen = false;
         currentRecordingIndex = 0;
@@ -97,11 +96,8 @@ public class CamcorderMenuController : MonoBehaviour
     private void ToggleMenu()
     {
         if (!input.OpenCloseMenu) return;
-
-        if (isMenuOpen)
-            CloseMenu();
-        else
-            OpenMenu();
+        if (isMenuOpen) CloseMenu();
+        else OpenMenu();
     }
 
     private void HandleNavigation()
@@ -125,21 +121,23 @@ public class CamcorderMenuController : MonoBehaviour
             {
                 playback.PausePlayback();
                 PlaybackAudioManager.Instance?.OnPlaybackStopped();
+                foreach (var audio in iterationAudios) audio.OnPlaybackStopped();
             }
             else if (playback.HasRecording && !playback.IsFinished)
             {
                 playback.ResumePlayback();
                 PlaybackAudioManager.Instance?.OnPlaybackStarted();
+                foreach (var audio in iterationAudios) audio.OnPlaybackStarted();
             }
             else
             {
                 playback.PlayRecording(storage.GetAllRecordings()[currentRecordingIndex]);
                 PlaybackAudioManager.Instance?.OnPlaybackStarted();
+                foreach (var audio in iterationAudios) audio.OnPlaybackStarted();
             }
         }
 
-     
-        if (playback.HasRecording)
+        if (playback.HasRecording && !playback.IsFinished)
         {
             if (input.RewindRecording || input.FastForwardRecording)
             {
@@ -147,6 +145,7 @@ public class CamcorderMenuController : MonoBehaviour
                 if (frameStepTimer >= frameStepDelay)
                 {
                     frameStepTimer = 0f;
+                    wasRFF = true; // ← solo acá, cuando OnRFF realmente se llama
                     if (input.RewindRecording)
                     {
                         playback.RewindFrame();
@@ -162,7 +161,11 @@ public class CamcorderMenuController : MonoBehaviour
             else
             {
                 frameStepTimer = 0f;
-                PlaybackAudioManager.Instance?.OnRFFStopped();
+                if (wasRFF)
+                {
+                    wasRFF = false;
+                    PlaybackAudioManager.Instance?.OnRFFStopped();
+                }
             }
         }
     }
@@ -182,14 +185,17 @@ public class CamcorderMenuController : MonoBehaviour
 
         ui.UpdateUI(currentRecordingIndex);
     }
+
     private void HandleStop()
     {
         if (!input.StopRecording) return;
         if (!playback.HasRecording) return;
 
-        playback.StopPlayback(); 
+        playback.StopPlayback();
+        foreach (var audio in iterationAudios) audio.OnPlaybackStopped();
         ui.UpdateUI(currentRecordingIndex);
     }
+
     private Camera FindActiveFixedCamera()
     {
         foreach (Camera cam in Camera.allCameras)
