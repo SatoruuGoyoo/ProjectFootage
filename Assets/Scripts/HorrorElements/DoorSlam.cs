@@ -20,11 +20,8 @@ public class DoorSlam : MonoBehaviour
     public Transform[] doors;
 
     [Header("Animación")]
-    [Tooltip("Segundos que tarda el slam (corto = más violento)")]
     public float slamDuration = 0.12f;
-    [Tooltip("Delay entre que entra al trigger y el golpe")]
     public float delay = 0.0f;
-    [Tooltip("Curva de easing — recomendado: arranque rápido, frenada brusca")]
     public AnimationCurve slamCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
     [Header("Audio (FMOD)")]
@@ -32,6 +29,10 @@ public class DoorSlam : MonoBehaviour
     public EventReference slamEvent;
     [Tooltip("Transform desde donde suena (dejá null para usar this.transform)")]
     public Transform audioOrigin;
+
+    [Header("Rotación de cierre")]
+    [Tooltip("Euler LOCAL de cada puerta en estado cerrado (mismo orden que el Inspector)")]
+    public Vector3[] closedEulers; // ← nuevo: llenás en el Inspector, ej: (-90, 0, 0
 
     // ── privado ─────────────────────────────────────────────
     private bool _ready = false;   // true cuando la iteración correcta llegó
@@ -41,8 +42,10 @@ public class DoorSlam : MonoBehaviour
     private void Start()
     {
         if (zoneTrigger != null)
+        {
             zoneTrigger.OnPlayerEntered += OnZoneEntered;
-
+            zoneTrigger.gameObject.SetActive(false); // desactivado al inicio
+        }
         GameEvents.OnIterationChanged += OnIterationChanged;
     }
 
@@ -57,8 +60,13 @@ public class DoorSlam : MonoBehaviour
     // ── Callbacks ────────────────────────────────────────────
     private void OnIterationChanged(int iteration)
     {
+        Debug.Log($"[DoorSlam] iteration: {iteration} target: {targetIteration}");
         if (iteration == targetIteration)
+        {
             _ready = true;
+            if (zoneTrigger != null)
+                zoneTrigger.gameObject.SetActive(true); // activalo cuando llegue la iteración
+        }
     }
 
     private void OnZoneEntered()
@@ -74,37 +82,34 @@ public class DoorSlam : MonoBehaviour
         if (delay > 0f)
             yield return new WaitForSecondsRealtime(delay);
 
-        // Capturamos rotación inicial de cada puerta
-        var startAngles = new Vector3[doors.Length];
+        // Capturamos rotación inicial como Quaternion (sin recomposición)
+        var startRots = new Quaternion[doors.Length];
+        var endRots = new Quaternion[doors.Length];
+
         for (int i = 0; i < doors.Length; i++)
-            startAngles[i] = doors[i].localEulerAngles;
+        {
+            startRots[i] = doors[i].localRotation;
+            // Usamos los eulers que vos definís, no los que Unity recalcula
+            endRots[i] = Quaternion.Euler(closedEulers[i]);
+            Debug.Log($"[DoorSlam] Puerta {i} — start: {startRots[i].eulerAngles}  end: {closedEulers[i]}");
+        }
 
         float elapsed = 0f;
-
         while (elapsed < slamDuration)
         {
             elapsed += Time.deltaTime;
             float t = slamCurve.Evaluate(Mathf.Clamp01(elapsed / slamDuration));
 
             for (int i = 0; i < doors.Length; i++)
-            {
-                var angles = startAngles[i];
-                angles.z = Mathf.LerpAngle(startAngles[i].z, 0f, t);
-                doors[i].localEulerAngles = angles;
-            }
+                doors[i].localRotation = Quaternion.Slerp(startRots[i], endRots[i], t);
 
             yield return null;
         }
 
         // Snap final exacto
         for (int i = 0; i < doors.Length; i++)
-        {
-            var angles = doors[i].localEulerAngles;
-            angles.z = 0f;
-            doors[i].localEulerAngles = angles;
-        }
+            doors[i].localRotation = endRots[i];
 
-        // ── Sonido FMOD ──────────────────────────────────────
         if (!slamEvent.IsNull)
         {
             Transform origin = audioOrigin != null ? audioOrigin : transform;
