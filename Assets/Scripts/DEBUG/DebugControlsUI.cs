@@ -19,6 +19,8 @@ public class DebugControlsUI : MonoBehaviour
     [SerializeField] private Color bgColor = new Color(0f, 0f, 0f, 0.55f);
     [SerializeField] private Color schemeColor = Color.yellow;
 
+    private bool isVisible = true;
+
     [Header("Editor Preview")]
     [Tooltip("En editor sin Play, elegí qué scheme previsualizar.")]
     [SerializeField] private ControlScheme editorPreviewScheme;
@@ -58,6 +60,11 @@ public class DebugControlsUI : MonoBehaviour
     private Texture2D bgTex;
     private int lastFontSize;
     private Color lastBgColor;
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+            isVisible = !isVisible;
+    }
 
     private void OnEnable()
     {
@@ -120,6 +127,7 @@ public class DebugControlsUI : MonoBehaviour
 
     private void OnGUI()
     {
+        if (!isVisible) return;
         if (NeedsRebuild()) BuildStyles();
 
         bool isTank;
