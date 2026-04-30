@@ -1,6 +1,6 @@
-using UnityEngine;
 using FMOD.Studio;
 using FMODUnity;
+using UnityEngine;
 
 public class IterationPlaybackAudio : MonoBehaviour
 {
@@ -8,26 +8,19 @@ public class IterationPlaybackAudio : MonoBehaviour
     [SerializeField] private EventReference audioEvent;
 
     [Header("Config")]
-    [SerializeField] private int targetIteration = 1; // index of iteration to play audio for (0-based)
+    [SerializeField] private int targetIteration;
 
     private EventInstance audioInstance;
     private bool isActive = false;
 
-    private void OnEnable()
-    {
-        GameEvents.OnIterationChanged += OnIterationChanged;
-        GameEvents.OnPlaybackEnded += OnPlaybackStopped;
-    }
-
-    private void OnDisable()
-    {
-        GameEvents.OnIterationChanged -= OnIterationChanged;
-        GameEvents.OnPlaybackEnded -= OnPlaybackStopped;
-    }
+    private void OnEnable() => GameEvents.OnIterationChanged += OnIterationChanged;
+    private void OnDisable() => GameEvents.OnIterationChanged -= OnIterationChanged;
 
     private void Start()
     {
         audioInstance = FMODManager.Instance.CreateEventInstance(audioEvent);
+        isActive = PuzzleManager.Instance != null &&
+                   PuzzleManager.Instance.CurrentIteration == targetIteration;
     }
 
     private void OnDestroy()
@@ -39,20 +32,33 @@ public class IterationPlaybackAudio : MonoBehaviour
     private void OnIterationChanged(int iteration)
     {
         isActive = iteration == targetIteration;
-        if(!isActive) audioInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        if (!isActive) audioInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
     }
 
-    public void OnPlaybackStarted()
+    public void OnPlaybackStarted(bool isResume = false)
     {
         if (!isActive) return;
-        PLAYBACK_STATE state;
-        audioInstance.getPlaybackState(out state);
-        if (state != PLAYBACK_STATE.PLAYING)
+
+        if (isResume)
+        {
+            audioInstance.setPaused(false);
+        }
+        else
+        {
+            audioInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
             audioInstance.start();
+        }
+    }
+
+    public void OnPlaybackPaused()
+    {
+        if (!isActive) return;
+        audioInstance.setPaused(true);
     }
 
     public void OnPlaybackStopped()
     {
-        audioInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        if (!isActive) return;
+        audioInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
     }
 }

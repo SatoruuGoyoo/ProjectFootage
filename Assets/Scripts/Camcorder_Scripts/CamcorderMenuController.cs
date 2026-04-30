@@ -22,10 +22,13 @@ public class CamcorderMenuController : MonoBehaviour
     private Camera activeFixedCamera;
     private float frameStepTimer = 0f;
     private int currentRecordingIndex = 0;
-    private bool wasRFF = false; // was rewinding or fast-forwarding, used to trigger audio changes on frame step
+    private bool wasRFF = false;
 
     private bool isMenuOpen = false;
     public bool IsMenuOpen => isMenuOpen;
+
+    private void OnEnable() => GameEvents.OnPlaybackEnded += OnPlaybackEnded;
+    private void OnDisable() => GameEvents.OnPlaybackEnded -= OnPlaybackEnded;
 
     private void Awake()
     {
@@ -47,7 +50,6 @@ public class CamcorderMenuController : MonoBehaviour
     private void Update()
     {
         ToggleMenu();
-
         if (isMenuOpen)
         {
             HandleNavigation();
@@ -76,9 +78,13 @@ public class CamcorderMenuController : MonoBehaviour
 
     private void CloseMenu()
     {
-        if (playback.HasRecording) 
+        // Fix: llaves correctas para que el foreach esté dentro del if
+        if (playback.HasRecording)
+        {
             playback.StopPlayback();
+            PlaybackAudioManager.Instance?.OnPlaybackStopped();
             foreach (var audio in iterationAudios) audio.OnPlaybackStopped();
+        }
 
         isMenuOpen = false;
         currentRecordingIndex = 0;
@@ -98,6 +104,12 @@ public class CamcorderMenuController : MonoBehaviour
         if (!input.OpenCloseMenu) return;
         if (isMenuOpen) CloseMenu();
         else OpenMenu();
+    }
+
+    private void OnPlaybackEnded()
+    {
+        PlaybackAudioManager.Instance?.OnPlaybackStopped();
+        foreach (var audio in iterationAudios) audio.OnPlaybackStopped();
     }
 
     private void HandleNavigation()
@@ -120,20 +132,20 @@ public class CamcorderMenuController : MonoBehaviour
             if (playback.IsPlaying)
             {
                 playback.PausePlayback();
-                PlaybackAudioManager.Instance?.OnPlaybackStopped();
-                foreach (var audio in iterationAudios) audio.OnPlaybackStopped();
+                PlaybackAudioManager.Instance?.OnPlaybackPaused();
+                foreach (var audio in iterationAudios) audio.OnPlaybackPaused();
             }
             else if (playback.HasRecording && !playback.IsFinished)
             {
                 playback.ResumePlayback();
-                PlaybackAudioManager.Instance?.OnPlaybackStarted();
-                foreach (var audio in iterationAudios) audio.OnPlaybackStarted();
+                PlaybackAudioManager.Instance?.OnPlaybackStarted(true);
+                foreach (var audio in iterationAudios) audio.OnPlaybackStarted(true);
             }
             else
             {
                 playback.PlayRecording(storage.GetAllRecordings()[currentRecordingIndex]);
-                PlaybackAudioManager.Instance?.OnPlaybackStarted();
-                foreach (var audio in iterationAudios) audio.OnPlaybackStarted();
+                PlaybackAudioManager.Instance?.OnPlaybackStarted(false);
+                foreach (var audio in iterationAudios) audio.OnPlaybackStarted(false);
             }
         }
 
@@ -145,7 +157,7 @@ public class CamcorderMenuController : MonoBehaviour
                 if (frameStepTimer >= frameStepDelay)
                 {
                     frameStepTimer = 0f;
-                    wasRFF = true; // ← solo acá, cuando OnRFF realmente se llama
+                    wasRFF = true;
                     if (input.RewindRecording)
                     {
                         playback.RewindFrame();
@@ -192,6 +204,7 @@ public class CamcorderMenuController : MonoBehaviour
         if (!playback.HasRecording) return;
 
         playback.StopPlayback();
+        PlaybackAudioManager.Instance?.OnPlaybackStopped();
         foreach (var audio in iterationAudios) audio.OnPlaybackStopped();
         ui.UpdateUI(currentRecordingIndex);
     }

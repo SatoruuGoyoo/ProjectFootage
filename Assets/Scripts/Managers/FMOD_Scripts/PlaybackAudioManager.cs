@@ -1,7 +1,6 @@
 using FMOD.Studio;
 using FMODUnity;
 using UnityEngine;
-using static UnityEngine.ParticleSystem;
 
 public class PlaybackAudioManager : MonoBehaviour
 {
@@ -11,7 +10,7 @@ public class PlaybackAudioManager : MonoBehaviour
     [SerializeField] private EventReference reverseAudioEvent;
 
     [Header("Config")]
-    [SerializeField] private int activeIteration = 2; // index of iteration to play reverse audio for (0-based)
+    [SerializeField] private int activeIteration = 2;
 
     private EventInstance reverseInstance;
     private bool isActive = false;
@@ -22,17 +21,8 @@ public class PlaybackAudioManager : MonoBehaviour
         Instance = this;
     }
 
-    private void OnEnable()
-    {
-        GameEvents.OnIterationChanged += OnIterationChanged;
-        GameEvents.OnPlaybackEnded += OnPlaybackStopped;
-    }
-
-    private void OnDisable()
-    {
-        GameEvents.OnIterationChanged -= OnIterationChanged;
-        GameEvents.OnPlaybackEnded -= OnPlaybackStopped;
-    }
+    private void OnEnable() => GameEvents.OnIterationChanged += OnIterationChanged;
+    private void OnDisable() => GameEvents.OnIterationChanged -= OnIterationChanged;
 
     private void Start()
     {
@@ -47,30 +37,40 @@ public class PlaybackAudioManager : MonoBehaviour
 
     private void OnIterationChanged(int iteration)
     {
+        bool wasActive = isActive;
         isActive = iteration >= activeIteration;
+        if (wasActive && !isActive)
+            reverseInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
     }
 
-    public void OnPlaybackStarted()
+    public void OnPlaybackStarted(bool isResume = false)
     {
-        Debug.Log($"[PlaybackAudio] OnPlaybackStarted — isActive: {isActive}");
         if (!isActive) return;
 
-        PLAYBACK_STATE state;
-        reverseInstance.getPlaybackState(out state);
-
-        if (state != PLAYBACK_STATE.PLAYING)
+        if (isResume)
+        {
+            reverseInstance.setPaused(false);
+        }
+        else
+        {
+            reverseInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
             reverseInstance.start();
-
-        // Speed = 0 = reverse normal during play
+        }
         reverseInstance.setParameterByName("Speed", 0.50f);
     }
 
     public void OnPlaybackStopped()
     {
-        reverseInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        if (!isActive) return;
+        reverseInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
     }
 
-    // Called by CamcorderMenuController on Rewind/FastForward
+    public void OnPlaybackPaused()
+    {
+        if (!isActive) return;
+        reverseInstance.setPaused(true); // solo pausa
+    }
+
     public void OnRFF(bool isRewind)
     {
         if (!isActive) return;
@@ -78,17 +78,16 @@ public class PlaybackAudioManager : MonoBehaviour
         PLAYBACK_STATE state;
         reverseInstance.getPlaybackState(out state);
 
-        if (state != PLAYBACK_STATE.PLAYING)
+        if (state == PLAYBACK_STATE.STOPPED || state == PLAYBACK_STATE.STOPPING)
             reverseInstance.start();
+        else
+            reverseInstance.setPaused(false);
 
-        // -1 = rewind (original), 2 = fastforward (faster reverse)
         reverseInstance.setParameterByName("Speed", isRewind ? -1f : 2f);
     }
 
     public void OnRFFStopped()
     {
-        // Speed = 0 = reverse (play/pause)
         reverseInstance.setParameterByName("Speed", 0.50f);
     }
-
 }

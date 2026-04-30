@@ -13550,7 +13550,7 @@ GameObject:
   - component: {fileID: 963946107}
   - component: {fileID: 963946108}
   m_Layer: 0
-  m_Name: IterationAudioPlayback
+  m_Name: IterationAudioPlayback_IT2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13589,7 +13589,7 @@ MonoBehaviour:
       Data2: 1121287367
       Data3: -934784328
       Data4: 96339796
-    Path: event:/SFX/Iterations/Radio
+    Path: event:/SFX/Iterations/Radio_IT2
   targetIteration: 1
 --- !u!1 &971777554
 GameObject:
@@ -14900,6 +14900,7 @@ Transform:
   - {fileID: 101172110}
   - {fileID: 1123444261}
   - {fileID: 963946107}
+  - {fileID: 1197297329}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1104377676
@@ -17208,6 +17209,58 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3.0000007, y: 5.2, z: 1.0000002}
   m_Center: {x: -1.2801231, y: 2.02204, z: -0.00000016391282}
+--- !u!1 &1197297328
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1197297329}
+  - component: {fileID: 1197297330}
+  m_Layer: 0
+  m_Name: IterationAudioPlayback_IT1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1197297329
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1197297328}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1104377675}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1197297330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1197297328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8689806f33ffc43478c3da628c936641, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IterationPlaybackAudio
+  audioEvent:
+    Guid:
+      Data1: 282151155
+      Data2: 1298310404
+      Data3: 891185853
+      Data4: 110288780
+    Path: event:/SFX/Iterations/Radio_IT1
+  targetIteration: 0
 --- !u!1 &1204949322
 GameObject:
   m_ObjectHideFlags: 0
