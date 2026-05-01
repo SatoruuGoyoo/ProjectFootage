@@ -14,7 +14,10 @@ public class PlayerConfig : ScriptableObject
 
     [Header("Movement Feel")]
     [SerializeField] private float acceleration = 15f;
+    [SerializeField] private float deceleration = 25f; 
     [SerializeField] private float gravityMultiplier = 2f;
+
+    public float Deceleration => deceleration;
 
     [Header("Recording Modifiers")]
     [SerializeField] private float recordingSpeedMultiplier = 0.5f;

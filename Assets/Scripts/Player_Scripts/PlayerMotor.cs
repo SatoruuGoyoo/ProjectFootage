@@ -14,6 +14,8 @@ public class PlayerMotor : MonoBehaviour
 
     private void Awake() => characterController = GetComponent<CharacterController>();
 
+    public bool HasInput { get; private set; }
+
     // --- Tank ---
 
     public void MoveTank(float moveInput)
@@ -21,7 +23,9 @@ public class PlayerMotor : MonoBehaviour
         if (config == null) return;
 
         float targetSpeed = moveInput * config.MoveSpeed;
-        currentSpeedTank = Mathf.MoveTowards(currentSpeedTank, targetSpeed, config.Acceleration * Time.deltaTime);
+        float accel = Mathf.Abs(targetSpeed) > 0.01f ? config.Acceleration : config.Deceleration;
+        currentSpeedTank = Mathf.MoveTowards(currentSpeedTank, targetSpeed, accel * Time.deltaTime);
+        HasInput = Mathf.Abs(moveInput) > 0.01f;
 
         ApplyGravity();
         Vector3 movement = transform.forward * currentSpeedTank * Time.deltaTime;
@@ -49,6 +53,7 @@ public class PlayerMotor : MonoBehaviour
         bool hasInput = input.sqrMagnitude > 0.01f;
         bool inputChanged = Vector2.Distance(input, lastRawInput) > 0.15f;
         lastRawInput = input;
+        HasInput = hasInput;
 
         if (!hasInput)
             currentWorldDir = Vector3.zero;
@@ -59,7 +64,8 @@ public class PlayerMotor : MonoBehaviour
         }
 
         float targetSpeed = hasInput ? config.MoveSpeed : 0f;
-        currentSpeedModern = Mathf.MoveTowards(currentSpeedModern, targetSpeed, config.Acceleration * Time.deltaTime);
+        float accel = targetSpeed > 0.01f ? config.Acceleration : config.Deceleration;
+        currentSpeedModern = Mathf.MoveTowards(currentSpeedModern, targetSpeed, accel * Time.deltaTime);
 
         ApplyGravity();
 
@@ -89,9 +95,12 @@ public class PlayerMotor : MonoBehaviour
         Vector3 flatForward = new Vector3(transform.forward.x, 0f, transform.forward.z).normalized;
         Vector3 flatRight = new Vector3(transform.right.x, 0f, transform.right.z).normalized;
 
+
         Vector3 inputDir = flatForward * input.y + flatRight * input.x;
         float targetSpeed = inputDir.sqrMagnitude > 0.01f ? config.MoveSpeed * config.RecordingSpeedMultiplier : 0f;
-        currentSpeedModern = Mathf.MoveTowards(currentSpeedModern, targetSpeed, config.Acceleration * Time.deltaTime);
+        float accel = targetSpeed > 0.01f ? config.Acceleration : config.Deceleration;
+        currentSpeedModern = Mathf.MoveTowards(currentSpeedModern, targetSpeed, accel * Time.deltaTime);
+        HasInput = inputDir.sqrMagnitude > 0.01f;
 
         ApplyGravity();
         Vector3 movement = inputDir.normalized * currentSpeedModern * Time.deltaTime;
