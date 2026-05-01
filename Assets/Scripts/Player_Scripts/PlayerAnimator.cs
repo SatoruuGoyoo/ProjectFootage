@@ -25,10 +25,8 @@ public class PlayerAnimator : MonoBehaviour
     {
         if (animator == null || config == null || motor == null) return;
 
-        // Transición inmediata basada en input, no en velocidad
+    
         animator.SetBool(IsWalkingHash, motor.HasInput);
-
-        // Velocidad de reproducción sigue a la velocidad real → se ve natural
         Vector3 horizontalVel = characterController.velocity;
         horizontalVel.y = 0f;
         float normalizedSpeed = Mathf.Clamp01(horizontalVel.magnitude / config.MoveSpeed);
