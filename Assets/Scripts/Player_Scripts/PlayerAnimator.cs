@@ -9,6 +9,9 @@ public class PlayerAnimator : MonoBehaviour
     private PlayerMotor motor;
 
     private static readonly int IsWalkingHash = Animator.StringToHash("IsWalking");
+    private static readonly int IsWalkingBackHash = Animator.StringToHash("IsWalkingBack");
+    private static readonly int IsSprintingHash = Animator.StringToHash("IsSprinting");
+
 
     private void Awake()
     {
@@ -25,8 +28,13 @@ public class PlayerAnimator : MonoBehaviour
     {
         if (animator == null || config == null || motor == null) return;
 
-    
-        animator.SetBool(IsWalkingHash, motor.HasInput);
+        bool isBack = motor.IsMovingBackward;
+        bool isSprint = motor.IsSprinting;
+
+        animator.SetBool(IsWalkingHash, motor.HasInput && !isBack && !isSprint);
+        animator.SetBool(IsWalkingBackHash, motor.HasInput && isBack);
+        animator.SetBool(IsSprintingHash, isSprint);
+
         Vector3 horizontalVel = characterController.velocity;
         horizontalVel.y = 0f;
         float normalizedSpeed = Mathf.Clamp01(horizontalVel.magnitude / config.MoveSpeed);

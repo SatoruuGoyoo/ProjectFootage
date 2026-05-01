@@ -15,14 +15,19 @@ public class PlayerMotor : MonoBehaviour
     private void Awake() => characterController = GetComponent<CharacterController>();
 
     public bool HasInput { get; private set; }
+    public bool IsMovingBackward { get; private set; }
+    public bool IsSprinting { get; private set; }
 
     // --- Tank ---
 
-    public void MoveTank(float moveInput)
+    public void MoveTank(float moveInput, bool sprint)
     {
         if (config == null) return;
 
-        float targetSpeed = moveInput * config.MoveSpeed;
+        IsMovingBackward = moveInput < -0.01f;
+        IsSprinting = sprint && moveInput > 0.01f; 
+        float topSpeed = IsSprinting ? config.SprintSpeed : config.MoveSpeed;
+        float targetSpeed = moveInput * topSpeed;
         float accel = Mathf.Abs(targetSpeed) > 0.01f ? config.Acceleration : config.Deceleration;
         currentSpeedTank = Mathf.MoveTowards(currentSpeedTank, targetSpeed, accel * Time.deltaTime);
         HasInput = Mathf.Abs(moveInput) > 0.01f;
@@ -41,7 +46,7 @@ public class PlayerMotor : MonoBehaviour
 
     // --- Modern ---
 
-    public void MoveRelativeToCamera(Vector2 input, Camera activeCamera)
+    public void MoveRelativeToCamera(Vector2 input, Camera activeCamera, bool sprint)
     {
         if (config == null || activeCamera == null) return;
 
@@ -52,8 +57,10 @@ public class PlayerMotor : MonoBehaviour
 
         bool hasInput = input.sqrMagnitude > 0.01f;
         HasInput = hasInput;
+        IsSprinting = sprint && hasInput;
+        float topSpeed = IsSprinting ? config.SprintSpeed : config.ModernMoveSpeed;
 
-        float targetSpeed = hasInput ? config.ModernMoveSpeed : 0f;
+        float targetSpeed = hasInput ? topSpeed : 0f;
         float accel = targetSpeed > 0.01f ? config.Acceleration : config.Deceleration;
         currentSpeedModern = Mathf.MoveTowards(currentSpeedModern, targetSpeed, accel * Time.deltaTime);
 

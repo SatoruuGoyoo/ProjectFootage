@@ -11,6 +11,8 @@ public class PlayerConfig : ScriptableObject
     [SerializeField] private float rotationSmoothSpeed = 8f;
     [SerializeField] private float modernMoveSpeed = 2.5f;
 
+    [Header("Movement / Shared")]
+    [SerializeField] private float sprintSpeed = 6f;
 
     [Header("Movement Feel")]
     [SerializeField] private float acceleration = 15f;
@@ -28,8 +30,8 @@ public class PlayerConfig : ScriptableObject
 
     public float MoveSpeed => moveSpeed;
     public float TurnSpeed => turnSpeed;
-
     public float ModernMoveSpeed => modernMoveSpeed;
+    public float SprintSpeed => sprintSpeed;
     public float RotationSmoothSpeed => rotationSmoothSpeed;
     public float Acceleration => acceleration;
     public float GravityMultiplier => gravityMultiplier;

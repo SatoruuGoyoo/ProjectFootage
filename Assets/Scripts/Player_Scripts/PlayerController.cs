@@ -48,8 +48,7 @@ public class PlayerController : MonoBehaviour
     {
         if (currentMode == PlayerMode.CameraMode) return;
         if (currentMode == PlayerMode.RecordingMode) return;
-
-        motor.MoveTank(input.MoveForward);
+        motor.MoveTank(input.MoveForward, input.IsSprinting);
         motor.Turn(input.Turn);
     }
 
@@ -59,9 +58,8 @@ public class PlayerController : MonoBehaviour
         if (currentMode == PlayerMode.ExplorationMode)
         {
             Camera activeCam = CameraManager.Instance?.ActiveCamera;
-            motor.MoveRelativeToCamera(input.MoveVector, activeCam);
+            motor.MoveRelativeToCamera(input.MoveVector, activeCam, input.IsSprinting);
         }
-
         if (currentMode == PlayerMode.CameraMode || currentMode == PlayerMode.RecordingMode)
             motor.MoveRelativeToSelf(input.MoveVector);
     }
