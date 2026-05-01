@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerMotor : MonoBehaviour
 {
@@ -51,41 +51,34 @@ public class PlayerMotor : MonoBehaviour
         camRight.y = 0f; camRight.Normalize();
 
         bool hasInput = input.sqrMagnitude > 0.01f;
-        bool inputChanged = Vector2.Distance(input, lastRawInput) > 0.15f;
-        lastRawInput = input;
         HasInput = hasInput;
 
-        if (!hasInput)
-            currentWorldDir = Vector3.zero;
-        else if (inputChanged)
-        {
-            currentWorldDir = (camForward * input.y + camRight * input.x).normalized;
-            lastValidDir = currentWorldDir;
-        }
-
-        float targetSpeed = hasInput ? config.MoveSpeed : 0f;
+        float targetSpeed = hasInput ? config.ModernMoveSpeed : 0f;
         float accel = targetSpeed > 0.01f ? config.Acceleration : config.Deceleration;
         currentSpeedModern = Mathf.MoveTowards(currentSpeedModern, targetSpeed, accel * Time.deltaTime);
 
+      
+        if (hasInput && currentSpeedModern > 0.1f)
+        {
+            Vector3 desiredDir = (camForward * input.y + camRight * input.x).normalized;
+            transform.rotation = Quaternion.Slerp(
+                transform.rotation,
+                Quaternion.LookRotation(desiredDir),
+                Time.deltaTime * config.RotationSmoothSpeed);
+            FlattenRotation();
+        }
+
         ApplyGravity();
 
+        
         if (currentSpeedModern < 0.01f)
         {
             characterController.Move(new Vector3(0f, verticalVelocity * Time.deltaTime, 0f));
             return;
         }
 
-        characterController.Move(lastValidDir * currentSpeedModern * Time.deltaTime
+        characterController.Move(transform.forward * currentSpeedModern * Time.deltaTime
             + Vector3.up * verticalVelocity * Time.deltaTime);
-
-        if (hasInput && currentSpeedModern > 0.1f)
-        {
-            transform.rotation = Quaternion.Slerp(
-                transform.rotation,
-                Quaternion.LookRotation(lastValidDir),
-                Time.deltaTime * config.RotationSmoothSpeed);
-            FlattenRotation();
-        }
     }
 
     public void MoveRelativeToSelf(Vector2 input)
@@ -97,7 +90,7 @@ public class PlayerMotor : MonoBehaviour
 
 
         Vector3 inputDir = flatForward * input.y + flatRight * input.x;
-        float targetSpeed = inputDir.sqrMagnitude > 0.01f ? config.MoveSpeed * config.RecordingSpeedMultiplier : 0f;
+        float targetSpeed = inputDir.sqrMagnitude > 0.01f ? config.ModernMoveSpeed * config.RecordingSpeedMultiplier : 0f;
         float accel = targetSpeed > 0.01f ? config.Acceleration : config.Deceleration;
         currentSpeedModern = Mathf.MoveTowards(currentSpeedModern, targetSpeed, accel * Time.deltaTime);
         HasInput = inputDir.sqrMagnitude > 0.01f;
@@ -125,7 +118,7 @@ public class PlayerMotor : MonoBehaviour
             verticalVelocity += Physics.gravity.y * config.GravityMultiplier * Time.deltaTime;
     }
 
-    // Strips any accumulated pitch/roll � only Y rotation survives
+    // Strips any accumulated pitch/roll — only Y rotation survives
     private void FlattenRotation()
     {
         Vector3 euler = transform.eulerAngles;

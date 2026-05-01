@@ -3,14 +3,14 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PlayerConfig", menuName = "Game/PlayerConfig")]
 public class PlayerConfig : ScriptableObject
 {
-    [Header("Movement / Shared")]
-    [SerializeField] private float moveSpeed = 3f;
-
     [Header("Movement / Tank")]
+    [SerializeField] private float moveSpeed = 3f;
     [SerializeField] private float turnSpeed = 120f;
 
     [Header("Movement / Modern")]
     [SerializeField] private float rotationSmoothSpeed = 8f;
+    [SerializeField] private float modernMoveSpeed = 2.5f;
+
 
     [Header("Movement Feel")]
     [SerializeField] private float acceleration = 15f;
@@ -28,6 +28,8 @@ public class PlayerConfig : ScriptableObject
 
     public float MoveSpeed => moveSpeed;
     public float TurnSpeed => turnSpeed;
+
+    public float ModernMoveSpeed => modernMoveSpeed;
     public float RotationSmoothSpeed => rotationSmoothSpeed;
     public float Acceleration => acceleration;
     public float GravityMultiplier => gravityMultiplier;
