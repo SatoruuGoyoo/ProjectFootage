@@ -12,6 +12,9 @@ public static class GameEvents
     // Control Scheme
     public static event Action<ControlScheme> OnControllerSchemeChanged;
 
+    //Pause
+    public static event Action<bool> OnPauseChanged;
+
     // Camcorder
     public static event Action OnRecordingStarted;
     public static event Action OnRecordingStopped;
@@ -42,4 +45,7 @@ public static class GameEvents
     public static void ClockSolved() => OnClockSolved?.Invoke();
     public static void IterationChanged(int iteration) => OnIterationChanged?.Invoke(iteration);
     public static void PuzzleCompleted(string puzzleId) => OnPuzzleCompleted?.Invoke(puzzleId);
+
+    //PAUSE
+    public static void PauseChanged(bool paused) => OnPauseChanged?.Invoke(paused);
 }
