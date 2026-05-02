@@ -88,22 +88,26 @@ public class PlayerMotor : MonoBehaviour
             + Vector3.up * verticalVelocity * Time.deltaTime);
     }
 
-    public void MoveRelativeToSelf(Vector2 input)
+    public void MoveRelativeToSelf(float forwardInput, bool tankSpeed = false)
     {
         if (config == null) return;
 
-        Vector3 flatForward = new Vector3(transform.forward.x, 0f, transform.forward.z).normalized;
-        Vector3 flatRight = new Vector3(transform.right.x, 0f, transform.right.z).normalized;
+        IsMovingBackward = forwardInput < -0.01f; 
 
+        float speed = tankSpeed ? config.RecordingSpeedTank : config.RecordingSpeedModern;
+        float targetSpeed = Mathf.Abs(forwardInput) > 0.01f ? forwardInput * speed : 0f;
+        float accel = Mathf.Abs(targetSpeed) > 0.01f ? config.Acceleration : config.Deceleration;
 
-        Vector3 inputDir = flatForward * input.y + flatRight * input.x;
-        float targetSpeed = inputDir.sqrMagnitude > 0.01f ? config.ModernMoveSpeed * config.RecordingSpeedMultiplier : 0f;
-        float accel = targetSpeed > 0.01f ? config.Acceleration : config.Deceleration;
-        currentSpeedModern = Mathf.MoveTowards(currentSpeedModern, targetSpeed, accel * Time.deltaTime);
-        HasInput = inputDir.sqrMagnitude > 0.01f;
+        if (tankSpeed)
+            currentSpeedTank = Mathf.MoveTowards(currentSpeedTank, targetSpeed, accel * Time.deltaTime);
+        else
+            currentSpeedModern = Mathf.MoveTowards(currentSpeedModern, targetSpeed, accel * Time.deltaTime);
+
+        float finalSpeed = tankSpeed ? currentSpeedTank : currentSpeedModern;
+        HasInput = Mathf.Abs(forwardInput) > 0.01f;
 
         ApplyGravity();
-        Vector3 movement = inputDir.normalized * currentSpeedModern * Time.deltaTime;
+        Vector3 movement = transform.forward * finalSpeed * Time.deltaTime;
         movement.y = verticalVelocity * Time.deltaTime;
         characterController.Move(movement);
     }

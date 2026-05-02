@@ -11,7 +11,11 @@ public class PlayerAnimator : MonoBehaviour
     private static readonly int IsWalkingHash = Animator.StringToHash("IsWalking");
     private static readonly int IsWalkingBackHash = Animator.StringToHash("IsWalkingBack");
     private static readonly int IsSprintingHash = Animator.StringToHash("IsSprinting");
+    private PlayerMode currentMode = PlayerMode.ExplorationMode;
 
+    private void OnEnable() => GameEvents.OnPlayerModeChanged += OnPlayerModeChanged;
+    private void OnDisable() => GameEvents.OnPlayerModeChanged -= OnPlayerModeChanged;
+    private void OnPlayerModeChanged(PlayerMode mode) => currentMode = mode;
 
     private void Awake()
     {
@@ -30,14 +34,19 @@ public class PlayerAnimator : MonoBehaviour
 
         bool isBack = motor.IsMovingBackward;
         bool isSprint = motor.IsSprinting;
-
         animator.SetBool(IsWalkingHash, motor.HasInput && !isBack && !isSprint);
         animator.SetBool(IsWalkingBackHash, motor.HasInput && isBack);
         animator.SetBool(IsSprintingHash, isSprint);
-
-        Vector3 horizontalVel = characterController.velocity;
-        horizontalVel.y = 0f;
-        float normalizedSpeed = Mathf.Clamp01(horizontalVel.magnitude / config.MoveSpeed);
-        animator.speed = motor.HasInput ? Mathf.Max(normalizedSpeed, 0.3f) : 1f;
+        if (currentMode == PlayerMode.ExplorationMode)
+        {
+            Vector3 horizontalVel = characterController.velocity;
+            horizontalVel.y = 0f;
+            float normalizedSpeed = Mathf.Clamp01(horizontalVel.magnitude / config.MoveSpeed);
+            animator.speed = motor.HasInput ? Mathf.Max(normalizedSpeed, 0.3f) : 1f;
+        }
+        else
+        {
+            animator.speed = 1f; 
+        }
     }
 }

@@ -22,7 +22,8 @@ public class PlayerConfig : ScriptableObject
     public float Deceleration => deceleration;
 
     [Header("Recording Modifiers")]
-    [SerializeField] private float recordingSpeedMultiplier = 0.5f;
+    [SerializeField] private float recordingSpeedTank = 1.5f;    
+    [SerializeField] private float recordingSpeedModern = 1.5f;  
     [SerializeField] private float recordingRotationMultiplier = 0.5f;
 
     [Header("Stats")]
@@ -35,7 +36,8 @@ public class PlayerConfig : ScriptableObject
     public float RotationSmoothSpeed => rotationSmoothSpeed;
     public float Acceleration => acceleration;
     public float GravityMultiplier => gravityMultiplier;
-    public float RecordingSpeedMultiplier => recordingSpeedMultiplier;
+    public float RecordingSpeedTank => recordingSpeedTank;
+    public float RecordingSpeedModern => recordingSpeedModern;
     public float RecordingRotationMultiplier => recordingRotationMultiplier;
     public int MaxHealth => maxHealth;
 }
