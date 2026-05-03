@@ -48,7 +48,7 @@ public class PlayerController : MonoBehaviour
     {
         if (currentMode == PlayerMode.CameraMode || currentMode == PlayerMode.RecordingMode)
         {
-            motor.MoveRelativeToSelf(input.MoveForward, tankSpeed: true);
+            motor.MoveRelativeToSelf(input.MoveVector, tankSpeed: true);
             return;
         }
 
@@ -59,17 +59,15 @@ public class PlayerController : MonoBehaviour
     // Modern controls: camera-relative movement in exploration, self-relative when recording.
     private void UpdateModern()
     {
-        if (currentMode == PlayerMode.ExplorationMode)
-        {
-            Camera activeCam = CameraManager.Instance?.ActiveCamera;
-            motor.MoveRelativeToCamera(input.MoveVector, activeCam, input.IsSprinting);
-        }
+        Camera activeCam = CameraManager.Instance?.ActiveCamera;
 
-        
+        if (currentMode == PlayerMode.ExplorationMode)
+            motor.MoveRelativeToCamera(input.MoveVector, activeCam, input.IsSprinting);
+
         if (currentMode == PlayerMode.CameraMode)
-            motor.MoveRelativeToSelf(input.MoveVector.y);
+            motor.MoveRelativeToSelf(input.MoveVector);           
 
         if (currentMode == PlayerMode.RecordingMode)
-            motor.MoveRelativeToSelf(input.MoveForward);
+            motor.MoveRelativeToSelf(new Vector2(0f, input.MoveForward)); 
     }
 }

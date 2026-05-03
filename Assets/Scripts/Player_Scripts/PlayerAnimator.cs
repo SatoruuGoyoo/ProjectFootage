@@ -17,6 +17,9 @@ public class PlayerAnimator : MonoBehaviour
     private void OnDisable() => GameEvents.OnPlayerModeChanged -= OnPlayerModeChanged;
     private void OnPlayerModeChanged(PlayerMode mode) => currentMode = mode;
 
+    private static readonly int MoveXHash = Animator.StringToHash("MoveX");
+    private static readonly int MoveYHash = Animator.StringToHash("MoveY");
+
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
@@ -37,6 +40,7 @@ public class PlayerAnimator : MonoBehaviour
         animator.SetBool(IsWalkingHash, motor.HasInput && !isBack && !isSprint);
         animator.SetBool(IsWalkingBackHash, motor.HasInput && isBack);
         animator.SetBool(IsSprintingHash, isSprint);
+
         if (currentMode == PlayerMode.ExplorationMode)
         {
             Vector3 horizontalVel = characterController.velocity;
