@@ -1,31 +1,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public struct RecordingData
-{
-    public List<Texture2D> frames;
-    public AudioClip clip;
-}
-
+/// <summary>
+/// Responsabilidad única: guardar y eliminar RecordingSessions.
+/// Reemplaza el RecordingData viejo (List<Texture2D> + AudioClip)
+/// por RecordingSession que tiene todo — video, audio, transforms.
+/// La interfaz pública es casi idéntica a la anterior.
+/// </summary>
 public class CamcorderStorage : MonoBehaviour
 {
-    private List<RecordingData> recordings = new List<RecordingData>();
-    private const int maxRecordings = 5;
+    private readonly List<RecordingSession> _recordings = new List<RecordingSession>();
+    private const int MaxRecordings = 5;
 
-    public void AddRecording(List<Texture2D> frames, AudioClip clip = null)
+    public int Count => _recordings.Count;
+
+    public void AddRecording(RecordingSession session)
     {
-        if (recordings.Count >= maxRecordings)
-            recordings.RemoveAt(0);
+        if (!session.IsCompleted)
+        {
+            Debug.LogWarning("CamcorderStorage: se intentó guardar una sesión no completada.");
+            return;
+        }
 
-        recordings.Add(new RecordingData { frames = frames, clip = clip });
+        if (_recordings.Count >= MaxRecordings)
+            _recordings.RemoveAt(0);
+
+        _recordings.Add(session);
     }
 
-    public List<RecordingData> GetAllRecordings() => new List<RecordingData>(recordings);
+    public IReadOnlyList<RecordingSession> GetAllRecordings() => _recordings;
+
+    public RecordingSession GetRecording(int index)
+    {
+        if (index < 0 || index >= _recordings.Count) return null;
+        return _recordings[index];
+    }
 
     public void DiscardRecording(int index)
     {
-        if (index >= 0 && index < recordings.Count)
-            recordings.RemoveAt(index);
+        if (index >= 0 && index < _recordings.Count)
+            _recordings.RemoveAt(index);
     }
 }

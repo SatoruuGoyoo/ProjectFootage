@@ -1,6 +1,5 @@
-using UnityEngine;
 using FMODUnity;
-using FMOD.Studio;
+using UnityEngine;
 
 public class CamcorderController : MonoBehaviour
 {
@@ -19,23 +18,31 @@ public class CamcorderController : MonoBehaviour
 
     [Header("FMOD")]
     [SerializeField] private EventReference toggleEvent;
+    [SerializeField] private EventReference ambientRecordingEvent; // el audio del mundo que se graba
 
-    public CamcorderMode CurrentCamMode => currentCamMode;
+    public CamcorderMode CurrentCamMode => _currentCamMode;
 
-    private CamcorderMode currentCamMode = CamcorderMode.Idle;
-    private PlayerMode currentPlayerMode = PlayerMode.ExplorationMode;
-    private CamcorderRecorder recorder;
-    private CamcorderStorage storage;
-    private CamcorderInput input;
-    private CamcorderMotor camcorderMotor;
-    private bool isCameraUp = false;
+    private CamcorderMode _currentCamMode = CamcorderMode.Idle;
+    private PlayerMode _currentPlayerMode = PlayerMode.ExplorationMode;
+
+    // Nuevos recorders separados
+    private VideoRecorder _videoRecorder;
+    private AudioRecorder _audioRecorder;
+    private CamcorderStorage _storage;
+    private CamcorderInput _input;
+    private CamcorderMotor _motor;
+
+    private bool _isCameraUp = false;
+    private RecordingSession _activeSession;
+    private float _recordingTimer;
 
     private void Awake()
     {
-        input = GetComponent<CamcorderInput>();
-        recorder = GetComponent<CamcorderRecorder>();
-        storage = GetComponent<CamcorderStorage>();
-        camcorderMotor = GetComponent<CamcorderMotor>();
+        _input = GetComponent<CamcorderInput>();
+        _videoRecorder = GetComponent<VideoRecorder>();
+        _audioRecorder = GetComponent<AudioRecorder>();
+        _storage = GetComponent<CamcorderStorage>();
+        _motor = GetComponent<CamcorderMotor>();
     }
 
     private void OnEnable() => GameEvents.OnPlayerModeChanged += OnPlayerModeChanged;
@@ -45,13 +52,13 @@ public class CamcorderController : MonoBehaviour
 
     private void OnPlayerModeChanged(PlayerMode newMode)
     {
-        currentPlayerMode = newMode;
+        _currentPlayerMode = newMode;
 
-        if (newMode == PlayerMode.MenuCameraMode && isCameraUp)
+        if (newMode == PlayerMode.MenuCameraMode && _isCameraUp)
         {
-            isCameraUp = false;
+            _isCameraUp = false;
             camcorderVisual.SetActive(false);
-            currentCamMode = CamcorderMode.Idle;
+            _currentCamMode = CamcorderMode.Idle;
             prepareTimer = 0f;
             recordTimer = 0f;
         }
@@ -59,15 +66,14 @@ public class CamcorderController : MonoBehaviour
 
     private void Update()
     {
-        if (currentPlayerMode == PlayerMode.MenuCameraMode) return;
+        if (_currentPlayerMode == PlayerMode.MenuCameraMode) return;
 
-        if (input.LiftCamera)
-            ToggleCamera();
+        if (_input.LiftCamera) ToggleCamera();
 
-        if (isCameraUp && currentCamMode != CamcorderMode.Recording)
+        if (_isCameraUp && _currentCamMode != CamcorderMode.Recording)
         {
-            camcorderMotor.Tilt(input.RecordingTilt * mouseSensitivity);
-            playerMotor.RotateDirect(input.RecordingRotate * mouseSensitivity * camcorderMotor.rotateSpeed * Time.deltaTime);
+            _motor.Tilt(_input.RecordingTilt * mouseSensitivity);
+            playerMotor.RotateDirect(_input.RecordingRotate * mouseSensitivity * _motor.rotateSpeed * Time.deltaTime);
         }
 
         HandleCamcorderState();
@@ -75,67 +81,94 @@ public class CamcorderController : MonoBehaviour
 
     private void ToggleCamera()
     {
-        if (currentPlayerMode == PlayerMode.MenuCameraMode) return;
-        if (currentCamMode == CamcorderMode.Recording) return;
+        if (_currentPlayerMode == PlayerMode.MenuCameraMode) return;
+        if (_currentCamMode == CamcorderMode.Recording) return;
 
-        isCameraUp = !isCameraUp;
-        camcorderVisual.SetActive(isCameraUp);
+        _isCameraUp = !_isCameraUp;
+        camcorderVisual.SetActive(_isCameraUp);
 
-        // Play toggle
         FMODManager.Instance.PlayOneShot(toggleEvent, transform.position);
 
-        if (isCameraUp)
+        if (_isCameraUp)
             GameEvents.PlayerModeChanged(PlayerMode.CameraMode);
         else
         {
-            camcorderMotor.ResetRotation();
+            _motor.ResetRotation();
             GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
         }
     }
 
     private void HandleCamcorderState()
     {
-        if (!isCameraUp) return;
+        if (!_isCameraUp) return;
 
-        switch (currentCamMode)
+        switch (_currentCamMode)
         {
             case CamcorderMode.Idle:
-                if (input.StartedRecording)
-                    currentCamMode = CamcorderMode.Preparing;
+                if (_input.StartedRecording)
+                    _currentCamMode = CamcorderMode.Preparing;
                 break;
 
             case CamcorderMode.Preparing:
                 prepareTimer += Time.deltaTime;
-                if (input.IsRecordingReleased)
+                if (_input.IsRecordingReleased)
                 {
-                    currentCamMode = CamcorderMode.Idle;
+                    _currentCamMode = CamcorderMode.Idle;
                     prepareTimer = 0f;
                 }
                 else if (prepareTimer >= prepareDuration)
                 {
-                    recorder.StartRecording();
-                    currentCamMode = CamcorderMode.Recording;
-                    GameEvents.PlayerModeChanged(PlayerMode.RecordingMode);
-                    recordTimer = 0f;
+                    StartRecording();
                     prepareTimer = 0f;
                 }
                 break;
 
             case CamcorderMode.Recording:
+                _recordingTimer += Time.deltaTime;
                 recordTimer += Time.deltaTime;
-                camcorderMotor.Tilt(input.RecordingTilt * mouseSensitivity);
-                playerMotor.RotateDirect(input.RecordingRotate * mouseSensitivity * camcorderMotor.rotateSpeed * Time.deltaTime);
 
-                if (input.IsRecordingReleased || recordTimer >= recordDuration)
-                {
-                    recorder.StopRecording();
-                    storage.AddRecording(recorder.GetRecording(), null);
-                    recordTimer = 0f;
-                    currentCamMode = CamcorderMode.Idle;
-                    camcorderMotor.ResetRotation();
-                    GameEvents.PlayerModeChanged(PlayerMode.CameraMode);
-                }
+                _motor.Tilt(_input.RecordingTilt * mouseSensitivity);
+                playerMotor.RotateDirect(_input.RecordingRotate * mouseSensitivity * _motor.rotateSpeed * Time.deltaTime);
+
+                if (_input.IsRecordingReleased || recordTimer >= recordDuration)
+                    StopRecording();
                 break;
         }
+    }
+
+    // ── Grabación ──────────────────────────────────────────────
+
+    private void StartRecording()
+    {
+        // Creamos la sesión acá — el Controller es el dueño
+        _activeSession = new RecordingSession();
+        _recordingTimer = 0f;
+        recordTimer = 0f;
+
+        _videoRecorder.StartRecording(_activeSession);
+        _audioRecorder.StartRecording(_activeSession, ambientRecordingEvent);
+
+        _currentCamMode = CamcorderMode.Recording;
+        GameEvents.PlayerModeChanged(PlayerMode.RecordingMode);
+        GameEvents.RecordingStarted();
+    }
+
+    private void StopRecording()
+    {
+        _videoRecorder.StopRecording();
+        _audioRecorder.StopRecording();
+
+        // El Controller es el único que llama Complete()
+        // porque es el único que sabe que AMBOS recorders terminaron
+        _activeSession.Complete(_recordingTimer);
+        _storage.AddRecording(_activeSession);
+        _activeSession = null;
+
+        recordTimer = 0f;
+        _recordingTimer = 0f;
+        _currentCamMode = CamcorderMode.Idle;
+        _motor.ResetRotation();
+        GameEvents.PlayerModeChanged(PlayerMode.CameraMode);
+        GameEvents.RecordingStopped();
     }
 }
