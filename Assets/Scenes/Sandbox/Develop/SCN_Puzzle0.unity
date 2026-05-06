@@ -3078,6 +3078,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 226433530}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &249842880
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 249842881}
+  m_Layer: 0
+  m_Name: PlaybackListener
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &249842881
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 249842880}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -57.8796, y: 0.5001, z: -31.01981}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &273329548
 GameObject:
   m_ObjectHideFlags: 0
@@ -12268,14 +12299,16 @@ GameObject:
   - component: {fileID: 767295763}
   - component: {fileID: 767295762}
   - component: {fileID: 767295761}
-  - component: {fileID: 767295760}
-  - component: {fileID: 767295759}
   - component: {fileID: 767295758}
   - component: {fileID: 767295757}
   - component: {fileID: 767295756}
   - component: {fileID: 767295755}
-  - component: {fileID: 767295765}
   - component: {fileID: 767295766}
+  - component: {fileID: 767295771}
+  - component: {fileID: 767295770}
+  - component: {fileID: 767295769}
+  - component: {fileID: 767295768}
+  - component: {fileID: 767295767}
   m_Layer: 0
   m_Name: Camcorder
   m_TagString: Untagged
@@ -12316,7 +12349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CorderVisual
   camcorderCamera: {fileID: 1263851855}
-  recorder: {fileID: 767295760}
+  recorder: {fileID: 0}
   controller: {fileID: 767295763}
   frustumDistance: 5
   hudColor: {r: 1, g: 1, b: 1, a: 0.85}
@@ -12363,7 +12396,8 @@ MonoBehaviour:
   fpsCamera: {fileID: 1020743024}
   fpsHandModel: {fileID: 825373238}
   menuCanvas: {fileID: 1975916772}
-  frameStepDelay: 0.15
+  rffStep: 1
+  rffDelay: 0.15
 --- !u!114 &767295758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12376,42 +12410,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23b1060d682fbbe4ea235c8a41bb420c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CamcorderStorage
---- !u!114 &767295759
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 767295753}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 594e1e633041a9345b79e67ca182ba14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CamcorderPlayback
-  playbackPanel: {fileID: 281188763}
-  playbackImage: {fileID: 773809936}
-  audioSource: {fileID: 767295765}
-  playbackInterval: 0.125
---- !u!114 &767295760
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 767295753}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6793d58097e22364c941a94e7527a701, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CamcorderRecorder
-  recordingTexture: {fileID: 8400000, guid: ffb0013606e860a46827bf05339461a2, type: 2}
-  audioCaptures: []
-  camcorderListener: {fileID: 0}
-  camViewpoint: {fileID: 131259728}
-  diegeticAudioSources: []
-  framesRecorded:
-  - {fileID: 0}
-  captureInterval: 0.125
 --- !u!114 &767295761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12470,6 +12468,13 @@ MonoBehaviour:
       Data3: -2037995890
       Data4: -862189175
     Path: event:/Camcorder/Toggle
+  ambientRecordingEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!114 &767295764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12486,103 +12491,6 @@ MonoBehaviour:
   rampUpDuration: 0.25
   holdDuration: 0.05
   rampDownDuration: 0.2
---- !u!82 &767295765
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 767295753}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 1577738406744838981, guid: 6a0274522e4eaa94289f33247c8f21b2, type: 2}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 0.097
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!114 &767295766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12597,6 +12505,72 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CamcorderLightSystem
   camcorderCamera: {fileID: 1263851855}
   centerThreshold: 0.25
+--- !u!114 &767295767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 767295753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8020b5a0ccde77e41995d29417eb13d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlaybackClock
+--- !u!114 &767295768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 767295753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49a34c3c4b932534b9120d80619d1cc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioPlayback
+  playbackListener: {fileID: 249842881}
+--- !u!114 &767295769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 767295753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce26eee342fc9da4d8b53b57a0861ec1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioRecorder
+--- !u!114 &767295770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 767295753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5ed892c8e83f414a8b7c8fbb2926009, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VideoPlayback
+  displayImage: {fileID: 773809936}
+  playbackPanel: {fileID: 281188763}
+--- !u!114 &767295771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 767295753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eeb7c3ee458cf9840a7715503911a55c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VideoRecorder
+  recordingTexture: {fileID: 8400000, guid: ffb0013606e860a46827bf05339461a2, type: 2}
+  cameraTransform: {fileID: 1263851853}
+  captureInterval: 0.125
 --- !u!43 &769902244
 Mesh:
   m_ObjectHideFlags: 0
@@ -16455,6 +16429,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   handSolved: {fileID: 0}
+  solvedCount: 0
 --- !u!4 &1110280299 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8311189870636371240, guid: a5f1a1b2852c071438fc45a57a8d38af, type: 3}
@@ -36239,3 +36214,4 @@ SceneRoots:
   - {fileID: 1173712309}
   - {fileID: 1010747288}
   - {fileID: 1558345131}
+  - {fileID: 249842881}

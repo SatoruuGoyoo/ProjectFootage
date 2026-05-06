@@ -1,5 +1,4 @@
-// CamcorderMenuUI.cs
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,17 +6,12 @@ using UnityEngine.UI;
 public class CamcorderMenuUI : MonoBehaviour
 {
     [Header("Panels")]
-    public GameObject noRecordingPanel;   // el panel azul � SIEMPRE activo
-    public TextMeshProUGUI noRecordingText; // solo el texto se oculta
+    public GameObject noRecordingPanel;
+    public TextMeshProUGUI noRecordingText;
     public GameObject recordingsPanel;
 
     [Header("Recording Slots")]
-    // Los 5 Image del RecordingsPanel (el thumbnail)
     public Image[] recordingSlots;
-
-    // Un Image hijo de cada slot que act�a como marco de selecci�n.
-    // Ponelo como child de cada Image slot, mismo tama�o, color s�lido, stretch.
-    // En c�digo lo controlamos nosotros.
     public Image[] selectionBorders;
 
     [Header("Colores")]
@@ -25,19 +19,22 @@ public class CamcorderMenuUI : MonoBehaviour
     public Color colorUnselected = new Color(0.45f, 0.45f, 0.45f, 1f);
     public Color borderColor = new Color(1f, 0.30f, 0.30f, 1f);
 
-    private CamcorderStorage storage;
+    // Reutilizamos una sola Texture2D para los thumbnails
+    // igual que hace VideoPlayback para los frames
+    private Texture2D _thumbnailTexture;
+
+    private CamcorderStorage _storage;
 
     private void Awake()
     {
-        storage = GetComponent<CamcorderStorage>();
+        _storage = GetComponent<CamcorderStorage>();
     }
 
     public void UpdateUI(int selectedIndex)
     {
-        List<RecordingData> recordings = storage.GetAllRecordings();
+        IReadOnlyList<RecordingSession> recordings = _storage.GetAllRecordings();
         bool hasRecordings = recordings.Count > 0;
 
-        // El panel azul de fondo nunca se apaga
         noRecordingText.gameObject.SetActive(!hasRecordings);
         recordingsPanel.SetActive(hasRecordings);
 
@@ -46,16 +43,19 @@ public class CamcorderMenuUI : MonoBehaviour
             bool hasData = i < recordings.Count;
             bool isSelected = hasData && i == selectedIndex;
 
-            // � Thumbnail �
             recordingSlots[i].gameObject.SetActive(hasData);
 
             if (hasData)
             {
-                recordingSlots[i].sprite = TextureToSprite(recordings[i].frames[0]);
+                // El thumbnail es el primer VideoFrame de la sesión
+                // Lo convertimos a Sprite igual que antes, pero leyendo desde byte[]
+                VideoFrame? firstFrame = recordings[i].GetFrameAtTime(0f);
+                if (firstFrame.HasValue)
+                    recordingSlots[i].sprite = FrameToSprite(firstFrame.Value);
+
                 recordingSlots[i].color = isSelected ? colorSelected : colorUnselected;
             }
 
-            // � Borde de selecci�n �
             if (selectionBorders != null && i < selectionBorders.Length)
             {
                 selectionBorders[i].gameObject.SetActive(isSelected);
@@ -64,8 +64,27 @@ public class CamcorderMenuUI : MonoBehaviour
         }
     }
 
-    private Sprite TextureToSprite(Texture2D tex)
+    // ── Helpers ────────────────────────────────────────────────
+
+    private Sprite FrameToSprite(VideoFrame frame)
     {
-        return Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), Vector2.one * 0.5f);
+        // Reutilizamos la misma Texture2D para todos los thumbnails
+        if (_thumbnailTexture == null)
+            _thumbnailTexture = new Texture2D(640, 480, TextureFormat.RGB24, false);
+
+        _thumbnailTexture.LoadRawTextureData(frame.PixelData);
+        _thumbnailTexture.Apply();
+
+        return Sprite.Create(
+            _thumbnailTexture,
+            new Rect(0, 0, _thumbnailTexture.width, _thumbnailTexture.height),
+            Vector2.one * 0.5f
+        );
+    }
+
+    private void OnDestroy()
+    {
+        if (_thumbnailTexture != null)
+            Destroy(_thumbnailTexture);
     }
 }

@@ -43,6 +43,7 @@ public class VideoRecorder : MonoBehaviour
     {
         if (!IsRecording) return;
         IsRecording = false;
+        Debug.Log($"VideoRecorder: grabación terminada — {_session.VideoFrames.Count} frames capturados");
     }
 
     // ── Loop ──────────────────────────────────────────────────
