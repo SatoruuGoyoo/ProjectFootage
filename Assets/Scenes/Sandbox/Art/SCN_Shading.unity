@@ -7379,7 +7379,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &751051057
 Transform:
   m_ObjectHideFlags: 0
@@ -7398,6 +7398,7 @@ Transform:
   - {fileID: 1470728657}
   - {fileID: 1632194764}
   - {fileID: 463865264}
+  - {fileID: 1333372749}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &752187469
@@ -10099,6 +10100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMotor
   config: {fileID: 11400000, guid: 7be0ea2d58441384fa5a2593870015a8, type: 2}
+  angleForInput: 75
 --- !u!114 &930666949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14463,7 +14465,8 @@ MonoBehaviour:
   fpsCamera: {fileID: 738318686}
   fpsHandModel: {fileID: 731430226}
   menuCanvas: {fileID: 133234904}
-  frameStepDelay: 0.15
+  rffStep: 1
+  rffDelay: 0.15
 --- !u!114 &1270442869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14570,6 +14573,13 @@ MonoBehaviour:
       Data3: -2037995890
       Data4: -862189175
     Path: event:/Camcorder/Toggle
+  ambientRecordingEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!1 &1282841155
 GameObject:
   m_ObjectHideFlags: 0
@@ -15273,11 +15283,11 @@ Transform:
   m_GameObject: {fileID: 1333372745}
   serializedVersion: 2
   m_LocalRotation: {x: 0.9956385, y: -0, z: -0, w: 0.09329538}
-  m_LocalPosition: {x: 1.08, y: 4.39, z: -13.24}
+  m_LocalPosition: {x: 2.47, y: 4.15, z: 8.83}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 751051057}
   m_LocalEulerAnglesHint: {x: 169.294, y: 0, z: 0}
 --- !u!43 &1383072468
 Mesh:
@@ -21989,7 +21999,6 @@ SceneRoots:
   - {fileID: 2098864858}
   - {fileID: 664521948}
   - {fileID: 1882909483}
-  - {fileID: 1333372749}
   - {fileID: 751051057}
   - {fileID: 1929701562}
   - {fileID: 930666954}
