@@ -154,7 +154,7 @@ public class DebugControlsUI : MonoBehaviour
 
         GUI.Label(
             new Rect(x, y + padding * 0.5f, totalWidth, headerHeight),
-            $"[ {schemeName} ]",
+            $"{schemeName}",
             schemeStyle
         );
 

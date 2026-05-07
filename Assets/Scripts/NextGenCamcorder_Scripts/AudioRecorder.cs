@@ -25,10 +25,11 @@ public class AudioRecorder : MonoBehaviour
         _recordingTimer = 0f;
         IsRecording = true;
 
-        // Guardamos el path del evento FMOD y en qué timestamp arrancó
-        // (casi siempre 0, pero si en el futuro querés grabar
-        // desde la mitad de un evento, ya está contemplado)
-        _session.SetAudioData(fmodEvent.Path, 0f);
+        //// Guardamos el path del evento FMOD y en qué timestamp arrancó
+        //// (casi siempre 0, pero si en el futuro querés grabar
+        //// desde la mitad de un evento, ya está contemplado)
+        //_session.SetAudioData(fmodEvent.Path, 0f);
+        _session.SetAudioData(string.Empty, 0f);
     }
 
     public void StopRecording()

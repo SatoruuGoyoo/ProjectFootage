@@ -5,13 +5,15 @@ public class PlayerMotor : MonoBehaviour
     public PlayerConfig config;
 
     private CharacterController characterController;
-    private Vector3 currentWorldDir = Vector3.zero;
-    private Vector3 lastValidDir = Vector3.zero;
-    private Vector2 lastRawInput = Vector2.zero;
+    //private Vector3 currentWorldDir = Vector3.zero;
+    //private Vector3 lastValidDir = Vector3.zero;
+    //private Vector2 lastRawInput = Vector2.zero;
     private float currentSpeedTank = 0f;
     private float currentSpeedModern = 0f;
     private float verticalVelocity = 0f;
-
+    private Camera lastCamera = null;
+    private Vector3 lockedWorldDir = Vector3.forward;
+    private bool directionLocked = false;
     private void Awake() => characterController = GetComponent<CharacterController>();
 
     public bool HasInput { get; private set; }
@@ -48,6 +50,7 @@ public class PlayerMotor : MonoBehaviour
 
     public void MoveRelativeToCamera(Vector2 input, Camera activeCamera, bool sprint)
     {
+
         if (config == null || activeCamera == null) return;
 
         Vector3 camForward = activeCamera.transform.forward;
@@ -57,27 +60,50 @@ public class PlayerMotor : MonoBehaviour
 
         bool hasInput = input.sqrMagnitude > 0.01f;
         HasInput = hasInput;
+        if (activeCamera != lastCamera)
+        {
+            lastCamera = activeCamera;
+            lockedWorldDir = transform.forward;
+            directionLocked = true;
+        }
+
+        if (hasInput)
+        {
+            Vector3 desiredDir = (camForward * input.y + camRight * input.x).normalized;
+
+            if (directionLocked)
+            {
+                
+                float angle = Vector3.Angle(lockedWorldDir, desiredDir);
+                if (angle > 75f)
+                    directionLocked = false;
+            }
+
+            if (!directionLocked)
+                lockedWorldDir = desiredDir;
+        }
+        else
+        {
+            directionLocked = false;
+        }
+
         IsSprinting = sprint && hasInput;
         float topSpeed = IsSprinting ? config.SprintSpeed : config.ModernMoveSpeed;
-
         float targetSpeed = hasInput ? topSpeed : 0f;
         float accel = targetSpeed > 0.01f ? config.Acceleration : config.Deceleration;
         currentSpeedModern = Mathf.MoveTowards(currentSpeedModern, targetSpeed, accel * Time.deltaTime);
 
-      
         if (hasInput && currentSpeedModern > 0.1f)
         {
-            Vector3 desiredDir = (camForward * input.y + camRight * input.x).normalized;
             transform.rotation = Quaternion.Slerp(
                 transform.rotation,
-                Quaternion.LookRotation(desiredDir),
+                Quaternion.LookRotation(lockedWorldDir),
                 Time.deltaTime * config.RotationSmoothSpeed);
             FlattenRotation();
         }
 
         ApplyGravity();
 
-        
         if (currentSpeedModern < 0.01f)
         {
             characterController.Move(new Vector3(0f, verticalVelocity * Time.deltaTime, 0f));
