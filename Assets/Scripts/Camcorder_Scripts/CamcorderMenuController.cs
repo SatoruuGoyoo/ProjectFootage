@@ -137,11 +137,16 @@ public class CamcorderMenuController : MonoBehaviour
         }
         else
         {
-            // Play desde el principio
             RecordingSession session = _storage.GetRecording(_currentIndex);
+
+            // Primero el clock — Load limpia el estado anterior
+            _clock.Load(session);
+
+            // Después los playbacks — así reciben la sesión DESPUÉS del Stop interno
             _videoPlayback.Load(session);
             _audioPlayback.Load(session);
-            _clock.Load(session);
+
+            // Al último el Play
             _clock.Play();
             PlaybackAudioManager.Instance?.OnPlaybackStarted(isResume: false);
             foreach (var a in _iterationAudios) a.OnPlaybackStarted(isResume: false);

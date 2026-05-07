@@ -7156,6 +7156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMotor
   config: {fileID: 11400000, guid: 7be0ea2d58441384fa5a2593870015a8, type: 2}
+  angleForInput: 75
 --- !u!114 &444280465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12761,7 +12762,7 @@ GameObject:
   - component: {fileID: 773809937}
   - component: {fileID: 773809936}
   m_Layer: 5
-  m_Name: RawImage
+  m_Name: Playback_img
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12806,7 +12807,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 8400000, guid: ffb0013606e860a46827bf05339461a2, type: 2}
+  m_Texture: {fileID: 0}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -16424,12 +16425,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a458f4054d3961241ab6f8192fc959a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ClockPuzzleManager
-  clocks:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  handSolved: {fileID: 0}
-  solvedCount: 0
 --- !u!4 &1110280299 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8311189870636371240, guid: a5f1a1b2852c071438fc45a57a8d38af, type: 3}
@@ -18982,7 +18977,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1197297329
 Transform:
   m_ObjectHideFlags: 0
@@ -31226,7 +31221,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1996519249}
-  - component: {fileID: 1996519248}
   m_Layer: 0
   m_Name: hallwaymanager
   m_TagString: Untagged
@@ -31234,25 +31228,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1996519248
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1996519247}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8108ca3a981a00e47a8a04dd40758667, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HallwayAudioManager
-  ambienceEvent:
-    Guid:
-      Data1: 191432853
-      Data2: 1255834826
-      Data3: -289474149
-      Data4: -275988174
-    Path: event:/Ambience/Room
 --- !u!4 &1996519249
 Transform:
   m_ObjectHideFlags: 0

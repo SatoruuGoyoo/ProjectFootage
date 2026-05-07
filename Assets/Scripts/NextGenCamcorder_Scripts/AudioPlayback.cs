@@ -1,30 +1,25 @@
+using System.Collections.Generic;
 using FMOD.Studio;
 using FMODUnity;
 using UnityEngine;
 
 /// <summary>
-/// Responsabilidad única: reproducir el audio grabado en sincronía
-/// con el PlaybackClock, y mover el listener de FMOD a la posición
-/// que tenía la cámara cuando grabó — para audio 3D posicional correcto.
-/// No sabe nada de video ni de UI.
+/// Reproduce todos los RecordedAudioTrack de la sesión
+/// en sincronía con el PlaybackClock.
 /// </summary>
 [RequireComponent(typeof(PlaybackClock))]
 public class AudioPlayback : MonoBehaviour
 {
     [Header("Listener 3D")]
-    [Tooltip("Transform que representa el listener durante el playback. " +
-             "Se mueve a la posición grabada de la cámara en cada frame.")]
     public Transform playbackListener;
 
     private PlaybackClock _clock;
     private RecordingSession _session;
-    private EventInstance _eventInstance;
-    private bool _hasInstance;
 
-    private void Awake()
-    {
-        _clock = GetComponent<PlaybackClock>();
-    }
+    // Una instancia FMOD por track grabado
+    private readonly List<EventInstance> _instances = new List<EventInstance>();
+
+    private void Awake() => _clock = GetComponent<PlaybackClock>();
 
     private void OnEnable()
     {
@@ -44,8 +39,6 @@ public class AudioPlayback : MonoBehaviour
         _clock.OnComplete -= OnStop;
     }
 
-    // ── API pública ────────────────────────────────────────────
-
     public void Load(RecordingSession session)
     {
         _session = session;
@@ -55,81 +48,93 @@ public class AudioPlayback : MonoBehaviour
 
     private void OnPlay()
     {
-        if (_session == null || string.IsNullOrEmpty(_session.FMODAudioPath)) return;
-
-        if (!_hasInstance)
-        {
-            _eventInstance = RuntimeManager.CreateInstance(_session.FMODAudioPath);
-            _hasInstance = true;
-        }
-
-        // Posicionamos el listener antes de arrancar
+        if (_session == null) return;
+        CreateInstances();
         UpdateListenerPosition(_clock.CurrentTime);
-
-        // Seek al tiempo correcto — por si arranca desde pausa o desde medio
-        int ms = Mathf.RoundToInt(_clock.CurrentTime * 1000f);
-        _eventInstance.setTimelinePosition(ms);
-        _eventInstance.setPaused(false);
-        _eventInstance.start();
+        StartAllAt(_clock.CurrentTime);
     }
 
     private void OnPause()
     {
-        if (!_hasInstance) return;
-        _eventInstance.setPaused(true);
+        foreach (var inst in _instances)
+            inst.setPaused(true);
     }
 
     private void OnStop()
     {
-        if (!_hasInstance) return;
-        _eventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-        _eventInstance.release();
-        _hasInstance = false;
+        StopAndReleaseAll();
         _session = null;
     }
 
     private void OnSeek(float time)
     {
-        if (!_hasInstance) return;
-
-        // RFF — hacemos seek en FMOD al mismo tiempo que el clock
         int ms = Mathf.RoundToInt(time * 1000f);
-        _eventInstance.setTimelinePosition(ms);
+        foreach (var inst in _instances)
+            inst.setTimelinePosition(ms);
         UpdateListenerPosition(time);
     }
 
-    // ── Loop ──────────────────────────────────────────────────
-
     private void Update()
     {
-        if (!_clock.IsPlaying || !_hasInstance) return;
-
-        // Actualizamos la posición del listener cada frame
-        // para que el audio 3D sea correcto durante la reproducción
+        if (!_clock.IsPlaying || _instances.Count == 0) return;
         UpdateListenerPosition(_clock.CurrentTime);
     }
 
-    // ── Audio 3D posicional ───────────────────────────────────
+    // ── Helpers ────────────────────────────────────────────────
+
+    private void CreateInstances()
+    {
+        StopAndReleaseAll();
+
+        foreach (var track in _session.AudioTracks)
+        {
+            if (string.IsNullOrEmpty(track.FMODPath)) continue;
+
+            var inst = RuntimeManager.CreateInstance(track.FMODPath);
+
+            // Si el evento es 3D, lo attachamos a la posición grabada
+            if (track.Is3D && playbackListener != null)
+                RuntimeManager.AttachInstanceToGameObject(inst, playbackListener);
+
+            _instances.Add(inst);
+            Debug.Log($"AudioPlayback: instancia creada para '{track.FMODPath}'");
+        }
+    }
+
+    private void StartAllAt(float time)
+    {
+        int ms = Mathf.RoundToInt(time * 1000f);
+        for (int i = 0; i < _instances.Count; i++)
+        {
+            var inst = _instances[i];
+            var track = _session.AudioTracks[i];
+
+            // Calculamos dónde estaba el evento cuando se grabó
+            int seekMs = track.FMODTimelinePosition + ms;
+            inst.setTimelinePosition(seekMs);
+            inst.setPaused(false);
+            inst.start();
+        }
+    }
+
+    private void StopAndReleaseAll()
+    {
+        foreach (var inst in _instances)
+        {
+            inst.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            inst.release();
+        }
+        _instances.Clear();
+    }
 
     private void UpdateListenerPosition(float time)
     {
         if (_session == null || playbackListener == null) return;
-
-        CameraTransformFrame? camFrame = _session.GetCameraAtTime(time);
-        if (camFrame == null) return;
-
-        // Movemos el listener a donde estaba la cámara cuando grabó
-        // FMOD calcula el audio 3D desde esta posición automáticamente
-        playbackListener.position = camFrame.Value.Position;
-        playbackListener.rotation = camFrame.Value.Rotation;
+        CameraTransformFrame? cam = _session.GetCameraAtTime(time);
+        if (cam == null) return;
+        playbackListener.position = cam.Value.Position;
+        playbackListener.rotation = cam.Value.Rotation;
     }
 
-    private void OnDestroy()
-    {
-        if (_hasInstance)
-        {
-            _eventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-            _eventInstance.release();
-        }
-    }
+    private void OnDestroy() => StopAndReleaseAll();
 }

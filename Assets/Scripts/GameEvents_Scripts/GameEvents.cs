@@ -16,7 +16,7 @@ public static class GameEvents
     public static event Action<bool> OnPauseChanged;
 
     // Camcorder
-    public static event Action OnRecordingStarted;
+    public static event Action<RecordingSession> OnRecordingStarted;
     public static event Action OnRecordingStopped;
     public static event Action<int> OnFrameChanged;
     public static event Action<bool> OnCamcorderLightChanged;
@@ -35,7 +35,7 @@ public static class GameEvents
     public static void ControllerSchemeChanged(ControlScheme scheme) => OnControllerSchemeChanged?.Invoke(scheme);
 
     // CAMCORDER
-    public static void RecordingStarted() => OnRecordingStarted?.Invoke();
+    public static void RecordingStarted(RecordingSession session) => OnRecordingStarted?.Invoke(session);
     public static void RecordingStopped() => OnRecordingStopped?.Invoke();
     public static void FrameChanged(int frame) => OnFrameChanged?.Invoke(frame);
     public static void CamcorderLightChanged(bool isGreen) => OnCamcorderLightChanged?.Invoke(isGreen);

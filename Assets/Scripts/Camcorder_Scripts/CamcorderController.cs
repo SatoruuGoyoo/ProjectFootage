@@ -150,7 +150,7 @@ public class CamcorderController : MonoBehaviour
 
         _currentCamMode = CamcorderMode.Recording;
         GameEvents.PlayerModeChanged(PlayerMode.RecordingMode);
-        GameEvents.RecordingStarted();
+        GameEvents.RecordingStarted(_activeSession);
     }
 
     private void StopRecording()

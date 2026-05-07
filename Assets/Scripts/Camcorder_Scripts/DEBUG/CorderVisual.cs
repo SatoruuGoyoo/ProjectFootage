@@ -5,7 +5,7 @@ public class CorderVisual : MonoBehaviour
 {
     [Header("References")]
     public Camera camcorderCamera;
-    public CamcorderRecorder recorder;
+    public VideoRecorder recorder;
     public CamcorderController controller;
 
     [Header("Frame")]

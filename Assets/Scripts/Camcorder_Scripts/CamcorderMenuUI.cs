@@ -19,9 +19,8 @@ public class CamcorderMenuUI : MonoBehaviour
     public Color colorUnselected = new Color(0.45f, 0.45f, 0.45f, 1f);
     public Color borderColor = new Color(1f, 0.30f, 0.30f, 1f);
 
-    // Reutilizamos una sola Texture2D para los thumbnails
-    // igual que hace VideoPlayback para los frames
-    private Texture2D _thumbnailTexture;
+    // Una Texture2D por slot — así cada thumbnail es independiente
+    private Texture2D[] _thumbnailTextures;
 
     private CamcorderStorage _storage;
 
@@ -38,6 +37,10 @@ public class CamcorderMenuUI : MonoBehaviour
         noRecordingText.gameObject.SetActive(!hasRecordings);
         recordingsPanel.SetActive(hasRecordings);
 
+        // Inicializamos el array de texturas si no existe
+        if (_thumbnailTextures == null || _thumbnailTextures.Length != recordingSlots.Length)
+            _thumbnailTextures = new Texture2D[recordingSlots.Length];
+
         for (int i = 0; i < recordingSlots.Length; i++)
         {
             bool hasData = i < recordings.Count;
@@ -47,11 +50,9 @@ public class CamcorderMenuUI : MonoBehaviour
 
             if (hasData)
             {
-                // El thumbnail es el primer VideoFrame de la sesión
-                // Lo convertimos a Sprite igual que antes, pero leyendo desde byte[]
                 VideoFrame? firstFrame = recordings[i].GetFrameAtTime(0f);
                 if (firstFrame.HasValue)
-                    recordingSlots[i].sprite = FrameToSprite(firstFrame.Value);
+                    recordingSlots[i].sprite = FrameToSprite(i, firstFrame.Value);
 
                 recordingSlots[i].color = isSelected ? colorSelected : colorUnselected;
             }
@@ -64,27 +65,26 @@ public class CamcorderMenuUI : MonoBehaviour
         }
     }
 
-    // ── Helpers ────────────────────────────────────────────────
-
-    private Sprite FrameToSprite(VideoFrame frame)
+    // Cada slot tiene su propio índice y su propia Texture2D
+    private Sprite FrameToSprite(int slotIndex, VideoFrame frame)
     {
-        // Reutilizamos la misma Texture2D para todos los thumbnails
-        if (_thumbnailTexture == null)
-            _thumbnailTexture = new Texture2D(640, 480, TextureFormat.RGB24, false);
+        if (_thumbnailTextures[slotIndex] == null)
+            _thumbnailTextures[slotIndex] = new Texture2D(640, 480, TextureFormat.RGB24, false);
 
-        _thumbnailTexture.LoadRawTextureData(frame.PixelData);
-        _thumbnailTexture.Apply();
+        _thumbnailTextures[slotIndex].LoadRawTextureData(frame.PixelData);
+        _thumbnailTextures[slotIndex].Apply();
 
         return Sprite.Create(
-            _thumbnailTexture,
-            new Rect(0, 0, _thumbnailTexture.width, _thumbnailTexture.height),
+            _thumbnailTextures[slotIndex],
+            new Rect(0, 0, 640, 480),
             Vector2.one * 0.5f
         );
     }
 
     private void OnDestroy()
     {
-        if (_thumbnailTexture != null)
-            Destroy(_thumbnailTexture);
+        if (_thumbnailTextures == null) return;
+        foreach (var tex in _thumbnailTextures)
+            if (tex != null) Destroy(tex);
     }
 }

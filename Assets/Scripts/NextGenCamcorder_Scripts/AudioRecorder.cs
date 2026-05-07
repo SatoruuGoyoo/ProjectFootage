@@ -25,11 +25,19 @@ public class AudioRecorder : MonoBehaviour
         _recordingTimer = 0f;
         IsRecording = true;
 
-        //// Guardamos el path del evento FMOD y en qué timestamp arrancó
-        //// (casi siempre 0, pero si en el futuro querés grabar
-        //// desde la mitad de un evento, ya está contemplado)
-        //_session.SetAudioData(fmodEvent.Path, 0f);
-        _session.SetAudioData(string.Empty, 0f);
+        //// Guardamos un registro de la pista de audio que estaba sonando
+        //// usando el nuevo API: RecordingSession.RegisterAudioTrack.
+        //// Rellenamos los campos mínimos (path/tiempo) — otros valores
+        //// pueden ajustarse más adelante si se requiere mayor precisión.
+        var track = new RecordedAudioTrack
+        {
+            FMODPath = fmodEvent.Path ?? string.Empty,
+            StartTime = 0f,
+            FMODTimelinePosition = 0,
+            Is3D = false,
+            Position = Vector3.zero
+        };
+        _session.RegisterAudioTrack(track);
     }
 
     public void StopRecording()
