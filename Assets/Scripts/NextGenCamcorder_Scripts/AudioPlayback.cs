@@ -3,10 +3,6 @@ using FMOD.Studio;
 using FMODUnity;
 using UnityEngine;
 
-/// <summary>
-/// Reproduce todos los RecordedAudioTrack de la sesión
-/// en sincronía con el PlaybackClock.
-/// </summary>
 [RequireComponent(typeof(PlaybackClock))]
 public class AudioPlayback : MonoBehaviour
 {
@@ -15,8 +11,6 @@ public class AudioPlayback : MonoBehaviour
 
     private PlaybackClock _clock;
     private RecordingSession _session;
-
-    // Una instancia FMOD por track grabado
     private readonly List<EventInstance> _instances = new List<EventInstance>();
 
     private void Awake() => _clock = GetComponent<PlaybackClock>();
@@ -39,10 +33,7 @@ public class AudioPlayback : MonoBehaviour
         _clock.OnComplete -= OnStop;
     }
 
-    public void Load(RecordingSession session)
-    {
-        _session = session;
-    }
+    public void Load(RecordingSession session) => _session = session;
 
     // ── Respuestas al Clock ────────────────────────────────────
 
@@ -57,7 +48,7 @@ public class AudioPlayback : MonoBehaviour
     private void OnPause()
     {
         foreach (var inst in _instances)
-            inst.setPaused(true);
+            if (inst.isValid()) inst.setPaused(true);
     }
 
     private void OnStop()
@@ -69,15 +60,38 @@ public class AudioPlayback : MonoBehaviour
     private void OnSeek(float time)
     {
         int ms = Mathf.RoundToInt(time * 1000f);
-        foreach (var inst in _instances)
-            inst.setTimelinePosition(ms);
+        for (int i = 0; i < _instances.Count; i++)
+        {
+            if (!_instances[i].isValid()) continue;
+            _instances[i].setTimelinePosition(ms);
+
+            // Aplicamos el volumen inmediatamente en el seek para que no haya flash de volumen
+            var track = _session.AudioTracks[i];
+            if (track.VolumeKeyframes != null && track.VolumeKeyframes.Count > 0)
+                _instances[i].setVolume(SampleVolumeAt(track.VolumeKeyframes, time));
+        }
         UpdateListenerPosition(time);
     }
 
     private void Update()
     {
         if (!_clock.IsPlaying || _instances.Count == 0) return;
-        UpdateListenerPosition(_clock.CurrentTime);
+
+        float currentTime = _clock.CurrentTime;
+
+        for (int i = 0; i < _instances.Count; i++)
+        {
+            if (!_instances[i].isValid()) continue;
+
+            var track = _session.AudioTracks[i];
+            if (track.VolumeKeyframes != null && track.VolumeKeyframes.Count > 0)
+            {
+                float vol = SampleVolumeAt(track.VolumeKeyframes, currentTime);
+                _instances[i].setVolume(vol);
+            }
+        }
+
+        UpdateListenerPosition(currentTime);
     }
 
     // ── Helpers ────────────────────────────────────────────────
@@ -88,16 +102,29 @@ public class AudioPlayback : MonoBehaviour
 
         foreach (var track in _session.AudioTracks)
         {
-            if (string.IsNullOrEmpty(track.FMODPath)) continue;
+            if (string.IsNullOrEmpty(track.FMODPath))
+            {
+                _instances.Add(new EventInstance()); // placeholder inválido
+                continue;
+            }
+
+            // Si la fuente nunca fue audible, no creamos instancia FMOD
+            if (IsTrackSilent(track))
+            {
+                _instances.Add(new EventInstance());
+                continue;
+            }
 
             var inst = RuntimeManager.CreateInstance(track.FMODPath);
 
-            // Si el evento es 3D, lo attachamos a la posición grabada
-            if (track.Is3D && playbackListener != null)
+            // Solo usamos el sistema 3D de FMOD si la fuente NO tiene keyframes.
+            // Con keyframes el volumen está bakeado — attachar la fuente al listener
+            // causaría que FMOD la atenuara dos veces.
+            bool hasKeyframes = track.VolumeKeyframes != null && track.VolumeKeyframes.Count > 0;
+            if (track.Is3D && playbackListener != null && !hasKeyframes)
                 RuntimeManager.AttachInstanceToGameObject(inst, playbackListener);
 
             _instances.Add(inst);
-            Debug.Log($"AudioPlayback: instancia creada para '{track.FMODPath}'");
         }
     }
 
@@ -106,14 +133,13 @@ public class AudioPlayback : MonoBehaviour
         int ms = Mathf.RoundToInt(time * 1000f);
         for (int i = 0; i < _instances.Count; i++)
         {
-            var inst = _instances[i];
-            var track = _session.AudioTracks[i];
+            if (!_instances[i].isValid()) continue;
 
-            // Calculamos dónde estaba el evento cuando se grabó
+            var track = _session.AudioTracks[i];
             int seekMs = track.FMODTimelinePosition + ms;
-            inst.setTimelinePosition(seekMs);
-            inst.setPaused(false);
-            inst.start();
+            _instances[i].setTimelinePosition(seekMs);
+            _instances[i].setPaused(false);
+            _instances[i].start();
         }
     }
 
@@ -121,6 +147,7 @@ public class AudioPlayback : MonoBehaviour
     {
         foreach (var inst in _instances)
         {
+            if (!inst.isValid()) continue;
             inst.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
             inst.release();
         }
@@ -134,6 +161,44 @@ public class AudioPlayback : MonoBehaviour
         if (cam == null) return;
         playbackListener.position = cam.Value.Position;
         playbackListener.rotation = cam.Value.Rotation;
+    }
+
+    /// <summary>
+    /// Interpolación lineal entre los dos keyframes más cercanos al tiempo dado.
+    /// Usa binary search — O(log n).
+    /// </summary>
+    private static float SampleVolumeAt(List<AudioVolumeKeyFrame> keyframes, float time)
+    {
+        if (keyframes.Count == 0) return 1f;
+        if (keyframes.Count == 1) return keyframes[0].Volume;
+
+        if (time <= keyframes[0].Timestamp) return keyframes[0].Volume;
+        if (time >= keyframes[keyframes.Count - 1].Timestamp) return keyframes[keyframes.Count - 1].Volume;
+
+        int lo = 0, hi = keyframes.Count - 1;
+        while (lo < hi)
+        {
+            int mid = (lo + hi + 1) / 2;
+            if (keyframes[mid].Timestamp <= time) lo = mid;
+            else hi = mid - 1;
+        }
+
+        var a = keyframes[lo];
+        var b = keyframes[lo + 1];
+        float t = Mathf.InverseLerp(a.Timestamp, b.Timestamp, time);
+        return Mathf.Lerp(a.Volume, b.Volume, t);
+    }
+
+    /// <summary>
+    /// Devuelve true si todos los keyframes tienen volumen menor a 0.01.
+    /// Sirve para evitar crear instancias FMOD de fuentes que nunca fueron apuntadas.
+    /// </summary>
+    private static bool IsTrackSilent(RecordedAudioTrack track)
+    {
+        if (track.VolumeKeyframes == null || track.VolumeKeyframes.Count == 0) return false;
+        foreach (var kf in track.VolumeKeyframes)
+            if (kf.Volume > 0.01f) return false;
+        return true;
     }
 
     private void OnDestroy() => StopAndReleaseAll();

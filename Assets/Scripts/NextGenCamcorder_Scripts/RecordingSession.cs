@@ -7,19 +7,14 @@ public class RecordingSession
     public float Duration { get; private set; }
     public bool IsCompleted { get; private set; }
 
-    // ── Video ─────────────────────────────────────────────────
     private readonly List<VideoFrame> _videoFrames = new List<VideoFrame>();
     public IReadOnlyList<VideoFrame> VideoFrames => _videoFrames;
 
-    // ── Camera Transform ──────────────────────────────────────
     private readonly List<CameraTransformFrame> _cameraFrames = new List<CameraTransformFrame>();
     public IReadOnlyList<CameraTransformFrame> CameraFrames => _cameraFrames;
 
-    // ── Audio — múltiples fuentes ──────────────────────────────
     private readonly List<RecordedAudioTrack> _audioTracks = new List<RecordedAudioTrack>();
     public IReadOnlyList<RecordedAudioTrack> AudioTracks => _audioTracks;
-
-    // ── Escritura ──────────────────────────────────────────────
 
     public void AddVideoFrame(VideoFrame frame)
     {
@@ -35,10 +30,6 @@ public class RecordingSession
         _cameraFrames.Add(frame);
     }
 
-    /// <summary>
-    /// Registra una fuente de audio que estaba activa durante la grabación.
-    /// Llamado por RecordableAudioSource al inicio de la grabación.
-    /// </summary>
     public void RegisterAudioTrack(RecordedAudioTrack track)
     {
         if (IsCompleted) return;
@@ -51,8 +42,6 @@ public class RecordingSession
         Duration = duration;
         IsCompleted = true;
     }
-
-    // ── Lectura ────────────────────────────────────────────────
 
     public VideoFrame? GetFrameAtTime(float time)
     {
@@ -111,17 +100,15 @@ public readonly struct CameraTransformFrame
     }
 }
 
-/// <summary>
-/// Representa un evento FMOD que estaba sonando durante la grabación.
-/// startTime = en qué segundo de la grabación arrancó.
-/// fmodTimelinePosition = en qué ms estaba el evento cuando empezó la grabación
-/// (para sincronizar si el evento ya estaba corriendo antes de grabar).
-/// </summary>
 public struct RecordedAudioTrack
 {
     public string FMODPath;
-    public float StartTime;           // timestamp en la grabación
-    public int FMODTimelinePosition; // ms dentro del evento FMOD
-    public bool Is3D;                // si es posicional o no
-    public Vector3 Position;           // posición de la fuente (si Is3D)
+    public float StartTime;
+    public int FMODTimelinePosition;
+    public bool Is3D;
+    public Vector3 Position;
+
+    // NUEVO: curva de volumen bakeada durante la grabación.
+    // Cada entrada dice "en este segundo de la grabación, esta fuente sonaba a este volumen".
+    public List<AudioVolumeKeyFrame> VolumeKeyframes;
 }
