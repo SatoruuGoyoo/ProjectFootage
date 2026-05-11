@@ -13,10 +13,6 @@ public class RecordableAudioSource : MonoBehaviour, ISpatialAudioSource
     [SerializeField]
     private AnimationCurve distanceFalloff = AnimationCurve.Linear(0f, 1f, 1f, 0f);
 
-    // Sin Start(), sin instancia FMOD, sin OnDestroy().
-    // Este componente es solo un descriptor — dice "acá hay una fuente de audio
-    // con estas propiedades". El sonido solo existe en el playback.
-
     public Vector3 WorldPosition => transform.position;
     public string FMODPath => audioEvent.Path;
     public bool Is3D => is3D;
@@ -26,9 +22,34 @@ public class RecordableAudioSource : MonoBehaviour, ISpatialAudioSource
     public bool TryGetTimelinePosition(out int milliseconds)
     {
         milliseconds = 0;
-        return false; // no hay instancia corriendo, el playback arranca desde 0
+        return false;
     }
 
     public float EvaluateDistanceFalloff(float normalizedDistance)
         => distanceFalloff.Evaluate(normalizedDistance);
+
+    // ── Gizmos ─────────────────────────────────────────────────
+
+    private static readonly Color GizmoColor = new Color(0.4f, 0.8f, 1f); // celeste
+
+    private void OnDrawGizmos()
+    {
+        // Siempre visible — solo el wire para no molestar
+        Gizmos.color = new Color(GizmoColor.r, GizmoColor.g, GizmoColor.b, 0.5f);
+        Gizmos.DrawWireSphere(transform.position, maxAudibleDistance);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        // Cuando está seleccionado, wire más brillante + esfera traslúcida
+        Gizmos.color = new Color(GizmoColor.r, GizmoColor.g, GizmoColor.b, 1f);
+        Gizmos.DrawWireSphere(transform.position, maxAudibleDistance);
+
+        Gizmos.color = new Color(GizmoColor.r, GizmoColor.g, GizmoColor.b, 0.08f);
+        Gizmos.DrawSphere(transform.position, maxAudibleDistance);
+
+        // Marcador del centro para ubicar la fuente exacta
+        Gizmos.color = GizmoColor;
+        Gizmos.DrawSphere(transform.position, 0.15f);
+    }
 }

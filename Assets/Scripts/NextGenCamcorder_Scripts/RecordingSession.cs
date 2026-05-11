@@ -7,14 +7,23 @@ public class RecordingSession
     public float Duration { get; private set; }
     public bool IsCompleted { get; private set; }
 
+    // ── Video ─────────────────────────────────────────────────
     private readonly List<VideoFrame> _videoFrames = new List<VideoFrame>();
     public IReadOnlyList<VideoFrame> VideoFrames => _videoFrames;
 
+    // ── Camera Transform ──────────────────────────────────────
     private readonly List<CameraTransformFrame> _cameraFrames = new List<CameraTransformFrame>();
     public IReadOnlyList<CameraTransformFrame> CameraFrames => _cameraFrames;
 
+    // ── Audio continuo (cuchara, radio, etc) ──────────────────
     private readonly List<RecordedAudioTrack> _audioTracks = new List<RecordedAudioTrack>();
     public IReadOnlyList<RecordedAudioTrack> AudioTracks => _audioTracks;
+
+    // ── One-shots (SFX puntuales, jumpscares, etc) ────────────
+    private readonly List<RecordedOneShotEvent> _oneShotEvents = new List<RecordedOneShotEvent>();
+    public IReadOnlyList<RecordedOneShotEvent> OneShotEvents => _oneShotEvents;
+
+    // ── Escritura ──────────────────────────────────────────────
 
     public void AddVideoFrame(VideoFrame frame)
     {
@@ -36,12 +45,20 @@ public class RecordingSession
         _audioTracks.Add(track);
     }
 
+    public void RegisterOneShot(RecordedOneShotEvent evt)
+    {
+        if (IsCompleted) return;
+        _oneShotEvents.Add(evt);
+    }
+
     public void Complete(float duration)
     {
         if (duration < 0) throw new ArgumentException("Duración negativa");
         Duration = duration;
         IsCompleted = true;
     }
+
+    // ── Lectura ────────────────────────────────────────────────
 
     public VideoFrame? GetFrameAtTime(float time)
     {
@@ -107,8 +124,13 @@ public struct RecordedAudioTrack
     public int FMODTimelinePosition;
     public bool Is3D;
     public Vector3 Position;
-
-    // NUEVO: curva de volumen bakeada durante la grabación.
-    // Cada entrada dice "en este segundo de la grabación, esta fuente sonaba a este volumen".
     public List<AudioVolumeKeyFrame> VolumeKeyframes;
+}
+
+public struct RecordedOneShotEvent
+{
+    public string FMODPath;
+    public float Timestamp;   // segundo de la grabación en que se disparó
+    public Vector3 Position;  // de dónde se disparó
+    public float Volume;      // calculado al momento del trigger (0..1)
 }
