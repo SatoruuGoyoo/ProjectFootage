@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CameraManager : MonoBehaviour
@@ -7,6 +8,8 @@ public class CameraManager : MonoBehaviour
 
     private Camera currentCamera;
 
+    [SerializeField] private Transform _player;
+
     private void Awake() => Instance = this;
 
     public void SetCamera(Camera newCam)
@@ -15,5 +18,8 @@ public class CameraManager : MonoBehaviour
         if (currentCamera != null) currentCamera.gameObject.SetActive(false);
         currentCamera = newCam;
         if (currentCamera != null) currentCamera.gameObject.SetActive(true);
+        currentCamera.GetComponent<FixedCameraController>()?.OnActivated();
     }
+
+    
 }

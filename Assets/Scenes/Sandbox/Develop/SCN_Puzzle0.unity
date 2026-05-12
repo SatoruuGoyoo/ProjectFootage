@@ -511,6 +511,37 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1787900391}
   m_SourcePrefab: {fileID: 100100000, guid: 265dc7961a67e5647bd700733bc99a28, type: 3}
+--- !u!1 &43151449
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 43151450}
+  m_Layer: 0
+  m_Name: WP_B
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &43151450
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43151449}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -56.85, y: 0.90823, z: -40.78}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &46822407
 GameObject:
   m_ObjectHideFlags: 0
@@ -2484,6 +2515,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6158ebd86cf7b184f9a247d038d43130, type: 3}
   m_PrefabInstance: {fileID: 766469992}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &118755714
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 118755715}
+  m_Layer: 0
+  m_Name: WP_A
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &118755715
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 118755714}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -63.75, y: 0.90823, z: -40.78}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &131259727
 GameObject:
   m_ObjectHideFlags: 0
@@ -2612,7 +2674,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &172815779
 Transform:
   m_ObjectHideFlags: 0
@@ -4655,6 +4717,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83591c0ab6edea84db68492b8538e6f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraManager
+  _player: {fileID: 0}
 --- !u!4 &324040071
 Transform:
   m_ObjectHideFlags: 0
@@ -16495,6 +16558,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83591c0ab6edea84db68492b8538e6f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraManager
+  _player: {fileID: 0}
 --- !u!4 &1104377675
 Transform:
   m_ObjectHideFlags: 0
@@ -25168,6 +25232,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8bca95f7c947b4db5fb152a0d693d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: com.cqf.urpvolumetricfog.runtime::VolumetricAdditionalLight
+  anisotropy: 0.25
+  scattering: 1
+  radius: 0.2
 --- !u!1 &1558345127
 GameObject:
   m_ObjectHideFlags: 0
@@ -26102,6 +26169,7 @@ GameObject:
   - component: {fileID: 1648584660}
   - component: {fileID: 1648584663}
   - component: {fileID: 1648584661}
+  - component: {fileID: 1648584664}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -26219,6 +26287,29 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &1648584664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1648584659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8511328c28a48429fd1c2a81cceef0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FixedCameraController
+  cameraMode: 1
+  pitchRange: {x: -20, y: 20}
+  yawRange: {x: -45, y: 45}
+  lookSpeed: 6
+  clampRotation: 1
+  waypoints:
+  - {fileID: 118755715}
+  - {fileID: 43151450}
+  followOffset: {x: 0, y: 0, z: 0}
+  followSpeed: 5
+  lookAtPlayerWhileFollowing: 1
 --- !u!1 &1657679964
 GameObject:
   m_ObjectHideFlags: 0
@@ -31595,6 +31686,7 @@ GameObject:
   - component: {fileID: 2050310884}
   - component: {fileID: 2050310882}
   - component: {fileID: 2050310885}
+  - component: {fileID: 2050310886}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -31726,6 +31818,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioListener
   nonRigidbodyVelocity: 0
   attenuationObject: {fileID: 0}
+--- !u!114 &2050310886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2050310880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8511328c28a48429fd1c2a81cceef0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FixedCameraController
+  cameraMode: 2
+  pitchRange: {x: -20, y: 20}
+  yawRange: {x: -45, y: 45}
+  lookSpeed: 4
+  clampRotation: 1
+  waypoints: []
+  followOffset: {x: 0, y: 0, z: 0}
+  followSpeed: 5
+  lookAtPlayerWhileFollowing: 1
 --- !u!1001 &2056587214
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36329,3 +36442,5 @@ SceneRoots:
   - {fileID: 1558345131}
   - {fileID: 249842881}
   - {fileID: 872562373}
+  - {fileID: 118755715}
+  - {fileID: 43151450}

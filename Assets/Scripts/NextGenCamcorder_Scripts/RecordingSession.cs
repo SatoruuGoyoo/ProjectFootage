@@ -58,7 +58,7 @@ public class RecordingSession
         IsCompleted = true;
     }
 
-    // ── Lectura ────────────────────────────────────────────────
+    // Video & Camera 
 
     public VideoFrame? GetFrameAtTime(float time)
     {
@@ -87,7 +87,7 @@ public class RecordingSession
     }
 }
 
-// ── Structs ────────────────────────────────────────────────────
+// Structs 
 
 public readonly struct VideoFrame
 {
@@ -130,7 +130,7 @@ public struct RecordedAudioTrack
 public struct RecordedOneShotEvent
 {
     public string FMODPath;
-    public float Timestamp;   // segundo de la grabación en que se disparó
-    public Vector3 Position;  // de dónde se disparó
-    public float Volume;      // calculado al momento del trigger (0..1)
+    public float Timestamp;   
+    public Vector3 Position; 
+    public float Volume;      
 }
