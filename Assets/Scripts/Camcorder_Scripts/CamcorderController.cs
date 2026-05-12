@@ -1,5 +1,6 @@
-using FMODUnity;
 using UnityEngine;
+using FMODUnity;
+using FMOD.Studio;
 
 public class CamcorderController : MonoBehaviour
 {
@@ -18,16 +19,14 @@ public class CamcorderController : MonoBehaviour
 
     [Header("FMOD")]
     [SerializeField] private EventReference toggleEvent;
-    [SerializeField] private EventReference ambientRecordingEvent; // el audio del mundo que se graba
 
     public CamcorderMode CurrentCamMode => _currentCamMode;
 
     private CamcorderMode _currentCamMode = CamcorderMode.Idle;
     private PlayerMode _currentPlayerMode = PlayerMode.ExplorationMode;
 
-    // Nuevos recorders separados
     private VideoRecorder _videoRecorder;
-    private AudioRecorder _audioRecorder;
+    private SpatialAudioRecorder _spatialAudioRecorder;
     private CamcorderStorage _storage;
     private CamcorderInput _input;
     private CamcorderMotor _motor;
@@ -40,7 +39,7 @@ public class CamcorderController : MonoBehaviour
     {
         _input = GetComponent<CamcorderInput>();
         _videoRecorder = GetComponent<VideoRecorder>();
-        _audioRecorder = GetComponent<AudioRecorder>();
+        _spatialAudioRecorder = GetComponent<SpatialAudioRecorder>();
         _storage = GetComponent<CamcorderStorage>();
         _motor = GetComponent<CamcorderMotor>();
     }
@@ -140,26 +139,23 @@ public class CamcorderController : MonoBehaviour
 
     private void StartRecording()
     {
-        // Creamos la sesión acá — el Controller es el dueño
         _activeSession = new RecordingSession();
         _recordingTimer = 0f;
         recordTimer = 0f;
 
         _videoRecorder.StartRecording(_activeSession);
-        _audioRecorder.StartRecording(_activeSession, ambientRecordingEvent);
+        _spatialAudioRecorder.StartRecording(_activeSession);
 
         _currentCamMode = CamcorderMode.Recording;
         GameEvents.PlayerModeChanged(PlayerMode.RecordingMode);
-        GameEvents.RecordingStarted();
+        GameEvents.RecordingStarted(_activeSession);
     }
 
     private void StopRecording()
     {
         _videoRecorder.StopRecording();
-        _audioRecorder.StopRecording();
+        _spatialAudioRecorder.StopRecording();
 
-        // El Controller es el único que llama Complete()
-        // porque es el único que sabe que AMBOS recorders terminaron
         _activeSession.Complete(_recordingTimer);
         _storage.AddRecording(_activeSession);
         _activeSession = null;

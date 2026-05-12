@@ -2606,7 +2606,6 @@ GameObject:
   - component: {fileID: 172815779}
   - component: {fileID: 172815782}
   - component: {fileID: 172815780}
-  - component: {fileID: 172815783}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -2724,20 +2723,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!114 &172815783
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 172815778}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioListener
-  nonRigidbodyVelocity: 0
-  attenuationObject: {fileID: 0}
 --- !u!1 &175536479
 GameObject:
   m_ObjectHideFlags: 0
@@ -5134,6 +5119,7 @@ GameObject:
   - component: {fileID: 334975085}
   - component: {fileID: 334975084}
   - component: {fileID: 334975083}
+  - component: {fileID: 334975086}
   m_Layer: 0
   m_Name: RADIO
   m_TagString: Untagged
@@ -5207,12 +5193,57 @@ Transform:
   m_GameObject: {fileID: 334975082}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7709162, z: -0, w: -0.63693666}
-  m_LocalPosition: {x: -69.503, y: 1.646, z: -26.8579}
+  m_LocalPosition: {x: -68.63, y: 1.646, z: -27.03}
   m_LocalScale: {x: 4.4426847, y: 4.4426847, z: 4.4426847}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -259.128, z: 0}
+--- !u!114 &334975086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334975082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9592fb182256d346a95b64823450c5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RecordableAudioSource
+  audioEvent:
+    Guid:
+      Data1: -310985122
+      Data2: 1132764990
+      Data3: -388755836
+      Data4: 1227129327
+    Path: event:/DEBUG/RadioDebug
+  is3D: 1
+  maxAudibleDistance: 5
+  distanceFalloff:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: -1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &335869518
 GameObject:
   m_ObjectHideFlags: 0
@@ -7156,6 +7187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMotor
   config: {fileID: 11400000, guid: 7be0ea2d58441384fa5a2593870015a8, type: 2}
+  angleForInput: 75
 --- !u!114 &444280465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12306,9 +12338,9 @@ GameObject:
   - component: {fileID: 767295766}
   - component: {fileID: 767295771}
   - component: {fileID: 767295770}
-  - component: {fileID: 767295769}
   - component: {fileID: 767295768}
   - component: {fileID: 767295767}
+  - component: {fileID: 767295772}
   m_Layer: 0
   m_Name: Camcorder
   m_TagString: Untagged
@@ -12458,7 +12490,7 @@ MonoBehaviour:
   playerMotor: {fileID: 444280464}
   prepareTimer: 0
   recordTimer: 0
-  prepareDuration: 1
+  prepareDuration: 0
   recordDuration: 15
   mouseSensitivity: 0.5
   toggleEvent:
@@ -12468,13 +12500,6 @@ MonoBehaviour:
       Data3: -2037995890
       Data4: -862189175
     Path: event:/Camcorder/Toggle
-  ambientRecordingEvent:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
 --- !u!114 &767295764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12530,18 +12555,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioPlayback
   playbackListener: {fileID: 249842881}
---- !u!114 &767295769
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 767295753}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce26eee342fc9da4d8b53b57a0861ec1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AudioRecorder
 --- !u!114 &767295770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12571,6 +12584,21 @@ MonoBehaviour:
   recordingTexture: {fileID: 8400000, guid: ffb0013606e860a46827bf05339461a2, type: 2}
   cameraTransform: {fileID: 1263851853}
   captureInterval: 0.125
+--- !u!114 &767295772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 767295753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb8018ab0a99b174ba351e3aad578970, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpatialAudioRecorder
+  cameraTransform: {fileID: 1263851853}
+  captureInterval: 0.125
+  angleInfluence: 0.6
 --- !u!43 &769902244
 Mesh:
   m_ObjectHideFlags: 0
@@ -12761,7 +12789,7 @@ GameObject:
   - component: {fileID: 773809937}
   - component: {fileID: 773809936}
   m_Layer: 5
-  m_Name: RawImage
+  m_Name: Playback_img
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12806,7 +12834,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 8400000, guid: ffb0013606e860a46827bf05339461a2, type: 2}
+  m_Texture: {fileID: 0}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -13857,6 +13885,82 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.0000002, y: 5.2, z: 1.4000003}
   m_Center: {x: -1.2801232, y: 2.02204, z: -0.00000017881398}
+--- !u!1 &872562370
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 872562373}
+  - component: {fileID: 872562372}
+  - component: {fileID: 872562371}
+  m_Layer: 0
+  m_Name: Jumpscare_debug
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &872562371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 872562370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2b755b30f7d2f4589d20534476b51e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RecordableOneShot
+  fmodEvent:
+    Guid:
+      Data1: 22560726
+      Data2: 1223714174
+      Data3: -1250778206
+      Data4: 678045220
+    Path: event:/SFX/Door/DoorSlam
+  maxAudibleDistance: 5
+  fireOnce: 1
+  triggerTag: Player
+--- !u!65 &872562372
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 872562370}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.2830048, y: 1, z: 4.5602627}
+  m_Center: {x: -0.6808319, y: 0, z: -0.47105122}
+--- !u!4 &872562373
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 872562370}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -66.38, y: 1.58, z: -30.59}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &886101570
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15138,15 +15242,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 196ec44991c6cf4479e33d19e21350e9, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.07114114
+      value: 0.11453012
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 196ec44991c6cf4479e33d19e21350e9, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.07114114
+      value: 0.11453012
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 196ec44991c6cf4479e33d19e21350e9, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.07114114
+      value: 0.11453012
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 196ec44991c6cf4479e33d19e21350e9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -15154,11 +15258,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 196ec44991c6cf4479e33d19e21350e9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.736
+      value: 1.21
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 196ec44991c6cf4479e33d19e21350e9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -30.09
+      value: -29.96
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 196ec44991c6cf4479e33d19e21350e9, type: 3}
       propertyPath: m_LocalRotation.w
@@ -15195,7 +15299,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 196ec44991c6cf4479e33d19e21350e9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1222398852}
   m_SourcePrefab: {fileID: 100100000, guid: 196ec44991c6cf4479e33d19e21350e9, type: 3}
 --- !u!1 &1012688954
 GameObject:
@@ -16424,12 +16531,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a458f4054d3961241ab6f8192fc959a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ClockPuzzleManager
-  clocks:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  handSolved: {fileID: 0}
-  solvedCount: 0
 --- !u!4 &1110280299 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8311189870636371240, guid: a5f1a1b2852c071438fc45a57a8d38af, type: 3}
@@ -18982,7 +19083,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1197297329
 Transform:
   m_ObjectHideFlags: 0
@@ -19189,6 +19290,56 @@ Transform:
   - {fileID: 226433531}
   m_Father: {fileID: 809534048}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!1 &1222398848 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 196ec44991c6cf4479e33d19e21350e9, type: 3}
+  m_PrefabInstance: {fileID: 1010747288}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1222398852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1222398848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9592fb182256d346a95b64823450c5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RecordableAudioSource
+  audioEvent:
+    Guid:
+      Data1: 2139533843
+      Data2: 1080760267
+      Data3: 2011965372
+      Data4: 1476430140
+    Path: event:/DEBUG/SpoonDebug
+  is3D: 1
+  maxAudibleDistance: 5
+  distanceFalloff:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: -1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!43 &1230193448
 Mesh:
   m_ObjectHideFlags: 0
@@ -25017,9 +25168,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8bca95f7c947b4db5fb152a0d693d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: com.cqf.urpvolumetricfog.runtime::VolumetricAdditionalLight
-  anisotropy: 0.27
-  scattering: 0.3
-  radius: 0.2
 --- !u!1 &1558345127
 GameObject:
   m_ObjectHideFlags: 0
@@ -25954,7 +26102,6 @@ GameObject:
   - component: {fileID: 1648584660}
   - component: {fileID: 1648584663}
   - component: {fileID: 1648584661}
-  - component: {fileID: 1648584664}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -26072,20 +26219,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!114 &1648584664
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1648584659}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioListener
-  nonRigidbodyVelocity: 0
-  attenuationObject: {fileID: 0}
 --- !u!1 &1657679964
 GameObject:
   m_ObjectHideFlags: 0
@@ -31226,7 +31359,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1996519249}
-  - component: {fileID: 1996519248}
   m_Layer: 0
   m_Name: hallwaymanager
   m_TagString: Untagged
@@ -31234,25 +31366,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1996519248
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1996519247}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8108ca3a981a00e47a8a04dd40758667, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HallwayAudioManager
-  ambienceEvent:
-    Guid:
-      Data1: 191432853
-      Data2: 1255834826
-      Data3: -289474149
-      Data4: -275988174
-    Path: event:/Ambience/Room
 --- !u!4 &1996519249
 Transform:
   m_ObjectHideFlags: 0
@@ -36215,3 +36328,4 @@ SceneRoots:
   - {fileID: 1010747288}
   - {fileID: 1558345131}
   - {fileID: 249842881}
+  - {fileID: 872562373}

@@ -14,6 +14,8 @@ public class PlayerMotor : MonoBehaviour
     private Camera lastCamera = null;
     private Vector3 lockedWorldDir = Vector3.forward;
     private bool directionLocked = false;
+
+    [SerializeField] float angleForInput = 75f;
     private void Awake() => characterController = GetComponent<CharacterController>();
 
     public bool HasInput { get; private set; }
@@ -75,7 +77,7 @@ public class PlayerMotor : MonoBehaviour
             {
                 
                 float angle = Vector3.Angle(lockedWorldDir, desiredDir);
-                if (angle > 75f)
+                if (angle > angleForInput)
                     directionLocked = false;
             }
 

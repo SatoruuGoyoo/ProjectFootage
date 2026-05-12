@@ -48,6 +48,7 @@ public class VideoPlayback : MonoBehaviour
     public void Load(RecordingSession session)
     {
         _session = session;
+        Debug.Log($"VideoPlayback: sesión cargada — {session.VideoFrames.Count} frames, duración {session.Duration}s");
 
         // Creamos la textura UNA sola vez con el tamaño correcto
         // La vamos a reutilizar en cada frame — cero allocations durante playback
@@ -55,6 +56,7 @@ public class VideoPlayback : MonoBehaviour
             _displayTexture = new Texture2D(640, 480, TextureFormat.RGB24, false);
 
         displayImage.texture = _displayTexture;
+        //displayImage.uvRect = new Rect(0, 1, 1, -1);
     }
 
     // ── Respuestas al Clock ────────────────────────────────────
@@ -62,7 +64,19 @@ public class VideoPlayback : MonoBehaviour
     private void OnPlay()
     {
         playbackPanel.SetActive(true);
-        ShowFrameAtTime(_clock.CurrentTime);
+        if (_session != null && _session.VideoFrames.Count > 0)
+        {
+            var firstFrame = _session.VideoFrames[0];
+            Debug.Log("Ewe");
+            Debug.Log($"Primer frame — bytes: {firstFrame.PixelData?.Length}, textura: {_displayTexture?.width}x{_displayTexture?.height}");
+
+            if (firstFrame.PixelData != null && _displayTexture != null)
+            {
+                _displayTexture.LoadRawTextureData(firstFrame.PixelData);
+                _displayTexture.Apply();
+                Debug.Log($"displayImage.texture == _displayTexture: {displayImage.texture == _displayTexture}");
+            }
+        }
     }
 
     private void OnPause()
@@ -101,10 +115,9 @@ public class VideoPlayback : MonoBehaviour
         VideoFrame? frame = _session.GetFrameAtTime(time);
         if (frame == null) return;
 
-        // LoadRawTextureData + Apply es la forma más eficiente de
-        // cargar bytes crudos en una Texture2D existente sin crear garbage
         _displayTexture.LoadRawTextureData(frame.Value.PixelData);
         _displayTexture.Apply();
+        Debug.Log($"bytes cargados: {frame.Value.PixelData.Length}, t={time:F2}");
     }
 
     private void OnDestroy()

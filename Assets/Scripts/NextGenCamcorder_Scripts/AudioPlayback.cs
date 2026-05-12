@@ -1,30 +1,20 @@
+using System.Collections.Generic;
 using FMOD.Studio;
 using FMODUnity;
 using UnityEngine;
 
-/// <summary>
-/// Responsabilidad única: reproducir el audio grabado en sincronía
-/// con el PlaybackClock, y mover el listener de FMOD a la posición
-/// que tenía la cámara cuando grabó — para audio 3D posicional correcto.
-/// No sabe nada de video ni de UI.
-/// </summary>
 [RequireComponent(typeof(PlaybackClock))]
 public class AudioPlayback : MonoBehaviour
 {
     [Header("Listener 3D")]
-    [Tooltip("Transform que representa el listener durante el playback. " +
-             "Se mueve a la posición grabada de la cámara en cada frame.")]
     public Transform playbackListener;
 
     private PlaybackClock _clock;
     private RecordingSession _session;
-    private EventInstance _eventInstance;
-    private bool _hasInstance;
+    private readonly List<EventInstance> _instances = new List<EventInstance>();
+    private readonly HashSet<int> _firedOneShots = new HashSet<int>();
 
-    private void Awake()
-    {
-        _clock = GetComponent<PlaybackClock>();
-    }
+    private void Awake() => _clock = GetComponent<PlaybackClock>();
 
     private void OnEnable()
     {
@@ -44,92 +34,204 @@ public class AudioPlayback : MonoBehaviour
         _clock.OnComplete -= OnStop;
     }
 
-    // ── API pública ────────────────────────────────────────────
-
-    public void Load(RecordingSession session)
-    {
-        _session = session;
-    }
+    public void Load(RecordingSession session) => _session = session;
 
     // ── Respuestas al Clock ────────────────────────────────────
 
     private void OnPlay()
     {
-        if (_session == null || string.IsNullOrEmpty(_session.FMODAudioPath)) return;
-
-        if (!_hasInstance)
-        {
-            _eventInstance = RuntimeManager.CreateInstance(_session.FMODAudioPath);
-            _hasInstance = true;
-        }
-
-        // Posicionamos el listener antes de arrancar
+        if (_session == null) return;
+        CreateInstances();
         UpdateListenerPosition(_clock.CurrentTime);
-
-        // Seek al tiempo correcto — por si arranca desde pausa o desde medio
-        int ms = Mathf.RoundToInt(_clock.CurrentTime * 1000f);
-        _eventInstance.setTimelinePosition(ms);
-        _eventInstance.setPaused(false);
-        _eventInstance.start();
+        StartAllAt(_clock.CurrentTime);
+        InitOneShots(_clock.CurrentTime);
     }
 
     private void OnPause()
     {
-        if (!_hasInstance) return;
-        _eventInstance.setPaused(true);
+        foreach (var inst in _instances)
+            if (inst.isValid()) inst.setPaused(true);
     }
 
     private void OnStop()
     {
-        if (!_hasInstance) return;
-        _eventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-        _eventInstance.release();
-        _hasInstance = false;
+        StopAndReleaseAll();
+        _firedOneShots.Clear();
         _session = null;
     }
 
     private void OnSeek(float time)
     {
-        if (!_hasInstance) return;
-
-        // RFF — hacemos seek en FMOD al mismo tiempo que el clock
         int ms = Mathf.RoundToInt(time * 1000f);
-        _eventInstance.setTimelinePosition(ms);
-        UpdateListenerPosition(time);
-    }
+        for (int i = 0; i < _instances.Count; i++)
+        {
+            if (!_instances[i].isValid()) continue;
+            _instances[i].setTimelinePosition(ms);
 
-    // ── Loop ──────────────────────────────────────────────────
+            var track = _session.AudioTracks[i];
+            if (track.VolumeKeyframes != null && track.VolumeKeyframes.Count > 0)
+                _instances[i].setVolume(SampleVolumeAt(track.VolumeKeyframes, time));
+        }
+        UpdateListenerPosition(time);
+        InitOneShots(time);
+    }
 
     private void Update()
     {
-        if (!_clock.IsPlaying || !_hasInstance) return;
+        if (!_clock.IsPlaying) return;
 
-        // Actualizamos la posición del listener cada frame
-        // para que el audio 3D sea correcto durante la reproducción
-        UpdateListenerPosition(_clock.CurrentTime);
+        float currentTime = _clock.CurrentTime;
+
+        UpdateOneShots(currentTime);
+
+        for (int i = 0; i < _instances.Count; i++)
+        {
+            if (!_instances[i].isValid()) continue;
+            var track = _session.AudioTracks[i];
+            if (track.VolumeKeyframes != null && track.VolumeKeyframes.Count > 0)
+            {
+                float vol = SampleVolumeAt(track.VolumeKeyframes, currentTime);
+                _instances[i].setVolume(vol);
+            }
+        }
+
+        UpdateListenerPosition(currentTime);
     }
 
-    // ── Audio 3D posicional ───────────────────────────────────
+    // ── Fuentes continuas ──────────────────────────────────────
+
+    private void CreateInstances()
+    {
+        StopAndReleaseAll();
+
+        foreach (var track in _session.AudioTracks)
+        {
+            if (string.IsNullOrEmpty(track.FMODPath))
+            {
+                _instances.Add(new EventInstance());
+                continue;
+            }
+
+            if (IsTrackSilent(track))
+            {
+                _instances.Add(new EventInstance());
+                continue;
+            }
+
+            var inst = RuntimeManager.CreateInstance(track.FMODPath);
+
+            bool hasKeyframes = track.VolumeKeyframes != null && track.VolumeKeyframes.Count > 0;
+            if (track.Is3D && playbackListener != null && !hasKeyframes)
+                RuntimeManager.AttachInstanceToGameObject(inst, playbackListener);
+
+            _instances.Add(inst);
+        }
+    }
+
+    private void StartAllAt(float time)
+    {
+        int ms = Mathf.RoundToInt(time * 1000f);
+        for (int i = 0; i < _instances.Count; i++)
+        {
+            if (!_instances[i].isValid()) continue;
+
+            var track = _session.AudioTracks[i];
+            int seekMs = track.FMODTimelinePosition + ms;
+            _instances[i].setTimelinePosition(seekMs);
+            _instances[i].setPaused(false);
+            _instances[i].start();
+        }
+    }
+
+    private void StopAndReleaseAll()
+    {
+        foreach (var inst in _instances)
+        {
+            if (!inst.isValid()) continue;
+            inst.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            inst.release();
+        }
+        _instances.Clear();
+    }
 
     private void UpdateListenerPosition(float time)
     {
         if (_session == null || playbackListener == null) return;
-
-        CameraTransformFrame? camFrame = _session.GetCameraAtTime(time);
-        if (camFrame == null) return;
-
-        // Movemos el listener a donde estaba la cámara cuando grabó
-        // FMOD calcula el audio 3D desde esta posición automáticamente
-        playbackListener.position = camFrame.Value.Position;
-        playbackListener.rotation = camFrame.Value.Rotation;
+        CameraTransformFrame? cam = _session.GetCameraAtTime(time);
+        if (cam == null) return;
+        playbackListener.position = cam.Value.Position;
+        playbackListener.rotation = cam.Value.Rotation;
     }
 
-    private void OnDestroy()
+    // ── One-shots ──────────────────────────────────────────────
+
+    private void InitOneShots(float time)
     {
-        if (_hasInstance)
+        _firedOneShots.Clear();
+        if (_session == null) return;
+        // Los que ya "pasaron" se marcan como disparados — no se reactivan al avanzar
+        for (int i = 0; i < _session.OneShotEvents.Count; i++)
+            if (_session.OneShotEvents[i].Timestamp < time)
+                _firedOneShots.Add(i);
+    }
+
+    private void UpdateOneShots(float currentTime)
+    {
+        if (_session == null) return;
+        for (int i = 0; i < _session.OneShotEvents.Count; i++)
         {
-            _eventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-            _eventInstance.release();
+            if (_firedOneShots.Contains(i)) continue;
+            var evt = _session.OneShotEvents[i];
+            if (evt.Timestamp <= currentTime)
+            {
+                FireOneShot(evt);
+                _firedOneShots.Add(i);
+            }
         }
     }
+
+    private void FireOneShot(RecordedOneShotEvent evt)
+    {
+        if (string.IsNullOrEmpty(evt.FMODPath)) return;
+        if (evt.Volume <= 0.01f) return;
+
+        var inst = RuntimeManager.CreateInstance(evt.FMODPath);
+        inst.setVolume(evt.Volume);
+        inst.start();
+        inst.release(); // fire-and-forget, FMOD limpia cuando termina
+    }
+
+    // ── Utils ──────────────────────────────────────────────────
+
+    private static float SampleVolumeAt(List<AudioVolumeKeyFrame> keyframes, float time)
+    {
+        if (keyframes.Count == 0) return 1f;
+        if (keyframes.Count == 1) return keyframes[0].Volume;
+
+        if (time <= keyframes[0].Timestamp) return keyframes[0].Volume;
+        if (time >= keyframes[keyframes.Count - 1].Timestamp) return keyframes[keyframes.Count - 1].Volume;
+
+        int lo = 0, hi = keyframes.Count - 1;
+        while (lo < hi)
+        {
+            int mid = (lo + hi + 1) / 2;
+            if (keyframes[mid].Timestamp <= time) lo = mid;
+            else hi = mid - 1;
+        }
+
+        var a = keyframes[lo];
+        var b = keyframes[lo + 1];
+        float t = Mathf.InverseLerp(a.Timestamp, b.Timestamp, time);
+        return Mathf.Lerp(a.Volume, b.Volume, t);
+    }
+
+    private static bool IsTrackSilent(RecordedAudioTrack track)
+    {
+        if (track.VolumeKeyframes == null || track.VolumeKeyframes.Count == 0) return false;
+        foreach (var kf in track.VolumeKeyframes)
+            if (kf.Volume > 0.01f) return false;
+        return true;
+    }
+
+    private void OnDestroy() => StopAndReleaseAll();
 }
