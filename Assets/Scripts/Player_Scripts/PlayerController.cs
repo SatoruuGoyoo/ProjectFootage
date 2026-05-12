@@ -46,11 +46,11 @@ public class PlayerController : MonoBehaviour
     // Tank controls: forward/back + turn. Blocked in Camera and Recording modes.
     private void UpdateTank()
     {
-        if (currentMode == PlayerMode.CameraMode || currentMode == PlayerMode.RecordingMode)
-        {
-            motor.MoveRelativeToSelf(input.MoveVector, tankSpeed: true);
-            return;
-        }
+        //if (currentMode == PlayerMode.CameraMode || currentMode == PlayerMode.RecordingMode)
+        //{
+        //    motor.MoveRelativeToSelf(input.MoveVector, tankSpeed: true);
+        //    return;
+        //}
 
         motor.MoveTank(input.MoveForward, input.IsSprinting);
         motor.Turn(input.Turn);

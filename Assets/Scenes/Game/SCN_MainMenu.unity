@@ -344,6 +344,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 129077780}
   m_CullTransparentMesh: 1
+--- !u!1 &130778316
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 130778317}
+  - component: {fileID: 130778318}
+  m_Layer: 0
+  m_Name: FadeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &130778317
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 130778316}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -12.00258, y: 3.90248, z: 6.7404}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &130778318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 130778316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b3498b61501c1242909690d16f4444e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FadeManager
+  defaultFadeDuration: 2
+  defaultHoldDuration: 2
+  fontSize: 28
+  textColor: {r: 0.85, g: 0.85, b: 0.85, a: 1}
 --- !u!1 &148097598
 GameObject:
   m_ObjectHideFlags: 0
@@ -800,6 +848,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SM.UI.MainMenuManager
   gameSceneName: SCN_Integration
+  introText: 'Sk4rz_26
+
+
+    2:21 AM'
   mainPanel: {fileID: 2021975517}
   optionsPanel: {fileID: 2057584533}
 --- !u!114 &270807719
@@ -3875,3 +3927,4 @@ SceneRoots:
   - {fileID: 270807722}
   - {fileID: 1013664481}
   - {fileID: 463096887}
+  - {fileID: 130778317}

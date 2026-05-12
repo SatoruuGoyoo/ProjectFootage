@@ -8,7 +8,7 @@ public class CameraManager : MonoBehaviour
 
     private Camera currentCamera;
 
-    [SerializeField] private Transform _player;
+   
 
     private void Awake() => Instance = this;
 

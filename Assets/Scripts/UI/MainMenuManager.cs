@@ -6,7 +6,12 @@ namespace SM.UI
     public class MainMenuManager : MonoBehaviour
     {
         [Header("Scene References")]
-        [SerializeField] private string gameSceneName = "GameScene";
+        [SerializeField] private string gameSceneName = "SCN_Integration";
+
+        [Header("Intro Text")]
+        [TextArea]
+        [SerializeField] private string introText = "Sk4rz_26\n2:21 AM";
+
         [Header("Panels")]
         [SerializeField] private GameObject mainPanel;
         [SerializeField] private GameObject optionsPanel;
@@ -18,7 +23,7 @@ namespace SM.UI
 
         public void OnPlayClicked()
         {
-            SceneManager.LoadScene(gameSceneName);
+            FadeManager.Instance.FadeToScene(gameSceneName, introText);
         }
 
         public void OnOptionsClicked()
