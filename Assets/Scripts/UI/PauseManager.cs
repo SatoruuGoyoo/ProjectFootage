@@ -29,7 +29,7 @@ public class PauseManager : MonoBehaviour
     {
         isPaused = true;
         Time.timeScale = 0f;
-        GameEvents.PauseChanged(true);      
+        GameEvents.PauseChanged(true);
         actions.Exploration.Disable();
         actions.MenuCamera.Disable();
         actions.Camera.Disable();
@@ -40,9 +40,15 @@ public class PauseManager : MonoBehaviour
         isPaused = false;
         Time.timeScale = 1f;
         GameEvents.PauseChanged(false);
+        StartCoroutine(ReenableControlsNextFrame());
+    }
+
+    private System.Collections.IEnumerator ReenableControlsNextFrame()
+    {
+      
+        yield return null;
         actions.Exploration.Enable();
         actions.MenuCamera.Enable();
         actions.Camera.Enable();
-
     }
 }

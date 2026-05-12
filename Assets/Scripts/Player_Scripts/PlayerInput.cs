@@ -19,6 +19,7 @@ public class PlayerInput : MonoBehaviour
     private void OnEnable() => actions.Exploration.Enable();
     private void OnDisable() => actions.Exploration.Disable();
 
+
     private void Update()
     {
         MoveVector = actions.Exploration.Move.ReadValue<Vector2>();
