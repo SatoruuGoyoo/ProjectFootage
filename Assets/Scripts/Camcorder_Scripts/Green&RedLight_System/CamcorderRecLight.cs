@@ -1,4 +1,3 @@
-//using UnityEditor.Rendering;
 using FMOD.Studio;
 using FMODUnity;
 using UnityEngine;
@@ -8,23 +7,38 @@ public class CamcorderRecLight : MonoBehaviour
 {
     [Header("Setup")]
     [SerializeField] private Light recordingLight;
-    //[SerializeField] private AudioSource camAudio;
 
     [Header("Red Light Config")]
     [SerializeField] private Color redColor = Color.red;
-   // [SerializeField] AudioClip redClip;
 
     [Header("Green Light Config")]
     [SerializeField] private Color greenColor = Color.green;
-   // [SerializeField] AudioClip greenClip;
     [SerializeField] private float blinkSpeed = 2f;
 
     [Header("FMOD")]
     [SerializeField] private EventReference recLightEvent;
 
+    [Header("Red Beep Config")]
+    [SerializeField] private int redBeepsPerBurst = 1;
+    [SerializeField] private float redBeepInterval = 0.3f;
+    [SerializeField] private float redBurstCooldown = 5f;
+
+    [Header("Green Beep Config")]
+    [SerializeField] private int greenBeepsPerBurst = 3;
+    [SerializeField] private float greenBeepInterval = 0.3f;
+    [SerializeField] private float greenBurstCooldown = 2f;
+
     private EventInstance recLightInstance;
     private bool isGreen = false;
     private bool isActive = false;
+
+    private int beepsRemainingInBurst;
+    private float beepTimer;
+    private float waitForNext;
+
+    private int CurrentBeepsPerBurst => isGreen ? greenBeepsPerBurst : redBeepsPerBurst;
+    private float CurrentBeepInterval => isGreen ? greenBeepInterval : redBeepInterval;
+    private float CurrentBurstCooldown => isGreen ? greenBurstCooldown : redBurstCooldown;
 
     private void OnEnable()
     {
@@ -39,7 +53,6 @@ public class CamcorderRecLight : MonoBehaviour
 
     private void Start()
     {
-        // Create once ( persists until manually stopped or destroyed )
         recLightInstance = FMODManager.Instance.CreateEventInstance(recLightEvent);
     }
 
@@ -51,7 +64,10 @@ public class CamcorderRecLight : MonoBehaviour
 
     private void OnPlayerModeChanged(PlayerMode newMode)
     {
-        isActive = newMode == PlayerMode.CameraMode || newMode == PlayerMode.RecordingMode;
+        bool newActive = newMode == PlayerMode.CameraMode || newMode == PlayerMode.RecordingMode;
+        if (newActive == isActive) return;
+
+        isActive = newActive;
 
         if (!isActive)
         {
@@ -61,42 +77,56 @@ public class CamcorderRecLight : MonoBehaviour
         else
         {
             recordingLight.enabled = true;
-            recLightInstance.start();
             ApplyState();
+            StartBurst();
         }
     }
 
     private void OnLightChanged(bool isGreen)
     {
+        if (this.isGreen == isGreen) return;
         this.isGreen = isGreen;
         ApplyState();
+
+        if (isActive) StartBurst();
     }
 
     private void Update()
     {
-        if (!isActive || !isGreen) return;
+        if (!isActive) return;
 
-        // Blink the light using a sine wave
-        float blink = Mathf.Sin(Time.time * blinkSpeed * Mathf.PI);
-        recordingLight.enabled = blink > 0f;
+        if (isGreen)
+        {
+            float blink = Mathf.Sin(Time.time * blinkSpeed * Mathf.PI);
+            recordingLight.enabled = blink > 0f;
+        }
+
+        beepTimer += Time.deltaTime;
+        if (beepTimer < waitForNext) return;
+
+        beepTimer = 0f;
+
+        if (beepsRemainingInBurst <= 0)
+            beepsRemainingInBurst = CurrentBeepsPerBurst;
+
+        recLightInstance.start();
+        beepsRemainingInBurst--;
+
+        waitForNext = beepsRemainingInBurst > 0 ? CurrentBeepInterval : CurrentBurstCooldown;
+    }
+
+    private void StartBurst()
+    {
+        recLightInstance.start();
+        beepsRemainingInBurst = CurrentBeepsPerBurst - 1;
+        beepTimer = 0f;
+        waitForNext = beepsRemainingInBurst > 0 ? CurrentBeepInterval : CurrentBurstCooldown;
     }
 
     private void ApplyState()
     {
         recordingLight.color = isGreen ? greenColor : redColor;
         if (!isGreen) recordingLight.enabled = true;
-
-        // Parameter drives everything in FMOD Studio — 0=red, 1=green
         recLightInstance.setParameterByName("State", isGreen ? 1f : 0f);
     }
-
-    //private void PlayAudio(AudioClip clip)
-    //{
-    //    if (camAudio == null || clip == null) return;
-    //    if (camAudio.isPlaying && camAudio.clip == clip) return;
-    //    camAudio.clip = clip;
-    //    camAudio.loop = true;
-    //    camAudio.Play();
-    //}
-
 }

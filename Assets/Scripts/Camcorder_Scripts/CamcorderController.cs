@@ -22,6 +22,7 @@ public class CamcorderController : MonoBehaviour
 
     public CamcorderMode CurrentCamMode => _currentCamMode;
 
+
     private CamcorderMode _currentCamMode = CamcorderMode.Idle;
     private PlayerMode _currentPlayerMode = PlayerMode.ExplorationMode;
 
