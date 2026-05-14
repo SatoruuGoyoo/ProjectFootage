@@ -52,7 +52,6 @@ public class CamcorderRecLight : MonoBehaviour
         GameEvents.OnCamcorderLightChanged -= OnLightChanged;
         GameEvents.OnPlayerModeChanged -= OnPlayerModeChanged;
 
-       
     }
 
     private void Start()
@@ -130,7 +129,7 @@ public class CamcorderRecLight : MonoBehaviour
     private void ApplyState()
     {
         recordingLight.color = isGreen ? greenColor : redColor;
-        if (!isGreen) recordingLight.enabled = true;
+        if (!isGreen && isActive) recordingLight.enabled = true;
         recLightInstance.setParameterByName("State", isGreen ? 1f : 0f);
     }
 }
