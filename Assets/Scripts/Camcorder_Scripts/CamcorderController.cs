@@ -135,9 +135,6 @@ public class CamcorderController : MonoBehaviour
                 break;
         }
     }
-
-    // ── Grabación ──────────────────────────────────────────────
-
     private void StartRecording()
     {
         _activeSession = new RecordingSession();

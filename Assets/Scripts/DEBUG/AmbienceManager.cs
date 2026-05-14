@@ -15,15 +15,13 @@ public class AmbienceManager : MonoBehaviour
 
     public void SetAmbience(EventReference newRef)
     {
-        if (newRef.Guid == currentRef.Guid) return; // misma zona, no hacer nada
+        if (newRef.Guid == currentRef.Guid) return; 
 
-        // Fade out + stop del anterior
         if (current.isValid())
         {
             StartCoroutine(FadeOutAndRelease(current, crossfadeTime));
         }
 
-        // Crear y arrancar el nuevo con fade in
         current = FMODManager.Instance.CreateEventInstance(newRef);
         currentRef = newRef;
         current.start();

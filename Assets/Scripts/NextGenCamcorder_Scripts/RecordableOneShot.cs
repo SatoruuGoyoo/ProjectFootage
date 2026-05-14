@@ -32,9 +32,7 @@ public class RecordableOneShot : MonoBehaviour
         if (col != null) col.isTrigger = true;
     }
 
-    // ── Gizmos ─────────────────────────────────────────────────
-
-    private static readonly Color GizmoColor = new Color(1f, 0.55f, 0.1f); // naranja — para distinguir de las fuentes continuas
+    private static readonly Color GizmoColor = new Color(1f, 0.55f, 0.1f); 
 
     private void OnDrawGizmos()
     {
