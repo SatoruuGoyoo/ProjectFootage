@@ -130616,6 +130616,7 @@ GameObject:
   - component: {fileID: 1848734886}
   - component: {fileID: 1848734885}
   - component: {fileID: 1848734884}
+  - component: {fileID: 1848734887}
   m_Layer: 0
   m_Name: Green & Red (POINT LIGHT)
   m_TagString: Untagged
@@ -130632,7 +130633,7 @@ Transform:
   m_GameObject: {fileID: 1848734882}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.534, y: 0.79, z: 0.591}
+  m_LocalPosition: {x: 0.137, y: 0.55545634, z: 0.471}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -130707,7 +130708,7 @@ Light:
   serializedVersion: 12
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.5
   m_Range: 1
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -130761,6 +130762,21 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &1848734887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1848734882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c8bca95f7c947b4db5fb152a0d693d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: com.cqf.urpvolumetricfog.runtime::VolumetricAdditionalLight
+  anisotropy: 0.25
+  scattering: 1.73
+  radius: 0.2
 --- !u!1 &1852757326
 GameObject:
   m_ObjectHideFlags: 0
