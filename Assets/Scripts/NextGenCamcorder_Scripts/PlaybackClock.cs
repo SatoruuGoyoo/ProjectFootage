@@ -1,31 +1,21 @@
 using System;
 using UnityEngine;
 
-/// <summary>
-/// Responsabilidad única: manejar el tiempo de reproducción.
-/// Es el único que sabe "en qué segundo estamos" durante el playback.
-/// VideoPlayback y AudioPlayback no tienen timers propios —
-/// todos preguntan acá y así nunca se dessincronizan.
-/// </summary>
 public class PlaybackClock : MonoBehaviour
 {
-    // ── Estado ────────────────────────────────────────────────
     public float CurrentTime { get; private set; }
     public float Duration { get; private set; }
     public bool IsPlaying { get; private set; }
     public bool IsFinished => CurrentTime >= Duration && Duration > 0f;
     public bool HasSession => _session != null;
 
-    // ── Eventos — cualquier sistema se suscribe sin acoplarse ──
     public event Action OnPlay;
     public event Action OnPause;
     public event Action OnStop;
-    public event Action<float> OnSeek;      // float = nuevo tiempo
-    public event Action OnComplete;  // llegó al final
+    public event Action<float> OnSeek;     
+    public event Action OnComplete; 
 
     private RecordingSession _session;
-
-    // ── API pública ────────────────────────────────────────────
 
     public void Load(RecordingSession session)
     {
@@ -57,26 +47,16 @@ public class PlaybackClock : MonoBehaviour
         OnStop?.Invoke();
     }
 
-    /// <summary>
-    /// Salta a un tiempo exacto. Usado por Rewind/FastForward.
-    /// Todos los sistemas reciben OnSeek y se reposicionan solos.
-    /// </summary>
     public void Seek(float time)
     {
         CurrentTime = Mathf.Clamp(time, 0f, Duration);
         OnSeek?.Invoke(CurrentTime);
     }
 
-    /// <summary>
-    /// Avanza o retrocede N segundos desde la posición actual.
-    /// Usado por los botones de RFF del menu.
-    /// </summary>
     public void SeekDelta(float deltaSeconds)
     {
         Seek(CurrentTime + deltaSeconds);
     }
-
-    // ── Loop ──────────────────────────────────────────────────
 
     private void Update()
     {

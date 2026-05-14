@@ -20,7 +20,7 @@ public class CamcorderLightSystem : MonoBehaviour
 
     private void OnPlayerModeChanged(PlayerMode newMode)
     {
-        isCameraUp = newMode == PlayerMode.CameraMode || newMode == PlayerMode.RecordingMode;  //|| newMode == PlayerMode.MenuCameraMode;
+        isCameraUp = newMode == PlayerMode.CameraMode || newMode == PlayerMode.RecordingMode;  
         Debug.Log($"[CamcorderLight] Mode: {newMode} | isCameraUp: {isCameraUp}");
 
         if (!isCameraUp)

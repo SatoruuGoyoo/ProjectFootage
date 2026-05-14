@@ -22,6 +22,7 @@ public class CamcorderController : MonoBehaviour
 
     public CamcorderMode CurrentCamMode => _currentCamMode;
 
+
     private CamcorderMode _currentCamMode = CamcorderMode.Idle;
     private PlayerMode _currentPlayerMode = PlayerMode.ExplorationMode;
 
@@ -134,9 +135,6 @@ public class CamcorderController : MonoBehaviour
                 break;
         }
     }
-
-    // ── Grabación ──────────────────────────────────────────────
-
     private void StartRecording()
     {
         _activeSession = new RecordingSession();

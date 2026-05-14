@@ -23,25 +23,17 @@ public class SpatialAudioRecorder : MonoBehaviour
     private readonly List<(ISpatialAudioSource source, List<AudioVolumeKeyFrame> keyframes)> _registered
         = new List<(ISpatialAudioSource, List<AudioVolumeKeyFrame>)>();
 
-    // ── Static accessor para one-shots desde cualquier script ──
-
     private static SpatialAudioRecorder _activeRecorder;
 
     private void OnEnable() => _activeRecorder = this;
     private void OnDisable() { if (_activeRecorder == this) _activeRecorder = null; }
 
-    /// <summary>
-    /// Llamable desde cualquier script. Si hay grabación activa, registra un one-shot
-    /// con el volumen calculado al momento del trigger. Si no, no pasa nada.
-    /// </summary>
     public static bool TryCaptureOneShot(EventReference fmodEvent, Vector3 position, float maxAudibleDistance = 20f)
     {
         if (_activeRecorder == null || !_activeRecorder.IsRecording) return false;
         if (fmodEvent.IsNull) return false;
         return _activeRecorder.CaptureOneShotInternal(fmodEvent, position, maxAudibleDistance);
     }
-
-    // ── API de grabación ───────────────────────────────────────
 
     public void StartRecording(RecordingSession session)
     {
@@ -60,8 +52,6 @@ public class SpatialAudioRecorder : MonoBehaviour
         _registered.Clear();
         _session = null;
     }
-
-    // ── Registro inicial de fuentes continuas ──────────────────
 
     private void RegisterAllSources()
     {
@@ -92,10 +82,8 @@ public class SpatialAudioRecorder : MonoBehaviour
             _registered.Add((source, keyframes));
         }
 
-        Debug.Log($"SpatialAudioRecorder: {_registered.Count} fuentes registradas");
+        Debug.Log($"SpatialAudioRecorder {_registered.Count} fuentes registradas");
     }
-
-    // ── Captura de one-shot ────────────────────────────────────
 
     private bool CaptureOneShotInternal(EventReference fmodEvent, Vector3 position, float maxAudibleDistance)
     {
@@ -108,20 +96,18 @@ public class SpatialAudioRecorder : MonoBehaviour
             maxAudibleDistance,
             angleInfluence
         );
-
+        string fmodGuid = fmodEvent.Guid.ToString();
         _session.RegisterOneShot(new RecordedOneShotEvent
         {
-            FMODPath = fmodEvent.Path,
+            FMODPath = fmodGuid,
             Timestamp = _recordingTimer,
             Position = position,
             Volume = vol
         });
 
-        Debug.Log($"SpatialAudioRecorder: one-shot '{fmodEvent.Path}' capturado en t={_recordingTimer:F2}s vol={vol:F2}");
+        Debug.Log($"one-shot '{fmodGuid}' capturado en t={_recordingTimer:F2}s vol={vol:F2}");
         return true;
     }
-
-    // ── Loop ──────────────────────────────────────────────────
 
     private void Update()
     {

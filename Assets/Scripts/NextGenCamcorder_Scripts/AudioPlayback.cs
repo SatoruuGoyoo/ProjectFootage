@@ -36,8 +36,6 @@ public class AudioPlayback : MonoBehaviour
 
     public void Load(RecordingSession session) => _session = session;
 
-    // ── Respuestas al Clock ────────────────────────────────────
-
     private void OnPlay()
     {
         if (_session == null) return;
@@ -97,8 +95,6 @@ public class AudioPlayback : MonoBehaviour
 
         UpdateListenerPosition(currentTime);
     }
-
-    // ── Fuentes continuas ──────────────────────────────────────
 
     private void CreateInstances()
     {
@@ -163,13 +159,10 @@ public class AudioPlayback : MonoBehaviour
         playbackListener.rotation = cam.Value.Rotation;
     }
 
-    // ── One-shots ──────────────────────────────────────────────
-
     private void InitOneShots(float time)
     {
         _firedOneShots.Clear();
         if (_session == null) return;
-        // Los que ya "pasaron" se marcan como disparados — no se reactivan al avanzar
         for (int i = 0; i < _session.OneShotEvents.Count; i++)
             if (_session.OneShotEvents[i].Timestamp < time)
                 _firedOneShots.Add(i);
@@ -198,10 +191,8 @@ public class AudioPlayback : MonoBehaviour
         var inst = RuntimeManager.CreateInstance(evt.FMODPath);
         inst.setVolume(evt.Volume);
         inst.start();
-        inst.release(); // fire-and-forget, FMOD limpia cuando termina
+        inst.release();
     }
-
-    // ── Utils ──────────────────────────────────────────────────
 
     private static float SampleVolumeAt(List<AudioVolumeKeyFrame> keyframes, float time)
     {

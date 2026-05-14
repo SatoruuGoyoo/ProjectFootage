@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CamcorderTransition : MonoBehaviour
 {
     [Header("Setup")]
-    public Image transitionImage;       // Image fullscreen con material UI/VHSStatic
+    public Image transitionImage;     
 
     [Header("Config")]
     [SerializeField] private float rampUpDuration = 0.25f;    
