@@ -8,8 +8,6 @@ public class CameraManager : MonoBehaviour
 
     private Camera currentCamera;
 
-   
-
     private void Awake() => Instance = this;
 
     public void SetCamera(Camera newCam)

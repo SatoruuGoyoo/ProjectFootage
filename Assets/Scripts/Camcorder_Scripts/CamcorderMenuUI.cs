@@ -19,7 +19,6 @@ public class CamcorderMenuUI : MonoBehaviour
     public Color colorUnselected = new Color(0.45f, 0.45f, 0.45f, 1f);
     public Color borderColor = new Color(1f, 0.30f, 0.30f, 1f);
 
-    // Una Texture2D por slot — así cada thumbnail es independiente
     private Texture2D[] _thumbnailTextures;
 
     private CamcorderStorage _storage;
@@ -37,7 +36,6 @@ public class CamcorderMenuUI : MonoBehaviour
         noRecordingText.gameObject.SetActive(!hasRecordings);
         recordingsPanel.SetActive(hasRecordings);
 
-        // Inicializamos el array de texturas si no existe
         if (_thumbnailTextures == null || _thumbnailTextures.Length != recordingSlots.Length)
             _thumbnailTextures = new Texture2D[recordingSlots.Length];
 
@@ -65,7 +63,6 @@ public class CamcorderMenuUI : MonoBehaviour
         }
     }
 
-    // Cada slot tiene su propio índice y su propia Texture2D
     private Sprite FrameToSprite(int slotIndex, VideoFrame frame)
     {
         if (_thumbnailTextures[slotIndex] == null)

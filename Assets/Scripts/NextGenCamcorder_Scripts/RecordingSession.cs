@@ -7,23 +7,17 @@ public class RecordingSession
     public float Duration { get; private set; }
     public bool IsCompleted { get; private set; }
 
-    // ── Video ─────────────────────────────────────────────────
     private readonly List<VideoFrame> _videoFrames = new List<VideoFrame>();
     public IReadOnlyList<VideoFrame> VideoFrames => _videoFrames;
 
-    // ── Camera Transform ──────────────────────────────────────
     private readonly List<CameraTransformFrame> _cameraFrames = new List<CameraTransformFrame>();
     public IReadOnlyList<CameraTransformFrame> CameraFrames => _cameraFrames;
 
-    // ── Audio continuo (cuchara, radio, etc) ──────────────────
     private readonly List<RecordedAudioTrack> _audioTracks = new List<RecordedAudioTrack>();
     public IReadOnlyList<RecordedAudioTrack> AudioTracks => _audioTracks;
 
-    // ── One-shots (SFX puntuales, jumpscares, etc) ────────────
     private readonly List<RecordedOneShotEvent> _oneShotEvents = new List<RecordedOneShotEvent>();
     public IReadOnlyList<RecordedOneShotEvent> OneShotEvents => _oneShotEvents;
-
-    // ── Escritura ──────────────────────────────────────────────
 
     public void AddVideoFrame(VideoFrame frame)
     {
@@ -59,7 +53,6 @@ public class RecordingSession
     }
 
     // Video & Camera 
-
     public VideoFrame? GetFrameAtTime(float time)
     {
         if (_videoFrames.Count == 0) return null;
@@ -88,7 +81,6 @@ public class RecordingSession
 }
 
 // Structs 
-
 public readonly struct VideoFrame
 {
     public readonly byte[] PixelData;

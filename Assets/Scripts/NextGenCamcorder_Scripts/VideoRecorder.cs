@@ -3,19 +3,12 @@ using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-/// <summary>
-/// Responsabilidad única: capturar frames de video Y el transform
-/// de la cámara en cada frame, y escribirlos en la RecordingSession.
-/// El transform se usa en playback para posicionar el listener de FMOD
-/// y reproducir el audio 3D igual a como lo escuchó el jugador.
-/// </summary>
 public class VideoRecorder : MonoBehaviour
 {
     [Header("Setup")]
     public RenderTexture recordingTexture;
 
     [Header("Camera — para audio 3D posicional")]
-    [Tooltip("La cámara de la camcorder. Se graba su posición y rotación en cada frame.")]
     public Transform cameraTransform;
 
     [Header("Tweaks")]
@@ -26,8 +19,6 @@ public class VideoRecorder : MonoBehaviour
     private RecordingSession _session;
     private float _captureTimer;
     private float _recordingTimer;
-
-    // ── API pública ────────────────────────────────────────────
 
     public void StartRecording(RecordingSession session)
     {
@@ -43,10 +34,8 @@ public class VideoRecorder : MonoBehaviour
     {
         if (!IsRecording) return;
         IsRecording = false;
-        Debug.Log($"VideoRecorder: grabación terminada — {_session.VideoFrames.Count} frames capturados");
+        Debug.Log("VideoRecorder grabación terminada {_session.VideoFrames.Count} frames capturados");
     }
-
-    // ── Loop ──────────────────────────────────────────────────
 
     private void Update()
     {
@@ -58,12 +47,10 @@ public class VideoRecorder : MonoBehaviour
         if (_captureTimer >= captureInterval)
         {
             _captureTimer = 0f;
-            CaptureTransform(_recordingTimer);  // síncrono — barato
-            RequestFrame(_recordingTimer);       // asíncrono — pesado, va a la GPU
+            CaptureTransform(_recordingTimer); 
+            RequestFrame(_recordingTimer);      
         }
     }
-
-    // ── Captura transform (síncrono, sin costo) ───────────────
 
     private void CaptureTransform(float timestamp)
     {
@@ -75,8 +62,6 @@ public class VideoRecorder : MonoBehaviour
             timestamp
         ));
     }
-
-    // ── Captura video (asíncrono, GPU) ────────────────────────
 
     private void RequestFrame(float timestamp)
     {

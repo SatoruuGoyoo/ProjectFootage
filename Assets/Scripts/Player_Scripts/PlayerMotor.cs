@@ -22,7 +22,7 @@ public class PlayerMotor : MonoBehaviour
     public bool IsMovingBackward { get; private set; }
     public bool IsSprinting { get; private set; }
 
-    // --- Tank ---
+    // Tank 
 
     public void MoveTank(float moveInput, bool sprint)
     {
@@ -48,8 +48,7 @@ public class PlayerMotor : MonoBehaviour
         transform.Rotate(0, turnInput * config.TurnSpeed * Time.deltaTime, 0);
     }
 
-    // --- Modern ---
-
+    // Modern 
     public void MoveRelativeToCamera(Vector2 input, Camera activeCamera, bool sprint)
     {
 
@@ -144,9 +143,8 @@ public class PlayerMotor : MonoBehaviour
         characterController.Move(movement);
     }
 
-    // --- Shared ---
+    // Shared 
 
-    // Direct yaw rotation in pre-calculated degrees. Used by CamcorderController for 1:1 sync.
     public void RotateDirect(float yawDegrees)
     {
         transform.Rotate(0, yawDegrees * config.RecordingRotationMultiplier, 0);
@@ -161,7 +159,6 @@ public class PlayerMotor : MonoBehaviour
             verticalVelocity += Physics.gravity.y * config.GravityMultiplier * Time.deltaTime;
     }
 
-    // Strips any accumulated pitch/roll — only Y rotation survives
     private void FlattenRotation()
     {
         Vector3 euler = transform.eulerAngles;
