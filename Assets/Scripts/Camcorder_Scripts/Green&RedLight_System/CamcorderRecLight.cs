@@ -44,13 +44,15 @@ public class CamcorderRecLight : MonoBehaviour
     {
         GameEvents.OnCamcorderLightChanged += OnLightChanged;
         GameEvents.OnPlayerModeChanged += OnPlayerModeChanged;
+
+        recordingLight.enabled = false;
     }
     private void OnDisable()
     {
         GameEvents.OnCamcorderLightChanged -= OnLightChanged;
         GameEvents.OnPlayerModeChanged -= OnPlayerModeChanged;
 
-        recordingLight.enabled = false;
+       
     }
 
     private void Start()
