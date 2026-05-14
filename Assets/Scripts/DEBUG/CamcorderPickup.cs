@@ -28,8 +28,17 @@ public class CamcorderPickup : MonoBehaviour
         var col = GetComponent<Collider>();
         if (!col.isTrigger) col.isTrigger = true;
 
-        if (camcorderSystem != null) camcorderSystem.SetActive(false);
-        if (camcorderModel != null) camcorderModel.SetActive(false);
+        
+        if (camcorderSystem != null)
+        {
+            camcorderSystem.SetActive(true);
+            camcorderSystem.SetActive(false);
+        }
+        if (camcorderModel != null)
+        {
+            camcorderModel.SetActive(true);
+            camcorderModel.SetActive(false);
+        }
 
         SetPrompt(false);
     }

@@ -31,7 +31,7 @@ public class AudioRecorder : MonoBehaviour
         //// pueden ajustarse más adelante si se requiere mayor precisión.
         var track = new RecordedAudioTrack
         {
-            FMODPath = fmodEvent.Path ?? string.Empty,
+            FMODPath = fmodEvent.Guid.ToString(),
             StartTime = 0f,
             FMODTimelinePosition = 0,
             Is3D = false,

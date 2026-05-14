@@ -108,16 +108,16 @@ public class SpatialAudioRecorder : MonoBehaviour
             maxAudibleDistance,
             angleInfluence
         );
-
+        string fmodGuid = fmodEvent.Guid.ToString();
         _session.RegisterOneShot(new RecordedOneShotEvent
         {
-            FMODPath = fmodEvent.Path,
+            FMODPath = fmodGuid,
             Timestamp = _recordingTimer,
             Position = position,
             Volume = vol
         });
 
-        Debug.Log($"SpatialAudioRecorder: one-shot '{fmodEvent.Path}' capturado en t={_recordingTimer:F2}s vol={vol:F2}");
+        Debug.Log($"... one-shot '{fmodGuid}' capturado en t={_recordingTimer:F2}s vol={vol:F2}");
         return true;
     }
 

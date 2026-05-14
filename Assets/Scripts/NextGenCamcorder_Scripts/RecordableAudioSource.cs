@@ -14,7 +14,7 @@ public class RecordableAudioSource : MonoBehaviour, ISpatialAudioSource
     private AnimationCurve distanceFalloff = AnimationCurve.Linear(0f, 1f, 1f, 0f);
 
     public Vector3 WorldPosition => transform.position;
-    public string FMODPath => audioEvent.Path;
+    public string FMODPath => audioEvent.Guid.ToString();
     public bool Is3D => is3D;
     public float MaxAudibleDistance => maxAudibleDistance;
     public bool IsActiveInScene => gameObject.activeInHierarchy && !audioEvent.IsNull;

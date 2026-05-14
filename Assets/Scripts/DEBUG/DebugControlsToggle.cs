@@ -1,6 +1,5 @@
 using UnityEngine;
 
-
 public class DebugControlsToggle : MonoBehaviour
 {
     [SerializeField] private GameObject debugControlsUI;
@@ -8,7 +7,10 @@ public class DebugControlsToggle : MonoBehaviour
 
     private void Start()
     {
+        
+        debugControlsUI.SetActive(true);
         debugControlsUI.SetActive(false);
+
         pressPrompt.SetActive(true);
     }
 
