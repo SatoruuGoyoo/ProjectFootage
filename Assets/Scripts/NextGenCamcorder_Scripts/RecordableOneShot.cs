@@ -5,15 +5,15 @@ using UnityEngine;
 public class RecordableOneShot : MonoBehaviour
 {
     [Header("FMOD")]
-    public EventReference fmodEvent;
+    [SerializeField] private EventReference fmodEvent;
 
     [Header("Spatial config")]
     [Min(0f)]
-    public float maxAudibleDistance = 20f;
+    [SerializeField] private float maxAudibleDistance = 20f;
 
     [Header("Trigger config")]
-    public bool fireOnce = true;
-    public string triggerTag = "Player";
+    [SerializeField] private bool fireOnce = true;
+    [SerializeField] private string triggerTag = "Player";
 
     private bool _fired = false;
 
@@ -32,20 +32,20 @@ public class RecordableOneShot : MonoBehaviour
         if (col != null) col.isTrigger = true;
     }
 
-    private static readonly Color GizmoColor = new Color(1f, 0.55f, 0.1f); 
+    private static readonly Color GizmoColor = new(1f, 0.55f, 0.1f); 
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = new Color(GizmoColor.r, GizmoColor.g, GizmoColor.b, 0.5f);
+        Gizmos.color = new(GizmoColor.r, GizmoColor.g, GizmoColor.b, 0.5f);
         Gizmos.DrawWireSphere(transform.position, maxAudibleDistance);
     }
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = new Color(GizmoColor.r, GizmoColor.g, GizmoColor.b, 1f);
+        Gizmos.color = new(GizmoColor.r, GizmoColor.g, GizmoColor.b, 1f);
         Gizmos.DrawWireSphere(transform.position, maxAudibleDistance);
 
-        Gizmos.color = new Color(GizmoColor.r, GizmoColor.g, GizmoColor.b, 0.08f);
+        Gizmos.color = new(GizmoColor.r, GizmoColor.g, GizmoColor.b, 0.08f);
         Gizmos.DrawSphere(transform.position, maxAudibleDistance);
 
         Gizmos.color = GizmoColor;

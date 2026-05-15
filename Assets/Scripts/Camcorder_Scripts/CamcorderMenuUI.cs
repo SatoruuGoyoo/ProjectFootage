@@ -6,18 +6,18 @@ using UnityEngine.UI;
 public class CamcorderMenuUI : MonoBehaviour
 {
     [Header("Panels")]
-    public GameObject noRecordingPanel;
-    public TextMeshProUGUI noRecordingText;
-    public GameObject recordingsPanel;
+    [SerializeField] private GameObject noRecordingPanel;
+    [SerializeField] private TextMeshProUGUI noRecordingText;
+    [SerializeField] private GameObject recordingsPanel;
 
     [Header("Recording Slots")]
-    public Image[] recordingSlots;
-    public Image[] selectionBorders;
+    [SerializeField] private Image[] recordingSlots;
+    [SerializeField] private Image[] selectionBorders;
 
     [Header("Colores")]
-    public Color colorSelected = Color.white;
-    public Color colorUnselected = new Color(0.45f, 0.45f, 0.45f, 1f);
-    public Color borderColor = new Color(1f, 0.30f, 0.30f, 1f);
+    [SerializeField] private Color colorSelected = Color.white;
+    [SerializeField] private Color colorUnselected = new Color(0.45f, 0.45f, 0.45f, 1f);
+    [SerializeField] private Color borderColor = new Color(1f, 0.30f, 0.30f, 1f);
 
     private Texture2D[] _thumbnailTextures;
 

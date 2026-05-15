@@ -1,13 +1,20 @@
 using UnityEngine;
 
+[RequireComponent(typeof(CamcorderStorage))]
+[RequireComponent(typeof(CamcorderInput))]
+[RequireComponent(typeof(CamcorderMenuUI))]
+[RequireComponent(typeof(CamcorderController))]
+[RequireComponent(typeof(PlaybackClock))]
+[RequireComponent(typeof(VideoPlayback))]
+[RequireComponent(typeof(AudioPlayback))]
 public class CamcorderMenuController : MonoBehaviour
 {
     [Header("FPS View")]
-    public Camera fpsCamera;
-    public GameObject fpsHandModel;
+    [SerializeField] private Camera fpsCamera;
+    [SerializeField] private GameObject fpsHandModel;
 
     [Header("Menu UI")]
-    public Canvas menuCanvas;
+    [SerializeField] private Canvas menuCanvas;
 
     [Header("Timing/TweakDesigner")]
     [SerializeField] private float rffStep = 1f; // Seconds to seek on each RFF step
@@ -49,7 +56,7 @@ public class CamcorderMenuController : MonoBehaviour
     private void OnDisable()
     {
         _clock.OnComplete -= OnPlaybackComplete;
-    }
+        }
 
     private void Start()
     {

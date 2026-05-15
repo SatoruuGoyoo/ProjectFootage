@@ -2,11 +2,16 @@ using UnityEngine;
 using FMODUnity;
 using FMOD.Studio;
 
+[RequireComponent(typeof(CamcorderInput))]
+[RequireComponent(typeof(VideoRecorder))]
+[RequireComponent(typeof(SpatialAudioRecorder))]
+[RequireComponent(typeof(CamcorderStorage))]
+[RequireComponent(typeof(CamcorderMotor))]
 public class CamcorderController : MonoBehaviour
 {
     [Header("Setup")]
-    public GameObject camcorderVisual;
-    public PlayerMotor playerMotor;
+    [SerializeField] private GameObject camcorderVisual;
+    [SerializeField] private PlayerMotor playerMotor;
 
     [Header("Timing/Runtime")]
     [SerializeField] private float prepareTimer = 0f;
@@ -73,7 +78,7 @@ public class CamcorderController : MonoBehaviour
         if (_isCameraUp && _currentCamMode != CamcorderMode.Recording)
         {
             _motor.Tilt(_input.RecordingTilt * mouseSensitivity);
-            playerMotor.RotateDirect(_input.RecordingRotate * mouseSensitivity * _motor.rotateSpeed * Time.deltaTime);
+            playerMotor.RotateDirect(_input.RecordingRotate * mouseSensitivity * _motor.RotateSpeed * Time.deltaTime);
         }
 
         HandleCamcorderState();
@@ -128,7 +133,7 @@ public class CamcorderController : MonoBehaviour
                 recordTimer += Time.deltaTime;
 
                 _motor.Tilt(_input.RecordingTilt * mouseSensitivity);
-                playerMotor.RotateDirect(_input.RecordingRotate * mouseSensitivity * _motor.rotateSpeed * Time.deltaTime);
+                playerMotor.RotateDirect(_input.RecordingRotate * mouseSensitivity * _motor.RotateSpeed * Time.deltaTime);
 
                 if (_input.IsRecordingReleased || recordTimer >= recordDuration)
                     StopRecording();

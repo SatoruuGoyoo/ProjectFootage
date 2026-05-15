@@ -4,12 +4,12 @@ using UnityEngine;
 public class RecordableAudioSource : MonoBehaviour, ISpatialAudioSource
 {
     [Header("FMOD")]
-    public EventReference audioEvent;
+    [SerializeField] private EventReference audioEvent;
 
     [Header("Spatial config")]
-    public bool is3D = true;
+    [SerializeField] private bool is3D = true;
     [Min(0f)]
-    public float maxAudibleDistance = 20f;
+    [SerializeField] private float maxAudibleDistance = 20f;
     [SerializeField]
     private AnimationCurve distanceFalloff = AnimationCurve.Linear(0f, 1f, 1f, 0f);
 
@@ -29,7 +29,7 @@ public class RecordableAudioSource : MonoBehaviour, ISpatialAudioSource
         => distanceFalloff.Evaluate(normalizedDistance);
 
 
-    private static readonly Color GizmoColor = new Color(0.4f, 0.8f, 1f); // celeste
+    private static readonly Color GizmoColor = new Color(0.4f, 0.8f, 1f);
 
     private void OnDrawGizmos()
     {

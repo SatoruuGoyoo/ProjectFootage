@@ -6,10 +6,10 @@ using UnityEngine.Rendering;
 public class VideoRecorder : MonoBehaviour
 {
     [Header("Setup")]
-    public RenderTexture recordingTexture;
+    [SerializeField] private RenderTexture recordingTexture;
 
     [Header("Camera — para audio 3D posicional")]
-    public Transform cameraTransform;
+    [SerializeField] private Transform cameraTransform;
 
     [Header("Tweaks")]
     [SerializeField] private float captureInterval = 0.125f;  // 8fps

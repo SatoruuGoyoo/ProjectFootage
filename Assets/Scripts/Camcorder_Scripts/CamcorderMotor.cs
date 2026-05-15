@@ -3,20 +3,21 @@ using UnityEngine;
 public class CamcorderMotor : MonoBehaviour
 {
     [Header("Setup")]
-    public Transform camcorderPivot;
-    public Transform camcorderCamera;
+    [SerializeField] private Transform camcorderPivot;
+    [SerializeField] private Transform camcorderCamera;
 
     [Header("Tilt Config")]
-    public float tiltSpeed = 60f;
-    public float tiltMinAngle = -30f;
-    public float tiltMaxAngle = 30f;
+    [SerializeField] private float tiltSpeed = 60f;
+    [SerializeField] private float tiltMinAngle = -30f;
+    [SerializeField] private float tiltMaxAngle = 30f;
 
     [Header("Rotate Config")]
-    public float rotateSpeed = 80f;
-    public float rotateMinAngle = -70f;
-    public float rotateMaxAngle = 70f;
+    [SerializeField] private float rotateSpeed = 80f;
+    [SerializeField] private float rotateMinAngle = -70f;
+    [SerializeField] private float rotateMaxAngle = 70f;
 
     public float LastRotateDelta { get; private set; }
+    public float RotateSpeed => rotateSpeed;
 
     private float currentTilt = 0f;
     private float currentRotate = 0f;

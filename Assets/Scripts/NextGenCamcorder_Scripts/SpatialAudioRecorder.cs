@@ -6,7 +6,7 @@ using UnityEngine;
 public class SpatialAudioRecorder : MonoBehaviour
 {
     [Header("Setup")]
-    public Transform cameraTransform;
+    [SerializeField] private Transform cameraTransform;
 
     [Header("Config")]
     [SerializeField] private float captureInterval = 0.125f;

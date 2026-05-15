@@ -7,7 +7,7 @@ using UnityEngine;
 public class AudioPlayback : MonoBehaviour
 {
     [Header("Listener 3D")]
-    public Transform playbackListener;
+    [SerializeField] private Transform playbackListener;
 
     private PlaybackClock _clock;
     private RecordingSession _session;
@@ -118,7 +118,7 @@ public class AudioPlayback : MonoBehaviour
 
             bool hasKeyframes = track.VolumeKeyframes != null && track.VolumeKeyframes.Count > 0;
             if (track.Is3D && playbackListener != null && !hasKeyframes)
-                RuntimeManager.AttachInstanceToGameObject(inst, playbackListener);
+                RuntimeManager.AttachInstanceToGameObject(inst, playbackListener.gameObject);
 
             _instances.Add(inst);
         }
