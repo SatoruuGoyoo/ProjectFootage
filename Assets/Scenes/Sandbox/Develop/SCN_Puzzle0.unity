@@ -7449,7 +7449,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &450911700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12283,10 +12283,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a7d7fc0c7b87e144a5b5badaefaf690, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CreepyHeadTrack
-  headBone: {fileID: 1095824733}
-  target: {fileID: 444280470}
-  rotationSpeed: 5
-  maxAngle: 360
 --- !u!1 &745561840
 GameObject:
   m_ObjectHideFlags: 0
@@ -14964,14 +14960,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8689806f33ffc43478c3da628c936641, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IterationPlaybackAudio
-  audioEvent:
-    Guid:
-      Data1: 251531309
-      Data2: 1121287367
-      Data3: -934784328
-      Data4: 96339796
-    Path: event:/SFX/Iterations/Radio_IT2
-  targetIteration: 1
 --- !u!1 &971777554
 GameObject:
   m_ObjectHideFlags: 0
@@ -16029,7 +16017,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 056c81242d89a8b4b9085426d6d2b284, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HorrorEventManager
-  events: []
 --- !u!43 &1037203338
 Mesh:
   m_ObjectHideFlags: 0
@@ -16551,11 +16538,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.79075223, y: 2.355199, z: 1.3008085}
   m_Center: {x: -0.10462386, y: 0.03711191, z: -0.37100896}
---- !u!4 &1095824733 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 994887276945732746, guid: a5f1a1b2852c071438fc45a57a8d38af, type: 3}
-  m_PrefabInstance: {fileID: 90312101}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1104341359
 GameObject:
   m_ObjectHideFlags: 0
@@ -16707,10 +16689,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a7d7fc0c7b87e144a5b5badaefaf690, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CreepyHeadTrack
-  headBone: {fileID: 1563811491}
-  target: {fileID: 444280470}
-  rotationSpeed: 5
-  maxAngle: 360
 --- !u!4 &1110646340 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8576260469486305789, guid: 265dc7961a67e5647bd700733bc99a28, type: 3}
@@ -17116,14 +17094,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b59c89d2a1bf144cb674acc98ee39e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlaybackAudioManager
-  reverseAudioEvent:
-    Guid:
-      Data1: 1929761786
-      Data2: 1259094509
-      Data3: 237882511
-      Data4: -54082776
-    Path: event:/Camcorder/Reverse_Audio
-  activeIteration: 2
 --- !u!1001 &1130106845
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17237,38 +17207,22 @@ MonoBehaviour:
     - {fileID: 0}
   - iterationName: Iteration 2
     materialSwaps:
-    - target: {fileID: 2067485217}
-      material: {fileID: 2100000, guid: 0f603c121b25de9419899202c80b6e44, type: 2}
-    - target: {fileID: 1012688958}
-      material: {fileID: 2100000, guid: 0f603c121b25de9419899202c80b6e44, type: 2}
-    - target: {fileID: 1412973070}
-      material: {fileID: 2100000, guid: 0f603c121b25de9419899202c80b6e44, type: 2}
-    - target: {fileID: 322658459}
-      material: {fileID: 2100000, guid: 0f603c121b25de9419899202c80b6e44, type: 2}
-    - target: {fileID: 434031795}
-      material: {fileID: 2100000, guid: 0f603c121b25de9419899202c80b6e44, type: 2}
-    - target: {fileID: 604150171}
-      material: {fileID: 2100000, guid: 0f603c121b25de9419899202c80b6e44, type: 2}
-    - target: {fileID: 1669482250}
-      material: {fileID: 2100000, guid: 0f603c121b25de9419899202c80b6e44, type: 2}
-    - target: {fileID: 2120492604}
-      material: {fileID: 2100000, guid: 0f603c121b25de9419899202c80b6e44, type: 2}
-    - target: {fileID: 1159894997}
-      material: {fileID: 2100000, guid: 0f603c121b25de9419899202c80b6e44, type: 2}
-    - target: {fileID: 850865095}
-      material: {fileID: 2100000, guid: 0f603c121b25de9419899202c80b6e44, type: 2}
-    - target: {fileID: 1192352977}
-      material: {fileID: 2100000, guid: 0f603c121b25de9419899202c80b6e44, type: 2}
-    - target: {fileID: 2093227818}
-      material: {fileID: 2100000, guid: 0f603c121b25de9419899202c80b6e44, type: 2}
-    - target: {fileID: 649361080}
-      material: {fileID: 2100000, guid: 0f603c121b25de9419899202c80b6e44, type: 2}
-    - target: {fileID: 1575145950}
-      material: {fileID: 2100000, guid: 0f603c121b25de9419899202c80b6e44, type: 2}
-    - target: {fileID: 374106587}
-      material: {fileID: 2100000, guid: 0f603c121b25de9419899202c80b6e44, type: 2}
-    - target: {fileID: 1905085472}
-      material: {fileID: 2100000, guid: 0f603c121b25de9419899202c80b6e44, type: 2}
+    - {target: {fileID: 2067485217}, material: {fileID: 2100000, guid: 0f603c121b25de9419899202c80b6e44, type: 2}}
+    - {target: {fileID: 1012688958}, material: {fileID: 2100000, guid: 0f603c121b25de9419899202c80b6e44, type: 2}}
+    - {target: {fileID: 1412973070}, material: {fileID: 2100000, guid: 0f603c121b25de9419899202c80b6e44, type: 2}}
+    - {target: {fileID: 322658459}, material: {fileID: 2100000, guid: 0f603c121b25de9419899202c80b6e44, type: 2}}
+    - {target: {fileID: 434031795}, material: {fileID: 2100000, guid: 0f603c121b25de9419899202c80b6e44, type: 2}}
+    - {target: {fileID: 604150171}, material: {fileID: 2100000, guid: 0f603c121b25de9419899202c80b6e44, type: 2}}
+    - {target: {fileID: 1669482250}, material: {fileID: 2100000, guid: 0f603c121b25de9419899202c80b6e44, type: 2}}
+    - {target: {fileID: 2120492604}, material: {fileID: 2100000, guid: 0f603c121b25de9419899202c80b6e44, type: 2}}
+    - {target: {fileID: 1159894997}, material: {fileID: 2100000, guid: 0f603c121b25de9419899202c80b6e44, type: 2}}
+    - {target: {fileID: 850865095}, material: {fileID: 2100000, guid: 0f603c121b25de9419899202c80b6e44, type: 2}}
+    - {target: {fileID: 1192352977}, material: {fileID: 2100000, guid: 0f603c121b25de9419899202c80b6e44, type: 2}}
+    - {target: {fileID: 2093227818}, material: {fileID: 2100000, guid: 0f603c121b25de9419899202c80b6e44, type: 2}}
+    - {target: {fileID: 649361080}, material: {fileID: 2100000, guid: 0f603c121b25de9419899202c80b6e44, type: 2}}
+    - {target: {fileID: 1575145950}, material: {fileID: 2100000, guid: 0f603c121b25de9419899202c80b6e44, type: 2}}
+    - {target: {fileID: 374106587}, material: {fileID: 2100000, guid: 0f603c121b25de9419899202c80b6e44, type: 2}}
+    - {target: {fileID: 1905085472}, material: {fileID: 2100000, guid: 0f603c121b25de9419899202c80b6e44, type: 2}}
     environmentIntensity: 0.4
     objectsToEnable:
     - {fileID: 2119407864}
@@ -17712,10 +17666,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a7d7fc0c7b87e144a5b5badaefaf690, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CreepyHeadTrack
-  headBone: {fileID: 1593470596}
-  target: {fileID: 444280470}
-  rotationSpeed: 5
-  maxAngle: 360
 --- !u!65 &1166727386
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19270,14 +19220,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8689806f33ffc43478c3da628c936641, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IterationPlaybackAudio
-  audioEvent:
-    Guid:
-      Data1: 282151155
-      Data2: 1298310404
-      Data3: 891185853
-      Data4: 110288780
-    Path: event:/SFX/Iterations/Radio_IT1
-  targetIteration: 0
 --- !u!1 &1204949322
 GameObject:
   m_ObjectHideFlags: 0
@@ -20030,11 +19972,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 8576260469486305789, guid: 265dc7961a67e5647bd700733bc99a28, type: 3}
   m_PrefabInstance: {fileID: 1232997163}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1237629103 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 994887276945732746, guid: a5f1a1b2852c071438fc45a57a8d38af, type: 3}
-  m_PrefabInstance: {fileID: 1185803652}
   m_PrefabAsset: {fileID: 0}
 --- !u!43 &1253558336
 Mesh:
@@ -24128,11 +24065,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1478478372}
   m_CullTransparentMesh: 1
---- !u!4 &1493653882 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 692768085786507359, guid: 265dc7961a67e5647bd700733bc99a28, type: 3}
-  m_PrefabInstance: {fileID: 40184777}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1503970182
 GameObject:
   m_ObjectHideFlags: 0
@@ -25438,11 +25370,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!4 &1563811491 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 994887276945732746, guid: a5f1a1b2852c071438fc45a57a8d38af, type: 3}
-  m_PrefabInstance: {fileID: 1841150105}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1575145946
 GameObject:
   m_ObjectHideFlags: 0
@@ -25858,11 +25785,6 @@ Transform:
   - {fileID: 1274900385}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1593470596 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 692768085786507359, guid: 265dc7961a67e5647bd700733bc99a28, type: 3}
-  m_PrefabInstance: {fileID: 1411875330}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1603470773 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8957430796579543879, guid: 265dc7961a67e5647bd700733bc99a28, type: 3}
@@ -27344,19 +27266,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf1e090f9c3c3eb48ad642558be3c8f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PuzzleManager
-  iterations:
-  - doorIndex: 3
-    requiredKnocks: 4
-    iterationSpawn: {fileID: 971777555}
-  - doorIndex: 0
-    requiredKnocks: 2
-    iterationSpawn: {fileID: 971777555}
-  - doorIndex: 3
-    requiredKnocks: 3
-    iterationSpawn: {fileID: 971777555}
-  puzzleCompleteSpawn: {fileID: 971777555}
-  player: {fileID: 444280470}
-  camcorderTransition: {fileID: 767295764}
 --- !u!43 &1683067968
 Mesh:
   m_ObjectHideFlags: 0
@@ -28117,10 +28026,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a7d7fc0c7b87e144a5b5badaefaf690, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CreepyHeadTrack
-  headBone: {fileID: 1237629103}
-  target: {fileID: 444280470}
-  rotationSpeed: 5
-  maxAngle: 360
 --- !u!1 &1765386147
 GameObject:
   m_ObjectHideFlags: 0
@@ -28523,10 +28428,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a7d7fc0c7b87e144a5b5badaefaf690, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CreepyHeadTrack
-  headBone: {fileID: 1493653882}
-  target: {fileID: 444280470}
-  rotationSpeed: 5
-  maxAngle: 360
 --- !u!43 &1791657135
 Mesh:
   m_ObjectHideFlags: 0
@@ -29257,8 +29158,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1ad12bcdce7a5d4791cc39f2c9b7be5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HorrorZoneTrigger
-  playerTag: Player
-  disableAfterTrigger: 1
 --- !u!65 &1817612758
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29909,54 +29808,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c5b1fbf31a5ee040a86a14a9841abb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoorSlam
-  targetIteration: 1
-  zoneTrigger: {fileID: 1817612757}
-  doors:
-  - {fileID: 7272638918470663799}
-  - {fileID: 7272638918546454638}
-  - {fileID: 7272638917954786878}
-  - {fileID: 7272638916592780814}
-  - {fileID: 7272638918638456784}
-  slamDuration: 0.12
-  delay: 0
-  slamCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  slamEvent:
-    Guid:
-      Data1: 22560726
-      Data2: 1223714174
-      Data3: -1250778206
-      Data4: 678045220
-    Path: event:/SFX/Door/DoorSlam
-  audioOrigin: {fileID: 0}
-  closedEulers:
-  - {x: -90, y: 0, z: 0}
-  - {x: -90, y: 0, z: 0}
-  - {x: -90, y: 0, z: 0}
-  - {x: -90, y: 0, z: 0}
-  - {x: -90, y: 0, z: 0}
 --- !u!4 &1851280823
 Transform:
   m_ObjectHideFlags: 0
@@ -30505,11 +30356,6 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
---- !u!4 &1892680349 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 692768085786507359, guid: 265dc7961a67e5647bd700733bc99a28, type: 3}
-  m_PrefabInstance: {fileID: 1511541076}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1905085468
 GameObject:
   m_ObjectHideFlags: 0
@@ -31590,10 +31436,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a7d7fc0c7b87e144a5b5badaefaf690, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CreepyHeadTrack
-  headBone: {fileID: 1892680349}
-  target: {fileID: 444280470}
-  rotationSpeed: 5
-  maxAngle: 360
 --- !u!1 &2024613770
 GameObject:
   m_ObjectHideFlags: 0
@@ -33875,26 +33717,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72a61fda23373cc4988936f7f5d23247, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoorInteractable
-  doorIndex: 2
-  knockKey: 101
-  openKey: 102
-  playerTag: Player
-  knockEvent:
-    Guid:
-      Data1: 1435262203
-      Data2: 1145788708
-      Data3: -1779109475
-      Data4: 2080549222
-    Path: event:/SFX/Door/Knock
-  openEvent:
-    Guid:
-      Data1: -62331636
-      Data2: 1092895546
-      Data3: 1869626786
-      Data4: 2027761013
-    Path: event:/SFX/Door/Open
-  promptUI: {fileID: 1204949322}
-  knockCoolDuration: 1
 --- !u!82 &919132147593792962
 AudioSource:
   m_ObjectHideFlags: 0
@@ -34023,26 +33845,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72a61fda23373cc4988936f7f5d23247, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoorInteractable
-  doorIndex: 0
-  knockKey: 101
-  openKey: 102
-  playerTag: Player
-  knockEvent:
-    Guid:
-      Data1: 1435262203
-      Data2: 1145788708
-      Data3: -1779109475
-      Data4: 2080549222
-    Path: event:/SFX/Door/Knock
-  openEvent:
-    Guid:
-      Data1: -62331636
-      Data2: 1092895546
-      Data3: 1869626786
-      Data4: 2027761013
-    Path: event:/SFX/Door/Open
-  promptUI: {fileID: 1204949322}
-  knockCoolDuration: 1
 --- !u!82 &919132148039411083
 AudioSource:
   m_ObjectHideFlags: 0
@@ -34171,26 +33973,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72a61fda23373cc4988936f7f5d23247, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoorInteractable
-  doorIndex: 1
-  knockKey: 101
-  openKey: 102
-  playerTag: Player
-  knockEvent:
-    Guid:
-      Data1: 1435262203
-      Data2: 1145788708
-      Data3: -1779109475
-      Data4: 2080549222
-    Path: event:/SFX/Door/Knock
-  openEvent:
-    Guid:
-      Data1: -62331636
-      Data2: 1092895546
-      Data3: 1869626786
-      Data4: 2027761013
-    Path: event:/SFX/Door/Open
-  promptUI: {fileID: 1204949322}
-  knockCoolDuration: 1
 --- !u!82 &919132148101571474
 AudioSource:
   m_ObjectHideFlags: 0
@@ -34319,26 +34101,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72a61fda23373cc4988936f7f5d23247, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoorInteractable
-  doorIndex: 4
-  knockKey: 101
-  openKey: 102
-  playerTag: Player
-  knockEvent:
-    Guid:
-      Data1: 1435262203
-      Data2: 1145788708
-      Data3: -1779109475
-      Data4: 2080549222
-    Path: event:/SFX/Door/Knock
-  openEvent:
-    Guid:
-      Data1: -62331636
-      Data2: 1092895546
-      Data3: 1869626786
-      Data4: 2027761013
-    Path: event:/SFX/Door/Open
-  promptUI: {fileID: 1204949322}
-  knockCoolDuration: 0.5
 --- !u!82 &919132148277466160
 AudioSource:
   m_ObjectHideFlags: 0
@@ -34485,26 +34247,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72a61fda23373cc4988936f7f5d23247, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoorInteractable
-  doorIndex: 3
-  knockKey: 101
-  openKey: 102
-  playerTag: Player
-  knockEvent:
-    Guid:
-      Data1: 1435262203
-      Data2: 1145788708
-      Data3: -1779109475
-      Data4: 2080549222
-    Path: event:/SFX/Door/Knock
-  openEvent:
-    Guid:
-      Data1: -62331636
-      Data2: 1092895546
-      Data3: 1869626786
-      Data4: 2027761013
-    Path: event:/SFX/Door/Open
-  promptUI: {fileID: 1204949322}
-  knockCoolDuration: 1
 --- !u!82 &919132148846943730
 AudioSource:
   m_ObjectHideFlags: 0
