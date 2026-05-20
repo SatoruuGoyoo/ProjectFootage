@@ -1,4 +1,5 @@
 using UnityEngine;
+using FMODUnity;
 
 public class Door : MonoBehaviour, IInteractable
 {
@@ -12,7 +13,12 @@ public class Door : MonoBehaviour, IInteractable
     [Header("Motion")]
     [SerializeField] private Transform pivot;
     [SerializeField] private float openAngle = 90f;
-    [SerializeField] private float speed = 2f;
+    [SerializeField] private float speed = 120f;
+
+    [Header("Audio")]
+    [SerializeField] private EventReference openSound;
+    [SerializeField] private EventReference closeSound;
+    [SerializeField] private EventReference lockedSound;
 
     private bool isOpen;
     private Quaternion closedRot;
@@ -21,6 +27,7 @@ public class Door : MonoBehaviour, IInteractable
     private bool IsLocked => !string.IsNullOrEmpty(requiredItemId)
         && (ItemRegistry.Instance == null || !ItemRegistry.Instance.Has(requiredItemId));
 
+    // Actualiza el prompt cada frame según el estado actual
     public string PromptMessage => IsLocked ? lockedPrompt : (isOpen ? closePrompt : openPrompt);
     public bool CanInteract => true;
 
@@ -28,7 +35,12 @@ public class Door : MonoBehaviour, IInteractable
     {
         if (pivot == null) pivot = transform;
         closedRot = pivot.localRotation;
-        openRot = closedRot * Quaternion.Euler(0f, openAngle, 0f);
+        RecalculateOpenRot(1f); // por defecto abre hacia un lado
+    }
+
+    private void RecalculateOpenRot(float direction)
+    {
+        openRot = closedRot * Quaternion.Euler(0f, openAngle * direction, 0f);
     }
 
     public void Interact()
@@ -36,6 +48,8 @@ public class Door : MonoBehaviour, IInteractable
         if (IsLocked)
         {
             GameEvents.FeedbackMessage(lockedFeedback);
+            GameEvents.InteractPromptChanged(lockedPrompt);
+            if (!lockedSound.IsNull) RuntimeManager.PlayOneShot(lockedSound, transform.position);
             return;
         }
         Toggle();
@@ -47,17 +61,37 @@ public class Door : MonoBehaviour, IInteractable
         else Open();
     }
 
-    public void Open()
+    public void Open(Transform interactor = null)
     {
         if (IsLocked) return;
+
+        // Abre hacia el lado opuesto al interactor
+        if (interactor != null)
+        {
+            Vector3 toInteractor = interactor.position - pivot.position;
+            float dot = Vector3.Dot(toInteractor, pivot.forward);
+            RecalculateOpenRot(dot > 0 ? -1f : 1f);
+        }
+
         isOpen = true;
+        GameEvents.InteractPromptChanged(closePrompt);
+        if (!openSound.IsNull) RuntimeManager.PlayOneShot(openSound, transform.position);
     }
 
-    public void Close() => isOpen = false;
+    public void Close()
+    {
+        isOpen = false;
+        GameEvents.InteractPromptChanged(openPrompt);
+        if (!closeSound.IsNull) RuntimeManager.PlayOneShot(closeSound, transform.position);
+    }
 
     private void Update()
     {
         Quaternion target = isOpen ? openRot : closedRot;
-        pivot.localRotation = Quaternion.Slerp(pivot.localRotation, target, Time.deltaTime * speed);
+        pivot.localRotation = Quaternion.RotateTowards(
+            pivot.localRotation,
+            target,
+            speed * Time.deltaTime
+        );
     }
 }
