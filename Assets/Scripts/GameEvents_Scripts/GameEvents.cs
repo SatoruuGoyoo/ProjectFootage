@@ -6,6 +6,13 @@ public static class GameEvents
     public static event Action OnPlayerDeath;
     public static event Action<float> OnHealthChanged;
 
+    // Interaction
+    public static event Action<string> OnInteractPromptChanged;
+
+    // Items
+    public static event Action<string> OnItemCollected;
+    public static event Action<string> OnFeedbackMessage;
+
     // Player Mode
     public static event Action<PlayerMode> OnPlayerModeChanged;
 
@@ -38,6 +45,13 @@ public static class GameEvents
     public static void HealthChanged(float newHealth) => OnHealthChanged?.Invoke(newHealth);
     public static void PlayerModeChanged(PlayerMode newMode) => OnPlayerModeChanged?.Invoke(newMode);
     public static void ControllerSchemeChanged(ControlScheme scheme) => OnControllerSchemeChanged?.Invoke(scheme);
+
+    // INTERACTION
+    public static void InteractPromptChanged(string newPrompt) => OnInteractPromptChanged?.Invoke(newPrompt);
+
+    // ITEMS
+    public static void ItemCollected(string itemId) => OnItemCollected?.Invoke(itemId);
+    public static void FeedbackMessage(string message) => OnFeedbackMessage?.Invoke(message);
 
     // CAMCORDER
     public static void RecordingStarted(RecordingSession session) => OnRecordingStarted?.Invoke(session);
