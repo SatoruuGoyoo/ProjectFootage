@@ -8,6 +8,7 @@ public class RecordableEvent : MonoBehaviour, ICamcorderTarget, ICenteredAware
     [Header("Behaviour")]
     [SerializeField] private float duration = 5f;
     [SerializeField] private bool repeatable = false;
+    [SerializeField] private float centerGracePeriod = 0.5f;
 
     [Header("Target")]
     [SerializeField] private Transform targetOverride;
@@ -17,6 +18,7 @@ public class RecordableEvent : MonoBehaviour, ICamcorderTarget, ICenteredAware
     private float _elapsed;
     private bool _camcorderRecording;
     private bool _isCentered;
+    private float _centerGraceTimer;
 
     public string EventId => eventId;
     public bool Repeatable => repeatable;
@@ -57,27 +59,30 @@ public class RecordableEvent : MonoBehaviour, ICamcorderTarget, ICenteredAware
 
     private void Update()
     {
-        if(_state != RecordableEventState.Recording) return;
+        if (_state != RecordableEventState.Recording) return;
 
-        _elapsed = Time.deltaTime;
-        float time = Mathf.Clamp01(_elapsed / duration);
-
-        foreach (var effect in _effects)
+        if (!_isCentered)
         {
-            effect.OnRecordingProgress(time);
+            _centerGraceTimer += Time.deltaTime;
+            if (_centerGraceTimer >= centerGracePeriod) Interrupt();
+            return;
         }
 
-        if(_elapsed >= duration)
-        {
-            Complete();
-        }
+        _elapsed += Time.deltaTime;
+        float t = Mathf.Clamp01(_elapsed / duration);
+        foreach (var e in _effects) e.OnRecordingProgress(t);
+
+        if (_elapsed >= duration) Complete();
     }
 
     public void OnCenteredChanged(bool centered)
     {
         _isCentered = centered;
-        if (centered) TryStart();
-        else Interrupt();
+        if (centered)
+        {
+            _centerGraceTimer = 0f;
+            TryStart();
+        }
     }
 
     private void HandleRecordingStarted(RecordingSession session)
@@ -100,6 +105,7 @@ public class RecordableEvent : MonoBehaviour, ICamcorderTarget, ICenteredAware
 
         _state = RecordableEventState.Recording;
         _elapsed = 0f;
+        _centerGraceTimer = 0f;
 
         foreach (var effect in _effects)
         {
@@ -115,6 +121,7 @@ public class RecordableEvent : MonoBehaviour, ICamcorderTarget, ICenteredAware
 
         _state = RecordableEventState.Idle;
         _elapsed = 0f;
+        _centerGraceTimer = 0f;
 
         foreach (var effect in _effects)
         {

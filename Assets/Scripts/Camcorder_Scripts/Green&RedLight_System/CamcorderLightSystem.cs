@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class CamcorderLightSystem : MonoBehaviour
 {
@@ -13,10 +12,12 @@ public class CamcorderLightSystem : MonoBehaviour
     [Header("Config")]
     [Tooltip("How close the target needs to be in the green zone to trigger an event")]
     [SerializeField] private float centerThreshold = 0.1f;
+    [Tooltip("Maximum distance in meters to detect a target")]
+    [SerializeField] private float maxDetectionDistance = 10f;
 
     private readonly List<ICamcorderTarget> targets = new();
     private readonly HashSet<ICamcorderTarget> _centeredTargets = new();
-    private bool currentState = false; // false = red, true = green
+    private bool currentState = false;
     private bool isCameraUp = false;
 
     private void Awake()
@@ -36,7 +37,6 @@ public class CamcorderLightSystem : MonoBehaviour
     private void OnPlayerModeChanged(PlayerMode newMode)
     {
         isCameraUp = newMode == PlayerMode.CameraMode || newMode == PlayerMode.RecordingMode;
-        Debug.Log($"[CamcorderLight] Mode: {newMode} | isCameraUp: {isCameraUp}");
 
         if (!isCameraUp)
         {
@@ -45,10 +45,7 @@ public class CamcorderLightSystem : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        RefreshTargets();
-    }
+    private void Start() => RefreshTargets();
 
     private void Update()
     {
@@ -90,7 +87,11 @@ public class CamcorderLightSystem : MonoBehaviour
             if (target.IsActive)
             {
                 Vector3 worldPos = target.TargetTransform.position;
-                if (IsInFrustum(frustumPlanes, worldPos) && IsCentered(worldPos))
+                float dist = Vector3.Distance(camcorderCamera.transform.position, worldPos);
+
+                if (dist <= maxDetectionDistance &&
+                    IsInFrustum(frustumPlanes, worldPos) &&
+                    IsCentered(worldPos))
                     nowCentered = true;
             }
 
@@ -118,7 +119,6 @@ public class CamcorderLightSystem : MonoBehaviour
         _centeredTargets.Clear();
     }
 
-    // Checks if a world position is inside the camera frustum
     private bool IsInFrustum(Plane[] planes, Vector3 worldPos)
     {
         foreach (var plane in planes)
@@ -126,18 +126,15 @@ public class CamcorderLightSystem : MonoBehaviour
         return true;
     }
 
-    // Checks if a world position is close enough to the center of the viewport
     private bool IsCentered(Vector3 worldPos)
     {
         Vector3 viewportPos = camcorderCamera.WorldToViewportPoint(worldPos);
-
         if (viewportPos.z < 0) return false;
 
         float distFromCenter = Vector2.Distance(
             new Vector2(viewportPos.x, viewportPos.y),
             new Vector2(0.5f, 0.5f)
         );
-
         return distFromCenter <= centerThreshold;
     }
 
@@ -146,6 +143,29 @@ public class CamcorderLightSystem : MonoBehaviour
         if (currentState == isGreen) return;
         currentState = isGreen;
         GameEvents.CamcorderLightChanged(isGreen);
-        Debug.Log($"[CamcorderLight] {(isGreen ? "GREEN" : "RED")}");
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (camcorderCamera == null) return;
+
+        // Esfera de detección máxima
+        Gizmos.color = new Color(0f, 1f, 0f, 0.15f);
+        Gizmos.DrawSphere(camcorderCamera.transform.position, maxDetectionDistance);
+
+        // Borde de la esfera
+        Gizmos.color = new Color(0f, 1f, 0f, 0.8f);
+        Gizmos.DrawWireSphere(camcorderCamera.transform.position, maxDetectionDistance);
+
+        // Targets detectados — rojo si no centrado, verde si centrado
+        foreach (var target in targets)
+        {
+            if (target?.TargetTransform == null) continue;
+
+            bool isCentered = _centeredTargets.Contains(target);
+            Gizmos.color = isCentered ? Color.green : Color.red;
+            Gizmos.DrawWireSphere(target.TargetTransform.position, 0.2f);
+            Gizmos.DrawLine(camcorderCamera.transform.position, target.TargetTransform.position);
+        }
     }
 }

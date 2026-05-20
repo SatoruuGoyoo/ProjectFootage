@@ -49,5 +49,11 @@ public class RecordableEventManager : MonoBehaviour
         return null;
     }
 
-    private void HandleCompleted(string id) => _completedIds.Add(id);
+    private void HandleCompleted(string id)
+    {
+        _completedIds.Add(id);
+        Debug.Log($"[RecordableEventManager] Event completed: {id}");
+    }
+
+
 }

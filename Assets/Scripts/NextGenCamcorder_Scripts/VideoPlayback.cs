@@ -54,7 +54,6 @@ public class VideoPlayback : MonoBehaviour
         if (_session != null && _session.VideoFrames.Count > 0)
         {
             var firstFrame = _session.VideoFrames[0];
-            Debug.Log("Ewe");
             Debug.Log($"Primer frame bytes {firstFrame.PixelData?.Length}, textura: {_displayTexture?.width}x{_displayTexture?.height}");
 
             if (firstFrame.PixelData != null && _displayTexture != null)
