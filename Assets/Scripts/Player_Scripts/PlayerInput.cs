@@ -12,6 +12,7 @@ public class PlayerInput : MonoBehaviour
 
 
     public bool IsSprinting { get; private set; }
+    public bool Interact { get; private set; }
 
     private PlayerInputActions actions;
 
@@ -25,6 +26,7 @@ public class PlayerInput : MonoBehaviour
         MoveVector = actions.Exploration.Move.ReadValue<Vector2>();
         MoveForward = MoveVector.y;
         Turn = actions.Exploration.Turn.ReadValue<float>();
-        IsSprinting = actions.Exploration.Sprint.ReadValue<float>() > 0.5f; 
-    }
+        IsSprinting = actions.Exploration.Sprint.ReadValue<float>() > 0.5f;
+        Interact = actions.Exploration.Interact.WasPressedThisFrame();
+}
 }

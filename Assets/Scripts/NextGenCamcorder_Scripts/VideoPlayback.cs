@@ -5,8 +5,8 @@ using UnityEngine.UI;
 public class VideoPlayback : MonoBehaviour
 {
     [Header("Setup")]
-    [SerializeField] private RawImage displayImage;     
-    [SerializeField] private GameObject playbackPanel;  
+    public RawImage displayImage;     
+    public GameObject playbackPanel;  
 
     private PlaybackClock _clock;
     private RecordingSession _session;
@@ -54,11 +54,7 @@ public class VideoPlayback : MonoBehaviour
         if (_session != null && _session.VideoFrames.Count > 0)
         {
             var firstFrame = _session.VideoFrames[0];
-            Debug.Log("Ewe");
-
-            string pixelDataLength = firstFrame.PixelData != null ? firstFrame.PixelData.Length.ToString() : "null";
-            string texSize = _displayTexture != null ? $"{_displayTexture.width}x{_displayTexture.height}" : "null";
-            Debug.Log($"Primer frame bytes {pixelDataLength}, textura: {texSize}");
+            Debug.Log($"Primer frame bytes {firstFrame.PixelData?.Length}, textura: {_displayTexture?.width}x{_displayTexture?.height}");
 
             if (firstFrame.PixelData != null && _displayTexture != null)
             {
