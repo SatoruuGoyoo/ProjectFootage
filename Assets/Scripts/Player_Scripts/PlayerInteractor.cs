@@ -5,10 +5,14 @@ public class PlayerInteractor : MonoBehaviour
     [Header("Detection")]
     [SerializeField] private float interactRange = 2f;
     [SerializeField] private LayerMask interactableMask = ~0;
+    [SerializeField] private float refreshDelay = 0.1f;
 
     private PlayerInput input;
     private IInteractable current;
     private PlayerMode currentMode = PlayerMode.ExplorationMode;
+
+    private Collider[] hits = new Collider[32];
+    private float refreshTimer;
 
     private void Awake() => input = GetComponent<PlayerInput>();
 
@@ -30,7 +34,12 @@ public class PlayerInteractor : MonoBehaviour
     {
         if (currentMode != PlayerMode.ExplorationMode) return;
 
-        RefreshCurrent();
+        refreshTimer -= Time.deltaTime;
+        if (refreshTimer <= 0f)
+        {
+            RefreshCurrent();
+            refreshTimer = refreshDelay;
+        }
 
         if (current != null && input.Interact)
             current.Interact();
@@ -38,17 +47,17 @@ public class PlayerInteractor : MonoBehaviour
 
     private void RefreshCurrent()
     {
-        Collider[] hits = Physics.OverlapSphere(transform.position, interactRange, interactableMask);
+        int hitCount = Physics.OverlapSphereNonAlloc(transform.position, interactRange, hits, interactableMask);
 
         IInteractable best = null;
         float bestDist = float.MaxValue;
 
-        foreach (var hit in hits)
+        for (int i = 0; i < hitCount; i++)
         {
-            if (!hit.TryGetComponent<IInteractable>(out var interactable)) continue;
+            if (!hits[i].TryGetComponent<IInteractable>(out var interactable)) continue;
             if (!interactable.CanInteract) continue;
 
-            float d = (hit.transform.position - transform.position).sqrMagnitude;
+            float d = (hits[i].transform.position - transform.position).sqrMagnitude;
             if (d < bestDist)
             {
                 bestDist = d;
