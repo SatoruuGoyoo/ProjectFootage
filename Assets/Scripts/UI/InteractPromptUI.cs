@@ -31,13 +31,13 @@ public class InteractPromptUI : MonoBehaviour
     {
         if (feedbackTimer <= 0f) return;
         feedbackTimer -= Time.deltaTime;
-        if (feedbackTimer <= 0f) ShowText(currentPrompt); // vuelve al prompt anterior
+        if (feedbackTimer <= 0f) ShowText(currentPrompt); 
     }
 
     private void OnPromptChanged(string prompt)
     {
         currentPrompt = prompt;
-        if (feedbackTimer <= 0f) ShowText(prompt); // solo actualiza si no hay feedback activo
+        if (feedbackTimer <= 0f) ShowText(prompt); 
     }
 
     private void OnFeedback(string message)

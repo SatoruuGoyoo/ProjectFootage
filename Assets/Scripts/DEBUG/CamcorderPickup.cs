@@ -74,6 +74,8 @@ public class CamcorderPickup : MonoBehaviour
         if (camcorderSystem != null) camcorderSystem.SetActive(true);
         if (camcorderModel != null) camcorderModel.SetActive(true);
 
+        GameEvents.CamcorderPickedUp();
+
         gameObject.SetActive(false);
         Debug.Log("[CamcorderPickup] Camcorder recogida.");
     }

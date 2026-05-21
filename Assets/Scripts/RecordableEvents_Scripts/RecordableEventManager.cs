@@ -1,16 +1,17 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class RecordableEventManager : MonoBehaviour
 {
     public static RecordableEventManager Instance { get; private set; }
 
-    private readonly List<RecordableEvent> _events = new();
-    private readonly HashSet<string> _completedIds = new();
+    private readonly List<RecordableEvent> events = new();
+    private readonly HashSet<string> completedIds = new();
+    private RecordingSession activeSession;
 
     private void Awake()
     {
-        if(Instance != null && Instance != this) { Destroy(this); return; }
+        if (Instance != null && Instance != this) { Destroy(this); return; }
         Instance = this;
     }
 
@@ -19,41 +20,42 @@ public class RecordableEventManager : MonoBehaviour
         if (Instance == this) Instance = null;
     }
 
-    private void OnEnable() => GameEvents.OnRecordableEventCompleted += HandleCompleted;
-    private void OnDisable() => GameEvents.OnRecordableEventCompleted -= HandleCompleted;
-
-    public void Register(RecordableEvent recordableEvent)
+    private void OnEnable()
     {
-        if (!_events.Contains(recordableEvent))
-            _events.Add(recordableEvent);
+        GameEvents.OnRecordableEventCompleted += HandleCompleted;
+        GameEvents.OnRecordingStarted += HandleRecordingStarted;
+        GameEvents.OnRecordingStopped += HandleRecordingStopped;
     }
 
-    public void Unregister(RecordableEvent recordableEvent)
+    private void OnDisable()
     {
-        if (_events.Contains(recordableEvent))
-            _events.Remove(recordableEvent);
+        GameEvents.OnRecordableEventCompleted -= HandleCompleted;
+        GameEvents.OnRecordingStarted -= HandleRecordingStarted;
+        GameEvents.OnRecordingStopped -= HandleRecordingStopped;
     }
 
-    public bool IsCompleted(string id) => _completedIds.Contains(id);
+    public void Register(RecordableEvent ev)
+    {
+        if (!events.Contains(ev)) events.Add(ev);
+    }
+
+    public void Unregister(RecordableEvent ev) => events.Remove(ev);
+
+    public bool IsCompleted(string id) => completedIds.Contains(id);
 
     public RecordableEvent FindById(string id)
     {
-        foreach(var ev in _events)
-        {
-            if (ev.EventId == id)
-            {
-                return ev;
-            }
-        }
-
+        foreach (var e in events)
+            if (e.EventId == id) return e;
         return null;
     }
 
+    private void HandleRecordingStarted(RecordingSession session) => activeSession = session;
+    private void HandleRecordingStopped() => activeSession = null;
+
     private void HandleCompleted(string id)
     {
-        _completedIds.Add(id);
-        Debug.Log($"[RecordableEventManager] Event completed: {id}");
+        completedIds.Add(id);
+        if (activeSession != null) activeSession.RegisterEvent(id);
     }
-
-
 }

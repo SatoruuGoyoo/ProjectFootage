@@ -8,6 +8,7 @@ public class PlaybackClock : MonoBehaviour
     public bool IsPlaying { get; private set; }
     public bool IsFinished => CurrentTime >= Duration && Duration > 0f;
     public bool HasSession => _session != null;
+    public RecordingSession CurrentSession => _session;
 
     public event Action OnPlay;
     public event Action OnPause;

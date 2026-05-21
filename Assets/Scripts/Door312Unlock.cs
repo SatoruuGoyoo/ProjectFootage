@@ -14,6 +14,7 @@ namespace ProjectFootage.Puzzle
         [SerializeField] private float speed = 120f;
 
         private bool armed;
+        private bool opened;
         private bool isOpen;
         private Quaternion closedRot;
         private Quaternion openRot;
@@ -36,15 +37,18 @@ namespace ProjectFootage.Puzzle
         if (id == requiredEventId) armed = true;
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (!armed) return;
-        if (!other.CompareTag("Player")) return;
-        Debug.Log("Door unlocked!");
-        OpenDoor();
-    }
+        private void OnTriggerEnter(Collider other)
+        {
+            if (opened) return;
+            if (!armed) return;
+            if (!other.CompareTag("Player")) return;
 
-    private void OpenDoor()
+            opened = true;
+            Debug.Log("Door unlocked!");
+            OpenDoor();
+        }
+
+        private void OpenDoor()
     {
         if (doorToOpen == null) return;
 

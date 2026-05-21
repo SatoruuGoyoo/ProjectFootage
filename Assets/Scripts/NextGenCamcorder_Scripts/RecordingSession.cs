@@ -19,6 +19,11 @@ public class RecordingSession
     private readonly List<RecordedOneShotEvent> _oneShotEvents = new List<RecordedOneShotEvent>();
     public IReadOnlyList<RecordedOneShotEvent> OneShotEvents => _oneShotEvents;
 
+    private readonly List<string> _eventIds = new List<string>();
+    public IReadOnlyList<string> EventIds => _eventIds;
+
+    public bool ContainsEvent(string eventId) => _eventIds.Contains(eventId);
+
     public void AddVideoFrame(VideoFrame frame)
     {
         if (IsCompleted) return;
@@ -43,6 +48,14 @@ public class RecordingSession
     {
         if (IsCompleted) return;
         _oneShotEvents.Add(evt);
+    }
+
+    public void RegisterEvent(string eventId)
+    {
+        if (IsCompleted) return;
+        if (string.IsNullOrEmpty(eventId)) return;
+        if (_eventIds.Contains(eventId)) return;
+        _eventIds.Add(eventId);
     }
 
     public void Complete(float duration)

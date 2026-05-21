@@ -13,6 +13,7 @@ public class PlayerInteractor : MonoBehaviour
 
     private Collider[] hits = new Collider[32];
     private float refreshTimer;
+    private string lastPrompt = "";
 
     private void Awake() => input = GetComponent<PlayerInput>();
 
@@ -70,9 +71,11 @@ public class PlayerInteractor : MonoBehaviour
 
     private void SetCurrent(IInteractable next)
     {
-        if (current == next) return;
         current = next;
-        GameEvents.InteractPromptChanged(current != null ? current.PromptMessage : "");
+        string prompt = current != null ? current.PromptMessage : "";
+        if(prompt == lastPrompt) return;
+        lastPrompt = prompt;
+        GameEvents.InteractPromptChanged(prompt);
     }
 
     private void OnDrawGizmosSelected()

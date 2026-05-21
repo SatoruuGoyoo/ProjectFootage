@@ -23,6 +23,7 @@ public static class GameEvents
     public static event Action<bool> OnPauseChanged;
 
     // Camcorder
+    public static event Action OnCamcorderPickedUp;
     public static event Action<RecordingSession> OnRecordingStarted;
     public static event Action OnRecordingStopped;
     public static event Action<int> OnFrameChanged;
@@ -33,6 +34,7 @@ public static class GameEvents
     public static event Action<string> OnRecordableEventStarted;
     public static event Action<string> OnRecordableEventCompleted;
     public static event Action<string> OnRecordableEventInterrupted;
+    public static event Action<string> OnRecordableEventWatched;
 
     // Puzzle
     //public static event Action OnClockSolved;
@@ -54,6 +56,7 @@ public static class GameEvents
     public static void FeedbackMessage(string message) => OnFeedbackMessage?.Invoke(message);
 
     // CAMCORDER
+    public static void CamcorderPickedUp() => OnCamcorderPickedUp?.Invoke();
     public static void RecordingStarted(RecordingSession session) => OnRecordingStarted?.Invoke(session);
     public static void RecordingStopped() => OnRecordingStopped?.Invoke();
     public static void FrameChanged(int frame) => OnFrameChanged?.Invoke(frame);
@@ -64,6 +67,8 @@ public static class GameEvents
     public static void RecordableEventStarted(string eventId) => OnRecordableEventStarted?.Invoke(eventId);
     public static void RecordableEventCompleted(string eventId) => OnRecordableEventCompleted?.Invoke(eventId);
     public static void RecordableEventInterrupted(string eventId) => OnRecordableEventInterrupted?.Invoke(eventId);
+
+    public static void RecordableEventWatched(string id) => OnRecordableEventWatched?.Invoke(id);
 
 
 
