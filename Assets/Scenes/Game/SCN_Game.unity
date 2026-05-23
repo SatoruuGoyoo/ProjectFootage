@@ -48882,7 +48882,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1536042050}
   - component: {fileID: 1536042049}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60911,14 +60911,26 @@ MonoBehaviour:
             m_BoolArgument: 1
           m_CallState: 2
   - label: CrySFX
-    triggerAt: 0.6
+    triggerAt: 0.5
     onReached:
       m_PersistentCalls:
         m_Calls:
+        - m_Target: {fileID: 1536042048}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
         - m_Target: {fileID: 1536042049}
           m_TargetAssemblyTypeName: RecordableAudioSource, Assembly-CSharp
-          m_MethodName: set_enabled
-          m_Mode: 6
+          m_MethodName: StartCapture
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

@@ -35,6 +35,18 @@ public class SpatialAudioRecorder : MonoBehaviour
         return _activeRecorder.CaptureOneShotInternal(fmodEvent, position, maxAudibleDistance);
     }
 
+    public static bool TryRegisterDynamic(ISpatialAudioSource source)
+    {
+        if (_activeRecorder == null || !_activeRecorder.IsRecording) return false;
+        return _activeRecorder.RegisterDynamicSource(source);
+    }
+
+    public static bool TryUnregisterDynamic(ISpatialAudioSource source)
+    {
+        if (_activeRecorder == null || !_activeRecorder.IsRecording) return false;
+        return _activeRecorder.UnregisterDynamicSource(source);
+    }
+
     public void StartRecording(RecordingSession session)
     {
         if (IsRecording) return;
@@ -63,26 +75,62 @@ public class SpatialAudioRecorder : MonoBehaviour
         foreach (var source in sources)
         {
             if (!source.IsActiveInScene) continue;
-
-            source.TryGetTimelinePosition(out int timelinePos);
-
-            var keyframes = new List<AudioVolumeKeyFrame>();
-
-            var track = new RecordedAudioTrack
-            {
-                FMODPath = source.FMODPath,
-                StartTime = 0f,
-                FMODTimelinePosition = timelinePos,
-                Is3D = source.Is3D,
-                Position = source.WorldPosition,
-                VolumeKeyframes = keyframes
-            };
-
-            _session.RegisterAudioTrack(track);
-            _registered.Add((source, keyframes));
+            RegisterSourceInternal(source, 0f);
         }
 
         Debug.Log($"SpatialAudioRecorder {_registered.Count} fuentes registradas");
+    }
+
+    private bool RegisterDynamicSource(ISpatialAudioSource source)
+    {
+        if (source == null) return false;
+        if (_registered.Any(r => ReferenceEquals(r.source, source))) return false;
+        if (source.FMODPath == null) return false;
+
+        var keyframes = RegisterSourceInternal(source, _recordingTimer);
+
+        if (_recordingTimer > 0f)
+        {
+            keyframes.Add(new AudioVolumeKeyFrame { Timestamp = 0f, Volume = 0f });
+            keyframes.Add(new AudioVolumeKeyFrame { Timestamp = _recordingTimer, Volume = 0f });
+        }
+
+        return true;
+    }
+
+    private bool UnregisterDynamicSource(ISpatialAudioSource source)
+    {
+        if (source == null) return false;
+
+        int index = _registered.FindIndex(r => ReferenceEquals(r.source, source));
+        if (index < 0) return false;
+
+        var keyframes = _registered[index].keyframes;
+        keyframes.Add(new AudioVolumeKeyFrame { Timestamp = _recordingTimer, Volume = 0f });
+
+        _registered.RemoveAt(index);
+        return true;
+    }
+
+    private List<AudioVolumeKeyFrame> RegisterSourceInternal(ISpatialAudioSource source, float startTime)
+    {
+        source.TryGetTimelinePosition(out int timelinePos);
+
+        var keyframes = new List<AudioVolumeKeyFrame>();
+
+        var track = new RecordedAudioTrack
+        {
+            FMODPath = source.FMODPath,
+            StartTime = startTime,
+            FMODTimelinePosition = timelinePos,
+            Is3D = source.Is3D,
+            Position = source.WorldPosition,
+            VolumeKeyframes = keyframes
+        };
+
+        _session.RegisterAudioTrack(track);
+        _registered.Add((source, keyframes));
+        return keyframes;
     }
 
     private bool CaptureOneShotInternal(EventReference fmodEvent, Vector3 position, float maxAudibleDistance)
