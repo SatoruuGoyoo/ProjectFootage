@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using TMPro;
+using System.Collections;
 
 [RequireComponent(typeof(Collider))]
 public class CamcorderPickup : MonoBehaviour
@@ -12,6 +14,10 @@ public class CamcorderPickup : MonoBehaviour
 
     [Header("Prompt UI")]
     public GameObject promptUI;
+    [TextArea] public string pickupPromptText = "PRESIONA F PARA RECOGER";
+    [TextArea] public string postPickupPromptText = "PRESIONA TAB PARA ABRIR MENU DE LA CAMARA";
+    public float postPickupDisplayDuration = 3f;
+    private TextMeshProUGUI promptText;
 
     [Header("Audio")]
     public AudioSource audioSource;
@@ -28,7 +34,6 @@ public class CamcorderPickup : MonoBehaviour
         var col = GetComponent<Collider>();
         if (!col.isTrigger) col.isTrigger = true;
 
-        
         if (camcorderSystem != null)
         {
             camcorderSystem.SetActive(true);
@@ -38,6 +43,12 @@ public class CamcorderPickup : MonoBehaviour
         {
             camcorderModel.SetActive(true);
             camcorderModel.SetActive(false);
+        }
+
+        if (promptUI != null)
+        {
+            promptText = promptUI.GetComponentInChildren<TextMeshProUGUI>();
+            if (promptText != null) promptText.text = pickupPromptText;
         }
 
         SetPrompt(false);
@@ -53,6 +64,7 @@ public class CamcorderPickup : MonoBehaviour
     {
         if (pickedUp || !other.CompareTag(playerTag)) return;
         playerNearby = true;
+        if (promptText != null) promptText.text = pickupPromptText;
         SetPrompt(true);
     }
 
@@ -66,7 +78,6 @@ public class CamcorderPickup : MonoBehaviour
     private void Pickup()
     {
         pickedUp = true;
-        SetPrompt(false);
 
         if (audioSource != null && pickupSound != null)
             audioSource.PlayOneShot(pickupSound);
@@ -76,8 +87,21 @@ public class CamcorderPickup : MonoBehaviour
 
         GameEvents.CamcorderPickedUp();
 
+        if (promptText != null) promptText.text = postPickupPromptText;
+        SetPrompt(true);
+
+
+        promptUI.GetComponent<MonoBehaviour>()
+                .StartCoroutine(HidePromptAfterDelay());
+
         gameObject.SetActive(false);
         Debug.Log("[CamcorderPickup] Camcorder recogida.");
+    }
+
+    private IEnumerator HidePromptAfterDelay()
+    {
+        yield return new WaitForSeconds(postPickupDisplayDuration);
+        SetPrompt(false);
     }
 
     private void SetPrompt(bool active)
