@@ -10,10 +10,13 @@ public class CamcorderLightSystem : MonoBehaviour
     [SerializeField] private Camera camcorderCamera;
 
     [Header("Config")]
-    [Tooltip("How close the target needs to be in the green zone to trigger an event")]
-    [SerializeField] private float centerThreshold = 0.1f;
+    [Tooltip("Maximum angle in degrees from the camera's forward to detect a target")]
+    [SerializeField] private float maxAimAngle = 18f;
     [Tooltip("Maximum distance in meters to detect a target")]
     [SerializeField] private float maxDetectionDistance = 10f;
+
+    [Header("LayerMask")]
+
 
     private readonly List<ICamcorderTarget> targets = new();
     private readonly HashSet<ICamcorderTarget> _centeredTargets = new();
@@ -91,7 +94,7 @@ public class CamcorderLightSystem : MonoBehaviour
 
                 if (dist <= maxDetectionDistance &&
                     IsInFrustum(frustumPlanes, worldPos) &&
-                    IsCentered(worldPos))
+                    IsAimedAt(worldPos, target.DetectionRadius))
                     nowCentered = true;
             }
 
@@ -126,16 +129,16 @@ public class CamcorderLightSystem : MonoBehaviour
         return true;
     }
 
-    private bool IsCentered(Vector3 worldPos)
+    private bool IsAimedAt(Vector3 worldPos, float radius)
     {
-        Vector3 viewportPos = camcorderCamera.WorldToViewportPoint(worldPos);
-        if (viewportPos.z < 0) return false;
+        Vector3 toTarget = worldPos - camcorderCamera.transform.position;
+        float dist = toTarget.magnitude;
+        if (dist < 0.0001f) return true;
 
-        float distFromCenter = Vector2.Distance(
-            new Vector2(viewportPos.x, viewportPos.y),
-            new Vector2(0.5f, 0.5f)
-        );
-        return distFromCenter <= centerThreshold;
+        float angle = Vector3.Angle(camcorderCamera.transform.forward, toTarget);
+
+        float radiusAngle = Mathf.Atan2(radius, dist) * Mathf.Rad2Deg;
+        return angle <= maxAimAngle + radiusAngle;
     }
 
     private void SetState(bool isGreen)
@@ -149,21 +152,32 @@ public class CamcorderLightSystem : MonoBehaviour
     {
         if (camcorderCamera == null) return;
 
-        // Esfera de detección máxima
         Gizmos.color = new Color(0f, 1f, 0f, 0.15f);
         Gizmos.DrawSphere(camcorderCamera.transform.position, maxDetectionDistance);
-
-        // Borde de la esfera
         Gizmos.color = new Color(0f, 1f, 0f, 0.8f);
         Gizmos.DrawWireSphere(camcorderCamera.transform.position, maxDetectionDistance);
 
-        // Targets detectados — rojo si no centrado, verde si centrado
+        Vector3 origin = camcorderCamera.transform.position;
+        Vector3 fwd = camcorderCamera.transform.forward;
+        Gizmos.color = new Color(1f, 1f, 0f, 0.9f);
+        int segments = 24;
+        Vector3 prev = Vector3.zero;
+        for (int i = 0; i <= segments; i++)
+        {
+            float t = (float)i / segments * 360f;
+            Quaternion rot = Quaternion.AngleAxis(maxAimAngle, camcorderCamera.transform.up);
+            Vector3 dir = Quaternion.AngleAxis(t, fwd) * (rot * fwd);
+            Vector3 point = origin + dir * maxDetectionDistance;
+            if (i > 0) Gizmos.DrawLine(prev, point);
+            Gizmos.DrawLine(origin, point);
+            prev = point;
+        }
+
         foreach (var target in targets)
         {
             if (target?.TargetTransform == null) continue;
-
-            bool isCentered = _centeredTargets.Contains(target);
-            Gizmos.color = isCentered ? Color.green : Color.red;
+            bool aimed = _centeredTargets.Contains(target);
+            Gizmos.color = aimed ? Color.green : Color.red;
             Gizmos.DrawWireSphere(target.TargetTransform.position, 0.2f);
             Gizmos.DrawLine(camcorderCamera.transform.position, target.TargetTransform.position);
         }
