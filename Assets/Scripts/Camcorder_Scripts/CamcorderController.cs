@@ -111,7 +111,12 @@ public class CamcorderController : MonoBehaviour
         {
             case CamcorderMode.Idle:
                 if (_input.StartedRecording)
-                    _currentCamMode = CamcorderMode.Preparing;
+                {
+                    if (_storage.IsFull)
+                        GameEvents.FeedbackMessage("Gotta delete recordings");
+                    else
+                        _currentCamMode = CamcorderMode.Preparing;
+                }
                 break;
 
             case CamcorderMode.Preparing:
@@ -142,6 +147,14 @@ public class CamcorderController : MonoBehaviour
     }
     private void StartRecording()
     {
+        if (_storage.IsFull)
+        {
+            GameEvents.FeedbackMessage("Gotta delete recordings");
+            _currentCamMode = CamcorderMode.Idle;
+            prepareTimer = 0f;
+            return;
+        }
+
         _activeSession = new RecordingSession();
         _recordingTimer = 0f;
         recordTimer = 0f;
