@@ -53,14 +53,13 @@ public class VideoPlayback : MonoBehaviour
     {
         playbackPanel.SetActive(true);
 
-        Debug.Log($"[VideoPlayback] play | session null? {_session == null} | corrupted? {_session?.IsCorrupted}");
-
         if (_session != null && _session.IsCorrupted)
         {
             ShowNoData();
             return;
         }
 
+        if (displayImage != null) displayImage.gameObject.SetActive(true);
         if (noDataOverlay != null) noDataOverlay.SetActive(false);
 
         if (_session != null && _session.VideoFrames.Count > 0)
@@ -80,6 +79,7 @@ public class VideoPlayback : MonoBehaviour
     {
         playbackPanel.SetActive(false);
         if (noDataOverlay != null) noDataOverlay.SetActive(false);
+        if (displayImage != null) displayImage.gameObject.SetActive(true);
         _session = null;
     }
 
@@ -98,17 +98,8 @@ public class VideoPlayback : MonoBehaviour
 
     private void ShowNoData()
     {
-        FillBlack();
+        if (displayImage != null) displayImage.gameObject.SetActive(false);
         if (noDataOverlay != null) noDataOverlay.SetActive(true);
-    }
-
-    private void FillBlack()
-    {
-        if (_displayTexture == null) return;
-        var pixels = new Color32[_displayTexture.width * _displayTexture.height];
-        for (int i = 0; i < pixels.Length; i++) pixels[i] = new Color32(0, 0, 0, 255);
-        _displayTexture.SetPixels32(pixels);
-        _displayTexture.Apply();
     }
 
     private void ShowFrameAtTime(float time)
