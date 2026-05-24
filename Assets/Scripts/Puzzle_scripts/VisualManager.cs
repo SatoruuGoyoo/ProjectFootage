@@ -1,61 +1,90 @@
-//using UnityEngine;
+using System.Collections;
+using UnityEngine;
 
-//public class IterationVisualManager : MonoBehaviour
-//{
-//    [System.Serializable]
-//    public struct IterationVisuals
-//    {
-//        public string iterationName;
+public class IterationVisualManager : MonoBehaviour
+{
+    [System.Serializable]
+    public struct IterationVisuals
+    {
+        public string iterationName;
 
-//        [System.Serializable]
-//        public struct MaterialSwap
-//        {
-//            public Renderer target;
-//            public Material material;
-//        }
+        [System.Serializable]
+        public struct MaterialSwap
+        {
+            public Renderer target;
+            public Material material;
+        }
 
-//        public MaterialSwap[] materialSwaps;
+        public MaterialSwap[] materialSwaps;
 
-//        [Header("Environment Lighting")]
-//        [Range(0f, 1f)]
-//        public float environmentIntensity;
+        [Header("Environment Lighting")]
+        [Range(0f, 1f)]
+        public float environmentIntensity;
 
-//        [Header("TV Settings")]
-//        public GameObject[] objectsToEnable;
-//        public GameObject[] objectsToDisable;
-//    }
+        [Header("Objetos")]
+        public GameObject[] objectsToEnable;
+        public GameObject[] objectsToDisable;
+    }
 
-//    [Header("Visuales por iteración")]
-//    public IterationVisuals[] iterations = new IterationVisuals[3];
+    [Header("Visuales por iteración")]
+    public IterationVisuals[] iterations;
 
-//    private void OnEnable() => GameEvents.OnIterationChanged += OnIterationChanged;
-//    private void OnDisable() => GameEvents.OnIterationChanged -= OnIterationChanged;
+    [Header("Transición de luz")]
+    [Tooltip("Segundos que tarda en bajar la intensidad ambiental al valor objetivo.")]
+    [SerializeField, Min(0.1f)] private float lightTransitionDuration = 3f;
 
-//    private void Start()
-//    {
-//        OnIterationChanged(0);
-//    }
+    private Coroutine _lightTransition;
 
-//    private void OnIterationChanged(int iteration)
-//    {
-//        if (iteration >= iterations.Length) return;
+    private void OnEnable() => CorridorTeleporter.OnIterationChanged += OnIterationChanged;
+    private void OnDisable() => CorridorTeleporter.OnIterationChanged -= OnIterationChanged;
 
-//        var visuals = iterations[iteration];
+    private void Start() => ApplyVisuals(0);
 
-  
-//        foreach (var swap in visuals.materialSwaps)
-//        {
-//            if (swap.target == null || swap.material == null) continue;
-//            swap.target.material = swap.material;
-//        }
-//        RenderSettings.ambientIntensity = visuals.environmentIntensity;
+    private void OnIterationChanged(int iteration) => ApplyVisuals(iteration - 1);
 
-//        foreach (var obj in visuals.objectsToEnable)
-//            if (obj != null) obj.SetActive(true);
+    private void ApplyVisuals(int index)
+    {
+        if (index < 0 || index >= iterations.Length) return;
 
-//        foreach (var obj in visuals.objectsToDisable)
-//            if (obj != null) obj.SetActive(false);
+        var v = iterations[index];
 
-//        Debug.Log($"[IterationVisualManager] Iteración {iteration + 1} — Env Intensity: {visuals.environmentIntensity}");
-//    }
-//}
+        foreach (var swap in v.materialSwaps)
+        {
+            if (swap.target == null || swap.material == null) continue;
+            swap.target.material = swap.material;
+        }
+
+        // Luz: transición suave en lugar de snap
+        if (_lightTransition != null) StopCoroutine(_lightTransition);
+        _lightTransition = StartCoroutine(TransitionLight(v.environmentIntensity));
+
+        foreach (var obj in v.objectsToEnable)
+            if (obj != null) obj.SetActive(true);
+
+        foreach (var obj in v.objectsToDisable)
+            if (obj != null) obj.SetActive(false);
+
+        Debug.Log($"[IterationVisualManager] Iteración {index + 1} — {v.iterationName}");
+    }
+
+    private IEnumerator TransitionLight(float targetIntensity)
+    {
+        float startIntensity = RenderSettings.ambientIntensity;
+        float elapsed = 0f;
+
+        while (elapsed < lightTransitionDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / lightTransitionDuration;
+
+            // EaseInOut para que la bajada se sienta orgánica, no lineal
+            float tSmooth = t * t * (3f - 2f * t);
+
+            RenderSettings.ambientIntensity = Mathf.Lerp(startIntensity, targetIntensity, tSmooth);
+            yield return null;
+        }
+
+        RenderSettings.ambientIntensity = targetIntensity;
+        _lightTransition = null;
+    }
+}

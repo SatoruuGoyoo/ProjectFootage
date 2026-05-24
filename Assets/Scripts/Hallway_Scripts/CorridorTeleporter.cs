@@ -1,15 +1,5 @@
 using UnityEngine;
 
-/// <summary>
-/// Colocá este componente en dos GameObjects vacíos, uno en cada extremo
-/// del pasillo. Cada uno necesita un BoxCollider con isTrigger = true.
-/// Vinculá el extremo opuesto en el campo Paired Teleporter.
-///
-/// ORIENTACIÓN IMPORTANTE:
-/// El eje Z (flecha azul) de cada teleportador debe apuntar
-/// hacia el interior del pasillo al que pertenece.
-/// Así el player queda alineado automáticamente al teleportar.
-/// </summary>
 [RequireComponent(typeof(Collider))]
 public sealed class CorridorTeleporter : MonoBehaviour
 {
@@ -18,12 +8,31 @@ public sealed class CorridorTeleporter : MonoBehaviour
     [SerializeField] private string playerTag = "Player";
     [SerializeField, Range(0.05f, 2f)] private float cooldownSeconds = 0.3f;
 
+    [Header("Anti-cheat de recorrido")]
+    [Tooltip("Distancia mínima desde el punto de llegada antes de que este extremo vuelva a activarse. " +
+             "Usá un valor cercano al largo del pasillo.")]
+    [SerializeField, Min(0f)] private float minTravelDistance = 8f;
+
+    [Header("Desvío por iteración")]
+    [Tooltip("En esta iteración el jugador es enviado a alternateDestination en lugar del extremo opuesto.")]
+    [SerializeField] private int redirectOnIteration = 3;
+    [Tooltip("Transform al que se teletransporta en la iteración especial. " +
+             "Usá un GameObject vacío posicionado y rotado donde quieras que aparezca el jugador.")]
+    [SerializeField] private Transform alternateDestination;
+
+
+    public static event System.Action<int> OnIterationChanged;
+    // Compartido entre los dos extremos
+    public static int IterationCount { get; private set; }
+
     internal float LastTeleportTime = float.NegativeInfinity;
 
-    private void Reset()
-    {
-        GetComponent<Collider>().isTrigger = true;
-    }
+    private Vector3? _arrivalPosition;
+    private Transform _playerTransform;
+
+    // ── Unity ─────────────────────────────────────────────────────────
+
+    private void Reset() => GetComponent<Collider>().isTrigger = true;
 
     private void Awake()
     {
@@ -35,89 +44,121 @@ public sealed class CorridorTeleporter : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (_arrivalPosition.HasValue && _playerTransform != null)
+        {
+            if (Vector3.Distance(_playerTransform.position, _arrivalPosition.Value) >= minTravelDistance)
+                _arrivalPosition = null;
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag(playerTag))    return;
-        if (pairedTeleporter == null)        return;
-        if (!CooldownElapsed())              return;
+        if (!other.CompareTag(playerTag)) return;
+        if (pairedTeleporter == null) return;
+        if (!CooldownElapsed()) return;
+        if (IsArrivalBlocked(other.transform.position)) return;
 
         var mover = other.GetComponent<IPlayerMover>();
         if (mover == null)
         {
-            Debug.LogWarning($"[CorridorTeleporter] '{other.name}' no tiene PlayerMover.", other);
+            Debug.LogWarning($"[CorridorTeleporter] '{other.name}' no tiene IPlayerMover.", other);
             return;
         }
 
-        Transform player = other.transform;
+        _playerTransform = other.transform;
+
+        IterationCount++;
+        Debug.Log($"[CorridorTeleporter] Iteración #{IterationCount}");
+        OnIterationChanged?.Invoke(IterationCount);
+
+        // Iteración especial: desviar a destino alternativo
+        if (IterationCount == redirectOnIteration && alternateDestination != null)
+        {
+            mover.MoveTo(alternateDestination.position, alternateDestination.rotation);
+            RegisterTeleport();
+            return; // no registrar arrival en el par, el jugador ya no está en el pasillo
+        }
+
+        // Flujo normal
         mover.MoveTo(
-            CalculateTargetPosition(player.position),
-            CalculateTargetRotation(player.rotation)
+            CalculateTargetPosition(other.transform.position),
+            CalculateTargetRotation(other.transform.rotation)
         );
 
+        pairedTeleporter.RegisterArrival(other.transform.position, other.transform);
         RegisterTeleport();
+    }
+
+    // ── API interna ───────────────────────────────────────────────────
+
+    internal void RegisterArrival(Vector3 worldPosition, Transform player)
+    {
+        _arrivalPosition = worldPosition;
+        _playerTransform = player;
+    }
+
+    private bool IsArrivalBlocked(Vector3 playerPos)
+    {
+        return _arrivalPosition.HasValue
+            && Vector3.Distance(playerPos, _arrivalPosition.Value) < minTravelDistance;
     }
 
     // ── Cálculos ──────────────────────────────────────────────────────
 
-    /// <summary>
-    /// Convierte la posición del jugador al espacio local de este
-    /// teleportador y la expresa en el espacio mundial del par.
-    /// Preserva el desplazamiento lateral dentro del pasillo.
-    /// </summary>
     private Vector3 CalculateTargetPosition(Vector3 playerWorldPosition)
     {
         Vector3 localOffset = transform.InverseTransformPoint(playerWorldPosition);
         return pairedTeleporter.transform.TransformPoint(localOffset);
     }
 
-    /// <summary>
-    /// Calcula la rotación que el player debe tener al salir del
-    /// teleportador destino, conservando el ángulo relativo que tenía
-    /// respecto al teleportador origen.
-    ///
-    /// Ejemplo: si el player iba recto dentro del pasillo A (alineado
-    /// con el Z del teleportador A), al salir queda alineado con el Z
-    /// del teleportador B, es decir, recto dentro del pasillo B.
-    /// </summary>
     private Quaternion CalculateTargetRotation(Quaternion playerWorldRotation)
     {
-        // Mirar SIEMPRE hacia donde apunta el TP destino
         Vector3 targetForward = pairedTeleporter.transform.forward;
-
-        // Solo conservar inclinación en Y (sin pitch/roll)
         targetForward.y = 0f;
-
         return Quaternion.LookRotation(targetForward, Vector3.up);
     }
+
     // ── Cooldown ──────────────────────────────────────────────────────
 
     private bool CooldownElapsed()
     {
         float now = Time.time;
-        return now - LastTeleportTime                  >= cooldownSeconds
+        return now - LastTeleportTime >= cooldownSeconds
             && now - pairedTeleporter.LastTeleportTime >= cooldownSeconds;
     }
 
     private void RegisterTeleport()
     {
-        float now             = Time.time;
-        LastTeleportTime                  = now;
+        float now = Time.time;
+        LastTeleportTime = now;
         pairedTeleporter.LastTeleportTime = now;
     }
 
-    // ── Gizmos (solo editor) ──────────────────────────────────────────
+    // ── Gizmos ────────────────────────────────────────────────────────
 
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
-        DrawBox(new Color(0.2f, 0.5f, 1f, 0.20f));
+        Color boxColor = _arrivalPosition.HasValue
+            ? new Color(1f, 0.2f, 0.2f, 0.25f)
+            : new Color(0.2f, 0.5f, 1f, 0.20f);
+
+        DrawBox(boxColor);
+
         if (pairedTeleporter != null)
         {
             Gizmos.color = new Color(0.2f, 1f, 0.4f, 0.8f);
             Gizmos.DrawLine(transform.position, pairedTeleporter.transform.position);
         }
 
-        // Flecha que indica el "hacia adentro" del pasillo (eje Z del teleportador)
+        if (_arrivalPosition.HasValue)
+        {
+            Gizmos.color = new Color(1f, 0.6f, 0f, 0.4f);
+            Gizmos.DrawWireSphere(_arrivalPosition.Value, minTravelDistance);
+        }
+
         Gizmos.color = Color.yellow;
         Gizmos.DrawRay(transform.position, transform.forward * 1.5f);
     }
