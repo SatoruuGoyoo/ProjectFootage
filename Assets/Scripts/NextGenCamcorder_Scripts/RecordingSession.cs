@@ -23,6 +23,8 @@ public class RecordingSession
     public IReadOnlyList<string> EventIds => _eventIds;
 
     public bool ContainsEvent(string eventId) => _eventIds.Contains(eventId);
+    public bool IsCorrupted { get; private set; }
+    public void MarkAsCorrupted() => IsCorrupted = true;
 
     public void AddVideoFrame(VideoFrame frame)
     {

@@ -58,4 +58,9 @@ public class RecordableEventManager : MonoBehaviour
         completedIds.Add(id);
         if (activeSession != null) activeSession.RegisterEvent(id);
     }
+
+    public void HandleInterrupted(string id)
+    {
+        if (activeSession != null) activeSession.MarkAsCorrupted();
+    }
 }
