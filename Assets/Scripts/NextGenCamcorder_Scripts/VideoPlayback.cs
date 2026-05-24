@@ -53,6 +53,8 @@ public class VideoPlayback : MonoBehaviour
     {
         playbackPanel.SetActive(true);
 
+        Debug.Log($"[VideoPlayback] play | session null? {_session == null} | corrupted? {_session?.IsCorrupted}");
+
         if (_session != null && _session.IsCorrupted)
         {
             ShowNoData();
