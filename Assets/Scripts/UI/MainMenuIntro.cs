@@ -29,7 +29,6 @@ public class MainMenuIntro : MonoBehaviour
         // Asegurar estado inicial
         mainCamera.position = startPosition;
         mainCamera.eulerAngles = startRotation;
-        mainMenuCanvas.SetActive(false);
         pressStartText.SetActive(true);
         title.SetActive(true);
     }
