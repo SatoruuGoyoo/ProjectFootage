@@ -8,6 +8,7 @@ public class RecordableEventManager : MonoBehaviour
     private readonly List<RecordableEvent> events = new();
     private readonly HashSet<string> completedIds = new();
     private RecordingSession activeSession;
+    private RecordingSession lastSession;
 
     private void Awake()
     {
@@ -23,6 +24,7 @@ public class RecordableEventManager : MonoBehaviour
     private void OnEnable()
     {
         GameEvents.OnRecordableEventCompleted += HandleCompleted;
+        GameEvents.OnRecordableEventInterrupted += HandleInterrupted;
         GameEvents.OnRecordingStarted += HandleRecordingStarted;
         GameEvents.OnRecordingStopped += HandleRecordingStopped;
     }
@@ -30,6 +32,7 @@ public class RecordableEventManager : MonoBehaviour
     private void OnDisable()
     {
         GameEvents.OnRecordableEventCompleted -= HandleCompleted;
+        GameEvents.OnRecordableEventInterrupted -= HandleInterrupted;
         GameEvents.OnRecordingStarted -= HandleRecordingStarted;
         GameEvents.OnRecordingStopped -= HandleRecordingStopped;
     }
@@ -50,12 +53,24 @@ public class RecordableEventManager : MonoBehaviour
         return null;
     }
 
-    private void HandleRecordingStarted(RecordingSession session) => activeSession = session;
+    private void HandleRecordingStarted(RecordingSession session)
+    {
+        activeSession = session;
+        lastSession = session;
+    }
+
     private void HandleRecordingStopped() => activeSession = null;
 
     private void HandleCompleted(string id)
     {
         completedIds.Add(id);
         if (activeSession != null) activeSession.RegisterEvent(id);
+    }
+
+    private void HandleInterrupted(string id)
+    {
+        var target = activeSession != null ? activeSession : lastSession;
+        Debug.Log($"[Manager] interrupted '{id}' | target null? {target == null}");
+        if (target != null) target.MarkAsCorrupted();
     }
 }

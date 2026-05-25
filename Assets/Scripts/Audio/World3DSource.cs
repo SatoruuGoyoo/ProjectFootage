@@ -17,10 +17,12 @@ public class World3DSource : MonoBehaviour
 
     public bool IsPlaying => _isPlaying;
 
-    private void Start()
+    private void OnEnable()
     {
         if (playOnStart) Play();
     }
+
+    private void OnDisable() => Stop(true);
 
     public void Play()
     {

@@ -7,16 +7,12 @@ public class CamcorderStorage : MonoBehaviour
     private const int MaxRecordings = 5;
 
     public int Count => _recordings.Count;
+    public bool IsFull => _recordings.Count >= MaxRecordings;
 
     public void AddRecording(RecordingSession session)
     {
-        if (!session.IsCompleted)
-        {
-            return;
-        }
-
-        if (_recordings.Count >= MaxRecordings)
-            _recordings.RemoveAt(0);
+        if (!session.IsCompleted) return;
+        if (IsFull) return;
 
         _recordings.Add(session);
     }

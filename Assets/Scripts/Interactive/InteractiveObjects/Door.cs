@@ -95,6 +95,10 @@ public class Door : MonoBehaviour, IInteractable
     private void Update()
     {
         Quaternion target = isOpen ? openRot : closedRot;
-        pivot.localRotation = Quaternion.Slerp(pivot.localRotation, target, Time.deltaTime * speed);
+        pivot.localRotation = Quaternion.RotateTowards(
+            pivot.localRotation,
+            target,
+            speed * Time.deltaTime
+        );
     }
 }

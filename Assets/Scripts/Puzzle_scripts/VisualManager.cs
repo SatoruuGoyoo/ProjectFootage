@@ -64,7 +64,7 @@ public class IterationVisualManager : MonoBehaviour
         foreach (var obj in v.objectsToDisable)
             if (obj != null) obj.SetActive(false);
 
-        Debug.Log($"[IterationVisualManager] Iteración {index + 1} — {v.iterationName}");
+        Debug.Log($"[IterationVisualManager] Iteración {index + 1} / {v.iterationName}");
     }
 
     private IEnumerator TransitionLight(float targetIntensity)

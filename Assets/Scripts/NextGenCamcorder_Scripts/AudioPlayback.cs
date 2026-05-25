@@ -39,6 +39,7 @@ public class AudioPlayback : MonoBehaviour
     private void OnPlay()
     {
         if (_session == null) return;
+        if (_session.IsCorrupted) return;
         CreateInstances();
         UpdateListenerPosition(_clock.CurrentTime);
         StartAllAt(_clock.CurrentTime);
@@ -77,6 +78,7 @@ public class AudioPlayback : MonoBehaviour
     private void Update()
     {
         if (!_clock.IsPlaying) return;
+        if (_session != null && _session.IsCorrupted) return;
 
         float currentTime = _clock.CurrentTime;
 

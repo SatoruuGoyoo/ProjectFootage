@@ -25,6 +25,9 @@ public class CamcorderController : MonoBehaviour
     [Header("FMOD")]
     [SerializeField] private EventReference toggleEvent;
 
+    [Header("Feedback")]
+    [SerializeField] private string storageFullMessage = "";
+
     public CamcorderMode CurrentCamMode => _currentCamMode;
 
 
@@ -111,7 +114,12 @@ public class CamcorderController : MonoBehaviour
         {
             case CamcorderMode.Idle:
                 if (_input.StartedRecording)
-                    _currentCamMode = CamcorderMode.Preparing;
+                {
+                    if (_storage.IsFull)
+                        GameEvents.FeedbackMessage(storageFullMessage);
+                    else
+                        _currentCamMode = CamcorderMode.Preparing;
+                }
                 break;
 
             case CamcorderMode.Preparing:
@@ -142,6 +150,14 @@ public class CamcorderController : MonoBehaviour
     }
     private void StartRecording()
     {
+        if (_storage.IsFull)
+        {
+            GameEvents.FeedbackMessage(storageFullMessage);
+            _currentCamMode = CamcorderMode.Idle;
+            prepareTimer = 0f;
+            return;
+        }
+
         _activeSession = new RecordingSession();
         _recordingTimer = 0f;
         recordTimer = 0f;
