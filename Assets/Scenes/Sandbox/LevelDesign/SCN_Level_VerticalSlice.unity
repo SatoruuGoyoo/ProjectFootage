@@ -9158,10 +9158,12 @@ MonoBehaviour:
     objectsToEnable: []
     objectsToDisable:
     - {fileID: 229074073}
+    - {fileID: 1468596881}
   - iterationName: 2
     materialSwaps: []
     environmentIntensity: 0.5
-    objectsToEnable: []
+    objectsToEnable:
+    - {fileID: 1468596881}
     objectsToDisable:
     - {fileID: 229074073}
   - iterationName: 3
@@ -9169,7 +9171,8 @@ MonoBehaviour:
     environmentIntensity: 0.1
     objectsToEnable:
     - {fileID: 229074073}
-    objectsToDisable: []
+    objectsToDisable:
+    - {fileID: 1468596881}
   lightTransitionDuration: 3
 --- !u!43 &143382429
 Mesh:
@@ -26250,6 +26253,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::VideoPlayback
   displayImage: {fileID: 1053494164}
   playbackPanel: {fileID: 883047237}
+  noDataOverlay: {fileID: 0}
 --- !u!114 &492172323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26412,6 +26416,7 @@ MonoBehaviour:
       Data3: -2037995890
       Data4: -862189175
     Path: event:/Camcorder/Toggle
+  storageFullMessage: 
 --- !u!114 &492172332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39199,9 +39204,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8bca95f7c947b4db5fb152a0d693d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: com.cqf.urpvolumetricfog.runtime::VolumetricAdditionalLight
-  anisotropy: 0.25
-  scattering: 1
-  radius: 0.2
 --- !u!95 &630741546 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: f1e8e1bfafe7fa241ba6b4181f3eba85, type: 3}
@@ -46337,9 +46339,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8bca95f7c947b4db5fb152a0d693d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: com.cqf.urpvolumetricfog.runtime::VolumetricAdditionalLight
-  anisotropy: 0.25
-  scattering: 1
-  radius: 0.2
 --- !u!114 &797146299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46949,7 +46948,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: f1e8e1bfafe7fa241ba6b4181f3eba85, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.11
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f1e8e1bfafe7fa241ba6b4181f3eba85, type: 3}
       propertyPath: m_LocalPosition.y
@@ -46957,7 +46956,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f1e8e1bfafe7fa241ba6b4181f3eba85, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f1e8e1bfafe7fa241ba6b4181f3eba85, type: 3}
       propertyPath: m_LocalRotation.w
@@ -56190,6 +56189,7 @@ Transform:
   - {fileID: 65041877}
   - {fileID: 1189907551}
   - {fileID: 1955289015}
+  - {fileID: 1468596883}
   m_Father: {fileID: 249796918}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &990072092
@@ -58076,9 +58076,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8bca95f7c947b4db5fb152a0d693d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: com.cqf.urpvolumetricfog.runtime::VolumetricAdditionalLight
-  anisotropy: 0
-  scattering: 2
-  radius: 0.339
 --- !u!114 &1045055445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70053,7 +70050,7 @@ Transform:
   m_GameObject: {fileID: 1220446325}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 126.78, y: 6.1, z: 102.451}
+  m_LocalPosition: {x: 112.49, y: 6.1, z: 85.34}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -83770,6 +83767,75 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1466483060}
   m_CullTransparentMesh: 1
+--- !u!1 &1468596881
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1468596883}
+  - component: {fileID: 1468596882}
+  m_Layer: 0
+  m_Name: STALKER
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1468596882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1468596881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 742112ef41152c44986169d89004f3b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Stalker
+  player: {fileID: 1220446336}
+  playerMotor: {fileID: 1220446330}
+  walkDistance: 4
+  sprintDistance: 1.5
+  distanceLerpSpeed: 3
+  followSmooth: 10
+  heightOffset: 0
+  walkFootstep:
+    Guid:
+      Data1: -544163972
+      Data2: 1144922663
+      Data3: 1120269718
+      Data4: 1537886360
+    Path: event:/Horror/Stalker_footsteps_WALK
+  sprintFootstep:
+    Guid:
+      Data1: -47336291
+      Data2: 1126062942
+      Data3: -1982762608
+      Data4: -1207087329
+    Path: event:/Horror/Stalker_footsteps_RUN
+  walkStepInterval: 1.5
+  sprintStepInterval: 1
+  minMoveSpeed: 1
+  teleportThreshold: 2
+--- !u!4 &1468596883
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1468596881}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 974684742}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1469800251
 GameObject:
   m_ObjectHideFlags: 0
@@ -110846,9 +110912,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8bca95f7c947b4db5fb152a0d693d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: com.cqf.urpvolumetricfog.runtime::VolumetricAdditionalLight
-  anisotropy: 0.25
-  scattering: 1
-  radius: 0.2
 --- !u!114 &1895999751
 MonoBehaviour:
   m_ObjectHideFlags: 0
