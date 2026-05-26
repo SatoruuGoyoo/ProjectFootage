@@ -5299,6 +5299,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 821700700}
+  - {fileID: 317633865}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &104991859
@@ -10717,7 +10718,7 @@ GameObject:
   - component: {fileID: 228366554}
   - component: {fileID: 228366553}
   m_Layer: 6
-  m_Name: Cube (2)
+  m_Name: BATH CURTAINS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13517,11 +13518,11 @@ Transform:
   m_GameObject: {fileID: 317633864}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.164, y: 6.747, z: -4.8869996}
+  m_LocalPosition: {x: -0.40864944, y: 1.8170004, z: -0.1729393}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 979507959}
+  m_Father: {fileID: 82362788}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &317633866
 MonoBehaviour:
@@ -14580,6 +14581,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::VideoPlayback
   displayImage: {fileID: 1050645187}
   playbackPanel: {fileID: 1733153145}
+  noDataOverlay: {fileID: 0}
 --- !u!114 &369844211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14608,7 +14610,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CamcorderLightSystem
   camcorderCamera: {fileID: 1493215648}
-  centerThreshold: 1
+  maxAimAngle: 18
   maxDetectionDistance: 5.5
 --- !u!114 &369844213
 MonoBehaviour:
@@ -14742,6 +14744,7 @@ MonoBehaviour:
       Data3: -2037995890
       Data4: -862189175
     Path: event:/Camcorder/Toggle
+  storageFullMessage: 
 --- !u!43 &379677264
 Mesh:
   m_ObjectHideFlags: 0
@@ -36988,8 +36991,7 @@ Transform:
   m_LocalPosition: {x: -5.9319496, y: -5.26484, z: 8.0565405}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 317633865}
+  m_Children: []
   m_Father: {fileID: 125286516}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &989001288
@@ -63726,7 +63728,7 @@ GameObject:
   - component: {fileID: 1755137960}
   - component: {fileID: 1755137959}
   m_Layer: 6
-  m_Name: Cube
+  m_Name: BATH CURTAINS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69147,7 +69149,7 @@ GameObject:
   - component: {fileID: 1887526187}
   - component: {fileID: 1887526186}
   m_Layer: 6
-  m_Name: Cube (1)
+  m_Name: BATH CURTAINS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -70830,6 +70832,7 @@ MonoBehaviour:
   repeatable: 0
   centerGracePeriod: 0.5
   targetOverride: {fileID: 1320703583}
+  detectionRadius: 0.8
 --- !u!64 &1961523424
 MeshCollider:
   m_ObjectHideFlags: 0

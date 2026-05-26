@@ -1052,6 +1052,214 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""Phone"",
+            ""id"": ""1021d653-4230-4699-8d8a-161a8dbc368c"",
+            ""actions"": [
+                {
+                    ""name"": ""Dial0"",
+                    ""type"": ""Button"",
+                    ""id"": ""47c9fc2f-f714-43b0-bf14-b464d47f5ce4"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dial1"",
+                    ""type"": ""Button"",
+                    ""id"": ""c19ad8b6-c2d1-4e7b-ae89-1b3eca7d7fae"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dial2"",
+                    ""type"": ""Button"",
+                    ""id"": ""d21d69e5-c021-4a25-b9a7-9fcd988cd7fb"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dial3"",
+                    ""type"": ""Button"",
+                    ""id"": ""f081303c-6d6e-4615-8aa3-8b469d7776a0"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dial4"",
+                    ""type"": ""Button"",
+                    ""id"": ""09c0e0e6-a7f8-422e-8b38-a7b892b41491"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dial5"",
+                    ""type"": ""Button"",
+                    ""id"": ""e83a5e08-7a58-4997-8f1e-16a2d55e9a63"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dial6"",
+                    ""type"": ""Button"",
+                    ""id"": ""27c033c6-14e5-4972-b4ea-722c568fbaac"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dial7"",
+                    ""type"": ""Button"",
+                    ""id"": ""98ee1757-9e24-4b43-b4eb-6fb4b86101a1"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dial8"",
+                    ""type"": ""Button"",
+                    ""id"": ""6aef23cb-a27b-4ecc-82b3-8cbf3853384f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dial9"",
+                    ""type"": ""Button"",
+                    ""id"": ""512041e9-f133-47ca-9c6b-a0baae8b5aa6"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""a71966c1-7bfc-432a-bd8a-854eb9d98801"",
+                    ""path"": ""<Keyboard>/numpad0"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dial0"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c548a477-80ae-472e-9397-e1609fce1ea9"",
+                    ""path"": ""<Keyboard>/numpad1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dial1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4111d9cb-c1d9-4846-9132-def499659c05"",
+                    ""path"": ""<Keyboard>/numpad2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dial2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4d515a2f-d7ef-46e5-b255-e0aba36863e6"",
+                    ""path"": ""<Keyboard>/numpad3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dial3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c124209c-67f8-4a5a-9e76-5dac7bcaeeb6"",
+                    ""path"": ""<Keyboard>/numpad4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dial4"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0f27a9df-ae48-4227-9e3d-e32350b7d32d"",
+                    ""path"": ""<Keyboard>/numpad5"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dial5"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b184d145-e26a-4c6c-b080-24eaf34c35cc"",
+                    ""path"": ""<Keyboard>/numpad6"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dial6"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7b23dc59-3ee0-458c-8faa-27e959a45f8d"",
+                    ""path"": ""<Keyboard>/numpad7"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dial7"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8c166bbd-e7dd-4f78-ace6-1ef3ec4e4cd7"",
+                    ""path"": ""<Keyboard>/numpad8"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dial8"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9509a34e-e016-4a3e-8955-7c0d4b41bbc8"",
+                    ""path"": ""<Keyboard>/numpad9"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dial9"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -1087,6 +1295,18 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
         m_UI_Submit = m_UI.FindAction("Submit", throwIfNotFound: true);
         m_UI_Cancel = m_UI.FindAction("Cancel", throwIfNotFound: true);
+        // Phone
+        m_Phone = asset.FindActionMap("Phone", throwIfNotFound: true);
+        m_Phone_Dial0 = m_Phone.FindAction("Dial0", throwIfNotFound: true);
+        m_Phone_Dial1 = m_Phone.FindAction("Dial1", throwIfNotFound: true);
+        m_Phone_Dial2 = m_Phone.FindAction("Dial2", throwIfNotFound: true);
+        m_Phone_Dial3 = m_Phone.FindAction("Dial3", throwIfNotFound: true);
+        m_Phone_Dial4 = m_Phone.FindAction("Dial4", throwIfNotFound: true);
+        m_Phone_Dial5 = m_Phone.FindAction("Dial5", throwIfNotFound: true);
+        m_Phone_Dial6 = m_Phone.FindAction("Dial6", throwIfNotFound: true);
+        m_Phone_Dial7 = m_Phone.FindAction("Dial7", throwIfNotFound: true);
+        m_Phone_Dial8 = m_Phone.FindAction("Dial8", throwIfNotFound: true);
+        m_Phone_Dial9 = m_Phone.FindAction("Dial9", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -1095,6 +1315,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_Camera.enabled, "This will cause a leak and performance issues, PlayerInputActions.Camera.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_MenuCamera.enabled, "This will cause a leak and performance issues, PlayerInputActions.MenuCamera.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, PlayerInputActions.UI.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Phone.enabled, "This will cause a leak and performance issues, PlayerInputActions.Phone.Disable() has not been called.");
     }
 
     /// <summary>
@@ -1759,6 +1980,201 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="UIActions" /> instance referencing this action map.
     /// </summary>
     public UIActions @UI => new UIActions(this);
+
+    // Phone
+    private readonly InputActionMap m_Phone;
+    private List<IPhoneActions> m_PhoneActionsCallbackInterfaces = new List<IPhoneActions>();
+    private readonly InputAction m_Phone_Dial0;
+    private readonly InputAction m_Phone_Dial1;
+    private readonly InputAction m_Phone_Dial2;
+    private readonly InputAction m_Phone_Dial3;
+    private readonly InputAction m_Phone_Dial4;
+    private readonly InputAction m_Phone_Dial5;
+    private readonly InputAction m_Phone_Dial6;
+    private readonly InputAction m_Phone_Dial7;
+    private readonly InputAction m_Phone_Dial8;
+    private readonly InputAction m_Phone_Dial9;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "Phone".
+    /// </summary>
+    public struct PhoneActions
+    {
+        private @PlayerInputActions m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public PhoneActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "Phone/Dial0".
+        /// </summary>
+        public InputAction @Dial0 => m_Wrapper.m_Phone_Dial0;
+        /// <summary>
+        /// Provides access to the underlying input action "Phone/Dial1".
+        /// </summary>
+        public InputAction @Dial1 => m_Wrapper.m_Phone_Dial1;
+        /// <summary>
+        /// Provides access to the underlying input action "Phone/Dial2".
+        /// </summary>
+        public InputAction @Dial2 => m_Wrapper.m_Phone_Dial2;
+        /// <summary>
+        /// Provides access to the underlying input action "Phone/Dial3".
+        /// </summary>
+        public InputAction @Dial3 => m_Wrapper.m_Phone_Dial3;
+        /// <summary>
+        /// Provides access to the underlying input action "Phone/Dial4".
+        /// </summary>
+        public InputAction @Dial4 => m_Wrapper.m_Phone_Dial4;
+        /// <summary>
+        /// Provides access to the underlying input action "Phone/Dial5".
+        /// </summary>
+        public InputAction @Dial5 => m_Wrapper.m_Phone_Dial5;
+        /// <summary>
+        /// Provides access to the underlying input action "Phone/Dial6".
+        /// </summary>
+        public InputAction @Dial6 => m_Wrapper.m_Phone_Dial6;
+        /// <summary>
+        /// Provides access to the underlying input action "Phone/Dial7".
+        /// </summary>
+        public InputAction @Dial7 => m_Wrapper.m_Phone_Dial7;
+        /// <summary>
+        /// Provides access to the underlying input action "Phone/Dial8".
+        /// </summary>
+        public InputAction @Dial8 => m_Wrapper.m_Phone_Dial8;
+        /// <summary>
+        /// Provides access to the underlying input action "Phone/Dial9".
+        /// </summary>
+        public InputAction @Dial9 => m_Wrapper.m_Phone_Dial9;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_Phone; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="PhoneActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(PhoneActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="PhoneActions" />
+        public void AddCallbacks(IPhoneActions instance)
+        {
+            if (instance == null || m_Wrapper.m_PhoneActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_PhoneActionsCallbackInterfaces.Add(instance);
+            @Dial0.started += instance.OnDial0;
+            @Dial0.performed += instance.OnDial0;
+            @Dial0.canceled += instance.OnDial0;
+            @Dial1.started += instance.OnDial1;
+            @Dial1.performed += instance.OnDial1;
+            @Dial1.canceled += instance.OnDial1;
+            @Dial2.started += instance.OnDial2;
+            @Dial2.performed += instance.OnDial2;
+            @Dial2.canceled += instance.OnDial2;
+            @Dial3.started += instance.OnDial3;
+            @Dial3.performed += instance.OnDial3;
+            @Dial3.canceled += instance.OnDial3;
+            @Dial4.started += instance.OnDial4;
+            @Dial4.performed += instance.OnDial4;
+            @Dial4.canceled += instance.OnDial4;
+            @Dial5.started += instance.OnDial5;
+            @Dial5.performed += instance.OnDial5;
+            @Dial5.canceled += instance.OnDial5;
+            @Dial6.started += instance.OnDial6;
+            @Dial6.performed += instance.OnDial6;
+            @Dial6.canceled += instance.OnDial6;
+            @Dial7.started += instance.OnDial7;
+            @Dial7.performed += instance.OnDial7;
+            @Dial7.canceled += instance.OnDial7;
+            @Dial8.started += instance.OnDial8;
+            @Dial8.performed += instance.OnDial8;
+            @Dial8.canceled += instance.OnDial8;
+            @Dial9.started += instance.OnDial9;
+            @Dial9.performed += instance.OnDial9;
+            @Dial9.canceled += instance.OnDial9;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="PhoneActions" />
+        private void UnregisterCallbacks(IPhoneActions instance)
+        {
+            @Dial0.started -= instance.OnDial0;
+            @Dial0.performed -= instance.OnDial0;
+            @Dial0.canceled -= instance.OnDial0;
+            @Dial1.started -= instance.OnDial1;
+            @Dial1.performed -= instance.OnDial1;
+            @Dial1.canceled -= instance.OnDial1;
+            @Dial2.started -= instance.OnDial2;
+            @Dial2.performed -= instance.OnDial2;
+            @Dial2.canceled -= instance.OnDial2;
+            @Dial3.started -= instance.OnDial3;
+            @Dial3.performed -= instance.OnDial3;
+            @Dial3.canceled -= instance.OnDial3;
+            @Dial4.started -= instance.OnDial4;
+            @Dial4.performed -= instance.OnDial4;
+            @Dial4.canceled -= instance.OnDial4;
+            @Dial5.started -= instance.OnDial5;
+            @Dial5.performed -= instance.OnDial5;
+            @Dial5.canceled -= instance.OnDial5;
+            @Dial6.started -= instance.OnDial6;
+            @Dial6.performed -= instance.OnDial6;
+            @Dial6.canceled -= instance.OnDial6;
+            @Dial7.started -= instance.OnDial7;
+            @Dial7.performed -= instance.OnDial7;
+            @Dial7.canceled -= instance.OnDial7;
+            @Dial8.started -= instance.OnDial8;
+            @Dial8.performed -= instance.OnDial8;
+            @Dial8.canceled -= instance.OnDial8;
+            @Dial9.started -= instance.OnDial9;
+            @Dial9.performed -= instance.OnDial9;
+            @Dial9.canceled -= instance.OnDial9;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="PhoneActions.UnregisterCallbacks(IPhoneActions)" />.
+        /// </summary>
+        /// <seealso cref="PhoneActions.UnregisterCallbacks(IPhoneActions)" />
+        public void RemoveCallbacks(IPhoneActions instance)
+        {
+            if (m_Wrapper.m_PhoneActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="PhoneActions.AddCallbacks(IPhoneActions)" />
+        /// <seealso cref="PhoneActions.RemoveCallbacks(IPhoneActions)" />
+        /// <seealso cref="PhoneActions.UnregisterCallbacks(IPhoneActions)" />
+        public void SetCallbacks(IPhoneActions instance)
+        {
+            foreach (var item in m_Wrapper.m_PhoneActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_PhoneActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="PhoneActions" /> instance referencing this action map.
+    /// </summary>
+    public PhoneActions @Phone => new PhoneActions(this);
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Exploration" which allows adding and removing callbacks.
     /// </summary>
@@ -1951,5 +2367,83 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnCancel(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Phone" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="PhoneActions.AddCallbacks(IPhoneActions)" />
+    /// <seealso cref="PhoneActions.RemoveCallbacks(IPhoneActions)" />
+    public interface IPhoneActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Dial0" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDial0(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Dial1" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDial1(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Dial2" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDial2(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Dial3" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDial3(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Dial4" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDial4(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Dial5" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDial5(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Dial6" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDial6(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Dial7" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDial7(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Dial8" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDial8(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Dial9" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDial9(InputAction.CallbackContext context);
     }
 }
