@@ -9,6 +9,10 @@ public class World3DSource : MonoBehaviour
     [SerializeField] private bool playOnStart = true;
     [SerializeField] private bool loop = true;
 
+    [Header("Toggle SFX")]
+    [SerializeField] private EventReference turnOnSound;
+    [SerializeField] private EventReference turnOffSound;
+
     [Header("Debug")]
     [SerializeField] private float gizmoRange = 10f;
 
@@ -45,8 +49,22 @@ public class World3DSource : MonoBehaviour
 
     public void Toggle()
     {
-        if (_isPlaying) Stop();
-        else Play();
+        if (_isPlaying)
+        {
+            PlayToggleSound(turnOffSound);
+            Stop();
+        }
+        else
+        {
+            PlayToggleSound(turnOnSound);
+            Play();
+        }
+    }
+
+    private void PlayToggleSound(EventReference evt)
+    {
+        if (evt.IsNull) return;
+        FMODManager.Instance.PlayOneShot(evt, transform.position);
     }
 
     private void Update()

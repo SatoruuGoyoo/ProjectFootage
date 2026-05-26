@@ -1556,8 +1556,9 @@ GameObject:
   - component: {fileID: 8701790}
   - component: {fileID: 8701789}
   - component: {fileID: 8701788}
+  - component: {fileID: 8701792}
   m_Layer: 3
-  m_Name: Cube
+  m_Name: Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1601,13 +1602,14 @@ MonoBehaviour:
   pivot: {fileID: 1220855772}
   openAngle: 90
   speed: 120
+  lockedShake: {fileID: 8701792}
   openSound:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 1388873967
+      Data2: 1169277531
+      Data3: 1248896176
+      Data4: 243448964
+    Path: event:/SFX/Door/OpenDoor/OpenDoor
   closeSound:
     Guid:
       Data1: 0
@@ -1617,11 +1619,11 @@ MonoBehaviour:
     Path: 
   lockedSound:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -313959837
+      Data2: 1172062706
+      Data3: 1076765590
+      Data4: -704320750
+    Path: event:/SFX/Door/LockedDoor/LockedDoor
 --- !u!65 &8701789
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1700,6 +1702,72 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8701786}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &8701792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8701786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f6ad2de388392a47996942229195855, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HorrorShake
+  mode: 0
+  shakeType: 2
+  shakePosition: 0
+  shakeRotation: 1
+  shakeScale: 0
+  positionAmplitude: {x: 0.02, y: 0, z: 0.02}
+  positionFrequency: 20
+  lockPosX: 0
+  lockPosY: 1
+  lockPosZ: 0
+  rotationAmplitude: {x: 0, y: 3, z: 2}
+  rotationFrequency: 18
+  lockRotX: 0
+  lockRotY: 0
+  lockRotZ: 0
+  scaleAmplitude: {x: 0.02, y: 0.02, z: 0.02}
+  scaleFrequency: 15
+  uniformScale: 1
+  intensity: 1
+  burstMultiplier: 2.5
+  autoDecay: 1
+  decayDuration: 0.6
+  decayCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  springStiffness: 200
+  springDamping: 20
+  springImpulse: {x: 0, y: 6, z: 3}
+  intervalMin: 1.5
+  intervalMax: 4
+  intervalShakeduration: 0.4
+  randomSeed: 1
+  seed: 0
 --- !u!43 &14535220
 Mesh:
   m_ObjectHideFlags: 0
@@ -9033,6 +9101,7 @@ Transform:
   - {fileID: 983961663}
   - {fileID: 1887950062}
   - {fileID: 1585048305}
+  - {fileID: 608845054}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &110049883
@@ -18822,8 +18891,8 @@ MonoBehaviour:
   camcorderModel: {fileID: 359210999}
   pickupKey: 101
   promptUI: {fileID: 1842205025}
-  pickupPromptText: PRESIONA F PARA RECOGER
-  postPickupPromptText: PRESIONA TAB PARA ABRIR MENU DE LA CAMARA
+  pickupPromptText: PRESS E TO PICK UP
+  postPickupPromptText: PRESS TAB TO OPEN CAMERA MENU
   postPickupDisplayDuration: 3
   audioSource: {fileID: 0}
   pickupSound: {fileID: 0}
@@ -25856,7 +25925,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &251346739
 Transform:
   m_ObjectHideFlags: 0
@@ -32268,6 +32337,47 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 1
           m_CallState: 2
+  - label: curtains_stop
+    triggerAt: 0.95
+    onReached:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2092646978}
+          m_TargetAssemblyTypeName: HorrorShake, Assembly-CSharp
+          m_MethodName: Stop
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 1791868115}
+          m_TargetAssemblyTypeName: HorrorShake, Assembly-CSharp
+          m_MethodName: Stop
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 326448872}
+          m_TargetAssemblyTypeName: HorrorShake, Assembly-CSharp
+          m_MethodName: Stop
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
 --- !u!43 &340394009
 Mesh:
   m_ObjectHideFlags: 0
@@ -38034,8 +38144,9 @@ GameObject:
   - component: {fileID: 395296823}
   - component: {fileID: 395296822}
   - component: {fileID: 395296821}
+  - component: {fileID: 395296825}
   m_Layer: 3
-  m_Name: Cube
+  m_Name: BTH_Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38071,14 +38182,15 @@ MonoBehaviour:
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 0
-  lockedPrompt: 
-  openPrompt: Press E to open
-  closePrompt: Press E to close
-  lockedFeedback: 
+  lockedPrompt: Press E to Open
+  openPrompt: 
+  closePrompt: 
+  lockedFeedback: Im trapped !
   startOpen: 1
   pivot: {fileID: 2092289209}
   openAngle: 90
-  speed: 120
+  speed: 200
+  lockedShake: {fileID: 395296825}
   openSound:
     Guid:
       Data1: 0
@@ -38095,11 +38207,11 @@ MonoBehaviour:
     Path: 
   lockedSound:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -313959837
+      Data2: 1172062706
+      Data3: 1076765590
+      Data4: -704320750
+    Path: event:/SFX/Door/LockedDoor/LockedDoor
 --- !u!65 &395296822
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -38178,6 +38290,72 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 395296819}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &395296825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 395296819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f6ad2de388392a47996942229195855, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HorrorShake
+  mode: 0
+  shakeType: 2
+  shakePosition: 0
+  shakeRotation: 1
+  shakeScale: 0
+  positionAmplitude: {x: 0.02, y: 0, z: 0.02}
+  positionFrequency: 20
+  lockPosX: 0
+  lockPosY: 1
+  lockPosZ: 0
+  rotationAmplitude: {x: 0, y: 3, z: 2}
+  rotationFrequency: 18
+  lockRotX: 0
+  lockRotY: 0
+  lockRotZ: 0
+  scaleAmplitude: {x: 0.02, y: 0.02, z: 0.02}
+  scaleFrequency: 15
+  uniformScale: 1
+  intensity: 1
+  burstMultiplier: 2.5
+  autoDecay: 1
+  decayDuration: 0.6
+  decayCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  springStiffness: 200
+  springDamping: 20
+  springImpulse: {x: 0, y: 6, z: 2}
+  intervalMin: 1.5
+  intervalMax: 4
+  intervalShakeduration: 0.4
+  randomSeed: 1
+  seed: 0
 --- !u!1 &399059167
 GameObject:
   m_ObjectHideFlags: 0
@@ -40048,10 +40226,10 @@ MonoBehaviour:
     Path: event:/Camcorder/RecLight
   redBeepsPerBurst: 1
   redBeepInterval: 0.3
-  redBurstCooldown: 5
-  greenBeepsPerBurst: 3
+  redBurstCooldown: 15
+  greenBeepsPerBurst: 2
   greenBeepInterval: 0.3
-  greenBurstCooldown: 2
+  greenBurstCooldown: 6
 --- !u!114 &449051896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44801,7 +44979,7 @@ Transform:
   m_GameObject: {fileID: 532823861}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.8682604, y: 0.0024435893, z: -0.22613375}
+  m_LocalPosition: {x: 0.8682557, y: 0.0024435867, z: -0.4818144}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -44828,7 +45006,21 @@ MonoBehaviour:
     Path: event:/SFX/Door/Open
   playOnStart: 0
   loop: 0
-  gizmoRange: 10
+  turnOnSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  turnOffSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  gizmoRange: 6
 --- !u!65 &532823864
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -45740,7 +45932,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &565527646
 Transform:
   m_ObjectHideFlags: 0
@@ -49007,6 +49199,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 607221301}
   m_CullTransparentMesh: 1
+--- !u!1 &608845053
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 608845054}
+  - component: {fileID: 608845055}
+  m_Layer: 0
+  m_Name: AMBIENCE MANAGER
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &608845054
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 608845053}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 106146685}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &608845055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 608845053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c260481c628d70a40bdb75883e9f8b1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmbienceManager
+  crossfadeTime: 2
 --- !u!1 &610198562
 GameObject:
   m_ObjectHideFlags: 0
@@ -62381,11 +62618,11 @@ MonoBehaviour:
   feedbackMessage: I got the doorknob
   collectSound:
     Guid:
-      Data1: 1435262203
-      Data2: 1145788708
-      Data3: -1779109475
-      Data4: 2080549222
-    Path: event:/SFX/Door/Knock
+      Data1: 499892396
+      Data2: 1074518008
+      Data3: 1342719116
+      Data4: 1477158661
+    Path: event:/SFX/Interactive/PickUp/PickUp
 --- !u!64 &798821868
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -76462,6 +76699,20 @@ MonoBehaviour:
     Path: event:/SFX/Door/Open
   playOnStart: 0
   loop: 0
+  turnOnSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  turnOffSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   gizmoRange: 10
 --- !u!65 &1101396749
 BoxCollider:
@@ -78655,7 +78906,7 @@ Transform:
   m_GameObject: {fileID: 1151235507}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7220347, z: -0, w: -0.69185686}
-  m_LocalPosition: {x: 23.12, y: 6.1, z: -0.68}
+  m_LocalPosition: {x: 21.02, y: 5.699, z: -1.21}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -80692,7 +80943,7 @@ MonoBehaviour:
   toDisable: []
   triggerAt: 0
   revertOnInterrupt: 1
-  revertOnComplete: 1
+  revertOnComplete: 0
 --- !u!1 &1204138814
 GameObject:
   m_ObjectHideFlags: 0
@@ -81809,7 +82060,21 @@ MonoBehaviour:
     Path: event:/SFX/Iterations/Radio_IT1
   playOnStart: 1
   loop: 1
-  gizmoRange: 10
+  turnOnSound:
+    Guid:
+      Data1: 147629207
+      Data2: 1168084971
+      Data3: 1968471200
+      Data4: -315272620
+    Path: event:/SFX/Radio/Radio_ToggleOn
+  turnOffSound:
+    Guid:
+      Data1: -1190377387
+      Data2: 1233830071
+      Data3: 1889989515
+      Data4: -424882865
+    Path: event:/SFX/Radio/Radio_ToggleOff
+  gizmoRange: 8.5
 --- !u!64 &1227251241
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -100434,7 +100699,7 @@ Transform:
   m_GameObject: {fileID: 1527508223}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.6359997, y: 0.88396025, z: -0.015444756}
+  m_LocalPosition: {x: 3.6359997, y: 0.88396025, z: 0.336}
   m_LocalScale: {x: 0.25527, y: 2.7815, z: 1.3745455}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -100874,6 +101139,83 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+--- !u!1 &1542946274
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1542946275}
+  - component: {fileID: 1542946277}
+  - component: {fileID: 1542946276}
+  m_Layer: 0
+  m_Name: Eerie_sFX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1542946275
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542946274}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.57, y: 0.52, z: -6.17}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1777091354}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1542946276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542946274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73b40fe5872ed4447994b2093f7687b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OneShotTrigger
+  oneShotEvent:
+    Guid:
+      Data1: 906402130
+      Data2: 1322041378
+      Data3: 714251691
+      Data4: -2042874761
+    Path: event:/Horror/Unsettling_SFX/Eerie_SFX
+  playerTag: Player
+  triggerOnce: 1
+  retriggerCooldown: 0
+  delay: 0
+--- !u!65 &1542946277
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542946274}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.0697212, y: 1, z: 4.6583858}
+  m_Center: {x: 0.5348606, y: 0, z: -0.1628201}
 --- !u!1 &1543447487
 GameObject:
   m_ObjectHideFlags: 0
@@ -105840,6 +106182,7 @@ Transform:
   - {fileID: 1259354391}
   - {fileID: 1082099096}
   - {fileID: 2012981572}
+  - {fileID: 1697034105}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &1648911713
@@ -107679,6 +108022,79 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: f1e8e1bfafe7fa241ba6b4181f3eba85, type: 3}
   m_PrefabInstance: {fileID: 1688607939}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1697034104
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1697034105}
+  - component: {fileID: 1697034107}
+  - component: {fileID: 1697034106}
+  m_Layer: 0
+  m_Name: ambience_313
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1697034105
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1697034104}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 5.12}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1647865265}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1697034106
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1697034104}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 11.282015, y: 1, z: 8.228916}
+  m_Center: {x: 2.3342505, y: 0, z: -0.49262834}
+--- !u!114 &1697034107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1697034104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfd4950f0ed9e8e4cb3275649df74d29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmbienceZone
+  zoneAmbient:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!1 &1709823211
 GameObject:
   m_ObjectHideFlags: 0
@@ -112742,6 +113158,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2028148126}
+  - {fileID: 1542946275}
   m_Father: {fileID: 1294237069}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1777091355
@@ -130218,7 +130635,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2028148125}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &2028148130
 Camera:
   m_ObjectHideFlags: 0

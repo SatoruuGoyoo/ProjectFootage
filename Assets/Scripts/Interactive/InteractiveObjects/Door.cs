@@ -21,6 +21,9 @@ public class Door : MonoBehaviour, IInteractable
     [SerializeField] private float openAngle = 90f;
     [SerializeField] private float speed = 2f;
 
+    [Header("Shake")]
+    [SerializeField] private HorrorShake lockedShake;
+
     [Header("Audio")]
 
     [SerializeField] private EventReference openSound;
@@ -66,6 +69,7 @@ public class Door : MonoBehaviour, IInteractable
         {
             if (!lockedSound.IsNull) RuntimeManager.PlayOneShot(lockedSound, transform.position);
             GameEvents.FeedbackMessage(lockedFeedback);
+            if (lockedShake != null) lockedShake.Play();
             return;
         }
         if (!playerCanToggle) return;
