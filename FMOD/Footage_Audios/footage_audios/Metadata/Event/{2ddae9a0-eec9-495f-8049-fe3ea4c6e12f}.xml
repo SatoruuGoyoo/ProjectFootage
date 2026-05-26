@@ -5,7 +5,7 @@
 			<value>CloseDoor</value>
 		</property>
 		<property name="outputFormat">
-			<value>0</value>
+			<value>1</value>
 		</property>
 		<relationship name="folder">
 			<destination>{12add087-fbb7-4092-ba75-265639f64f5e}</destination>
@@ -38,6 +38,9 @@
 		</relationship>
 	</object>
 	<object class="MasterTrack" id="{78f96c5f-c487-4b15-aadc-bec998085f5a}">
+		<relationship name="modules">
+			<destination>{48b322d8-e599-4434-83f1-f8b768d31ac6}</destination>
+		</relationship>
 		<relationship name="mixerGroup">
 			<destination>{01477691-19a2-4ae0-a082-e226a68b6028}</destination>
 		</relationship>
@@ -55,7 +58,11 @@
 	</object>
 	<object class="EventAutomatableProperties" id="{ea133f43-dd51-4e40-98f5-fe3b8e9d2e10}" />
 	<object class="MarkerTrack" id="{f8d0f24d-9a2e-423e-bd65-5d75483e35d1}" />
-	<object class="Timeline" id="{7669aa56-934f-452e-8244-069c8425253c}" />
+	<object class="Timeline" id="{7669aa56-934f-452e-8244-069c8425253c}">
+		<relationship name="modules">
+			<destination>{48b322d8-e599-4434-83f1-f8b768d31ac6}</destination>
+		</relationship>
+	</object>
 	<object class="EventMixerMaster" id="{01477691-19a2-4ae0-a082-e226a68b6028}">
 		<relationship name="effectChain">
 			<destination>{6144582f-f019-43f4-b077-c68e40f9f2cf}</destination>
@@ -65,6 +72,17 @@
 		</relationship>
 		<relationship name="mixer">
 			<destination>{7b7b340b-4987-4cab-9faa-1d39a1cb8eca}</destination>
+		</relationship>
+	</object>
+	<object class="SingleSound" id="{48b322d8-e599-4434-83f1-f8b768d31ac6}">
+		<property name="length">
+			<value>2.0266666666666668</value>
+		</property>
+		<property name="volume">
+			<value>-11</value>
+		</property>
+		<relationship name="audioFile">
+			<destination>{c011d063-49c8-44b5-9889-18a574e669a4}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusEffectChain" id="{d74cde2f-b834-4c16-af40-265578b24478}">

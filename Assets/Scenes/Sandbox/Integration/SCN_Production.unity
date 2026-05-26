@@ -1602,7 +1602,6 @@ MonoBehaviour:
   pivot: {fileID: 1220855772}
   openAngle: 90
   speed: 120
-  lockedShake: {fileID: 8701792}
   openSound:
     Guid:
       Data1: 1388873967
@@ -1612,11 +1611,11 @@ MonoBehaviour:
     Path: event:/SFX/Door/OpenDoor/OpenDoor
   closeSound:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 769321376
+      Data2: 1231023817
+      Data3: 1056852352
+      Data4: 803325604
+    Path: event:/SFX/Door/CloseDoor/CloseDoor
   lockedSound:
     Guid:
       Data1: -313959837
@@ -1624,6 +1623,8 @@ MonoBehaviour:
       Data3: 1076765590
       Data4: -704320750
     Path: event:/SFX/Door/LockedDoor/LockedDoor
+  volume: 1
+  lockedShake: {fileID: 8701792}
 --- !u!65 &8701789
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4153,7 +4154,8 @@ Transform:
   m_LocalPosition: {x: 0.06, y: 0.6931426, z: -0.0019999743}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1697034105}
   m_Father: {fileID: 1905766226}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &35874059
@@ -11934,6 +11936,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1121605937}
+  - {fileID: 228517920}
   m_Father: {fileID: 1243744709}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &141494850
@@ -23946,6 +23949,102 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 220941653}
   m_CullTransparentMesh: 1
+--- !u!1 &228517919
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 228517920}
+  - component: {fileID: 228517921}
+  - component: {fileID: 228517922}
+  m_Layer: 0
+  m_Name: Curtains_SFX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &228517920
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 228517919}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.35, y: 0, z: -1.54}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 141494849}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &228517921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 228517919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9592fb182256d346a95b64823450c5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RecordableAudioSource
+  audioEvent:
+    Guid:
+      Data1: 2131404893
+      Data2: 1297059007
+      Data3: 1805863059
+      Data4: 1778374670
+    Path: event:/Horror/Events/BathRoom/HorrorEvent_BTH
+  is3D: 1
+  maxAudibleDistance: 2.5
+  distanceFalloff:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: -1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &228517922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 228517919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e6919189aff32b4588e54a4d4791360, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EffectToggleObjects
+  toEnable:
+  - {fileID: 228517919}
+  toDisable: []
+  triggerAt: 0
+  revertOnInterrupt: 1
+  revertOnComplete: 1
 --- !u!1 &239186200
 GameObject:
   m_ObjectHideFlags: 0
@@ -32378,6 +32477,35 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 1
           m_CallState: 2
+  - label: Curtains_SFX
+    triggerAt: 0
+    onReached:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 228517919}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 228517921}
+          m_TargetAssemblyTypeName: RecordableAudioSource, Assembly-CSharp
+          m_MethodName: StartCapture
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
 --- !u!43 &340394009
 Mesh:
   m_ObjectHideFlags: 0
@@ -34911,6 +35039,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 623229803}
   - {fileID: 176701466}
   - {fileID: 1336627747}
   - {fileID: 133679185}
@@ -38189,8 +38318,7 @@ MonoBehaviour:
   startOpen: 1
   pivot: {fileID: 2092289209}
   openAngle: 90
-  speed: 200
-  lockedShake: {fileID: 395296825}
+  speed: 250
   openSound:
     Guid:
       Data1: 0
@@ -38200,11 +38328,11 @@ MonoBehaviour:
     Path: 
   closeSound:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 769321376
+      Data2: 1231023817
+      Data3: 1056852352
+      Data4: 803325604
+    Path: event:/SFX/Door/CloseDoor/CloseDoor
   lockedSound:
     Guid:
       Data1: -313959837
@@ -38212,6 +38340,8 @@ MonoBehaviour:
       Data3: 1076765590
       Data4: -704320750
     Path: event:/SFX/Door/LockedDoor/LockedDoor
+  volume: 2
+  lockedShake: {fileID: 395296825}
 --- !u!65 &395296822
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -49834,6 +49964,79 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!1 &623229802
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 623229803}
+  - component: {fileID: 623229805}
+  - component: {fileID: 623229804}
+  m_Layer: 0
+  m_Name: ambience_312
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &623229803
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623229802}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -8.757704, y: 0.26484013, z: -2.9919996}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 374155602}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &623229804
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623229802}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 11.282015, y: 1, z: 8.228916}
+  m_Center: {x: 2.3342505, y: 0, z: -0.49262834}
+--- !u!114 &623229805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623229802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfd4950f0ed9e8e4cb3275649df74d29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmbienceZone
+  zoneAmbient:
+    Guid:
+      Data1: -1039663171
+      Data2: 1285802205
+      Data3: -2012559431
+      Data4: 789172120
+    Path: event:/Ambience/Ambience_312
 --- !u!1 &625094451
 GameObject:
   m_ObjectHideFlags: 0
@@ -82053,11 +82256,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::World3DSource
   eventReference:
     Guid:
-      Data1: 282151155
-      Data2: 1298310404
-      Data3: 891185853
-      Data4: 110288780
-    Path: event:/SFX/Iterations/Radio_IT1
+      Data1: 250598692
+      Data2: 1151035381
+      Data3: -1297456500
+      Data4: -1921093800
+    Path: event:/SFX/Radio/Radio_Static
   playOnStart: 1
   loop: 1
   turnOnSound:
@@ -82074,7 +82277,7 @@ MonoBehaviour:
       Data3: 1889989515
       Data4: -424882865
     Path: event:/SFX/Radio/Radio_ToggleOff
-  gizmoRange: 8.5
+  gizmoRange: 10
 --- !u!64 &1227251241
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -106182,7 +106385,6 @@ Transform:
   - {fileID: 1259354391}
   - {fileID: 1082099096}
   - {fileID: 2012981572}
-  - {fileID: 1697034105}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &1648911713
@@ -108048,12 +108250,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1697034104}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 5.12}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -8.8177, y: -0.42830247, z: -2.66048}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1647865265}
+  m_Father: {fileID: 35874058}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1697034106
 BoxCollider:
@@ -108090,11 +108292,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AmbienceZone
   zoneAmbient:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 93643886
+      Data2: 1121293460
+      Data3: -1690243167
+      Data4: 1746613790
+    Path: event:/Ambience/Ambience_313
 --- !u!1 &1709823211
 GameObject:
   m_ObjectHideFlags: 0
