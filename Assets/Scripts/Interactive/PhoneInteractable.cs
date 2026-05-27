@@ -5,6 +5,10 @@ using FMODUnity;
 [RequireComponent(typeof(Collider))]
 public class PhoneInteractable : MonoBehaviour, IInteractable
 {
+    [Header("Auto Close")]
+    [SerializeField] private Transform _player;
+    [SerializeField] private float _maxDistance = 1.5f;
+
     [Header("Cameras")]
     [SerializeField] private Camera _phoneCamera;
     [SerializeField] private Camera _playerCamera;
@@ -34,6 +38,15 @@ public class PhoneInteractable : MonoBehaviour, IInteractable
     private void Awake()
     {
         _phoneCamera.enabled = false;
+    }
+
+    private void Update()
+    {
+        if (!_isOpen) return;
+        if (_player == null) return;
+
+        float distance = Vector3.Distance(transform.position, _player.position);
+        if (distance > _maxDistance) Close();
     }
 
     public void Interact()
