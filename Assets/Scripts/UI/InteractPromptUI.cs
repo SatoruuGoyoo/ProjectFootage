@@ -3,16 +3,18 @@ using TMPro;
 
 public class InteractPromptUI : MonoBehaviour
 {
-    [SerializeField] private GameObject container;
+    [SerializeField] private CanvasGroup container;
     [SerializeField] private TMP_Text label;
     [SerializeField] private float feedbackDuration = 3f;
 
     private string currentPrompt = "";
     private float feedbackTimer;
+    private bool _isVisible;
 
     private void Awake()
     {
-        if (container != null) container.SetActive(false);
+        SetVisible(false);
+        if (label != null) label.SetText("");
     }
 
     private void OnEnable()
@@ -31,13 +33,13 @@ public class InteractPromptUI : MonoBehaviour
     {
         if (feedbackTimer <= 0f) return;
         feedbackTimer -= Time.deltaTime;
-        if (feedbackTimer <= 0f) ShowText(currentPrompt); 
+        if (feedbackTimer <= 0f) ShowText(currentPrompt);
     }
 
     private void OnPromptChanged(string prompt)
     {
         currentPrompt = prompt;
-        if (feedbackTimer <= 0f) ShowText(prompt); 
+        if (feedbackTimer <= 0f) ShowText(prompt);
     }
 
     private void OnFeedback(string message)
@@ -49,7 +51,17 @@ public class InteractPromptUI : MonoBehaviour
     private void ShowText(string text)
     {
         bool show = !string.IsNullOrEmpty(text);
-        if (container != null) container.SetActive(show);
-        if (label != null) label.text = text;
+        SetVisible(show);
+        if (label != null) label.SetText(text);
+    }
+
+    private void SetVisible(bool visible)
+    {
+        if (_isVisible == visible) return;
+        _isVisible = visible;
+        if (container == null) return;
+        container.alpha = visible ? 1f : 0f;
+        container.interactable = visible;
+        container.blocksRaycasts = visible;
     }
 }

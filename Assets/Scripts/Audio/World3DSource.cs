@@ -32,9 +32,10 @@ public class World3DSource : MonoBehaviour
     {
         if (_isPlaying) return;
         if (eventReference.IsNull) return;
+        if (FMODManager.Instance == null) return;
 
         _instance = FMODManager.Instance.CreateEventInstance(eventReference);
-        RuntimeManager.AttachInstanceToGameObject(_instance, transform);
+        RuntimeManager.AttachInstanceToGameObject(_instance, gameObject);
         _instance.start();
         _isPlaying = true;
     }
