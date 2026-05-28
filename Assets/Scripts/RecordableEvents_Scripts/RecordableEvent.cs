@@ -12,6 +12,8 @@ public class RecordableEvent : MonoBehaviour, ICamcorderTarget, ICenteredAware
 
     [Header("Target")]
     [SerializeField] private Transform targetOverride;
+    [SerializeField] private float detectionRadius = 0.8f;
+
 
     private IRecordableEffect[] _effects;
     private RecordableEventState _state = RecordableEventState.Idle;
@@ -27,6 +29,7 @@ public class RecordableEvent : MonoBehaviour, ICamcorderTarget, ICenteredAware
 
     public bool IsActive => _state != RecordableEventState.Completed || repeatable;
     public Transform TargetTransform => targetOverride != null ? targetOverride : transform;
+    public float DetectionRadius => detectionRadius;
 
     private void Awake()
     {
@@ -141,5 +144,11 @@ public class RecordableEvent : MonoBehaviour, ICamcorderTarget, ICenteredAware
         GameEvents.RecordableEventCompleted(eventId);
 
         if (repeatable) _state = RecordableEventState.Idle;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = new Color(0f, 1f, 1f, 0.4f);
+        Gizmos.DrawWireSphere(TargetTransform.position, detectionRadius);
     }
 }

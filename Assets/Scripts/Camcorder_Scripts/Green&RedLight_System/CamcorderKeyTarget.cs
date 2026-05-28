@@ -7,6 +7,8 @@ public class CamcorderKeyTarget : MonoBehaviour, ICamcorderTarget
     public bool IsActive => _isActive;
     public Transform TargetTransform => transform;
 
+    public float DetectionRadius => 0.5f; 
+
     private void OnEnable()
     {
         if(CamcorderLightSystem.Instance != null)

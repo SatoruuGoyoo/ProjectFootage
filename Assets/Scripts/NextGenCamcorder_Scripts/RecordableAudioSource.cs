@@ -19,6 +19,9 @@ public class RecordableAudioSource : MonoBehaviour, ISpatialAudioSource
     public float MaxAudibleDistance => maxAudibleDistance;
     public bool IsActiveInScene => gameObject.activeInHierarchy && !audioEvent.IsNull;
 
+    public void StartCapture() => SpatialAudioRecorder.TryRegisterDynamic(this);
+    public void StopCapture() => SpatialAudioRecorder.TryUnregisterDynamic(this);
+
     public bool TryGetTimelinePosition(out int milliseconds)
     {
         milliseconds = 0;

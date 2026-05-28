@@ -5,8 +5,11 @@ using UnityEngine.UI;
 public class VideoPlayback : MonoBehaviour
 {
     [Header("Setup")]
-    public RawImage displayImage;     
-    public GameObject playbackPanel;  
+    public RawImage displayImage;
+    public GameObject playbackPanel;
+
+    [Header("No Data")]
+    public GameObject noDataOverlay;
 
     private PlaybackClock _clock;
     private RecordingSession _session;
@@ -39,54 +42,64 @@ public class VideoPlayback : MonoBehaviour
     public void Load(RecordingSession session)
     {
         _session = session;
-        Debug.Log($"VideoPlayback sesión cargada {session.VideoFrames.Count} frames, duración {session.Duration}s");
 
         if (_displayTexture == null)
             _displayTexture = new Texture2D(640, 480, TextureFormat.RGB24, false);
 
         displayImage.texture = _displayTexture;
-
     }
 
     private void OnPlay()
     {
         playbackPanel.SetActive(true);
+
+        if (_session != null && _session.IsCorrupted)
+        {
+            ShowNoData();
+            return;
+        }
+
+        if (displayImage != null) displayImage.gameObject.SetActive(true);
+        if (noDataOverlay != null) noDataOverlay.SetActive(false);
+
         if (_session != null && _session.VideoFrames.Count > 0)
         {
             var firstFrame = _session.VideoFrames[0];
-            Debug.Log($"Primer frame bytes {firstFrame.PixelData?.Length}, textura: {_displayTexture?.width}x{_displayTexture?.height}");
-
             if (firstFrame.PixelData != null && _displayTexture != null)
             {
                 _displayTexture.LoadRawTextureData(firstFrame.PixelData);
                 _displayTexture.Apply();
-                Debug.Log($"displayImage.texture == _displayTexture: {displayImage.texture == _displayTexture}");
             }
         }
     }
 
-    private void OnPause()
-    {
-        
-    }
+    private void OnPause() { }
 
     private void OnStop()
     {
         playbackPanel.SetActive(false);
+        if (noDataOverlay != null) noDataOverlay.SetActive(false);
+        if (displayImage != null) displayImage.gameObject.SetActive(true);
         _session = null;
     }
 
     private void OnSeek(float time)
     {
-     
+        if (_session != null && _session.IsCorrupted) return;
         ShowFrameAtTime(time);
     }
 
     private void Update()
     {
-
+        if (_session != null && _session.IsCorrupted) return;
         if (_clock.IsPlaying)
             ShowFrameAtTime(_clock.CurrentTime);
+    }
+
+    private void ShowNoData()
+    {
+        if (displayImage != null) displayImage.gameObject.SetActive(false);
+        if (noDataOverlay != null) noDataOverlay.SetActive(true);
     }
 
     private void ShowFrameAtTime(float time)
