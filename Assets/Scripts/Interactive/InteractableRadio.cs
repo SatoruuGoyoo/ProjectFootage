@@ -6,6 +6,11 @@ public class InteractableRadio : MonoBehaviour, IInteractable
     [SerializeField] private string onPrompt = "";
     [SerializeField] private string offPrompt = "";
 
+    [Header("Subtitles")]
+    [SerializeField] private SubtitleBlock subtitles;
+    [TextArea(3, 10)]
+    [SerializeField] private string subtitleText = "";
+
     private World3DSource _source;
 
     public string PromptMessage => _source.IsPlaying ? offPrompt : onPrompt;
@@ -19,8 +24,12 @@ public class InteractableRadio : MonoBehaviour, IInteractable
     public void Interact()
     {
         _source.Toggle();
+
+        if (subtitles == null) return;
+
+        if (_source.IsPlaying)
+            subtitles.Show(subtitleText);
+        else
+            subtitles.Hide();
     }
-
-
-
 }
