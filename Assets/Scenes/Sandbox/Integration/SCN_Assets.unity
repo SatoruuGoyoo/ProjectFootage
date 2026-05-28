@@ -21292,7 +21292,7 @@ MonoBehaviour:
   playerTag: Player
   cooldownSeconds: 0.1
   minTravelDistance: 8
-  redirectOnIteration: 4
+  redirectOnIteration: 3
   alternateDestination: {fileID: 898842129}
 --- !u!65 &212924996
 BoxCollider:
@@ -23775,13 +23775,6 @@ MonoBehaviour:
     objectsToDisable:
     - {fileID: 0}
     - {fileID: 1752025675}
-  - iterationName: 2
-    materialSwaps: []
-    environmentIntensity: 0.3
-    objectsToEnable:
-    - {fileID: 1752025675}
-    objectsToDisable:
-    - {fileID: 0}
   - iterationName: 3
     materialSwaps:
     - target: {fileID: 768946814}
@@ -23818,9 +23811,13 @@ MonoBehaviour:
       material: {fileID: 2100000, guid: bd858de3675144242a0e744c288a8962, type: 2}
     environmentIntensity: 0.1
     objectsToEnable: []
+    objectsToDisable: []
+  - iterationName: 3
+    materialSwaps: []
+    environmentIntensity: 0.3
+    objectsToEnable: []
     objectsToDisable:
     - {fileID: 0}
-    - {fileID: 1752025675}
   lightTransitionDuration: 0.1
 --- !u!1 &244759804
 GameObject:
@@ -41921,7 +41918,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &478736762
 Transform:
@@ -72204,7 +72201,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &985571738
 Transform:
@@ -73222,7 +73219,7 @@ MonoBehaviour:
   - {fileID: 835701016}
   btnClear: {fileID: 29978797}
   btnCall: {fileID: 1655998106}
-  correctCode: 1234
+  correctCode: 8611
   maxDigits: 4
   phone: {fileID: 891026408}
   objectToActivate: {fileID: 1097666483}
@@ -75188,7 +75185,7 @@ MonoBehaviour:
   playerTag: Player
   cooldownSeconds: 0.1
   minTravelDistance: 15
-  redirectOnIteration: 4
+  redirectOnIteration: 3
   alternateDestination: {fileID: 898842129}
 --- !u!65 &1058064965
 BoxCollider:
@@ -93092,7 +93089,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &1375581451
 Transform:
@@ -107363,7 +107360,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &1647834722
 Transform:
