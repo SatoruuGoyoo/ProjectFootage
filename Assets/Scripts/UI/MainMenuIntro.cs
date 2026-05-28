@@ -31,6 +31,7 @@ public class MainMenuIntro : MonoBehaviour
         mainCamera.eulerAngles = startRotation;
         pressStartText.SetActive(true);
         title.SetActive(true);
+        mainMenuCanvas.SetActive(false);
     }
 
     void Update()
