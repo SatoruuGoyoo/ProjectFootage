@@ -5,25 +5,14 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
-/// <summary>
-/// Persistent singleton that handles screen fade transitions and scene loading.
-///
-/// Usage:
-///   FadeManager.Instance.FadeToScene("SCN_Integration", "Some intro text");
-///   yield return StartCoroutine(FadeManager.Instance.FadeOut());
-///   yield return StartCoroutine(FadeManager.Instance.FadeIn());
-/// </summary>
 public sealed class FadeManager : MonoBehaviour
 {
-    // ── Singleton ─────────────────────────────────────────────────────────
     public static FadeManager Instance { get; private set; }
 
-    // ── Events ────────────────────────────────────────────────────────────
     public event Action OnFadeOutComplete;
     public event Action OnFadeInComplete;
     public event Action<string> OnSceneTransitionStart;
 
-    // ── Inspector Config ──────────────────────────────────────────────────
     [Header("Timing")]
     [SerializeField, Min(0f)] private float defaultFadeDuration = 0.8f;
     [SerializeField, Min(0f)] private float defaultHoldDuration = 2.0f;
@@ -33,15 +22,10 @@ public sealed class FadeManager : MonoBehaviour
     [SerializeField, Min(1f)] private float fontSize = 28f;
     [SerializeField] private Color textColor = new Color(0.85f, 0.85f, 0.85f, 1f);
 
-    // ── State ─────────────────────────────────────────────────────────────
     public bool IsBusy { get; private set; }
 
-    // ── Internal references ───────────────────────────────────────────────
     private Image _overlay;
     private TextMeshProUGUI _label;
-    private float _pendingFadeInDuration;
-
-    // ── Lifecycle ─────────────────────────────────────────────────────────
 
     private void Awake()
     {
@@ -59,9 +43,6 @@ public sealed class FadeManager : MonoBehaviour
         _label.alpha = 0f;
     }
 
-    // ── Public API ────────────────────────────────────────────────────────
-
-    /// <summary>Fades the screen to black.</summary>
     public IEnumerator FadeOut(float duration = -1f)
     {
         float d = duration < 0f ? defaultFadeDuration : duration;
@@ -69,7 +50,6 @@ public sealed class FadeManager : MonoBehaviour
         OnFadeOutComplete?.Invoke();
     }
 
-    /// <summary>Fades the screen from black back to clear.</summary>
     public IEnumerator FadeIn(float duration = -1f)
     {
         float d = duration < 0f ? defaultFadeDuration : duration;
@@ -77,14 +57,6 @@ public sealed class FadeManager : MonoBehaviour
         OnFadeInComplete?.Invoke();
     }
 
-    /// <summary>
-    /// Full transition: FadeOut → optional intro text → load scene → FadeIn.
-    /// </summary>
-    /// <param name="sceneName">Exact build-settings scene name.</param>
-    /// <param name="introText">Text shown on black screen. Pass null or empty to skip.</param>
-    /// <param name="fadeOutDuration">Override fade-out duration. Negative = use default.</param>
-    /// <param name="holdDuration">How long the intro text stays on screen. Negative = use default.</param>
-    /// <param name="fadeInDuration">Override fade-in duration. Negative = use default.</param>
     public void FadeToScene(
         string sceneName,
         string introText = "",
@@ -105,8 +77,6 @@ public sealed class FadeManager : MonoBehaviour
         StartCoroutine(RunTransition(config));
     }
 
-    // ── Private Transition Logic ──────────────────────────────────────────
-
     private IEnumerator RunTransition(TransitionConfig config)
     {
         IsBusy = true;
@@ -115,11 +85,30 @@ public sealed class FadeManager : MonoBehaviour
         yield return TweenOverlay(0f, 1f, config.FadeOutDuration);
         OnFadeOutComplete?.Invoke();
 
+        AsyncOperation loadOp = SceneManager.LoadSceneAsync(config.SceneName);
+        loadOp.allowSceneActivation = false;
+
         yield return RunIntroText(config.IntroText, config.HoldDuration);
 
-        _pendingFadeInDuration = config.FadeInDuration;
-        SceneManager.sceneLoaded += HandleSceneLoaded;
-        SceneManager.LoadSceneAsync(config.SceneName);
+        while (loadOp.progress < 0.9f)
+            yield return null;
+
+        loadOp.allowSceneActivation = true;
+
+        while (!loadOp.isDone)
+            yield return null;
+
+        yield return new WaitForEndOfFrame();
+
+        if (GameWarmup.Instance != null)
+        {
+            while (!GameWarmup.Instance.IsFinished)
+                yield return null;
+        }
+
+        yield return TweenOverlay(1f, 0f, config.FadeInDuration);
+        OnFadeInComplete?.Invoke();
+        IsBusy = false;
     }
 
     private IEnumerator RunIntroText(string text, float hold)
@@ -135,22 +124,6 @@ public sealed class FadeManager : MonoBehaviour
         yield return new WaitForSeconds(hold);
         yield return TweenText(1f, 0f, textFadeDuration);
     }
-
-    private void HandleSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        SceneManager.sceneLoaded -= HandleSceneLoaded;
-        StartCoroutine(FadeInAfterLoad(_pendingFadeInDuration));
-    }
-
-    private IEnumerator FadeInAfterLoad(float duration)
-    {
-        yield return new WaitForEndOfFrame();
-        yield return TweenOverlay(1f, 0f, duration);
-        OnFadeInComplete?.Invoke();
-        IsBusy = false;
-    }
-
-    // ── Tween Helpers ─────────────────────────────────────────────────────
 
     private IEnumerator TweenOverlay(float from, float to, float duration)
     {
@@ -178,8 +151,6 @@ public sealed class FadeManager : MonoBehaviour
         c.a = alpha;
         _overlay.color = c;
     }
-
-    // ── UI Construction ───────────────────────────────────────────────────
 
     private void BuildOverlayUI()
     {
@@ -231,8 +202,6 @@ public sealed class FadeManager : MonoBehaviour
 
         return tmp;
     }
-
-    // ── Inner Types ───────────────────────────────────────────────────────
 
     private readonly struct TransitionConfig
     {

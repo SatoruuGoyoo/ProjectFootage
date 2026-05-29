@@ -5,9 +5,6 @@ public class PlayerMotor : MonoBehaviour
     public PlayerConfig config;
 
     private CharacterController characterController;
-    //private Vector3 currentWorldDir = Vector3.zero;
-    //private Vector3 lastValidDir = Vector3.zero;
-    //private Vector2 lastRawInput = Vector2.zero;
     private float currentSpeedTank = 0f;
     private float currentSpeedModern = 0f;
     private float verticalVelocity = 0f;

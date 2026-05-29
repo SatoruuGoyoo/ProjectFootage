@@ -8776,6 +8776,7 @@ Transform:
   - {fileID: 1585048305}
   - {fileID: 608845054}
   - {fileID: 807043393}
+  - {fileID: 980278034}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &110049883
@@ -71238,6 +71239,59 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!1 &980278033
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 980278034}
+  - component: {fileID: 980278035}
+  m_Layer: 0
+  m_Name: Game WARMUP
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &980278034
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 980278033}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 106146685}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &980278035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 980278033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db0f6f9b7028b30499de125845b36dd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameWarmup
+  camcorderCameraGO: {fileID: 1182824445}
+  camcorderVisualGO: {fileID: 359210999}
+  warmupFrames: 3
+  textsToWarm:
+  - {fileID: 1144868264}
+  warmString: abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?'"
+  OnWarmupFinished:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &983961662
 GameObject:
   m_ObjectHideFlags: 0
@@ -77634,7 +77688,7 @@ Transform:
   m_GameObject: {fileID: 1151235507}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7220347, z: -0, w: -0.69185686}
-  m_LocalPosition: {x: 22.12, y: 5.769, z: -1.45}
+  m_LocalPosition: {x: 21.7, y: 5.769, z: -1.19}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

@@ -10,23 +10,34 @@ public class PlayerInput : MonoBehaviour
     // Modern controls
     public Vector2 MoveVector { get; private set; }
 
-
     public bool IsSprinting { get; private set; }
     public bool Interact { get; private set; }
 
     private PlayerInputActions actions;
+    private InputAction _move;
+    private InputAction _turn;
+    private InputAction _sprint;
+    private InputAction _interact;
 
-    private void Awake() => actions = new PlayerInputActions();
+    private void Awake()
+    {
+        actions = new PlayerInputActions();
+        _move = actions.Exploration.Move;
+        _turn = actions.Exploration.Turn;
+        _sprint = actions.Exploration.Sprint;
+        _interact = actions.Exploration.Interact;
+    }
+
     private void OnEnable() => actions.Exploration.Enable();
     private void OnDisable() => actions.Exploration.Disable();
 
 
     private void Update()
     {
-        MoveVector = actions.Exploration.Move.ReadValue<Vector2>();
+        MoveVector = _move.ReadValue<Vector2>();
         MoveForward = MoveVector.y;
-        Turn = actions.Exploration.Turn.ReadValue<float>();
-        IsSprinting = actions.Exploration.Sprint.ReadValue<float>() > 0.5f;
-        Interact = actions.Exploration.Interact.WasPressedThisFrame();
-}
+        Turn = _turn.ReadValue<float>();
+        IsSprinting = _sprint.ReadValue<float>() > 0.5f;
+        Interact = _interact.WasPressedThisFrame();
+    }
 }
