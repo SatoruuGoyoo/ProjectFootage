@@ -1,111 +1,48 @@
 ﻿using UnityEngine;
-using TMPro;
-using System.Collections;
+using FMODUnity;
 
 [RequireComponent(typeof(Collider))]
-public class CamcorderPickup : MonoBehaviour
+public class CamcorderPickup : MonoBehaviour, IInteractable
 {
-    [Header("Referencias")]
-    public GameObject camcorderSystem;
-    public GameObject camcorderModel;
+    [Header("References")]
+    [SerializeField] private GameObject camcorderSystem;
+    [SerializeField] private GameObject camcorderModel;
 
-    [Header("Input")]
-    public KeyCode pickupKey = KeyCode.F;
-
-    [Header("Prompt UI")]
-    public GameObject promptUI;
-    [TextArea] public string pickupPromptText = "PRESIONA F PARA RECOGER";
-    [TextArea] public string postPickupPromptText = "PRESIONA TAB PARA ABRIR MENU DE LA CAMARA";
-    public float postPickupDisplayDuration = 3f;
-    private TextMeshProUGUI promptText;
+    [Header("Feedback")]
+    [SerializeField] private string postPickupMessage = "";
 
     [Header("Audio")]
-    public AudioSource audioSource;
-    public AudioClip pickupSound;
+    [SerializeField] private EventReference pickupSound;
 
-    [Header("Detección")]
-    public string playerTag = "Player";
+    // ── IInteractable ─────────────────────────────────────────────────────────
+    public string PromptMessage => "camcorder";
+    public bool CanInteract => true;
 
-    private bool playerNearby = false;
-    private bool pickedUp = false;
+    // ── Unity ────────────────────────────────────────────────────────────────
 
-    private void Start()
+    private void Awake()
     {
+        // Ensure trigger
         var col = GetComponent<Collider>();
         if (!col.isTrigger) col.isTrigger = true;
 
-        if (camcorderSystem != null)
-        {
-            camcorderSystem.SetActive(true);
-            camcorderSystem.SetActive(false);
-        }
-        if (camcorderModel != null)
-        {
-            camcorderModel.SetActive(true);
-            camcorderModel.SetActive(false);
-        }
-
-        if (promptUI != null)
-        {
-            promptText = promptUI.GetComponentInChildren<TextMeshProUGUI>();
-            if (promptText != null) promptText.text = pickupPromptText;
-        }
-
-        SetPrompt(false);
+        if (camcorderSystem != null) camcorderSystem.SetActive(false);
+        if (camcorderModel != null) camcorderModel.SetActive(false);
     }
 
-    private void Update()
-    {
-        if (!playerNearby || pickedUp) return;
-        if (Input.GetKeyDown(pickupKey)) Pickup();
-    }
+    // ── IInteractable ─────────────────────────────────────────────────────────
 
-    private void OnTriggerEnter(Collider other)
+    public void Interact()
     {
-        if (pickedUp || !other.CompareTag(playerTag)) return;
-        playerNearby = true;
-        if (promptText != null) promptText.text = pickupPromptText;
-        SetPrompt(true);
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (!other.CompareTag(playerTag)) return;
-        playerNearby = false;
-        SetPrompt(false);
-    }
-
-    private void Pickup()
-    {
-        pickedUp = true;
-
-        if (audioSource != null && pickupSound != null)
-            audioSource.PlayOneShot(pickupSound);
+        if (!pickupSound.IsNull)
+            RuntimeManager.PlayOneShot(pickupSound, transform.position);
 
         if (camcorderSystem != null) camcorderSystem.SetActive(true);
         if (camcorderModel != null) camcorderModel.SetActive(true);
 
         GameEvents.CamcorderPickedUp();
-
-        if (promptText != null) promptText.text = postPickupPromptText;
-        SetPrompt(true);
-
-
-        promptUI.GetComponent<MonoBehaviour>()
-                .StartCoroutine(HidePromptAfterDelay());
+        GameEvents.FeedbackMessage(postPickupMessage);
 
         gameObject.SetActive(false);
-        Debug.Log("[CamcorderPickup] Camcorder recogida.");
-    }
-
-    private IEnumerator HidePromptAfterDelay()
-    {
-        yield return new WaitForSeconds(postPickupDisplayDuration);
-        SetPrompt(false);
-    }
-
-    private void SetPrompt(bool active)
-    {
-        if (promptUI != null) promptUI.SetActive(active);
     }
 }

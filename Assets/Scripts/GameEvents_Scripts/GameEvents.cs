@@ -42,6 +42,10 @@ public static class GameEvents
     public static event Action<string, Action, Action> OnConfirmationRequested;
     public static event Action OnConfirmationClosed;
 
+    // Readable
+    public static event Action<UnityEngine.Sprite, string> OnReadableOpened;
+    public static event Action OnReadableClosed;
+
     // ── PLAYER ───────────────────────────────────────────────────────────────
     public static void PlayerDied() => OnPlayerDeath?.Invoke();
     public static void HealthChanged(float newHealth) => OnHealthChanged?.Invoke(newHealth);
@@ -80,6 +84,10 @@ public static class GameEvents
 
     /// <summary>Closes the confirmation panel without firing any callback (e.g. player walked away).</summary>
     public static void CloseConfirmation() => OnConfirmationClosed?.Invoke();
+
+    // ── READABLE ─────────────────────────────────────────────────────────────
+    public static void ReadableOpened(UnityEngine.Sprite sprite, string text) => OnReadableOpened?.Invoke(sprite, text);
+    public static void ReadableClosed() => OnReadableClosed?.Invoke();
 
     // ── PAUSE ────────────────────────────────────────────────────────────────
     public static void PauseChanged(bool paused) => OnPauseChanged?.Invoke(paused);
