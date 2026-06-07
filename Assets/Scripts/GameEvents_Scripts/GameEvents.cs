@@ -29,6 +29,7 @@ public static class GameEvents
     public static event Action<int> OnFrameChanged;
     public static event Action<bool> OnCamcorderLightChanged;
     public static event Action OnPlaybackEnded;
+    public static event Action<CamcorderZone> OnZoneChanged;
 
     // Recordable Events
     public static event Action<string> OnRecordableEventStarted;
@@ -66,6 +67,7 @@ public static class GameEvents
     public static void FrameChanged(int frame) => OnFrameChanged?.Invoke(frame);
     public static void CamcorderLightChanged(bool isGreen) => OnCamcorderLightChanged?.Invoke(isGreen);
     public static void PlaybackEnded() => OnPlaybackEnded?.Invoke();
+    public static void ZoneChanged(CamcorderZone newZone) => OnZoneChanged?.Invoke(newZone);
 
     // ── RECORDABLE EVENTS ────────────────────────────────────────────────────
     public static void RecordableEventStarted(string eventId) => OnRecordableEventStarted?.Invoke(eventId);

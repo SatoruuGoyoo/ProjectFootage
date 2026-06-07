@@ -1,57 +1,98 @@
 using FMOD.Studio;
 using FMODUnity;
 using UnityEngine;
-using UnityEngine.Audio;
 
 public class CamcorderRecLight : MonoBehaviour
 {
     [Header("Setup")]
     [SerializeField] private Light recordingLight;
 
-    [Header("Red Light Config")]
-    [SerializeField] private Color redColor = Color.red;
+    [Header("Colors")]
+    [SerializeField] private Color objectiveColor = Color.green;
+    [SerializeField] private Color deadZoneColor = Color.red;
+    [SerializeField] private Color noneColor = Color.yellow;
 
-    [Header("Green Light Config")]
-    [SerializeField] private Color greenColor = Color.green;
-    [SerializeField] private float blinkSpeed = 2f;
+    [Header("Blink")]
+    [Tooltip("Blink speed when in Objective zone (green). 0 = no blink.")]
+    [SerializeField] private float objectiveBlinkSpeed = 2f;
+    [Tooltip("Blink speed when in DeadZone (red). 0 = no blink.")]
+    [SerializeField] private float deadZoneBlinkSpeed = 0f;
+    [Tooltip("Blink speed when no target (yellow). 0 = no blink.")]
+    [SerializeField] private float noneBlinkSpeed = 0f;
 
     [Header("FMOD")]
     [SerializeField] private EventReference recLightEvent;
 
-    [Header("Red Beep Config")]
-    [SerializeField] private int redBeepsPerBurst = 1;
-    [SerializeField] private float redBeepInterval = 0.3f;
-    [SerializeField] private float redBurstCooldown = 5f;
+    [Header("Beep — Objective (Green)")]
+    [SerializeField] private int objectiveBeepsPerBurst = 3;
+    [SerializeField] private float objectiveBeepInterval = 0.3f;
+    [SerializeField] private float objectiveBurstCooldown = 2f;
 
-    [Header("Green Beep Config")]
-    [SerializeField] private int greenBeepsPerBurst = 3;
-    [SerializeField] private float greenBeepInterval = 0.3f;
-    [SerializeField] private float greenBurstCooldown = 2f;
+    [Header("Beep — DeadZone (Red)")]
+    [SerializeField] private int deadZoneBeepsPerBurst = 1;
+    [SerializeField] private float deadZoneBeepInterval = 0.3f;
+    [SerializeField] private float deadZoneBurstCooldown = 5f;
+
+    [Header("Beep — None (Yellow)")]
+    [SerializeField] private int noneBeepsPerBurst = 0;
+    [SerializeField] private float noneBeepInterval = 0.5f;
+    [SerializeField] private float noneBurstCooldown = 10f;
 
     private EventInstance recLightInstance;
-    private bool isGreen = false;
-    private bool isActive = false;
+    private CamcorderZone _currentZone = CamcorderZone.None;
+    private bool _isActive = false;
 
-    private int beepsRemainingInBurst;
-    private float beepTimer;
-    private float waitForNext;
+    private int _beepsRemainingInBurst;
+    private float _beepTimer;
+    private float _waitForNext;
 
-    private int CurrentBeepsPerBurst => isGreen ? greenBeepsPerBurst : redBeepsPerBurst;
-    private float CurrentBeepInterval => isGreen ? greenBeepInterval : redBeepInterval;
-    private float CurrentBurstCooldown => isGreen ? greenBurstCooldown : redBurstCooldown;
+    private int CurrentBeepsPerBurst => _currentZone switch
+    {
+        CamcorderZone.Objective => objectiveBeepsPerBurst,
+        CamcorderZone.DeadZone => deadZoneBeepsPerBurst,
+        _ => noneBeepsPerBurst
+    };
+
+    private float CurrentBeepInterval => _currentZone switch
+    {
+        CamcorderZone.Objective => objectiveBeepInterval,
+        CamcorderZone.DeadZone => deadZoneBeepInterval,
+        _ => noneBeepInterval
+    };
+
+    private float CurrentBurstCooldown => _currentZone switch
+    {
+        CamcorderZone.Objective => objectiveBurstCooldown,
+        CamcorderZone.DeadZone => deadZoneBurstCooldown,
+        _ => noneBurstCooldown
+    };
+
+    private Color CurrentColor => _currentZone switch
+    {
+        CamcorderZone.Objective => objectiveColor,
+        CamcorderZone.DeadZone => deadZoneColor,
+        _ => noneColor
+    };
+
+    private float CurrentBlinkSpeed => _currentZone switch
+    {
+        CamcorderZone.Objective => objectiveBlinkSpeed,
+        CamcorderZone.DeadZone => deadZoneBlinkSpeed,
+        _ => noneBlinkSpeed
+    };
 
     private void OnEnable()
     {
-        GameEvents.OnCamcorderLightChanged += OnLightChanged;
+        GameEvents.OnZoneChanged += OnZoneChanged;
         GameEvents.OnPlayerModeChanged += OnPlayerModeChanged;
 
         recordingLight.enabled = false;
     }
+
     private void OnDisable()
     {
-        GameEvents.OnCamcorderLightChanged -= OnLightChanged;
+        GameEvents.OnZoneChanged -= OnZoneChanged;
         GameEvents.OnPlayerModeChanged -= OnPlayerModeChanged;
-
     }
 
     private void Start()
@@ -68,11 +109,11 @@ public class CamcorderRecLight : MonoBehaviour
     private void OnPlayerModeChanged(PlayerMode newMode)
     {
         bool newActive = newMode == PlayerMode.CameraMode || newMode == PlayerMode.RecordingMode;
-        if (newActive == isActive) return;
+        if (newActive == _isActive) return;
 
-        isActive = newActive;
+        _isActive = newActive;
 
-        if (!isActive)
+        if (!_isActive)
         {
             recordingLight.enabled = false;
             recLightInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
@@ -85,51 +126,67 @@ public class CamcorderRecLight : MonoBehaviour
         }
     }
 
-    private void OnLightChanged(bool isGreen)
+    private void OnZoneChanged(CamcorderZone zone)
     {
-        if (this.isGreen == isGreen) return;
-        this.isGreen = isGreen;
+        if (_currentZone == zone) return;
+        _currentZone = zone;
         ApplyState();
 
-        if (isActive) StartBurst();
+        if (_isActive) StartBurst();
     }
 
     private void Update()
     {
-        if (!isActive) return;
+        if (!_isActive) return;
 
-        if (isGreen)
+        float blinkSpeed = CurrentBlinkSpeed;
+        if (blinkSpeed > 0f)
         {
             float blink = Mathf.Sin(Time.time * blinkSpeed * Mathf.PI);
             recordingLight.enabled = blink > 0f;
         }
+        else
+        {
+            recordingLight.enabled = true;
+        }
 
-        beepTimer += Time.deltaTime;
-        if (beepTimer < waitForNext) return;
+        if (CurrentBeepsPerBurst <= 0) return;
 
-        beepTimer = 0f;
+        _beepTimer += Time.deltaTime;
+        if (_beepTimer < _waitForNext) return;
 
-        if (beepsRemainingInBurst <= 0)
-            beepsRemainingInBurst = CurrentBeepsPerBurst;
+        _beepTimer = 0f;
+
+        if (_beepsRemainingInBurst <= 0)
+            _beepsRemainingInBurst = CurrentBeepsPerBurst;
 
         recLightInstance.start();
-        beepsRemainingInBurst--;
+        _beepsRemainingInBurst--;
 
-        waitForNext = beepsRemainingInBurst > 0 ? CurrentBeepInterval : CurrentBurstCooldown;
+        _waitForNext = _beepsRemainingInBurst > 0 ? CurrentBeepInterval : CurrentBurstCooldown;
     }
 
     private void StartBurst()
     {
+        if (CurrentBeepsPerBurst <= 0) return;
+
         recLightInstance.start();
-        beepsRemainingInBurst = CurrentBeepsPerBurst - 1;
-        beepTimer = 0f;
-        waitForNext = beepsRemainingInBurst > 0 ? CurrentBeepInterval : CurrentBurstCooldown;
+        _beepsRemainingInBurst = CurrentBeepsPerBurst - 1;
+        _beepTimer = 0f;
+        _waitForNext = _beepsRemainingInBurst > 0 ? CurrentBeepInterval : CurrentBurstCooldown;
     }
 
     private void ApplyState()
     {
-        recordingLight.color = isGreen ? greenColor : redColor;
-        if (!isGreen && isActive) recordingLight.enabled = true;
-        recLightInstance.setParameterByName("State", isGreen ? 1f : 0f);
+        recordingLight.color = CurrentColor;
+        if (CurrentBlinkSpeed <= 0f && _isActive) recordingLight.enabled = true;
+
+        float stateParam = _currentZone switch
+        {
+            CamcorderZone.Objective => 1f,
+            CamcorderZone.DeadZone => 0f,
+            _ => 2f
+        };
+        recLightInstance.setParameterByName("State", stateParam);
     }
 }
