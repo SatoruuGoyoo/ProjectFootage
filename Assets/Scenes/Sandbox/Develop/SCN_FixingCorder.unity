@@ -9942,6 +9942,7 @@ MonoBehaviour:
   pairedTeleporter: {fileID: 600262994}
   playerTag: Player
   cooldownSeconds: 0.1
+  isDestinationOnly: 0
   minTravelDistance: 15
   redirectOnIteration: 4
   alternateDestination: {fileID: 916470379}
@@ -16535,8 +16536,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db0f6f9b7028b30499de125845b36dd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameWarmup
-  camcorderCameraGO: {fileID: 326033778}
-  camcorderVisualGO: {fileID: 1716362536}
+  camcorderCamera: {fileID: 909161790}
+  camcorderVisualRenderer: {fileID: 1008654859}
   warmupFrames: 3
   textsToWarm:
   - {fileID: 76270645}
@@ -30293,6 +30294,7 @@ MonoBehaviour:
   pairedTeleporter: {fileID: 185502458}
   playerTag: Player
   cooldownSeconds: 0.1
+  isDestinationOnly: 0
   minTravelDistance: 8
   redirectOnIteration: 4
   alternateDestination: {fileID: 916470379}

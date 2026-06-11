@@ -8,11 +8,10 @@ public class GameWarmup : MonoBehaviour
     public static GameWarmup Instance { get; private set; }
 
     [Header("Camcorder")]
-    [Tooltip("El GO de la Camcorder_camera que renderiza a la RenderTexture")]
+    [Tooltip("El GO raíz del Camcorder (el que está apagado hasta el pickup)")]
+    [SerializeField] private GameObject camcorderRootGO;
+    [Tooltip("El GO de la Camcorder_camera (hijo, el que se prende al levantar)")]
     [SerializeField] private GameObject camcorderCameraGO;
-    [Tooltip("El visual de la corder, para que también renderice una vez")]
-    [SerializeField] private GameObject camcorderVisualGO;
-    [Tooltip("Frames que dejamos la corder activa para que se cachee todo")]
     [SerializeField] private int warmupFrames = 3;
 
     [Header("TMP")]
@@ -73,15 +72,15 @@ public class GameWarmup : MonoBehaviour
 
     private IEnumerator WarmupCamcorder()
     {
+        bool rootWasActive = camcorderRootGO != null && camcorderRootGO.activeSelf;
         bool cameraWasActive = camcorderCameraGO != null && camcorderCameraGO.activeSelf;
-        bool visualWasActive = camcorderVisualGO != null && camcorderVisualGO.activeSelf;
 
+        if (camcorderRootGO != null) camcorderRootGO.SetActive(true);
         if (camcorderCameraGO != null) camcorderCameraGO.SetActive(true);
-        if (camcorderVisualGO != null) camcorderVisualGO.SetActive(true);
 
         for (int i = 0; i < warmupFrames; i++) yield return null;
 
         if (camcorderCameraGO != null) camcorderCameraGO.SetActive(cameraWasActive);
-        if (camcorderVisualGO != null) camcorderVisualGO.SetActive(visualWasActive);
+        if (camcorderRootGO != null) camcorderRootGO.SetActive(rootWasActive);
     }
 }
