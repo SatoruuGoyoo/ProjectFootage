@@ -8,6 +8,11 @@ public sealed class CorridorTeleporter : MonoBehaviour
     [SerializeField] private string playerTag = "Player";
     [SerializeField, Range(0.05f, 2f)] private float cooldownSeconds = 0.3f;
 
+    [Header("Modo")]
+    [Tooltip("Si está activo, este extremo solo sirve como destino de llegada. " +
+             "El jugador puede aparecer acá, pero pisarlo no lo teletransporta.")]
+    [SerializeField] private bool isDestinationOnly = false;
+
     [Header("Anti-cheat de recorrido")]
     [Tooltip("Distancia mínima desde el punto de llegada antes de que este extremo vuelva a activarse. " +
              "Usá un valor cercano al largo del pasillo.")]
@@ -55,17 +60,12 @@ public sealed class CorridorTeleporter : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (isDestinationOnly) return;
+
         if (!other.CompareTag(playerTag)) return;
         if (pairedTeleporter == null) return;
         if (!CooldownElapsed()) return;
         if (IsArrivalBlocked(other.transform.position)) return;
-
-        var mover = other.GetComponent<IPlayerMover>();
-        if (mover == null)
-        {
-            Debug.LogWarning($"[CorridorTeleporter] '{other.name}' no tiene IPlayerMover.", other);
-            return;
-        }
 
         _playerTransform = other.transform;
 
@@ -76,19 +76,34 @@ public sealed class CorridorTeleporter : MonoBehaviour
         // Iteración especial: desviar a destino alternativo
         if (IterationCount == redirectOnIteration && alternateDestination != null)
         {
-            mover.MoveTo(alternateDestination.position, alternateDestination.rotation);
+            TeleportPlayer(other, alternateDestination.position, alternateDestination.rotation);
             RegisterTeleport();
-            return; // no registrar arrival en el par, el jugador ya no está en el pasillo
+            return;
         }
 
         // Flujo normal
-        mover.MoveTo(
+        TeleportPlayer(
+            other,
             CalculateTargetPosition(other.transform.position),
             CalculateTargetRotation(other.transform.rotation)
         );
 
         pairedTeleporter.RegisterArrival(other.transform.position, other.transform);
         RegisterTeleport();
+    }
+
+    // ── Teleport ──────────────────────────────────────────────────────
+
+    /// <summary>
+    /// Mueve al jugador desactivando el CharacterController primero para que
+    /// Unity no revierta la posición en el mismo frame.
+    /// </summary>
+    private static void TeleportPlayer(Collider playerCollider, Vector3 position, Quaternion rotation)
+    {
+        var cc = playerCollider.GetComponent<CharacterController>();
+        if (cc != null) cc.enabled = false;
+        playerCollider.transform.SetPositionAndRotation(position, rotation);
+        if (cc != null) cc.enabled = true;
     }
 
     // ── API interna ───────────────────────────────────────────────────
@@ -141,9 +156,11 @@ public sealed class CorridorTeleporter : MonoBehaviour
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
-        Color boxColor = _arrivalPosition.HasValue
-            ? new Color(1f, 0.2f, 0.2f, 0.25f)
-            : new Color(0.2f, 0.5f, 1f, 0.20f);
+        Color boxColor = isDestinationOnly
+            ? new Color(0.8f, 0.4f, 1f, 0.25f)
+            : (_arrivalPosition.HasValue
+                ? new Color(1f, 0.2f, 0.2f, 0.25f)
+                : new Color(0.2f, 0.5f, 1f, 0.20f));
 
         DrawBox(boxColor);
 
@@ -159,8 +176,16 @@ public sealed class CorridorTeleporter : MonoBehaviour
             Gizmos.DrawWireSphere(_arrivalPosition.Value, minTravelDistance);
         }
 
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawRay(transform.position, transform.forward * 1.5f);
+        if (!isDestinationOnly)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawRay(transform.position, transform.forward * 1.5f);
+        }
+        else
+        {
+            Gizmos.color = new Color(0.8f, 0.4f, 1f, 1f);
+            Gizmos.DrawRay(transform.position, Vector3.up * 1.5f);
+        }
     }
 
     private void OnDrawGizmosSelected() => DrawBox(new Color(0.2f, 0.5f, 1f, 0.50f));
