@@ -17,6 +17,7 @@ public class CamcorderPickup : MonoBehaviour, IInteractable
     // ── IInteractable ─────────────────────────────────────────────────────────
     public string PromptMessage => "camcorder";
     public bool CanInteract => true;
+    public bool BlockMovement => false;
 
     // ── Unity ────────────────────────────────────────────────────────────────
 

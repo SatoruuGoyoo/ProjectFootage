@@ -163,4 +163,14 @@ public class PlayerMotor : MonoBehaviour
         euler.z = 0f;
         transform.eulerAngles = euler;
     }
+
+    public void StopPlayer()
+    {
+        currentSpeedTank = 0f;
+        currentSpeedModern = 0f;
+        HasInput = false;
+        IsMovingBackward = false;
+        IsSprinting = false;
+        directionLocked = false;
+    }
 }

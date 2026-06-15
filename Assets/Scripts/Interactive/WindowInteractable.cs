@@ -1,21 +1,8 @@
 ﻿using UnityEngine;
 using FMODUnity;
 
-/// <summary>
-/// Interactable ventana: al interactuar activa una cámara (modo "mirar por la ventana").
-/// Al volver a presionar Interact, desactiva la cámara.
-/// 
-/// Loop por iteración:
-///   1. Mirar por la ventana (abrir + cerrar) → activa los GOs de los teleporters
-///   2. Jugador pasa por el teleporter → iteración avanza → desactiva los GOs
-///   3. Volver a mirar → reactiva los GOs → siguiente iteración
-///
-/// Soporta confirmación opcional e contenido visual/sonoro por iteración.
-/// </summary>
 public class WindowInteractable : MonoBehaviour, IInteractable
 {
-    // ── Entrada por iteración ─────────────────────────────────────────
-
     [System.Serializable]
     public class IterationEntry
     {
@@ -30,8 +17,6 @@ public class WindowInteractable : MonoBehaviour, IInteractable
         public EventReference sound;
     }
 
-    // ── Inspector ─────────────────────────────────────────────────────
-
     [Header("Interacción")]
     [SerializeField] private string promptOpen = "Mirar por la ventana";
     [SerializeField] private string promptClose = "Dejar de mirar";
@@ -43,32 +28,24 @@ public class WindowInteractable : MonoBehaviour, IInteractable
     [SerializeField] private string confirmationText = "";
 
     [Header("Cámara")]
-    [Tooltip("La cámara que se activa al mirar por la ventana.")]
     [SerializeField] private Camera windowCamera;
-    [Tooltip("Si es true, desactiva el GameObject de la cámara. " +
-             "Si es false, solo desactiva el componente Camera.")]
     [SerializeField] private bool toggleCameraGameObject = true;
 
     [Header("Corridor Teleporters")]
-    [Tooltip("GOs de los teleporters. Se activan tras cerrar la ventana y se desactivan al usarlos.")]
     [SerializeField] private GameObject[] teleporterObjects;
 
     [Header("Contenido por iteración")]
-    [Tooltip("Cada entrada define qué se ve y qué suena al mirar en una iteración específica.")]
     [SerializeField] private IterationEntry[] iterationEntries;
-
-    // ── Estado ────────────────────────────────────────────────────────
 
     private bool _isLooking;
     private bool _pendingConfirmation;
     private IterationEntry _activeEntry;
 
-    // ── IInteractable ─────────────────────────────────────────────────
-
     public string PromptMessage => _isLooking
         ? (string.IsNullOrEmpty(promptClose) ? "Dejar de mirar" : promptClose)
         : (string.IsNullOrEmpty(promptOpen) ? "Mirar" : promptOpen);
     public bool CanInteract => true;
+    public bool BlockMovement => true;
 
     public void Interact()
     {
@@ -91,8 +68,6 @@ public class WindowInteractable : MonoBehaviour, IInteractable
         }
     }
 
-    // ── OnEnable / OnDisable ──────────────────────────────────────────
-
     private void OnEnable()
     {
         GameEvents.OnConfirmationClosed += OnConfirmationClosed;
@@ -105,8 +80,6 @@ public class WindowInteractable : MonoBehaviour, IInteractable
         CorridorTeleporter.OnIterationChanged -= OnIterationChanged;
         _pendingConfirmation = false;
     }
-
-    // ── Confirmation callbacks ────────────────────────────────────────
 
     private void OnConfirmed()
     {
@@ -124,11 +97,8 @@ public class WindowInteractable : MonoBehaviour, IInteractable
         _pendingConfirmation = false;
     }
 
-    // ── Iteración ─────────────────────────────────────────────────────
-
     private void OnIterationChanged(int iteration)
     {
-        // El jugador pasó por el teleporter: desactivar GOs y contenido visible
         SetTeleporterObjectsActive(false);
         HideActiveEntry();
     }
@@ -163,13 +133,12 @@ public class WindowInteractable : MonoBehaviour, IInteractable
         return null;
     }
 
-    // ── Lógica interna ────────────────────────────────────────────────
-
     private void StartLooking()
     {
         _isLooking = true;
         SetCameraActive(true);
         RefreshIterationContent(CorridorTeleporter.IterationCount);
+        GameEvents.PlayerModeChanged(PlayerMode.InteractionMode);
 
         if (!string.IsNullOrEmpty(feedbackOpen))
             GameEvents.FeedbackMessage(feedbackOpen);
@@ -180,9 +149,8 @@ public class WindowInteractable : MonoBehaviour, IInteractable
         _isLooking = false;
         HideActiveEntry();
         SetCameraActive(false);
-
-        // Cerrar la ventana activa los teleporters para que el jugador pueda pasar
         SetTeleporterObjectsActive(true);
+        GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
 
         if (!string.IsNullOrEmpty(feedbackClose))
             GameEvents.FeedbackMessage(feedbackClose);
@@ -206,16 +174,11 @@ public class WindowInteractable : MonoBehaviour, IInteractable
                 go.SetActive(active);
     }
 
-    // ── Init ──────────────────────────────────────────────────────────
-
     private void Awake()
     {
         SetCameraActive(false);
-
-        // Teleporters desactivados hasta que el jugador mire por la ventana
         SetTeleporterObjectsActive(false);
 
-        // Contenido de iteraciones desactivado
         if (iterationEntries != null)
             foreach (var e in iterationEntries)
                 if (e.visibleObject != null)

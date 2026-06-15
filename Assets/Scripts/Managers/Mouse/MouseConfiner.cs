@@ -15,7 +15,7 @@ public class MouseConfiner : MonoBehaviour
     private static void Confine()
     {
         Cursor.lockState = CursorLockMode.Confined;
-        Cursor.visible = true;
+        //Cursor.visible = true;
     }
    
 }

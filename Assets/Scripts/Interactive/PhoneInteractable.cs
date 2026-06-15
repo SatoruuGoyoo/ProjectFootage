@@ -32,6 +32,7 @@ public class PhoneInteractable : MonoBehaviour, IInteractable
 
     public string PromptMessage => _isOpen ? _closePrompt : _openPrompt;
     public bool CanInteract => true;
+    public bool BlockMovement => true;
     public bool IsOpen => _isOpen;
     public EventReference MarkNumberReference => markNumberReference;
 
@@ -72,6 +73,10 @@ public class PhoneInteractable : MonoBehaviour, IInteractable
         _phoneUI.SetActive(true);
         if (!putUpPhoneReference.IsNull)
             RuntimeManager.PlayOneShot(putUpPhoneReference, transform.position);
+        GameEvents.PlayerModeChanged(PlayerMode.InteractionMode);
+
+        if (MouseCursorController.Instance != null) MouseCursorController.Instance.RequestCursor();
+
         OnPhoneOpened?.Invoke();
     }
 
@@ -81,6 +86,10 @@ public class PhoneInteractable : MonoBehaviour, IInteractable
         _phoneUI.SetActive(false);
         if (!putDownPhoneReference.IsNull)
             RuntimeManager.PlayOneShot(putDownPhoneReference, transform.position);
+        GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
+
+        if (MouseCursorController.Instance != null) MouseCursorController.Instance.ReleaseCursor();
+
         OnPhoneClosed?.Invoke();
     }
 

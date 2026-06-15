@@ -12,6 +12,7 @@ public class InteractableRadio : MonoBehaviour, IInteractable
 
     public string PromptMessage => "radio";
     public bool CanInteract => true;
+    public bool BlockMovement => false;
 
     private void Awake()
     {

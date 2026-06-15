@@ -15,16 +15,11 @@ public class ConfirmationUI : MonoBehaviour
     [SerializeField] private string yesText = "[E] Sí";
     [SerializeField] private string noText = "[F] No";
 
-    // ── Runtime state ─────────────────────────────────────────────────────────
     private bool _isOpen;
     private System.Action _onConfirm;
     private System.Action _onDecline;
-
-    // Reference to the player input — set in Awake via FindAnyObjectByType.
-    // If you have a ServiceLocator/DI, swap this out.
     private PlayerInput _input;
 
-    // ── Unity ────────────────────────────────────────────────────────────────
     private void Awake()
     {
         _input = FindAnyObjectByType<PlayerInput>();
@@ -55,8 +50,6 @@ public class ConfirmationUI : MonoBehaviour
         if (_input.Decline) { Decline(); return; }
     }
 
-    // ── Event handlers ────────────────────────────────────────────────────────
-
     private void OnRequested(string message, System.Action onConfirm, System.Action onDecline)
     {
         _onConfirm = onConfirm;
@@ -65,21 +58,17 @@ public class ConfirmationUI : MonoBehaviour
         if (messageLabel != null) messageLabel.SetText(message);
 
         SetVisible(true);
+        GameEvents.PlayerModeChanged(PlayerMode.InteractionMode);
     }
 
-    /// <summary>
-    /// Called by PlayerInteractor (or similar) when the player walks out of range
-    /// while the panel is open. Closes without firing any callback.
-    /// </summary>
     private void OnClosedExternally()
     {
         if (!_isOpen) return;
         _onConfirm = null;
         _onDecline = null;
         SetVisible(false);
+        GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
     }
-
-    // ── Actions ───────────────────────────────────────────────────────────────
 
     private void Confirm()
     {
@@ -100,9 +89,8 @@ public class ConfirmationUI : MonoBehaviour
         _onConfirm = null;
         _onDecline = null;
         SetVisible(false);
+        GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
     }
-
-    // ── Helpers ───────────────────────────────────────────────────────────────
 
     private void SetVisible(bool visible)
     {

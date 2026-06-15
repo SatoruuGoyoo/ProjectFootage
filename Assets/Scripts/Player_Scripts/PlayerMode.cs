@@ -5,5 +5,6 @@ public enum PlayerMode
     ExplorationMode,
     CameraMode,
     RecordingMode,
-    MenuCameraMode
+    MenuCameraMode,
+    InteractionMode
 }

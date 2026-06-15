@@ -12,7 +12,8 @@ public class CamcorderStorage : MonoBehaviour
     public void AddRecording(RecordingSession session)
     {
         if (!session.IsCompleted) return;
-        if (IsFull) return;
+
+        if (IsFull) _recordings.RemoveAt(0);
 
         _recordings.Add(session);
     }

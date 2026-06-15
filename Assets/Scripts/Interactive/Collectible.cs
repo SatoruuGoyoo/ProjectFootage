@@ -18,6 +18,8 @@ public class Collectible : MonoBehaviour, IInteractable
 
     public string PromptMessage => prompt;
     public bool CanInteract => !_collected;
+    public bool BlockMovement => false;
+
 
     private void OnEnable()
     {

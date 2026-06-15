@@ -11,6 +11,7 @@ public class ReadableItem : MonoBehaviour, IInteractable
 
     public string PromptMessage => "readable";
     public bool CanInteract => true;
+    public bool BlockMovement => true;
 
     private void OnDisable()
     {
@@ -27,11 +28,13 @@ public class ReadableItem : MonoBehaviour, IInteractable
     {
         _isReading = true;
         GameEvents.ReadableOpened(sprite, text);
+        GameEvents.PlayerModeChanged(PlayerMode.InteractionMode);
     }
 
     private void Close()
     {
         _isReading = false;
         GameEvents.ReadableClosed();
+        GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
     }
 }

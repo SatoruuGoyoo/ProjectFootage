@@ -54,6 +54,7 @@ public class Door : MonoBehaviour, IInteractable
 
     public string PromptMessage => playerCanToggle || IsLocked || NeedsConfirmation ? "door" : "";
     public bool CanInteract => _interactCooldownTimer <= 0f && (IsLocked || playerCanToggle || NeedsConfirmation);
+    public bool BlockMovement => false;
 
     // ── Unity ────────────────────────────────────────────────────────────────
 

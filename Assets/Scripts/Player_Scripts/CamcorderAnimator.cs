@@ -14,7 +14,9 @@ public class CamcorderAnimator : MonoBehaviour
 
     private void OnPlayerModeChanged(PlayerMode mode)
     {
-        camcorderEquipped = mode != PlayerMode.ExplorationMode;
+        camcorderEquipped = mode == PlayerMode.CameraMode
+                         || mode == PlayerMode.RecordingMode
+                         || mode == PlayerMode.MenuCameraMode;
         targetWeight = camcorderEquipped ? 1f : 0f;
     }
 
