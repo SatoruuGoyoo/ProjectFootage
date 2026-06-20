@@ -1,25 +1,25 @@
 using UnityEngine;
 
-/// <summary>
-/// Linterna que sigue la rotación de la camcorder camera y se
-/// enciende/apaga al levantar/bajar la cámara (click derecho).
-/// Ponelo en el GameObject que tenga el Light.
-/// </summary>
 public class FlashlightController : MonoBehaviour
 {
     [Header("Setup")]
-    [Tooltip("El mismo Transform que CamcorderMotor.camcorderCamera (el que tiltea)")]
-    public Transform camcorderCamera;
+    [SerializeField] private Light flashlight;
 
-    [Header("Offset")]
-    [Tooltip("Offset de posición local respecto a la camcorder camera")]
-    public Vector3 positionOffset = Vector3.zero;
+    [Header("Frustum Sync")]
+    [Tooltip("Si está activo, la luz copia el range/angle del frustum de la cámara")]
+    [SerializeField] private bool syncWithFrustum = true;
+    [Tooltip("Cámara de referencia para sincronizar el rango. Si es null, se ignora.")]
+    [SerializeField] private Camera referenceCamera;
+    [Tooltip("Multiplicador del rango de la luz vs el far clip plane")]
+    [SerializeField] private float rangeMultiplier = 1f;
+    [Tooltip("Padding extra al ángulo del spot vs el FOV de la cámara")]
+    [SerializeField] private float angleBonus = 5f;
 
-    private Light flashlight;
+    private bool _isCameraUp;
 
     private void Awake()
     {
-        flashlight = GetComponent<Light>();
+        if (flashlight == null) flashlight = GetComponent<Light>();
         if (flashlight != null) flashlight.enabled = false;
     }
 
@@ -31,23 +31,20 @@ public class FlashlightController : MonoBehaviour
     private void OnDisable()
     {
         GameEvents.OnPlayerModeChanged -= OnPlayerModeChanged;
+        if (flashlight != null) flashlight.enabled = false;
     }
 
     private void OnPlayerModeChanged(PlayerMode newMode)
     {
-        if (flashlight == null) return;
-
-        
-        bool cameraUp = newMode == PlayerMode.CameraMode
-                     || newMode == PlayerMode.RecordingMode;
-
-        flashlight.enabled = cameraUp;
+        _isCameraUp = newMode == PlayerMode.CameraMode || newMode == PlayerMode.RecordingMode;
+        if (flashlight != null) flashlight.enabled = _isCameraUp;
     }
 
     private void LateUpdate()
     {
-        if (camcorderCamera == null) return;
-        transform.rotation = camcorderCamera.rotation;
-        transform.position = camcorderCamera.position + camcorderCamera.TransformDirection(positionOffset);
+        if (!syncWithFrustum || referenceCamera == null || flashlight == null || !_isCameraUp) return;
+
+        flashlight.range = referenceCamera.farClipPlane * rangeMultiplier;
+        flashlight.spotAngle = Mathf.Clamp(referenceCamera.fieldOfView + angleBonus, 1f, 179f);
     }
 }

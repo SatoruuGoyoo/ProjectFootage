@@ -136,6 +136,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Decline"",
+                    ""type"": ""Button"",
+                    ""id"": ""2f72a346-13dd-4aba-ab4f-d55ae3227b4f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -268,6 +277,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""59b4b799-f34e-40bc-85ba-33a673a0a0f7"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Decline"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1271,6 +1291,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Exploration_Turn = m_Exploration.FindAction("Turn", throwIfNotFound: true);
         m_Exploration_Sprint = m_Exploration.FindAction("Sprint", throwIfNotFound: true);
         m_Exploration_Interact = m_Exploration.FindAction("Interact", throwIfNotFound: true);
+        m_Exploration_Decline = m_Exploration.FindAction("Decline", throwIfNotFound: true);
         // Camera
         m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
         m_Camera_TiltCamera = m_Camera.FindAction("TiltCamera", throwIfNotFound: true);
@@ -1396,6 +1417,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Exploration_Turn;
     private readonly InputAction m_Exploration_Sprint;
     private readonly InputAction m_Exploration_Interact;
+    private readonly InputAction m_Exploration_Decline;
     /// <summary>
     /// Provides access to input actions defined in input action map "Exploration".
     /// </summary>
@@ -1427,6 +1449,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Exploration/Interact".
         /// </summary>
         public InputAction @Interact => m_Wrapper.m_Exploration_Interact;
+        /// <summary>
+        /// Provides access to the underlying input action "Exploration/Decline".
+        /// </summary>
+        public InputAction @Decline => m_Wrapper.m_Exploration_Decline;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1468,6 +1494,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
+            @Decline.started += instance.OnDecline;
+            @Decline.performed += instance.OnDecline;
+            @Decline.canceled += instance.OnDecline;
         }
 
         /// <summary>
@@ -1494,6 +1523,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
+            @Decline.started -= instance.OnDecline;
+            @Decline.performed -= instance.OnDecline;
+            @Decline.canceled -= instance.OnDecline;
         }
 
         /// <summary>
@@ -2217,6 +2249,13 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnInteract(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Decline" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDecline(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Camera" which allows adding and removing callbacks.

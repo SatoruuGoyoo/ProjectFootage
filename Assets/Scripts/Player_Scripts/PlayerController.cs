@@ -30,12 +30,23 @@ public class PlayerController : MonoBehaviour
         GameEvents.OnControllerSchemeChanged -= OnControllerSchemeChanged;
     }
 
-    private void OnPlayerModeChanged(PlayerMode newMode) => currentMode = newMode;
+    private void OnPlayerModeChanged(PlayerMode newMode)
+    {
+        currentMode = newMode;
+
+        if (newMode == PlayerMode.InteractionMode || newMode == PlayerMode.MenuCameraMode)
+        {
+            motor.StopPlayer();
+        }
+            
+    }
+
     private void OnControllerSchemeChanged(ControlScheme newScheme) => currentScheme = newScheme;
 
     private void Update()
     {
         if (currentMode == PlayerMode.MenuCameraMode) return;
+        if (currentMode == PlayerMode.InteractionMode) return;
 
         if (currentScheme == ControlScheme.Tank)
             UpdateTank();

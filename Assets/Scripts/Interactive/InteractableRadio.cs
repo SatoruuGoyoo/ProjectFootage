@@ -3,9 +3,6 @@ using UnityEngine;
 [RequireComponent(typeof(World3DSource))]
 public class InteractableRadio : MonoBehaviour, IInteractable
 {
-    [SerializeField] private string onPrompt = "";
-    [SerializeField] private string offPrompt = "";
-
     [Header("Subtitles")]
     [SerializeField] private SubtitleBlock subtitles;
     [TextArea(3, 10)]
@@ -13,8 +10,9 @@ public class InteractableRadio : MonoBehaviour, IInteractable
 
     private World3DSource _source;
 
-    public string PromptMessage => _source.IsPlaying ? offPrompt : onPrompt;
+    public string PromptMessage => "radio";
     public bool CanInteract => true;
+    public bool BlockMovement => false;
 
     private void Awake()
     {

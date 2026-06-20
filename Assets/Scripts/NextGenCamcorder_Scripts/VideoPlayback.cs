@@ -51,10 +51,12 @@ public class VideoPlayback : MonoBehaviour
 
     private void OnPlay()
     {
+        Debug.Log($"[VideoPlayback] OnPlay | session null? {_session == null} | corrupted? {_session?.IsCorrupted} | displayImage null? {displayImage == null} | noDataOverlay null? {noDataOverlay == null}");
         playbackPanel.SetActive(true);
 
         if (_session != null && _session.IsCorrupted)
         {
+            Debug.Log("[VideoPlayback] CORRUPTA → ShowNoData");
             ShowNoData();
             return;
         }
@@ -98,8 +100,12 @@ public class VideoPlayback : MonoBehaviour
 
     private void ShowNoData()
     {
+        Debug.Log($"[VideoPlayback] ShowNoData | displayImage active before: {displayImage?.gameObject.activeSelf} | noDataOverlay active before: {noDataOverlay?.gameObject.activeSelf}");
+
         if (displayImage != null) displayImage.gameObject.SetActive(false);
         if (noDataOverlay != null) noDataOverlay.SetActive(true);
+
+        Debug.Log($"[VideoPlayback] ShowNoData DESPUÉS | displayImage active: {displayImage?.gameObject.activeSelf} | noDataOverlay active: {noDataOverlay?.gameObject.activeSelf}");
     }
 
     private void ShowFrameAtTime(float time)

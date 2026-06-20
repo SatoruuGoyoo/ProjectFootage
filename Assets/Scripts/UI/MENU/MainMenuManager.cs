@@ -2,13 +2,8 @@
 
 namespace SM.UI
 {
-    /// <summary>
-    /// Controls main menu panel navigation and delegates scene transitions
-    /// to FadeManager. Does not know about scene loading internals.
-    /// </summary>
     public sealed class MainMenuManager : MonoBehaviour
     {
-        // ── Inspector Config ──────────────────────────────────────────────
         [Header("Scene Transition")]
         [SerializeField] private string gameSceneName = "SCN_Integration";
 
@@ -20,34 +15,52 @@ namespace SM.UI
         [SerializeField] private GameObject mainPanel;
         [SerializeField] private GameObject optionsPanel;
 
-        // ── Lifecycle ─────────────────────────────────────────────────────
+        [Header("Interaction")]
+        [SerializeField] private CanvasGroup menuCanvasGroup;
+
+        private bool _menuLocked;
 
         private void Start()
         {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
             ShowMainPanel();
         }
 
-        // ── Button Handlers ───────────────────────────────────────────────
-
         public void OnPlayClicked()
         {
-            if (FadeManager.Instance.IsBusy) return;
-            FadeManager.Instance.FadeToScene(gameSceneName, introText);
+            if (_menuLocked || FadeManager.Instance.IsBusy)
+                return;
+
+            LockMenu();
+
+            FadeManager.Instance.FadeToScene(
+                gameSceneName,
+                introText
+            );
         }
 
         public void OnOptionsClicked()
         {
+            if (_menuLocked) return;
+
             SetPanel(mainPanel, false);
             SetPanel(optionsPanel, true);
         }
 
         public void OnBackClicked()
         {
+            if (_menuLocked) return;
+
             ShowMainPanel();
         }
 
         public void OnExitClicked()
         {
+            if (_menuLocked) return;
+
+            LockMenu();
+
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
 #else
@@ -55,7 +68,16 @@ namespace SM.UI
 #endif
         }
 
-        // ── Panel Helpers ─────────────────────────────────────────────────
+        private void LockMenu()
+        {
+            _menuLocked = true;
+
+            if (menuCanvasGroup == null)
+                return;
+
+            menuCanvasGroup.interactable = false;
+            menuCanvasGroup.blocksRaycasts = false;
+        }
 
         private void ShowMainPanel()
         {
@@ -65,7 +87,8 @@ namespace SM.UI
 
         private static void SetPanel(GameObject panel, bool active)
         {
-            if (panel != null) panel.SetActive(active);
+            if (panel != null)
+                panel.SetActive(active);
         }
 
 #if UNITY_EDITOR

@@ -28,13 +28,24 @@ public class PlayerInteractor : MonoBehaviour
     private void OnModeChanged(PlayerMode newMode)
     {
         currentMode = newMode;
-        if (currentMode != PlayerMode.ExplorationMode) SetCurrent(null);
+        if (newMode == PlayerMode.ExplorationMode)
+            SetCurrent(null);
     }
 
     private void Update()
     {
-        if (currentMode != PlayerMode.ExplorationMode) return;
+        if (currentMode == PlayerMode.ExplorationMode)
+        {
+            UpdateExploration();
+        }
+        else if (currentMode == PlayerMode.InteractionMode && current != null && current.BlockMovement)
+        {
+            if (input.Interact) current.Interact();
+        }
+    }
 
+    private void UpdateExploration()
+    {
         refreshTimer -= Time.deltaTime;
         if (refreshTimer <= 0f)
         {
@@ -73,7 +84,7 @@ public class PlayerInteractor : MonoBehaviour
     {
         current = next;
         string prompt = current != null ? current.PromptMessage : "";
-        if(prompt == lastPrompt) return;
+        if (prompt == lastPrompt) return;
         lastPrompt = prompt;
         GameEvents.InteractPromptChanged(prompt);
     }

@@ -30,7 +30,6 @@ public class CamcorderController : MonoBehaviour
 
     public CamcorderMode CurrentCamMode => _currentCamMode;
 
-
     private CamcorderMode _currentCamMode = CamcorderMode.Idle;
     private PlayerMode _currentPlayerMode = PlayerMode.ExplorationMode;
 
@@ -62,7 +61,7 @@ public class CamcorderController : MonoBehaviour
     {
         _currentPlayerMode = newMode;
 
-        if (newMode == PlayerMode.MenuCameraMode && _isCameraUp)
+        if ((newMode == PlayerMode.MenuCameraMode || newMode == PlayerMode.InteractionMode) && _isCameraUp)
         {
             _isCameraUp = false;
             camcorderVisual.SetActive(false);
@@ -75,6 +74,7 @@ public class CamcorderController : MonoBehaviour
     private void Update()
     {
         if (_currentPlayerMode == PlayerMode.MenuCameraMode) return;
+        if (_currentPlayerMode == PlayerMode.InteractionMode) return;
 
         if (_input.LiftCamera) ToggleCamera();
 
@@ -90,6 +90,7 @@ public class CamcorderController : MonoBehaviour
     private void ToggleCamera()
     {
         if (_currentPlayerMode == PlayerMode.MenuCameraMode) return;
+        if (_currentPlayerMode == PlayerMode.InteractionMode) return;
         if (_currentCamMode == CamcorderMode.Recording) return;
 
         _isCameraUp = !_isCameraUp;
@@ -114,12 +115,7 @@ public class CamcorderController : MonoBehaviour
         {
             case CamcorderMode.Idle:
                 if (_input.StartedRecording)
-                {
-                    if (_storage.IsFull)
-                        GameEvents.FeedbackMessage(storageFullMessage);
-                    else
-                        _currentCamMode = CamcorderMode.Preparing;
-                }
+                    _currentCamMode = CamcorderMode.Preparing;
                 break;
 
             case CamcorderMode.Preparing:
@@ -148,16 +144,9 @@ public class CamcorderController : MonoBehaviour
                 break;
         }
     }
+
     private void StartRecording()
     {
-        if (_storage.IsFull)
-        {
-            GameEvents.FeedbackMessage(storageFullMessage);
-            _currentCamMode = CamcorderMode.Idle;
-            prepareTimer = 0f;
-            return;
-        }
-
         _activeSession = new RecordingSession();
         _recordingTimer = 0f;
         recordTimer = 0f;
