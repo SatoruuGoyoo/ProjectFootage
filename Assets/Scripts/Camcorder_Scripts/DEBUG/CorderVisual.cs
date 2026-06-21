@@ -1,15 +1,16 @@
 ﻿using System.Text;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
 /// HUD visual del camcorder. Zero GC alloc por frame en condiciones normales.
-/// Requiere: Unity 2021+ (Text legacy o TMPro con adaptación mínima).
+/// La jerarquía de UI se arma a mano en el Editor; este script solo controla
+/// las referencias asignadas por Inspector (no crea GameObjects en runtime).
 /// </summary>
-[RequireComponent(typeof(Canvas))]
 public sealed class CorderVisual : MonoBehaviour
 {
-    // ─── Inspector ────────────────────────────────────────────────────────────
+    // ─── Inspector: referencias de cámara/lógica ───────────────────────────────
 
     [Header("References")]
     [SerializeField] private Camera camcorderCamera;
@@ -27,6 +28,15 @@ public sealed class CorderVisual : MonoBehaviour
     [Header("Blink")]
     [SerializeField] private float recBlinkSpeed = 2.5f;
 
+    // ─── Inspector: referencias de UI (armadas a mano en el Editor) ───────────
+
+    [Header("HUD UI (asignar a mano en el Editor)")]
+    [Tooltip("Root que se prende/apaga según si la cámara del camcorder está activa. Puede ser el Canvas, un panel, o un CanvasGroup, lo que vos quieras toggle-ar.")]
+    [SerializeField] private GameObject hudRoot;
+    [SerializeField] private Image recDot;
+    [SerializeField] private TMP_Text recText;
+    [SerializeField] private TMP_Text timecodeText;
+
     // ─── GL rendering ─────────────────────────────────────────────────────────
 
     private Material _glMat;
@@ -39,13 +49,6 @@ public sealed class CorderVisual : MonoBehaviour
     private Color _recFrameColor;
     private Color _prepFrameColor;
 
-    // ─── HUD ──────────────────────────────────────────────────────────────────
-
-    private Canvas _hudCanvas;
-    private Image _recDot;
-    private Text _recText;
-    private Text _timecodeText;
-
     // StringBuilder reutilizable para el timecode → 0 alloc
     private readonly StringBuilder _sb = new StringBuilder(8, 8);
 
@@ -55,6 +58,10 @@ public sealed class CorderVisual : MonoBehaviour
     private bool _wasRecording;
     private CamcorderMode _lastMode = (CamcorderMode)(-1); // fuerza primera actualización
 
+    // Cache para evitar reconstruir el string del timecode si nada cambió
+    private int _lastTotalSeconds = -1;
+    private char _lastSep = '\0';
+
     // =========================================================================
     // Unity lifecycle
     // =========================================================================
@@ -63,7 +70,10 @@ public sealed class CorderVisual : MonoBehaviour
     {
         CacheFrameColors();
         CreateGLMaterial();
-        CreateHUD();
+        ValidateReferences();
+
+        if (hudRoot != null)
+            hudRoot.SetActive(false);
     }
 
     private void Update()
@@ -71,8 +81,8 @@ public sealed class CorderVisual : MonoBehaviour
         bool camActive = camcorderCamera != null
                       && camcorderCamera.gameObject.activeInHierarchy;
 
-        if (_hudCanvas != null)
-            _hudCanvas.gameObject.SetActive(camActive);
+        if (hudRoot != null)
+            hudRoot.SetActive(camActive);
 
         if (!camActive) return;
 
@@ -180,68 +190,21 @@ public sealed class CorderVisual : MonoBehaviour
         _ => _idleFrameColor,
     };
 
+    private void ValidateReferences()
+    {
+        if (hudRoot == null)
+            Debug.LogWarning($"[CorderVisual] '{name}': falta asignar hudRoot en el Inspector.", this);
+        if (recDot == null)
+            Debug.LogWarning($"[CorderVisual] '{name}': falta asignar recDot en el Inspector.", this);
+        if (recText == null)
+            Debug.LogWarning($"[CorderVisual] '{name}': falta asignar recText en el Inspector.", this);
+        if (timecodeText == null)
+            Debug.LogWarning($"[CorderVisual] '{name}': falta asignar timecodeText en el Inspector.", this);
+    }
+
 #if UNITY_EDITOR
     private void OnValidate() => CacheFrameColors();
 #endif
-
-    // =========================================================================
-    // HUD – construcción (Awake, una sola vez)
-    // =========================================================================
-
-    private void CreateHUD()
-    {
-        var canvasGO = new GameObject("CorderVisual_Canvas");
-        canvasGO.transform.SetParent(transform);
-
-        _hudCanvas = canvasGO.AddComponent<Canvas>();
-        _hudCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        _hudCanvas.sortingOrder = 90;
-
-        var scaler = canvasGO.AddComponent<CanvasScaler>();
-        scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        scaler.referenceResolution = new Vector2(1920, 1080);
-
-        var grp = canvasGO.AddComponent<CanvasGroup>();
-        grp.interactable = false;
-        grp.blocksRaycasts = false;
-
-        CreateRecIndicator(canvasGO.transform);
-        _hudCanvas.gameObject.SetActive(false);
-    }
-
-    private void CreateRecIndicator(Transform parent)
-    {
-        var container = MakeRect("RecIndicator", parent,
-            new Vector2(0, 1), new Vector2(0, 1), new Vector2(0, 1),
-            new Vector2(30, -30), new Vector2(220, 50));
-
-        var dotGO = MakeRect("RecDot", container.transform,
-            new Vector2(0, 1), new Vector2(0, 1), new Vector2(0, 1),
-            new Vector2(0, 0), new Vector2(14, 14));
-        _recDot = dotGO.AddComponent<Image>();
-        _recDot.color = recColor;
-
-        var recGO = MakeRect("RecText", container.transform,
-            new Vector2(0, 1), new Vector2(0, 1), new Vector2(0, 1),
-            new Vector2(22, 2), new Vector2(80, 20));
-        _recText = recGO.AddComponent<Text>();
-        _recText.font = GetMonoFont();
-        _recText.fontSize = 20;
-        _recText.fontStyle = FontStyle.Bold;
-        _recText.color = recColor;
-        _recText.alignment = TextAnchor.MiddleLeft;
-        _recText.text = "REC";
-
-        var tcGO = MakeRect("Timecode", container.transform,
-            new Vector2(0, 1), new Vector2(0, 1), new Vector2(0, 1),
-            new Vector2(0, -22), new Vector2(200, 18));
-        _timecodeText = tcGO.AddComponent<Text>();
-        _timecodeText.font = GetMonoFont();
-        _timecodeText.fontSize = 15;
-        _timecodeText.color = hudColor;
-        _timecodeText.alignment = TextAnchor.MiddleLeft;
-        _timecodeText.text = "00:00:00";
-    }
 
     // =========================================================================
     // HUD – actualización por frame (hot-path, zero alloc)
@@ -249,12 +212,14 @@ public sealed class CorderVisual : MonoBehaviour
 
     private void UpdateRecIndicator(CamcorderMode mode)
     {
+        if (recDot == null || recText == null) return;
+
         bool isRec = mode == CamcorderMode.Recording;
         bool isPrep = mode == CamcorderMode.Preparing;
 
         bool showIndicator = isRec || isPrep;
-        _recDot.gameObject.SetActive(showIndicator);
-        _recText.gameObject.SetActive(showIndicator);
+        recDot.gameObject.SetActive(showIndicator);
+        recText.gameObject.SetActive(showIndicator);
 
         if (!showIndicator) return;
 
@@ -265,29 +230,31 @@ public sealed class CorderVisual : MonoBehaviour
             // Reusar color precalculado, solo mutar alpha → sin new Color
             Color c = _recFrameColor;
             c.a = b;
-            _recDot.color = c;
-            _recText.color = c;
+            recDot.color = c;
+            recText.color = c;
 
             // Solo asignar string si cambió el modo (el texto "REC" no cambia frame a frame)
             if (_lastMode != CamcorderMode.Recording)
-                _recText.text = "REC";
+                recText.text = "REC";
         }
         else // isPrep
         {
-            _recDot.color = _prepFrameColor;
+            recDot.color = _prepFrameColor;
 
             float b = Mathf.Sin(Time.time * 6f) > 0f ? 1f : 0.2f;
             Color c = _prepFrameColor;
             c.a = b;
-            _recText.color = c;
+            recText.color = c;
 
             if (_lastMode != CamcorderMode.Preparing)
-                _recText.text = "STBY";
+                recText.text = "STBY";
         }
     }
 
     private void UpdateTimecode(CamcorderMode mode)
     {
+        if (timecodeText == null) return;
+
         if (mode == CamcorderMode.Recording)
         {
             _recordingTime += Time.deltaTime;
@@ -305,6 +272,14 @@ public sealed class CorderVisual : MonoBehaviour
                  : ' ';
 
         int tot = Mathf.FloorToInt(_recordingTime);
+
+        // Si ni el segundo entero ni el separador parpadeante cambiaron, no hay nada
+        // que actualizar: nos ahorramos el ToString() (y su alloc) frame a frame.
+        if (tot == _lastTotalSeconds && sep == _lastSep) return;
+
+        _lastTotalSeconds = tot;
+        _lastSep = sep;
+
         int hh = tot / 3600;
         int mm = (tot % 3600) / 60;
         int ss = tot % 60;
@@ -317,8 +292,7 @@ public sealed class CorderVisual : MonoBehaviour
         _sb.Append(sep);
         AppendTwoDigits(_sb, ss);
 
-        _timecodeText.text = _sb.ToString(); // ← única alloc inevitable (string inmutable)
-        // Si usás TextMeshPro, reemplazá con: _timecodeText.SetText(_sb);  → 0 alloc total
+        timecodeText.SetText(_sb); // TMP_Text toma el StringBuilder directo → 0 alloc total
     }
 
     /// <summary>Escribe un entero de 0-99 como dos dígitos sin alloc.</summary>
@@ -327,29 +301,4 @@ public sealed class CorderVisual : MonoBehaviour
         sb.Append((char)('0' + value / 10));
         sb.Append((char)('0' + value % 10));
     }
-
-    // =========================================================================
-    // Utilities
-    // =========================================================================
-
-    private static GameObject MakeRect(
-        string name, Transform parent,
-        Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot,
-        Vector2 pos, Vector2 size)
-    {
-        var go = new GameObject(name, typeof(RectTransform));
-        go.transform.SetParent(parent, false);
-        var rt = go.GetComponent<RectTransform>();
-        rt.anchorMin = anchorMin;
-        rt.anchorMax = anchorMax;
-        rt.pivot = pivot;
-        rt.anchoredPosition = pos;
-        rt.sizeDelta = size;
-        return go;
-    }
-
-    private static Font GetMonoFont()
-        => Font.CreateDynamicFontFromOSFont("Consolas", 16)
-        ?? Font.CreateDynamicFontFromOSFont("Courier New", 16)
-        ?? Font.CreateDynamicFontFromOSFont("Arial", 16);
 }
