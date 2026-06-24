@@ -9,6 +9,9 @@ using FMOD.Studio;
 [RequireComponent(typeof(CamcorderMotor))]
 public class CamcorderController : MonoBehaviour
 {
+    public static bool LiftInputBlocked = false;
+    public static bool RecordInputBlocked = false;
+
     [Header("Setup")]
     [SerializeField] private GameObject camcorderVisual;
     [SerializeField] private PlayerMotor playerMotor;
@@ -24,9 +27,6 @@ public class CamcorderController : MonoBehaviour
 
     [Header("FMOD")]
     [SerializeField] private EventReference toggleEvent;
-
-    [Header("Feedback")]
-    [SerializeField] private string storageFullMessage = "";
 
     public CamcorderMode CurrentCamMode => _currentCamMode;
 
@@ -76,7 +76,7 @@ public class CamcorderController : MonoBehaviour
         if (_currentPlayerMode == PlayerMode.MenuCameraMode) return;
         if (_currentPlayerMode == PlayerMode.InteractionMode) return;
 
-        if (_input.LiftCamera) ToggleCamera();
+        if (_input.LiftCamera && !LiftInputBlocked) ToggleCamera();
 
         if (_isCameraUp && _currentCamMode != CamcorderMode.Recording)
         {
@@ -114,7 +114,7 @@ public class CamcorderController : MonoBehaviour
         switch (_currentCamMode)
         {
             case CamcorderMode.Idle:
-                if (_input.StartedRecording)
+                if (_input.StartedRecording && !RecordInputBlocked)
                     _currentCamMode = CamcorderMode.Preparing;
                 break;
 

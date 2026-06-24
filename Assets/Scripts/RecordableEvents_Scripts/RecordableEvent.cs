@@ -64,7 +64,7 @@ public class RecordableEvent : MonoBehaviour, ICamcorderTarget
             ? CamcorderDetectionSystem.Instance.GetZoneForTarget(this)
             : CamcorderZone.None;
 
-        Debug.Log($"[Event {eventId}] zone: {zone} | state: {_state} | recording: {_camcorderRecording}");
+        //Debug.Log($"[Event {eventId}] zone: {zone} | state: {_state} | recording: {_camcorderRecording}");
 
         if (zone == CamcorderZone.DeadZone)
         {

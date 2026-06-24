@@ -5,7 +5,6 @@ public class BathroomDoorSequence : MonoBehaviour
     [SerializeField] private Door door;
     [SerializeField] private string showerEventId = "";
 
-    [Tooltip("true = abre al completar la grabación. false = abre al VER la grabación.")]
     [SerializeField] private bool openOnComplete = false;
 
     private void OnEnable()

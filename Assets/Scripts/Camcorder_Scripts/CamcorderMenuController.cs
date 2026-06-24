@@ -9,6 +9,8 @@ using UnityEngine;
 [RequireComponent(typeof(AudioPlayback))]
 public class CamcorderMenuController : MonoBehaviour
 {
+    public static bool MenuInputBlocked = false;
+
     [Header("FPS View")]
     [SerializeField] private Camera fpsCamera;
     [SerializeField] private GameObject fpsHandModel;
@@ -17,8 +19,8 @@ public class CamcorderMenuController : MonoBehaviour
     [SerializeField] private Canvas menuCanvas;
 
     [Header("Timing/TweakDesigner")]
-    [SerializeField] private float rffStep = 1f; // Seconds to seek on each RFF step
-    [SerializeField] private float rffDelay = 0.15f; // Rewind delay
+    [SerializeField] private float rffStep = 1f;
+    [SerializeField] private float rffDelay = 0.15f;
 
     private CamcorderStorage _storage;
     private CamcorderInput _input;
@@ -27,7 +29,6 @@ public class CamcorderMenuController : MonoBehaviour
     private PlaybackClock _clock;
     private VideoPlayback _videoPlayback;
     private AudioPlayback _audioPlayback;
-    //private IterationPlaybackAudio[] _iterationAudios;
 
     private Camera _activeFixedCamera;
     private int _currentIndex = 0;
@@ -45,7 +46,6 @@ public class CamcorderMenuController : MonoBehaviour
         _clock = GetComponent<PlaybackClock>();
         _videoPlayback = GetComponent<VideoPlayback>();
         _audioPlayback = GetComponent<AudioPlayback>();
-        //_iterationAudios = FindObjectsByType<IterationPlaybackAudio>(FindObjectsSortMode.None);
     }
 
     private void OnEnable()
@@ -56,7 +56,7 @@ public class CamcorderMenuController : MonoBehaviour
     private void OnDisable()
     {
         _clock.OnComplete -= OnPlaybackComplete;
-        }
+    }
 
     private void Start()
     {
@@ -76,6 +76,7 @@ public class CamcorderMenuController : MonoBehaviour
         HandleStop();
         HandleDiscard();
     }
+
     private void OpenMenu()
     {
         if (_controller.CurrentCamMode == CamcorderMode.Recording) return;
@@ -114,9 +115,11 @@ public class CamcorderMenuController : MonoBehaviour
     private void ToggleMenu()
     {
         if (!_input.OpenCloseMenu) return;
+        if (!IsMenuOpen && MenuInputBlocked) return;
         if (IsMenuOpen) CloseMenu();
         else OpenMenu();
     }
+
     private void HandlePlayback()
     {
         if (_storage.Count == 0) return;
@@ -124,30 +127,19 @@ public class CamcorderMenuController : MonoBehaviour
 
         if (_clock.IsPlaying)
         {
-            // Pause
             _clock.Pause();
-           // PlaybackAudioManager.Instance?.OnPlaybackPaused();
-            //foreach (var a in _iterationAudios) a.OnPlaybackPaused();
         }
         else if (_clock.HasSession && !_clock.IsFinished)
         {
-            // Resume
             _clock.Play();
-           // PlaybackAudioManager.Instance?.OnPlaybackStarted(isResume: true);
-           // foreach (var a in _iterationAudios) a.OnPlaybackStarted(isResume: true);
         }
         else
         {
             RecordingSession session = _storage.GetRecording(_currentIndex);
-
             _clock.Load(session);
-
             _videoPlayback.Load(session);
             _audioPlayback.Load(session);
-
             _clock.Play();
-           // PlaybackAudioManager.Instance?.OnPlaybackStarted(isResume: false);
-           // foreach (var a in _iterationAudios) a.OnPlaybackStarted(isResume: false);
         }
     }
 
@@ -157,11 +149,7 @@ public class CamcorderMenuController : MonoBehaviour
         if (!_input.RewindRecording && !_input.FastForwardRecording)
         {
             _rffTimer = 0f;
-            if (_wasRFF)
-            {
-                _wasRFF = false;
-               // PlaybackAudioManager.Instance?.OnRFFStopped();
-            }
+            if (_wasRFF) _wasRFF = false;
             return;
         }
 
@@ -172,15 +160,9 @@ public class CamcorderMenuController : MonoBehaviour
         _wasRFF = true;
 
         if (_input.RewindRecording)
-        {
             _clock.SeekDelta(-rffStep);
-           // PlaybackAudioManager.Instance?.OnRFF(isRewind: true);
-        }
         else
-        {
             _clock.SeekDelta(rffStep);
-            // PlaybackAudioManager.Instance?.OnRFF(isRewind: false);
-        }
     }
 
     private void HandleStop()
@@ -216,16 +198,12 @@ public class CamcorderMenuController : MonoBehaviour
 
     private void OnPlaybackComplete()
     {
-       // PlaybackAudioManager.Instance?.OnPlaybackStopped();
-        //foreach (var a in _iterationAudios) a.OnPlaybackStopped();
     }
 
     private void StopEverything()
     {
         if (!_clock.HasSession) return;
         _clock.Stop();
-       // PlaybackAudioManager.Instance?.OnPlaybackStopped();
-        //foreach (var a in _iterationAudios) a.OnPlaybackStopped();
     }
 
     private Camera FindActiveFixedCamera()

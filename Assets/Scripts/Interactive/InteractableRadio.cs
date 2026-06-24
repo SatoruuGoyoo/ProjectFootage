@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(World3DSource))]
 public class InteractableRadio : MonoBehaviour, IInteractable
@@ -7,6 +8,10 @@ public class InteractableRadio : MonoBehaviour, IInteractable
     [SerializeField] private SubtitleBlock subtitles;
     [TextArea(3, 10)]
     [SerializeField] private string subtitleText = "";
+
+    [Header("Events")]
+    [SerializeField] private UnityEvent OnTurnedOn;
+    [SerializeField] private UnityEvent OnTurnedOff;
 
     private World3DSource _source;
 
@@ -23,11 +28,17 @@ public class InteractableRadio : MonoBehaviour, IInteractable
     {
         _source.Toggle();
 
-        if (subtitles == null) return;
+        if (subtitles != null)
+        {
+            if (_source.IsPlaying)
+                subtitles.Show(subtitleText);
+            else
+                subtitles.Hide();
+        }
 
         if (_source.IsPlaying)
-            subtitles.Show(subtitleText);
+            OnTurnedOn?.Invoke();
         else
-            subtitles.Hide();
+            OnTurnedOff?.Invoke();
     }
 }
