@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 using FMODUnity;
+using FMOD.Studio;
 
 [RequireComponent(typeof(Collider))]
 public class PhoneInteractable : MonoBehaviour, IInteractable
@@ -9,56 +10,142 @@ public class PhoneInteractable : MonoBehaviour, IInteractable
     [SerializeField] private Transform _player;
     [SerializeField] private float _maxDistance = 1.5f;
 
-    [Header("Cameras")]
-    [SerializeField] private Camera _phoneCamera;
-    [SerializeField] private Camera _playerCamera;
-
     [Header("FMOD")]
     [SerializeField] private EventReference putUpPhoneReference;
     [SerializeField] private EventReference putDownPhoneReference;
     [SerializeField] private EventReference markNumberReference;
+    [SerializeField] private EventReference wrongCodeReference;
+    [SerializeField] private EventReference correctCodeReference;
+    [SerializeField] private EventReference ringReference;
+    [SerializeField] private EventReference callConversationReference;
 
     [SerializeField] private GameObject _phoneUI;
 
     [Header("Settings")]
     [SerializeField] private string _openPrompt = "";
     [SerializeField] private string _closePrompt = "";
+    [SerializeField] private string _answerPrompt = "";
 
     [Header("Events")]
     public UnityEvent OnPhoneOpened;
     public UnityEvent OnPhoneClosed;
+    public UnityEvent OnCallAnswered;
+    public UnityEvent OnConversationEnded;
 
-    private bool _isOpen;
+    private enum PhoneState
+    {
+        Idle,
+        Open,
+        WaitingForRing,  // codigo correcto escuchado, telefono cerrado, esperando alejarse
+        Ringing,         // sonando, esperando que el jugador conteste
+        LockedCorrect,   // escuchando audio de codigo correcto, no puede cerrar HASTA que termine
+        LockedCall,      // escuchando conversacion, no puede cerrar
+        Done,            // llamada terminada, telefono inutilizable para siempre
+    }
 
-    public string PromptMessage => _isOpen ? _closePrompt : _openPrompt;
-    public bool CanInteract => true;
+    private PhoneState _state = PhoneState.Idle;
+    private EventInstance _currentPhoneAudio;
+
+    public string PromptMessage
+    {
+        get
+        {
+            if (_state == PhoneState.Ringing && !_isOpen) return _answerPrompt;
+            return _isOpen ? _closePrompt : _openPrompt;
+        }
+    }
+
+    public bool CanInteract => _state != PhoneState.Done;
     public bool BlockMovement => true;
     public bool IsOpen => _isOpen;
     public EventReference MarkNumberReference => markNumberReference;
 
-    private void Awake()
-    {
-        _phoneCamera.enabled = false;
-    }
+    private bool _isOpen => _state == PhoneState.Open
+                         || _state == PhoneState.LockedCorrect
+                         || _state == PhoneState.LockedCall;
 
     private void Update()
     {
-        if (!_isOpen) return;
-        if (_player == null) return;
+        switch (_state)
+        {
+            case PhoneState.Open:
+                // auto-close por distancia
+                if (_player != null && Vector3.Distance(transform.position, _player.position) > _maxDistance)
+                    ClosePhone();
+                break;
 
-        float distance = Vector3.Distance(transform.position, _player.position);
-        if (distance > _maxDistance) Close();
+            case PhoneState.WaitingForRing:
+                // espera a que el jugador se aleje para empezar a sonar
+                if (_player != null && Vector3.Distance(transform.position, _player.position) > _maxDistance)
+                    StartRinging();
+                break;
+
+            case PhoneState.LockedCorrect:
+                // Auto-cierre cuando termina el audio del codigo correcto.
+                // El jugador tambien puede interrumpirlo manualmente via Interact().
+                if (IsAudioFinished())
+                    ClosePhone();
+                break;
+
+            case PhoneState.LockedCall:
+                if (IsAudioFinished())
+                {
+                    // Cierra el telefono, abre la puerta, y lo deja inutilizable
+                    _phoneUI.SetActive(false);
+                    StopCurrentPhoneAudio();
+                    if (!putDownPhoneReference.IsNull)
+                        RuntimeManager.PlayOneShot(putDownPhoneReference, transform.position);
+                    GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
+                    if (MouseCursorController.Instance != null) MouseCursorController.Instance.ReleaseCursor();
+                    _state = PhoneState.Done;
+                    OnPhoneClosed?.Invoke();
+                    OnConversationEnded?.Invoke(); // abre la puerta
+                }
+                break;
+        }
     }
 
     public void Interact()
     {
-        if (_isOpen) Close();
-        else Open();
+        switch (_state)
+        {
+            case PhoneState.Idle:
+                OpenPhone();
+                _state = PhoneState.Open;
+                break;
+
+            case PhoneState.Open:
+                ClosePhone();
+                break;
+
+            case PhoneState.LockedCorrect:
+                // Permite cerrar en cualquier momento, haya terminado o no el audio.
+                // StopCurrentPhoneAudio() se llama dentro de ClosePhone().
+                ClosePhone();
+                break;
+
+            case PhoneState.Ringing:
+                AnswerCall();
+                break;
+
+            case PhoneState.LockedCall:
+                // no hace nada, bloqueado
+                break;
+
+            case PhoneState.Done:
+                // ya termino todo, no hace nada
+                break;
+        }
     }
 
     public void ForceClose()
     {
-        if (_isOpen) Close();
+        StopCurrentPhoneAudio();
+        _state = PhoneState.Idle;
+        _phoneUI.SetActive(false);
+        GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
+        if (MouseCursorController.Instance != null) MouseCursorController.Instance.ReleaseCursor();
+        OnPhoneClosed?.Invoke();
     }
 
     public void PlayMarkNumber()
@@ -67,35 +154,97 @@ public class PhoneInteractable : MonoBehaviour, IInteractable
         RuntimeManager.PlayOneShot(markNumberReference, transform.position);
     }
 
-    private void Open()
+    public void PlayWrongCode()
     {
-        _isOpen = true;
+        if (wrongCodeReference.IsNull) return;
+        StopCurrentPhoneAudio();
+        _currentPhoneAudio = RuntimeManager.CreateInstance(wrongCodeReference);
+        _currentPhoneAudio.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
+        _currentPhoneAudio.start();
+    }
+
+    public void PlayCorrectCode()
+    {
+        if (correctCodeReference.IsNull) return;
+        StopCurrentPhoneAudio();
+        _state = PhoneState.LockedCorrect;
+        _currentPhoneAudio = RuntimeManager.CreateInstance(correctCodeReference);
+        _currentPhoneAudio.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
+        _currentPhoneAudio.start();
+    }
+
+    private void StartRinging()
+    {
+        _state = PhoneState.Ringing;
+        if (ringReference.IsNull) return;
+        StopCurrentPhoneAudio();
+        _currentPhoneAudio = RuntimeManager.CreateInstance(ringReference);
+        _currentPhoneAudio.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
+        _currentPhoneAudio.start();
+    }
+
+    private void AnswerCall()
+    {
+        StopCurrentPhoneAudio(); // corta el ring
+        _state = PhoneState.LockedCall;
+        OpenPhone();
+        OnCallAnswered?.Invoke();
+
+        if (callConversationReference.IsNull) return;
+        _currentPhoneAudio = RuntimeManager.CreateInstance(callConversationReference);
+        _currentPhoneAudio.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
+        _currentPhoneAudio.start();
+    }
+
+    private void OpenPhone()
+    {
         _phoneUI.SetActive(true);
         if (!putUpPhoneReference.IsNull)
             RuntimeManager.PlayOneShot(putUpPhoneReference, transform.position);
         GameEvents.PlayerModeChanged(PlayerMode.InteractionMode);
-
         if (MouseCursorController.Instance != null) MouseCursorController.Instance.RequestCursor();
-
         OnPhoneOpened?.Invoke();
     }
 
-    private void Close()
+    private void ClosePhone()
     {
-        _isOpen = false;
+        if (_state == PhoneState.LockedCorrect)
+        {
+            // al cerrar despues de codigo correcto, arranca la espera del ring
+            _state = PhoneState.WaitingForRing;
+        }
+        else
+        {
+            _state = PhoneState.Idle;
+        }
+
         _phoneUI.SetActive(false);
+        StopCurrentPhoneAudio();
         if (!putDownPhoneReference.IsNull)
             RuntimeManager.PlayOneShot(putDownPhoneReference, transform.position);
         GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
-
         if (MouseCursorController.Instance != null) MouseCursorController.Instance.ReleaseCursor();
-
         OnPhoneClosed?.Invoke();
     }
 
-    private void SetCameras(bool phoneActive)
+    private bool IsAudioFinished()
     {
-        _phoneCamera.enabled = phoneActive;
-        _playerCamera.enabled = !phoneActive;
+        if (!_currentPhoneAudio.isValid()) return true;
+        _currentPhoneAudio.getPlaybackState(out PLAYBACK_STATE state);
+        return state == PLAYBACK_STATE.STOPPED;
+    }
+
+    private void StopCurrentPhoneAudio()
+    {
+        if (_currentPhoneAudio.isValid())
+        {
+            _currentPhoneAudio.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            _currentPhoneAudio.release();
+        }
+    }
+
+    private void OnDestroy()
+    {
+        StopCurrentPhoneAudio();
     }
 }

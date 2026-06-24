@@ -93,7 +93,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: d1731955079a50245a73528ec4353aad, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -37759,7 +37759,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &532449871
 RectTransform:
   m_ObjectHideFlags: 0
@@ -43956,10 +43956,6 @@ MonoBehaviour:
   correctCode: 8611
   maxDigits: 4
   phone: {fileID: 2108997843}
-  objectToActivate: {fileID: 1024916460}
-  onPuzzleSolved:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &613382510
 GameObject:
   m_ObjectHideFlags: 0
@@ -149324,8 +149320,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PhoneInteractable
   _player: {fileID: 1875973313}
   _maxDistance: 1.5
-  _phoneCamera: {fileID: 456077929}
-  _playerCamera: {fileID: 622833343}
   putUpPhoneReference:
     Guid:
       Data1: 0
@@ -149347,13 +149341,48 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  wrongCodeReference:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  correctCodeReference:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  ringReference:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  callConversationReference:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   _phoneUI: {fileID: 1113736674}
   _openPrompt: .
   _closePrompt: .
+  _answerPrompt: 
   OnPhoneOpened:
     m_PersistentCalls:
       m_Calls: []
   OnPhoneClosed:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCallAnswered:
+    m_PersistentCalls:
+      m_Calls: []
+  OnConversationEnded:
     m_PersistentCalls:
       m_Calls: []
 --- !u!65 &1800063702
@@ -149847,7 +149876,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1812769466
 RectTransform:
   m_ObjectHideFlags: 0
@@ -152931,7 +152960,7 @@ Transform:
   m_GameObject: {fileID: 1875973312}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.70710707, z: -0, w: 0.70710653}
-  m_LocalPosition: {x: 22.74, y: 5.64, z: -1.09}
+  m_LocalPosition: {x: 22.67, y: 5.73, z: -1.69}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -170161,8 +170190,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PhoneInteractable
   _player: {fileID: 1875973313}
   _maxDistance: 1.5
-  _phoneCamera: {fileID: 456077929}
-  _playerCamera: {fileID: 622833343}
   putUpPhoneReference:
     Guid:
       Data1: 0
@@ -170184,13 +170211,48 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  wrongCodeReference:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  correctCodeReference:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  ringReference:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  callConversationReference:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   _phoneUI: {fileID: 1113736674}
   _openPrompt: .
   _closePrompt: .
+  _answerPrompt: 
   OnPhoneOpened:
     m_PersistentCalls:
       m_Calls: []
   OnPhoneClosed:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCallAnswered:
+    m_PersistentCalls:
+      m_Calls: []
+  OnConversationEnded:
     m_PersistentCalls:
       m_Calls: []
 --- !u!65 &2027376367
@@ -177085,8 +177147,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PhoneInteractable
   _player: {fileID: 1875973313}
   _maxDistance: 1.5
-  _phoneCamera: {fileID: 456077929}
-  _playerCamera: {fileID: 520315577}
   putUpPhoneReference:
     Guid:
       Data1: 1949342055
@@ -177108,15 +177168,62 @@ MonoBehaviour:
       Data3: -1244027470
       Data4: -1683326502
     Path: event:/SFX/RedTelephone/MarkNumber
+  wrongCodeReference:
+    Guid:
+      Data1: 282151155
+      Data2: 1298310404
+      Data3: 891185853
+      Data4: 110288780
+    Path: event:/SFX/Iterations/Radio_IT1
+  correctCodeReference:
+    Guid:
+      Data1: 251531309
+      Data2: 1121287367
+      Data3: -934784328
+      Data4: 96339796
+    Path: event:/SFX/Iterations/Radio_IT2
+  ringReference:
+    Guid:
+      Data1: 1388873967
+      Data2: 1169277531
+      Data3: 1248896176
+      Data4: 243448964
+    Path: event:/SFX/Door/OpenDoor/OpenDoor
+  callConversationReference:
+    Guid:
+      Data1: 2131404893
+      Data2: 1297059007
+      Data3: 1805863059
+      Data4: 1778374670
+    Path: event:/Horror/Events/BathRoom/HorrorEvent_BTH
   _phoneUI: {fileID: 1113736674}
   _openPrompt: .
   _closePrompt: .
+  _answerPrompt: .
   OnPhoneOpened:
     m_PersistentCalls:
       m_Calls: []
   OnPhoneClosed:
     m_PersistentCalls:
       m_Calls: []
+  OnCallAnswered:
+    m_PersistentCalls:
+      m_Calls: []
+  OnConversationEnded:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1024916460}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!65 &2108997844
 BoxCollider:
   m_ObjectHideFlags: 0
