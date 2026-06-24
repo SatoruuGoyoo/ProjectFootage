@@ -61,8 +61,18 @@ public class Door : MonoBehaviour, IInteractable
     private void Awake()
     {
         if (pivot == null) pivot = transform;
-        closedRot = pivot.localRotation;
-        openRot = closedRot * Quaternion.Euler(0f, openAngle, 0f);
+
+        if (startOpen)
+        {
+            openRot = pivot.localRotation;
+            closedRot = openRot * Quaternion.Euler(0f, -openAngle, 0f);
+        }
+        else
+        {
+            closedRot = pivot.localRotation;
+            openRot = closedRot * Quaternion.Euler(0f, openAngle, 0f);
+        }
+
         manualLock = startLocked;
         isOpen = startOpen;
         pivot.localRotation = isOpen ? openRot : closedRot;

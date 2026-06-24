@@ -36438,6 +36438,59 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 485543315}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &489653818
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 489653820}
+  - component: {fileID: 489653819}
+  m_Layer: 0
+  m_Name: 09.5_Jumpscare_SFX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &489653819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 489653818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 873b9fbb058018840aa8441558baf81e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayFMODSoundStep
+  soundEvent:
+    Guid:
+      Data1: 2131404893
+      Data2: 1297059007
+      Data3: 1805863059
+      Data4: 1778374670
+    Path: event:/Horror/Events/BathRoom/HorrorEvent_BTH
+  waitForFinish: 1
+  soundPosition: {fileID: 0}
+--- !u!4 &489653820
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 489653818}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1741382707}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &489737435 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -229113793236118474, guid: f1e8e1bfafe7fa241ba6b4181f3eba85, type: 3}
@@ -64970,7 +65023,7 @@ MonoBehaviour:
   playerCanToggle: 0
   lockedFeedback: 
   confirmationText: 
-  startOpen: 0
+  startOpen: 1
   interactCooldown: 0.5
   pivot: {fileID: 879073609}
   openAngle: 90
@@ -93960,7 +94013,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
   requiredItemId: 
-  startLocked: 1
+  startLocked: 0
   playerCanToggle: 0
   lockedFeedback: 
   confirmationText: 
@@ -120695,6 +120748,51 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+--- !u!1 &1462154447
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1462154449}
+  - component: {fileID: 1462154448}
+  m_Layer: 0
+  m_Name: Wait_2_Seconds
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1462154448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1462154447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dd65fa4470df2142a3c1d06a16be7d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaitSecondsStep
+  seconds: 2
+--- !u!4 &1462154449
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1462154447}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1741382707}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &1472023787
 Mesh:
   m_ObjectHideFlags: 0
@@ -147628,10 +147726,12 @@ MonoBehaviour:
   - {fileID: 1093229119}
   - {fileID: 209521537}
   - {fileID: 1839611425}
-  - {fileID: 2026357478}
   - {fileID: 5854210}
+  - {fileID: 2026357478}
+  - {fileID: 489653819}
   - {fileID: 356148261}
-  - {fileID: 0}
+  - {fileID: 1462154448}
+  - {fileID: 1889836524}
   logSteps: 1
   OnSequenceCompleted:
     m_PersistentCalls:
@@ -147650,6 +147750,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2026357479}
+  - {fileID: 1462154449}
   - {fileID: 1091050646}
   - {fileID: 300136747}
   - {fileID: 445708529}
@@ -147659,6 +147760,7 @@ Transform:
   - {fileID: 209521538}
   - {fileID: 1839611424}
   - {fileID: 5854211}
+  - {fileID: 489653820}
   - {fileID: 356148262}
   - {fileID: 1889836523}
   - {fileID: 196886842}
@@ -153131,7 +153233,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoorActionStep
   targetDoor: {fileID: 1180672861}
-  action: 0
+  action: 5
 --- !u!1 &1842211023
 GameObject:
   m_ObjectHideFlags: 0
