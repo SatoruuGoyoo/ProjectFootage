@@ -10,8 +10,8 @@ public class InteractableRadio : MonoBehaviour, IInteractable
     [SerializeField] private string subtitleText = "";
 
     [Header("Events")]
-    [SerializeField] private UnityEvent OnTurnedOn;
-    [SerializeField] private UnityEvent OnTurnedOff;
+    public UnityEvent OnTurnedOn;
+    public UnityEvent OnTurnedOff;
 
     private World3DSource _source;
 
