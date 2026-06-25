@@ -8,11 +8,14 @@ public class SequenceRunner : MonoBehaviour
     {
         Manual,
         OnStart,
-        OnCamcorderPickedUp
+        OnCamcorderPickedUp,
+        OnCorridorIteration
     }
 
     [Header("Trigger")]
     [SerializeField] private StartTrigger startTrigger = StartTrigger.Manual;
+    [Tooltip("Solo si startTrigger = OnCorridorIteration: el número de iteración que dispara esta secuencia.")]
+    [SerializeField] private int iterationToMatch = 1;
 
     [Header("Setup")]
     [SerializeField] private SequenceStep[] steps;
@@ -28,12 +31,16 @@ public class SequenceRunner : MonoBehaviour
     {
         if (startTrigger == StartTrigger.OnCamcorderPickedUp)
             GameEvents.OnCamcorderPickedUp += HandleCamcorderPickedUp;
+        if (startTrigger == StartTrigger.OnCorridorIteration)
+            CorridorTeleporter.OnIterationChanged += HandleIterationChanged;
     }
 
     private void OnDisable()
     {
         if (startTrigger == StartTrigger.OnCamcorderPickedUp)
             GameEvents.OnCamcorderPickedUp -= HandleCamcorderPickedUp;
+        if (startTrigger == StartTrigger.OnCorridorIteration)
+            CorridorTeleporter.OnIterationChanged -= HandleIterationChanged;
     }
 
     private void Start()
@@ -42,6 +49,11 @@ public class SequenceRunner : MonoBehaviour
     }
 
     private void HandleCamcorderPickedUp() => StartSequence();
+
+    private void HandleIterationChanged(int iteration)
+    {
+        if (iteration == iterationToMatch) StartSequence();
+    }
 
     public void StartSequence()
     {
