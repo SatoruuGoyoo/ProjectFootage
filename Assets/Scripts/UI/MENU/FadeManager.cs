@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Video;
 using TMPro;
 
 public sealed class FadeManager : MonoBehaviour
@@ -22,10 +23,15 @@ public sealed class FadeManager : MonoBehaviour
     [SerializeField, Min(1f)] private float fontSize = 28f;
     [SerializeField] private Color textColor = new Color(0.85f, 0.85f, 0.85f, 1f);
 
+    [Header("Intro Video")]
+    [SerializeField] private VideoClip introVideoClip;
+
     public bool IsBusy { get; private set; }
 
     private Image _overlay;
     private TextMeshProUGUI _label;
+    private RawImage _videoDisplay;
+    private VideoPlayer _videoPlayer;
 
     private void Awake()
     {
@@ -41,6 +47,7 @@ public sealed class FadeManager : MonoBehaviour
         BuildOverlayUI();
         SetOverlayAlpha(0f);
         _label.alpha = 0f;
+        _videoDisplay.gameObject.SetActive(false);
     }
 
     public IEnumerator FadeOut(float duration = -1f)
@@ -82,13 +89,20 @@ public sealed class FadeManager : MonoBehaviour
         IsBusy = true;
         OnSceneTransitionStart?.Invoke(config.SceneName);
 
+        // 1. Fade Out a negro
         yield return TweenOverlay(0f, 1f, config.FadeOutDuration);
         OnFadeOutComplete?.Invoke();
 
+        // 2. Video si hay uno asignado
+        if (introVideoClip != null)
+            yield return RunIntroVideo();
+
+        // 3. Texto Sk4rz_26
+        yield return RunIntroText(config.IntroText, config.HoldDuration);
+
+        // 4. Cargar escena
         AsyncOperation loadOp = SceneManager.LoadSceneAsync(config.SceneName);
         loadOp.allowSceneActivation = false;
-
-        yield return RunIntroText(config.IntroText, config.HoldDuration);
 
         while (loadOp.progress < 0.9f)
             yield return null;
@@ -100,15 +114,36 @@ public sealed class FadeManager : MonoBehaviour
 
         yield return new WaitForEndOfFrame();
 
-        if (GameWarmup.Instance != null)
-        {
-            while (!GameWarmup.Instance.IsFinished)
-                yield return null;
-        }
-
+        // 5. Fade In al juego
         yield return TweenOverlay(1f, 0f, config.FadeInDuration);
         OnFadeInComplete?.Invoke();
         IsBusy = false;
+    }
+
+    private IEnumerator RunIntroVideo()
+    {
+        _videoDisplay.gameObject.SetActive(true);
+        _videoPlayer.clip = introVideoClip;
+        _videoPlayer.Prepare();
+
+        // Esperar que el video esté listo
+        while (!_videoPlayer.isPrepared)
+            yield return null;
+
+        _videoPlayer.Play();
+
+        // Fade In al video
+        yield return TweenOverlay(1f, 0f, 0.5f);
+
+        // Esperar que termine
+        while (_videoPlayer.isPlaying)
+            yield return null;
+
+        // Fade Out de vuelta a negro
+        yield return TweenOverlay(0f, 1f, 0.5f);
+
+        _videoDisplay.gameObject.SetActive(false);
+        _videoPlayer.Stop();
     }
 
     private IEnumerator RunIntroText(string text, float hold)
@@ -165,6 +200,28 @@ public sealed class FadeManager : MonoBehaviour
 
         _overlay = CreateFullscreenImage("FadeOverlay", Color.black);
         _label = CreateCenteredLabel("FadeLabel");
+
+        // Video
+        var videoGO = new GameObject("VideoDisplay");
+        videoGO.transform.SetParent(transform, false);
+
+        _videoDisplay = videoGO.AddComponent<RawImage>();
+        _videoDisplay.raycastTarget = false;
+
+        var rt = videoGO.GetComponent<RectTransform>();
+        rt.anchorMin = Vector2.zero;
+        rt.anchorMax = Vector2.one;
+        rt.sizeDelta = Vector2.zero;
+
+        _videoPlayer = videoGO.AddComponent<VideoPlayer>();
+        _videoPlayer.renderMode = VideoRenderMode.RenderTexture;
+        _videoPlayer.isLooping = false;
+        _videoPlayer.playOnAwake = false;
+        _videoPlayer.audioOutputMode = VideoAudioOutputMode.Direct;
+
+        var renderTexture = new RenderTexture(1920, 1080, 0);
+        _videoPlayer.targetTexture = renderTexture;
+        _videoDisplay.texture = renderTexture;
     }
 
     private Image CreateFullscreenImage(string goName, Color color)

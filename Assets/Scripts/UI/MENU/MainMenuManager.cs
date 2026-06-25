@@ -5,7 +5,7 @@ namespace SM.UI
     public sealed class MainMenuManager : MonoBehaviour
     {
         [Header("Scene Transition")]
-        [SerializeField] private string gameSceneName = "SCN_Integration";
+        [SerializeField] private SceneField gameScene;
 
         [Header("Intro Text")]
         [TextArea(2, 5)]
@@ -15,9 +15,14 @@ namespace SM.UI
         [SerializeField] private GameObject mainPanel;
         [SerializeField] private GameObject optionsPanel;
 
-        [Header("Interaction")]
-        [SerializeField] private CanvasGroup menuCanvasGroup;
+        [Header("Canvas")]
+        [SerializeField] private Canvas menuCanvas;
 
+        [Header("Sounds")]
+        [SerializeField] private string clickEvent = "event:/MainMenu/UI - UX/UI - ButtonClick";
+        [SerializeField] private string ambienceEvent = "event:/MainMenu/Ambient/MenuMusic";
+
+        private FMOD.Studio.EventInstance _ambience;
         private bool _menuLocked;
 
         private void Start()
@@ -25,25 +30,35 @@ namespace SM.UI
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
             ShowMainPanel();
+
+            if (!string.IsNullOrEmpty(ambienceEvent))
+            {
+                _ambience = FMODUnity.RuntimeManager.CreateInstance(ambienceEvent);
+                _ambience.start();
+            }
+        }
+
+        private void OnDestroy()
+        {
+            _ambience.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            _ambience.release();
         }
 
         public void OnPlayClicked()
         {
-            if (_menuLocked || FadeManager.Instance.IsBusy)
-                return;
+            if (_menuLocked || FadeManager.Instance.IsBusy) return;
+
+            FMODUnity.RuntimeManager.PlayOneShot(clickEvent);
+            _ambience.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 
             LockMenu();
-
-            FadeManager.Instance.FadeToScene(
-                gameSceneName,
-                introText
-            );
+            FadeManager.Instance.FadeToScene(gameScene, introText);
         }
 
         public void OnOptionsClicked()
         {
             if (_menuLocked) return;
-
+            FMODUnity.RuntimeManager.PlayOneShot(clickEvent);
             SetPanel(mainPanel, false);
             SetPanel(optionsPanel, true);
         }
@@ -51,14 +66,14 @@ namespace SM.UI
         public void OnBackClicked()
         {
             if (_menuLocked) return;
-
+            FMODUnity.RuntimeManager.PlayOneShot(clickEvent);
             ShowMainPanel();
         }
 
         public void OnExitClicked()
         {
             if (_menuLocked) return;
-
+            FMODUnity.RuntimeManager.PlayOneShot(clickEvent);
             LockMenu();
 
 #if UNITY_EDITOR
@@ -71,12 +86,8 @@ namespace SM.UI
         private void LockMenu()
         {
             _menuLocked = true;
-
-            if (menuCanvasGroup == null)
-                return;
-
-            menuCanvasGroup.interactable = false;
-            menuCanvasGroup.blocksRaycasts = false;
+            if (menuCanvas != null)
+                menuCanvas.gameObject.SetActive(false);
         }
 
         private void ShowMainPanel()
@@ -87,21 +98,18 @@ namespace SM.UI
 
         private static void SetPanel(GameObject panel, bool active)
         {
-            if (panel != null)
-                panel.SetActive(active);
+            if (panel != null) panel.SetActive(active);
         }
 
 #if UNITY_EDITOR
         private void OnValidate()
         {
-            if (string.IsNullOrWhiteSpace(gameSceneName))
-                Debug.LogWarning($"[{nameof(MainMenuManager)}] gameSceneName is empty.", this);
-
             if (mainPanel == null)
                 Debug.LogWarning($"[{nameof(MainMenuManager)}] mainPanel is not assigned.", this);
-
             if (optionsPanel == null)
                 Debug.LogWarning($"[{nameof(MainMenuManager)}] optionsPanel is not assigned.", this);
+            if (menuCanvas == null)
+                Debug.LogWarning($"[{nameof(MainMenuManager)}] menuCanvas is not assigned.", this);
         }
 #endif
     }
