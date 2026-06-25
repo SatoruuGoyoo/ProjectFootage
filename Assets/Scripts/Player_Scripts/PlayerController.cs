@@ -4,6 +4,8 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerMotor))]
 public class PlayerController : MonoBehaviour
 {
+    public static bool MovementBlocked = false;
+
     private PlayerInput input;
     private PlayerMotor motor;
     private PlayerView view;
@@ -38,7 +40,6 @@ public class PlayerController : MonoBehaviour
         {
             motor.StopPlayer();
         }
-            
     }
 
     private void OnControllerSchemeChanged(ControlScheme newScheme) => currentScheme = newScheme;
@@ -47,22 +48,25 @@ public class PlayerController : MonoBehaviour
     {
         if (currentMode == PlayerMode.MenuCameraMode) return;
         if (currentMode == PlayerMode.InteractionMode) return;
-
+        if (MovementBlocked)
+        {
+            Debug.Log("[PlayerController] BLOCKED, ignorando movimiento");
+            return;
+     
+        }
         if (currentScheme == ControlScheme.Tank)
             UpdateTank();
         else
             UpdateModern();
     }
 
-    // Tank control
     private void UpdateTank()
     {
         motor.MoveTank(input.MoveForward, input.IsSprinting);
-        if(currentMode == PlayerMode.ExplorationMode)
+        if (currentMode == PlayerMode.ExplorationMode)
             motor.Turn(input.Turn);
     }
 
-    // Modern controls
     private void UpdateModern()
     {
         Camera activeCam = CameraManager.Instance?.ActiveCamera;
@@ -71,9 +75,9 @@ public class PlayerController : MonoBehaviour
             motor.MoveRelativeToCamera(input.MoveVector, activeCam, input.IsSprinting);
 
         if (currentMode == PlayerMode.CameraMode)
-            motor.MoveRelativeToSelf(input.MoveVector);           
+            motor.MoveRelativeToSelf(input.MoveVector);
 
         if (currentMode == PlayerMode.RecordingMode)
-            motor.MoveRelativeToSelf(new Vector2(0f, input.MoveForward)); 
+            motor.MoveRelativeToSelf(new Vector2(0f, input.MoveForward));
     }
 }
