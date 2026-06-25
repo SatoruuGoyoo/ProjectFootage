@@ -3,6 +3,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerInput : MonoBehaviour
 {
+    public static bool SprintBlocked = false;
+
     public float MoveForward { get; private set; }
     public float Turn { get; private set; }
     public Vector2 MoveVector { get; private set; }
@@ -63,6 +65,6 @@ public class PlayerInput : MonoBehaviour
         MoveVector = _move.ReadValue<Vector2>();
         MoveForward = MoveVector.y;
         Turn = _turn.ReadValue<float>();
-        IsSprinting = _sprint.ReadValue<float>() > 0.5f;
+        IsSprinting = _sprint.ReadValue<float>() > 0.5f && !SprintBlocked;
     }
 }
