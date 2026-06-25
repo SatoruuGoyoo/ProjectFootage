@@ -12,8 +12,14 @@ public class RecordableOneShotEmitter : MonoBehaviour
 
     public void Emit()
     {
-        if (fmodEvent.IsNull) return;
-        SpatialAudioRecorder.TryCaptureOneShot(fmodEvent, transform.position, maxAudibleDistance);
+        Debug.Log("[RecordableOneShotEmitter] Emit llamado");
+        if (fmodEvent.IsNull)
+        {
+            Debug.LogWarning("[RecordableOneShotEmitter] fmodEvent es null");
+            return;
+        }
+        bool result = SpatialAudioRecorder.TryCaptureOneShot(fmodEvent, transform.position, maxAudibleDistance);
+        Debug.Log($"[RecordableOneShotEmitter] TryCaptureOneShot retornó: {result}");
     }
 
     private static readonly Color GizmoColor = new(1f, 0.55f, 0.1f);

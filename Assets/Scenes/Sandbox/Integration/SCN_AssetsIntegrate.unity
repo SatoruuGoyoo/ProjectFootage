@@ -28600,27 +28600,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 431649268}
-  - component: {fileID: 431649267}
+  - component: {fileID: 431649269}
   m_Layer: 0
-  m_Name: 04_FeedbackMSG
+  m_Name: 04_PlayerSpeak_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &431649267
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 431649266}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8c47c7ab3e3fd041add8c5b2eaeb995, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ShowFeedbackMessageStep
-  message: What was that?
 --- !u!4 &431649268
 Transform:
   m_ObjectHideFlags: 0
@@ -28636,6 +28623,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1741382707}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &431649269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 431649266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20a3cee1c17b95d499170388e3f57dac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSpeakStep
+  audioEvent:
+    Guid:
+      Data1: 2131404893
+      Data2: 1297059007
+      Data3: 1805863059
+      Data4: 1778374670
+    Path: event:/Horror/Events/BathRoom/HorrorEvent_BTH
+  text: What was that?
+  subtitleBlock: {fileID: 532449872}
+  displayDurationNoAudio: 3
+  graceTimeAfterAudio: 0.5
 --- !u!1 &434002667
 GameObject:
   m_ObjectHideFlags: 0
@@ -52523,7 +52533,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 695895364}
-  - component: {fileID: 695895363}
+  - component: {fileID: 695895365}
   m_Layer: 11
   m_Name: Face_SFX
   m_TagString: Untagged
@@ -52531,26 +52541,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &695895363
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 695895362}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 397a576209fa4d746ba04a80e016fe78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RecordableOneShotEmitter
-  fmodEvent:
-    Guid:
-      Data1: 2131404893
-      Data2: 1297059007
-      Data3: 1805863059
-      Data4: 1778374670
-    Path: event:/Horror/Events/BathRoom/HorrorEvent_BTH
-  maxAudibleDistance: 7
 --- !u!4 &695895364
 Transform:
   m_ObjectHideFlags: 0
@@ -52560,12 +52550,57 @@ Transform:
   m_GameObject: {fileID: 695895362}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.68931526, z: -0, w: 0.72446156}
-  m_LocalPosition: {x: -0.68, y: 0.6799998, z: -0.15}
+  m_LocalPosition: {x: -7.14, y: 0.6799998, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1072698495}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &695895365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 695895362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9592fb182256d346a95b64823450c5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RecordableAudioSource
+  audioEvent:
+    Guid:
+      Data1: 906402130
+      Data2: 1322041378
+      Data3: 714251691
+      Data4: -2042874761
+    Path: event:/Horror/Unsettling_SFX/Eerie_SFX
+  is3D: 1
+  maxAudibleDistance: 2
+  distanceFalloff:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: -1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &700208786
 GameObject:
   m_ObjectHideFlags: 0
@@ -130249,6 +130284,61 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1719568681}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1601924428
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1601924430}
+  - component: {fileID: 1601924429}
+  m_Layer: 0
+  m_Name: 15_PlayerSpeaks_2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1601924429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1601924428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20a3cee1c17b95d499170388e3f57dac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSpeakStep
+  audioEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  text: 
+  subtitleBlock: {fileID: 532449872}
+  displayDurationNoAudio: 3
+  graceTimeAfterAudio: 0.5
+--- !u!4 &1601924430
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1601924428}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1741382707}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1602859554
 GameObject:
   m_ObjectHideFlags: 0
@@ -147961,7 +148051,7 @@ MonoBehaviour:
   - {fileID: 300136746}
   - {fileID: 445708528}
   - {fileID: 1462154448}
-  - {fileID: 431649267}
+  - {fileID: 431649269}
   - {fileID: 2113881287}
   - {fileID: 1093229119}
   - {fileID: 209521537}
@@ -147975,6 +148065,7 @@ MonoBehaviour:
   - {fileID: 1962921634}
   - {fileID: 1833753420}
   - {fileID: 178883886}
+  - {fileID: 1601924429}
   - {fileID: 1886753476}
   logSteps: 1
   OnSequenceCompleted:
@@ -148010,6 +148101,7 @@ Transform:
   - {fileID: 1962921633}
   - {fileID: 1833753419}
   - {fileID: 178883885}
+  - {fileID: 1601924430}
   - {fileID: 1886753477}
   - {fileID: 196886842}
   m_Father: {fileID: 0}
@@ -154953,7 +155045,7 @@ Transform:
   m_GameObject: {fileID: 1875973312}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.70710707, z: -0, w: 0.70710653}
-  m_LocalPosition: {x: 22.67, y: 5.73, z: -1.39}
+  m_LocalPosition: {x: 22.67, y: 5.73, z: -1.61}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -156567,7 +156659,7 @@ GameObject:
   - component: {fileID: 1886753477}
   - component: {fileID: 1886753476}
   m_Layer: 0
-  m_Name: 15_UnlockPlayerMovement
+  m_Name: 16_UnlockPlayerMovement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -161548,10 +161640,27 @@ MonoBehaviour:
     onReached:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 695895363}
-          m_TargetAssemblyTypeName: RecordableOneShotEmitter, Assembly-CSharp
-          m_MethodName: Emit
+        - m_Target: {fileID: 695895365}
+          m_TargetAssemblyTypeName: RecordableAudioSource, Assembly-CSharp
+          m_MethodName: StartCapture
           m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - label: Remove_Audio
+    triggerAt: 1
+    onReached:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 695895362}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
