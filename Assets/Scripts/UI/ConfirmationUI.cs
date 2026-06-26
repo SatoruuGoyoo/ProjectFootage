@@ -23,10 +23,8 @@ public class ConfirmationUI : MonoBehaviour
     private void Awake()
     {
         _input = FindAnyObjectByType<PlayerInput>();
-
         if (yesLabel != null) yesLabel.SetText(yesText);
         if (noLabel != null) noLabel.SetText(noText);
-
         ForceHide();
     }
 
@@ -45,18 +43,18 @@ public class ConfirmationUI : MonoBehaviour
     private void Update()
     {
         if (!_isOpen || _input == null) return;
-
         if (_input.Interact) { Confirm(); return; }
         if (_input.Decline) { Decline(); return; }
     }
 
     private void OnRequested(string message, System.Action onConfirm, System.Action onDecline)
     {
+        // Confirmation tiene prioridad máxima: cierra todo lo que esté debajo.
+        UILayerManager.TryShow(UILayerManager.Layer.Confirmation, ForceHide);
+
         _onConfirm = onConfirm;
         _onDecline = onDecline;
-
         if (messageLabel != null) messageLabel.SetText(message);
-
         SetVisible(true);
         GameEvents.PlayerModeChanged(PlayerMode.InteractionMode);
     }
@@ -67,6 +65,7 @@ public class ConfirmationUI : MonoBehaviour
         _onConfirm = null;
         _onDecline = null;
         SetVisible(false);
+        UILayerManager.Release(UILayerManager.Layer.Confirmation);
         GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
     }
 
@@ -89,7 +88,18 @@ public class ConfirmationUI : MonoBehaviour
         _onConfirm = null;
         _onDecline = null;
         SetVisible(false);
+        UILayerManager.Release(UILayerManager.Layer.Confirmation);
         GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
+    }
+
+    // Callback registrado en UILayerManager (en la práctica nunca se llama
+    // porque Confirmation es la prioridad más alta, pero lo dejamos por consistencia).
+    private void ForceHide()
+    {
+        _onConfirm = null;
+        _onDecline = null;
+        SetVisible(false);
+        UILayerManager.Release(UILayerManager.Layer.Confirmation);
     }
 
     private void SetVisible(bool visible)
@@ -99,14 +109,5 @@ public class ConfirmationUI : MonoBehaviour
         container.alpha = visible ? 1f : 0f;
         container.interactable = visible;
         container.blocksRaycasts = visible;
-    }
-
-    private void ForceHide()
-    {
-        _isOpen = false;
-        if (container == null) return;
-        container.alpha = 0f;
-        container.interactable = false;
-        container.blocksRaycasts = false;
     }
 }

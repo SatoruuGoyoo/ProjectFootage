@@ -2,18 +2,6 @@
 using UnityEngine.UI;
 using TMPro;
 
-/// <summary>
-/// Shows a minimal interact hint (icon + key) when the player is near an interactable.
-/// No text, no feedback — just the visual cue.
-///
-/// HIERARCHY:
-/// InteractPromptUI  (this script + CanvasGroup)
-///  └─ Container
-///      ├─ InteractIcon   (Image — eye/hand sprite)
-///      └─ KeyBadge
-///          ├─ KeyImage   (Image — optional key sprite)
-///          └─ KeyLabel   (TMP_Text — fallback "E")
-/// </summary>
 public class InteractPromptUI : MonoBehaviour
 {
     [Header("Root")]
@@ -26,20 +14,81 @@ public class InteractPromptUI : MonoBehaviour
     [SerializeField] private Image keyImage;
     [SerializeField] private TMP_Text keyLabel;
 
+    [Header("Icon Sprites")]
+    [SerializeField] private Sprite proximitySprite;
+    [SerializeField] private Sprite closeSprite;
+
     private bool _isVisible;
+    private bool _isActive;
 
     private void Awake()
     {
+        _isVisible = true;
         RefreshKeyBadgeMode();
         ForceHide();
     }
 
-    private void OnEnable() => GameEvents.OnInteractPromptChanged += OnPromptChanged;
-    private void OnDisable() => GameEvents.OnInteractPromptChanged -= OnPromptChanged;
+    private void OnEnable()
+    {
+        GameEvents.OnInteractPromptChanged += OnPromptChanged;
+        GameEvents.OnInteractPromptActivated += OnActivated;
+        GameEvents.OnInteractPromptDeactivated += OnDeactivated;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.OnInteractPromptChanged -= OnPromptChanged;
+        GameEvents.OnInteractPromptActivated -= OnActivated;
+        GameEvents.OnInteractPromptDeactivated -= OnDeactivated;
+    }
 
     private void OnPromptChanged(string prompt)
     {
-        SetVisible(!string.IsNullOrEmpty(prompt));
+        if (_isActive) return;
+
+        if (string.IsNullOrEmpty(prompt))
+        {
+            Hide();
+            return;
+        }
+
+        if (!UILayerManager.TryShow(UILayerManager.Layer.InteractPrompt, ForceHide)) return;
+
+        if (interactIcon != null && proximitySprite != null)
+            interactIcon.sprite = proximitySprite;
+
+        SetVisible(true);
+    }
+
+    private void OnActivated(string promptType)
+    {
+        _isActive = true;
+
+        UILayerManager.Release(UILayerManager.Layer.InteractPrompt);
+
+        if (interactIcon != null && closeSprite != null)
+            interactIcon.sprite = closeSprite;
+
+        SetVisible(true);
+    }
+
+    private void OnDeactivated()
+    {
+        _isActive = false;
+        SetVisible(false);
+    }
+
+    private void Hide()
+    {
+        UILayerManager.Release(UILayerManager.Layer.InteractPrompt);
+        SetVisible(false);
+    }
+
+    private void ForceHide()
+    {
+        if (_isActive) return;
+        UILayerManager.Release(UILayerManager.Layer.InteractPrompt);
+        SetVisible(false);
     }
 
     private void SetVisible(bool visible)
@@ -50,15 +99,6 @@ public class InteractPromptUI : MonoBehaviour
         container.alpha = visible ? 1f : 0f;
         container.interactable = visible;
         container.blocksRaycasts = visible;
-    }
-
-    private void ForceHide()
-    {
-        _isVisible = false;
-        if (container == null) return;
-        container.alpha = 0f;
-        container.interactable = false;
-        container.blocksRaycasts = false;
     }
 
     [ContextMenu("Refresh Key Badge Mode")]

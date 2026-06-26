@@ -145,6 +145,7 @@ public class PhoneInteractable : MonoBehaviour, IInteractable
         _phoneUI.SetActive(false);
         GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
         if (MouseCursorController.Instance != null) MouseCursorController.Instance.ReleaseCursor();
+        GameEvents.InteractPromptDeactivated();
         OnPhoneClosed?.Invoke();
     }
 
@@ -203,20 +204,16 @@ public class PhoneInteractable : MonoBehaviour, IInteractable
             RuntimeManager.PlayOneShot(putUpPhoneReference, transform.position);
         GameEvents.PlayerModeChanged(PlayerMode.InteractionMode);
         if (MouseCursorController.Instance != null) MouseCursorController.Instance.RequestCursor();
+        GameEvents.InteractPromptActivated(PromptMessage);
         OnPhoneOpened?.Invoke();
     }
 
     private void ClosePhone()
     {
         if (_state == PhoneState.LockedCorrect)
-        {
-            // al cerrar despues de codigo correcto, arranca la espera del ring
             _state = PhoneState.WaitingForRing;
-        }
         else
-        {
             _state = PhoneState.Idle;
-        }
 
         _phoneUI.SetActive(false);
         StopCurrentPhoneAudio();
@@ -224,6 +221,7 @@ public class PhoneInteractable : MonoBehaviour, IInteractable
             RuntimeManager.PlayOneShot(putDownPhoneReference, transform.position);
         GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
         if (MouseCursorController.Instance != null) MouseCursorController.Instance.ReleaseCursor();
+        GameEvents.InteractPromptDeactivated();
         OnPhoneClosed?.Invoke();
     }
 

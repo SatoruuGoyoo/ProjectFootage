@@ -1,22 +1,20 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
-/// <summary>
-/// Panel that slides in from the right when the player reads a note/flyer.
-/// 
-/// HIERARCHY:
-/// ReadableUI  (this script + CanvasGroup)
-///  └─ Container  (anchored to right side)
-///      ├─ Gradient   (Image — your black-to-transparent sprite)
-///      ├─ ItemSprite (Image — the readable's sprite)
-///      └─ TextField  (TMP_Text — the note text)
-/// </summary>
 public class ReadableUI : MonoBehaviour
 {
     [SerializeField] private CanvasGroup container;
+    [SerializeField] private CanvasGroup bgGroup;
     [SerializeField] private Image itemSprite;
     [SerializeField] private TMP_Text textField;
+
+    [Header("Animation")]
+    [SerializeField] private float bgFadeInDuration = 0.4f;
+    [SerializeField] private float bgTargetAlpha = 0.7f;
+
+    private Coroutine _animCoroutine;
 
     private void Awake() => ForceHide();
 
@@ -34,12 +32,51 @@ public class ReadableUI : MonoBehaviour
 
     private void OnOpened(Sprite sprite, string text)
     {
+        if (!UILayerManager.TryShow(UILayerManager.Layer.Readable, ForceHide)) return;
+
         if (itemSprite != null) itemSprite.sprite = sprite;
         if (textField != null) textField.SetText(text);
-        SetVisible(true);
+
+        if (_animCoroutine != null) StopCoroutine(_animCoroutine);
+        _animCoroutine = StartCoroutine(AnimateIn());
     }
 
-    private void OnClosed() => SetVisible(false);
+    private void OnClosed()
+    {
+        UILayerManager.Release(UILayerManager.Layer.Readable);
+        if (_animCoroutine != null) { StopCoroutine(_animCoroutine); _animCoroutine = null; }
+        ForceHide();
+    }
+
+    private void ForceHide()
+    {
+        UILayerManager.Release(UILayerManager.Layer.Readable);
+        if (_animCoroutine != null) { StopCoroutine(_animCoroutine); _animCoroutine = null; }
+        SetVisible(false);
+    }
+
+    private IEnumerator AnimateIn()
+    {
+        if (bgGroup != null) bgGroup.alpha = 0f;
+        if (itemSprite != null) itemSprite.gameObject.SetActive(false);
+        if (textField != null) textField.gameObject.SetActive(false);
+
+        SetVisible(true);
+
+        float t = 0f;
+        while (t < bgFadeInDuration)
+        {
+            t += Time.deltaTime;
+            if (bgGroup != null) bgGroup.alpha = Mathf.Lerp(0f, bgTargetAlpha, t / bgFadeInDuration);
+            yield return null;
+        }
+        if (bgGroup != null) bgGroup.alpha = bgTargetAlpha;
+
+        if (itemSprite != null) itemSprite.gameObject.SetActive(true);
+        if (textField != null) textField.gameObject.SetActive(true);
+
+        _animCoroutine = null;
+    }
 
     private void SetVisible(bool visible)
     {
@@ -47,13 +84,5 @@ public class ReadableUI : MonoBehaviour
         container.alpha = visible ? 1f : 0f;
         container.interactable = visible;
         container.blocksRaycasts = visible;
-    }
-
-    private void ForceHide()
-    {
-        if (container == null) return;
-        container.alpha = 0f;
-        container.interactable = false;
-        container.blocksRaycasts = false;
     }
 }

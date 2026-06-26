@@ -37,6 +37,13 @@ public static class GameEvents
     public static event Action<string> OnRecordableEventInterrupted;
     public static event Action<string> OnRecordableEventWatched;
 
+
+    // Interact Prompt State
+    public static event Action<string> OnInteractPromptActivated;
+    public static event Action OnInteractPromptDeactivated;
+
+    public static void InteractPromptActivated(string promptType) => OnInteractPromptActivated?.Invoke(promptType);
+    public static void InteractPromptDeactivated() => OnInteractPromptDeactivated?.Invoke();
     // Confirmation
     // onConfirm  → called if the player presses YES (E)
     // onDecline  → called if the player presses NO  (F) or walks away

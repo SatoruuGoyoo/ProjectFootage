@@ -29,6 +29,7 @@ public class ReadableItem : MonoBehaviour, IInteractable
         _isReading = true;
         GameEvents.ReadableOpened(sprite, text);
         GameEvents.PlayerModeChanged(PlayerMode.InteractionMode);
+        GameEvents.InteractPromptActivated(PromptMessage);
     }
 
     private void Close()
@@ -36,5 +37,6 @@ public class ReadableItem : MonoBehaviour, IInteractable
         _isReading = false;
         GameEvents.ReadableClosed();
         GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
+        GameEvents.InteractPromptDeactivated();
     }
 }

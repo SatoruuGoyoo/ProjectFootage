@@ -6,8 +6,7 @@ public class InteractableRadio : MonoBehaviour, IInteractable
 {
     [Header("Subtitles")]
     [SerializeField] private SubtitleBlock subtitles;
-    [TextArea(3, 10)]
-    [SerializeField] private string subtitleText = "";
+    [SerializeField] private SubtitleEntry[] subtitleEntries;
 
     [Header("Events")]
     public UnityEvent OnTurnedOn;
@@ -31,14 +30,12 @@ public class InteractableRadio : MonoBehaviour, IInteractable
         if (subtitles != null)
         {
             if (_source.IsPlaying)
-                subtitles.Show(subtitleText);
+                subtitles.ShowSequence(subtitleEntries);
             else
                 subtitles.Hide();
         }
 
-        if (_source.IsPlaying)
-            OnTurnedOn?.Invoke();
-        else
-            OnTurnedOff?.Invoke();
+        if (_source.IsPlaying) OnTurnedOn?.Invoke();
+        else OnTurnedOff?.Invoke();
     }
 }

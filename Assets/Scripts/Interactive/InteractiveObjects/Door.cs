@@ -7,6 +7,7 @@ public class Door : MonoBehaviour, IInteractable
     [SerializeField] private string requiredItemId;
     [SerializeField] private bool startLocked = false;
     [SerializeField] private bool playerCanToggle = true;
+    [SerializeField] private bool canClose = true;
     [SerializeField] private string lockedFeedback = "";
 
     [Header("Confirmation (shown once when player has the item)")]
@@ -28,7 +29,6 @@ public class Door : MonoBehaviour, IInteractable
     [SerializeField] private EventReference closeSound;
     [SerializeField] private EventReference lockedSound;
 
-    // ── State ─────────────────────────────────────────────────────────────────
     private bool isOpen;
     private bool manualLock;
     private bool _itemUsed;
@@ -36,8 +36,6 @@ public class Door : MonoBehaviour, IInteractable
     private float _interactCooldownTimer;
     private Quaternion closedRot;
     private Quaternion openRot;
-
-    // ── Computed ──────────────────────────────────────────────────────────────
 
     private bool IsLocked => manualLock
         || (!string.IsNullOrEmpty(requiredItemId)
@@ -50,13 +48,11 @@ public class Door : MonoBehaviour, IInteractable
         && ItemRegistry.Instance != null
         && ItemRegistry.Instance.Has(requiredItemId);
 
-    // ── IInteractable ─────────────────────────────────────────────────────────
+    private bool CanToggle => playerCanToggle && (!isOpen || canClose);
 
-    public string PromptMessage => playerCanToggle || IsLocked || NeedsConfirmation ? "door" : "";
-    public bool CanInteract => _interactCooldownTimer <= 0f && (IsLocked || playerCanToggle || NeedsConfirmation);
+    public string PromptMessage => (CanToggle || IsLocked || NeedsConfirmation) ? "door" : "";
+    public bool CanInteract => _interactCooldownTimer <= 0f && (IsLocked || NeedsConfirmation || CanToggle);
     public bool BlockMovement => false;
-
-    // ── Unity ────────────────────────────────────────────────────────────────
 
     private void Awake()
     {
@@ -81,15 +77,13 @@ public class Door : MonoBehaviour, IInteractable
     private void OnEnable() => GameEvents.OnConfirmationClosed += OnConfirmationClosed;
     private void OnDisable() => GameEvents.OnConfirmationClosed -= OnConfirmationClosed;
 
-    // ── IInteractable ─────────────────────────────────────────────────────────
-
     public void Interact()
     {
         if (_interactCooldownTimer > 0f) return;
-        _interactCooldownTimer = interactCooldown;
 
         if (IsLocked)
         {
+            _interactCooldownTimer = interactCooldown;
             if (!lockedSound.IsNull) RuntimeManager.PlayOneShot(lockedSound, transform.position);
             GameEvents.FeedbackMessage(lockedFeedback);
             return;
@@ -97,28 +91,32 @@ public class Door : MonoBehaviour, IInteractable
 
         if (NeedsConfirmation)
         {
+            if (_pendingConfirm) return;
             _pendingConfirm = true;
             GameEvents.RequestConfirmation(confirmationText, OnConfirmed, OnDeclined);
             return;
         }
 
-        if (!playerCanToggle) return;
+        if (!CanToggle) return;
+        _interactCooldownTimer = interactCooldown;
         Toggle();
     }
-
-    // ── Confirmation callbacks ────────────────────────────────────────────────
 
     private void OnConfirmed()
     {
         _pendingConfirm = false;
         _itemUsed = true;
+        _interactCooldownTimer = interactCooldown;
         Open();
     }
 
-    private void OnDeclined() => _pendingConfirm = false;
-    private void OnConfirmationClosed() => _pendingConfirm = false;
+    private void OnDeclined()
+    {
+        _pendingConfirm = false;
+        _interactCooldownTimer = interactCooldown;
+    }
 
-    // ── Public API ────────────────────────────────────────────────────────────
+    private void OnConfirmationClosed() => _pendingConfirm = false;
 
     public void Toggle() { if (isOpen) Close(); else Open(); }
 
@@ -138,17 +136,11 @@ public class Door : MonoBehaviour, IInteractable
     public void Lock() => manualLock = true;
     public void Unlock() => manualLock = false;
 
-    // ── Motion ────────────────────────────────────────────────────────────────
-
     private void Update()
     {
         if (_interactCooldownTimer > 0f) _interactCooldownTimer -= Time.deltaTime;
 
         Quaternion target = isOpen ? openRot : closedRot;
-
-        float step = speed * Time.deltaTime;
-
-
-        pivot.localRotation = Quaternion.RotateTowards(pivot.localRotation, target, step);
+        pivot.localRotation = Quaternion.RotateTowards(pivot.localRotation, target, speed * Time.deltaTime);
     }
 }
