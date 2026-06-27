@@ -8,10 +8,10 @@ public class CinematicBarsController : MonoBehaviour
     [SerializeField] private RectTransform topBar;
     [SerializeField] private RectTransform bottomBar;
 
-    private const float TopVisible     =    0f;
-    private const float TopHidden      =  200f;
-    private const float BottomVisible  =    0f;
-    private const float BottomHidden   = -200f;
+    private const float TopVisible = 0f;
+    private const float TopHidden = 200f;
+    private const float BottomVisible = 0f;
+    private const float BottomHidden = -200f;
 
     private void Awake()
     {
@@ -31,7 +31,7 @@ public class CinematicBarsController : MonoBehaviour
         topBar.gameObject.SetActive(true);
         bottomBar.gameObject.SetActive(true);
 
-        topBar.anchoredPosition    = new Vector2(0, TopHidden);
+        topBar.anchoredPosition = new Vector2(0, TopHidden);
         bottomBar.anchoredPosition = new Vector2(0, BottomHidden);
 
         yield return Animate(TopHidden, TopVisible, BottomHidden, BottomVisible, duration, curve);
@@ -54,13 +54,13 @@ public class CinematicBarsController : MonoBehaviour
             elapsed += Time.deltaTime;
             float t = curve.Evaluate(Mathf.Clamp01(elapsed / duration));
 
-            topBar.anchoredPosition    = new Vector2(0, Mathf.Lerp(topFrom, topTo, t));
+            topBar.anchoredPosition = new Vector2(0, Mathf.Lerp(topFrom, topTo, t));
             bottomBar.anchoredPosition = new Vector2(0, Mathf.Lerp(bottomFrom, bottomTo, t));
 
             yield return null;
         }
 
-        topBar.anchoredPosition    = new Vector2(0, topTo);
+        topBar.anchoredPosition = new Vector2(0, topTo);
         bottomBar.anchoredPosition = new Vector2(0, bottomTo);
     }
 }
