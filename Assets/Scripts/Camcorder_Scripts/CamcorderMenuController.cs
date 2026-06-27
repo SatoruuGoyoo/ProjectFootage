@@ -1,3 +1,7 @@
+// CamcorderMenuController.cs
+// Cambio principal: ya no manejamos _activeFixedCamera para esconder/mostrar.
+// En overlay el canvas tapa todo visualmente solo.
+
 using UnityEngine;
 
 [RequireComponent(typeof(CamcorderStorage))]
@@ -10,10 +14,6 @@ using UnityEngine;
 public class CamcorderMenuController : MonoBehaviour
 {
     public static bool MenuInputBlocked = false;
-
-    [Header("FPS View")]
-    [SerializeField] private Camera fpsCamera;
-    [SerializeField] private GameObject fpsHandModel;
 
     [Header("Menu UI")]
     [SerializeField] private Canvas menuCanvas;
@@ -30,7 +30,6 @@ public class CamcorderMenuController : MonoBehaviour
     private VideoPlayback _videoPlayback;
     private AudioPlayback _audioPlayback;
 
-    private Camera _activeFixedCamera;
     private int _currentIndex = 0;
     private float _rffTimer = 0f;
     private bool _wasRFF = false;
@@ -60,8 +59,6 @@ public class CamcorderMenuController : MonoBehaviour
 
     private void Start()
     {
-        fpsCamera.gameObject.SetActive(false);
-        fpsHandModel.SetActive(false);
         menuCanvas.gameObject.SetActive(false);
     }
 
@@ -83,13 +80,6 @@ public class CamcorderMenuController : MonoBehaviour
 
         IsMenuOpen = true;
         GameEvents.PlayerModeChanged(PlayerMode.MenuCameraMode);
-
-        _activeFixedCamera = FindActiveFixedCamera();
-        if (_activeFixedCamera != null)
-            _activeFixedCamera.gameObject.SetActive(false);
-
-        fpsCamera.gameObject.SetActive(true);
-        fpsHandModel.SetActive(true);
         menuCanvas.gameObject.SetActive(true);
         _ui.UpdateUI(_currentIndex);
     }
@@ -100,14 +90,7 @@ public class CamcorderMenuController : MonoBehaviour
 
         IsMenuOpen = false;
         _currentIndex = 0;
-
-        fpsCamera.gameObject.SetActive(false);
-        fpsHandModel.SetActive(false);
         menuCanvas.gameObject.SetActive(false);
-
-        if (_activeFixedCamera != null)
-            _activeFixedCamera.gameObject.SetActive(true);
-        _activeFixedCamera = null;
 
         GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
     }
@@ -204,12 +187,5 @@ public class CamcorderMenuController : MonoBehaviour
     {
         if (!_clock.HasSession) return;
         _clock.Stop();
-    }
-
-    private Camera FindActiveFixedCamera()
-    {
-        foreach (Camera cam in Camera.allCameras)
-            if (cam != fpsCamera && cam.enabled) return cam;
-        return null;
     }
 }
