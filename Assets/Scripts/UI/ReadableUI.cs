@@ -9,6 +9,7 @@ public class ReadableUI : MonoBehaviour
     [SerializeField] private CanvasGroup bgGroup;
     [SerializeField] private Image itemSprite;
     [SerializeField] private TMP_Text textField;
+    [SerializeField] private UIPositioner positioner;
 
     [Header("Animation")]
     [SerializeField] private float bgFadeInDuration = 0.4f;
@@ -30,13 +31,12 @@ public class ReadableUI : MonoBehaviour
         GameEvents.OnReadableClosed -= OnClosed;
     }
 
-    private void OnOpened(Sprite sprite, string text)
+    private void OnOpened(Sprite sprite, string text, UIPositioner.ScreenPosition position)
     {
         if (!UILayerManager.TryShow(UILayerManager.Layer.Readable, ForceHide)) return;
-
+        positioner?.SetPosition(position);
         if (itemSprite != null) itemSprite.sprite = sprite;
         if (textField != null) textField.SetText(text);
-
         if (_animCoroutine != null) StopCoroutine(_animCoroutine);
         _animCoroutine = StartCoroutine(AnimateIn());
     }

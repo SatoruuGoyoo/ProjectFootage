@@ -2,29 +2,37 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(World3DSource))]
-public class InteractableRadio : MonoBehaviour, IInteractable
+public class InteractableRadio : Interactable
 {
     [Header("Subtitles")]
     [SerializeField] private SubtitleBlock subtitles;
     [SerializeField] private SubtitleEntry[] subtitleEntries;
+
+    [Header("Settings")]
+    [SerializeField] private bool oneTimeOnly = false;
 
     [Header("Events")]
     public UnityEvent OnTurnedOn;
     public UnityEvent OnTurnedOff;
 
     private World3DSource _source;
+    private bool _used;
 
-    public string PromptMessage => "radio";
-    public bool CanInteract => true;
-    public bool BlockMovement => false;
+    public override string PromptMessage => "radio";
+    public override bool CanInteract => !_used;
+    public override bool BlockMovement => false;
 
     private void Awake()
     {
         _source = GetComponent<World3DSource>();
     }
 
-    public void Interact()
+    public override void Interact()
     {
+        if (_used) return;
+
+        if (oneTimeOnly) _used = true;
+
         _source.Toggle();
 
         if (subtitles != null)

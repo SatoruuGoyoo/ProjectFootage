@@ -9,9 +9,13 @@ public static class GameEvents
     // Interaction
     public static event Action<string> OnInteractPromptChanged;
 
+    // Interact Prompt State
+    public static event Action<string> OnInteractPromptActivated;
+    public static event Action OnInteractPromptDeactivated;
+
     // Items
     public static event Action<string> OnItemCollected;
-    public static event Action<string> OnFeedbackMessage;
+    public static event Action<string, UIPositioner.ScreenPosition> OnFeedbackMessage;
 
     // Player Mode
     public static event Action<PlayerMode> OnPlayerModeChanged;
@@ -37,21 +41,12 @@ public static class GameEvents
     public static event Action<string> OnRecordableEventInterrupted;
     public static event Action<string> OnRecordableEventWatched;
 
-
-    // Interact Prompt State
-    public static event Action<string> OnInteractPromptActivated;
-    public static event Action OnInteractPromptDeactivated;
-
-    public static void InteractPromptActivated(string promptType) => OnInteractPromptActivated?.Invoke(promptType);
-    public static void InteractPromptDeactivated() => OnInteractPromptDeactivated?.Invoke();
     // Confirmation
-    // onConfirm  → called if the player presses YES (E)
-    // onDecline  → called if the player presses NO  (F) or walks away
-    public static event Action<string, Action, Action> OnConfirmationRequested;
+    public static event Action<string, Action, Action, UIPositioner.ScreenPosition> OnConfirmationRequested;
     public static event Action OnConfirmationClosed;
 
     // Readable
-    public static event Action<UnityEngine.Sprite, string> OnReadableOpened;
+    public static event Action<UnityEngine.Sprite, string, UIPositioner.ScreenPosition> OnReadableOpened;
     public static event Action OnReadableClosed;
 
     // ── PLAYER ───────────────────────────────────────────────────────────────
@@ -62,10 +57,13 @@ public static class GameEvents
 
     // ── INTERACTION ──────────────────────────────────────────────────────────
     public static void InteractPromptChanged(string newPrompt) => OnInteractPromptChanged?.Invoke(newPrompt);
+    public static void InteractPromptActivated(string promptType) => OnInteractPromptActivated?.Invoke(promptType);
+    public static void InteractPromptDeactivated() => OnInteractPromptDeactivated?.Invoke();
 
     // ── ITEMS ────────────────────────────────────────────────────────────────
     public static void ItemCollected(string itemId) => OnItemCollected?.Invoke(itemId);
-    public static void FeedbackMessage(string message) => OnFeedbackMessage?.Invoke(message);
+    public static void FeedbackMessage(string message, UIPositioner.ScreenPosition position = UIPositioner.ScreenPosition.LowerCenter)
+        => OnFeedbackMessage?.Invoke(message, position);
 
     // ── CAMCORDER ────────────────────────────────────────────────────────────
     public static void CamcorderPickedUp() => OnCamcorderPickedUp?.Invoke();
@@ -83,19 +81,13 @@ public static class GameEvents
     public static void RecordableEventWatched(string id) => OnRecordableEventWatched?.Invoke(id);
 
     // ── CONFIRMATION ─────────────────────────────────────────────────────────
-    /// <summary>
-    /// Opens the confirmation panel with <paramref name="message"/>.
-    /// <paramref name="onConfirm"/> fires when the player presses YES (E).
-    /// <paramref name="onDecline"/> fires when the player presses NO (F) or walks away.
-    /// </summary>
-    public static void RequestConfirmation(string message, Action onConfirm, Action onDecline = null)
-        => OnConfirmationRequested?.Invoke(message, onConfirm, onDecline);
-
-    /// <summary>Closes the confirmation panel without firing any callback (e.g. player walked away).</summary>
+    public static void RequestConfirmation(string message, Action onConfirm, Action onDecline = null, UIPositioner.ScreenPosition position = UIPositioner.ScreenPosition.MiddleCenter)
+        => OnConfirmationRequested?.Invoke(message, onConfirm, onDecline, position);
     public static void CloseConfirmation() => OnConfirmationClosed?.Invoke();
 
     // ── READABLE ─────────────────────────────────────────────────────────────
-    public static void ReadableOpened(UnityEngine.Sprite sprite, string text) => OnReadableOpened?.Invoke(sprite, text);
+    public static void ReadableOpened(UnityEngine.Sprite sprite, string text, UIPositioner.ScreenPosition position = UIPositioner.ScreenPosition.MiddleRight)
+        => OnReadableOpened?.Invoke(sprite, text, position);
     public static void ReadableClosed() => OnReadableClosed?.Invoke();
 
     // ── PAUSE ────────────────────────────────────────────────────────────────

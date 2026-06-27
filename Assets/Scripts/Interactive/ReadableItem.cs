@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
-public class ReadableItem : MonoBehaviour, IInteractable
+public class ReadableItem : Interactable
 {
     [SerializeField] private Sprite sprite;
     [TextArea(3, 10)]
@@ -9,16 +9,16 @@ public class ReadableItem : MonoBehaviour, IInteractable
 
     private bool _isReading;
 
-    public string PromptMessage => "readable";
-    public bool CanInteract => true;
-    public bool BlockMovement => true;
+    public override string PromptMessage => "readable";
+    public override bool CanInteract => true;
+    public override bool BlockMovement => true;
 
     private void OnDisable()
     {
         if (_isReading) Close();
     }
 
-    public void Interact()
+    public override void Interact()
     {
         if (_isReading) Close();
         else Open();
@@ -27,7 +27,7 @@ public class ReadableItem : MonoBehaviour, IInteractable
     private void Open()
     {
         _isReading = true;
-        GameEvents.ReadableOpened(sprite, text);
+        GameEvents.ReadableOpened(sprite, text, uiPosition);
         GameEvents.PlayerModeChanged(PlayerMode.InteractionMode);
         GameEvents.InteractPromptActivated(PromptMessage);
     }

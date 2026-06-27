@@ -6,13 +6,15 @@ public class FeedbackUI : MonoBehaviour
     [SerializeField] private CanvasGroup container;
     [SerializeField] private TMP_Text messageLabel;
     [SerializeField] private float displayDuration = 3f;
+    [SerializeField] private UIPositioner positioner;
 
     private float _timer;
     private bool _isVisible;
 
     private void Awake()
     {
-        _isVisible = true; // forzar para que SetVisible(false) no sea skipeado
+        
+        _isVisible = true;
         ForceHide();
     }
 
@@ -26,13 +28,10 @@ public class FeedbackUI : MonoBehaviour
         if (_timer <= 0f) Hide();
     }
 
-    private void OnFeedback(string message)
+    private void OnFeedback(string message, UIPositioner.ScreenPosition position)
     {
-        // TryShow cierra automáticamente cualquier panel de igual/menor prioridad
-        // que esté abierto, y pasa ForceHide como callback por si algo más
-        // prioritario necesita cerrarnos a nosotros.
         if (!UILayerManager.TryShow(UILayerManager.Layer.Feedback, ForceHide)) return;
-
+        positioner?.SetPosition(position);
         if (messageLabel != null) messageLabel.SetText(message);
         _timer = displayDuration;
         SetVisible(true);

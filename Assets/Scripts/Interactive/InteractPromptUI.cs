@@ -6,6 +6,8 @@ public class InteractPromptUI : MonoBehaviour
 {
     [Header("Root")]
     [SerializeField] private CanvasGroup container;
+    [SerializeField] private UIPositioner positioner;
+    [SerializeField] private UIPositioner.ScreenPosition defaultPosition = UIPositioner.ScreenPosition.LowerCenter;
 
     [Header("Interact Icon")]
     [SerializeField] private Image interactIcon;
@@ -54,6 +56,7 @@ public class InteractPromptUI : MonoBehaviour
 
         if (!UILayerManager.TryShow(UILayerManager.Layer.InteractPrompt, ForceHide)) return;
 
+        positioner?.SetPosition(defaultPosition);
         if (interactIcon != null && proximitySprite != null)
             interactIcon.sprite = proximitySprite;
 
@@ -63,9 +66,8 @@ public class InteractPromptUI : MonoBehaviour
     private void OnActivated(string promptType)
     {
         _isActive = true;
-
         UILayerManager.Release(UILayerManager.Layer.InteractPrompt);
-
+        positioner?.SetPosition(defaultPosition);
         if (interactIcon != null && closeSprite != null)
             interactIcon.sprite = closeSprite;
 

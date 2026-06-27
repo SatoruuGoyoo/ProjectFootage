@@ -965,111 +965,6 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
---- !u!1 &12481112
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 12481113}
-  - component: {fileID: 12481114}
-  - component: {fileID: 12481115}
-  m_Layer: 3
-  m_Name: WindowInteractible
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &12481113
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 12481112}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.44149646, z: -0, w: 0.89726305}
-  m_LocalPosition: {x: -0.70667464, y: 6.295, z: -17.684114}
-  m_LocalScale: {x: 1.3677001, y: 1.3677, z: 1.3677001}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1672395152}
-  m_LocalEulerAnglesHint: {x: 0, y: -37.601, z: 0}
---- !u!114 &12481114
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 12481112}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b544a11b3c609945aef099d46ab4005, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WindowInteractable
-  promptOpen: 
-  promptClose: 
-  feedbackOpen: ...
-  feedbackClose: 
-  requiresConfirmation: 0
-  confirmationText: Looks like there is a room in there. Should I look?
-  windowCamera: {fileID: 0}
-  toggleCameraGameObject: 1
-  teleporterObjects:
-  - {fileID: 600262993}
-  - {fileID: 185502456}
-  iterationEntries:
-  - iteration: 0
-    visibleObject: {fileID: 1341194689}
-    sound:
-      Guid:
-        Data1: 0
-        Data2: 0
-        Data3: 0
-        Data4: 0
-      Path: 
-  - iteration: 1
-    visibleObject: {fileID: 249291688}
-    sound:
-      Guid:
-        Data1: 0
-        Data2: 0
-        Data3: 0
-        Data4: 0
-      Path: 
-  - iteration: 2
-    visibleObject: {fileID: 484496547}
-    sound:
-      Guid:
-        Data1: 906402130
-        Data2: 1322041378
-        Data3: 714251691
-        Data4: -2042874761
-      Path: event:/Horror/Unsettling_SFX/Eerie_SFX
---- !u!65 &12481115
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 12481112}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &15674464
 GameObject:
   m_ObjectHideFlags: 0
@@ -5794,6 +5689,41 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!1 &107708523
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 107708524}
+  m_Layer: 5
+  m_Name: DOWNRIGHT
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &107708524
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 107708523}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 536382975}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -400, y: 150}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &109377961
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22229,6 +22159,41 @@ MonoBehaviour:
   objectiveColor: {r: 0, g: 1, b: 0, a: 0.4}
   deadZoneColor: {r: 1, g: 0, b: 0, a: 0.25}
   gizmoSegments: 24
+--- !u!1 &326571252
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 326571253}
+  m_Layer: 5
+  m_Name: DOWNMID
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &326571253
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 326571252}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 536382975}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 150}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &326723234
 GameObject:
   m_ObjectHideFlags: 0
@@ -22352,7 +22317,6 @@ GameObject:
   - component: {fileID: 330097322}
   - component: {fileID: 330097321}
   - component: {fileID: 330097320}
-  - component: {fileID: 330097323}
   m_Layer: 0
   m_Name: Door (1)
   m_TagString: Untagged
@@ -22434,27 +22398,6 @@ Transform:
   - {fileID: 1273849594}
   m_Father: {fileID: 1180672860}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &330097323
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 330097319}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.030000016, y: 0.9999999, z: 2.0719287}
-  m_Center: {x: 0.014999982, y: 0.4931273, z: 0.0050156107}
 --- !u!1001 &332360000
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24592,8 +24535,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1502959278efd4438ef7c64bb4eb961, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableRadio
+  uiPosition: 7
   subtitles: {fileID: 532449872}
   subtitleEntries: []
+  oneTimeOnly: 1
   OnTurnedOn:
     m_PersistentCalls:
       m_Calls: []
@@ -25331,6 +25276,41 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 71bcc032da19bf749b71ac5f3cd3d1ba, type: 3}
   m_PrefabInstance: {fileID: 381778353}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &383157953
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 383157954}
+  m_Layer: 5
+  m_Name: MIDLEFT
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &383157954
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 383157953}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 536382975}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 400, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &387498605
 GameObject:
   m_ObjectHideFlags: 0
@@ -29262,6 +29242,41 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!1 &462183189
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 462183190}
+  m_Layer: 5
+  m_Name: UPRIGHT
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &462183190
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 462183189}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 536382975}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -400, y: -150}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &462552141
 GameObject:
   m_ObjectHideFlags: 0
@@ -35085,6 +35100,42 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 485543315}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &485666177
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 485666178}
+  m_Layer: 5
+  m_Name: PARENT
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &485666178
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 485666177}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1301829098}
+  m_Father: {fileID: 1304458952}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &485909649
 GameObject:
   m_ObjectHideFlags: 0
@@ -37267,6 +37318,7 @@ RectTransform:
   - {fileID: 1562712607}
   - {fileID: 880908125}
   - {fileID: 1698497514}
+  - {fileID: 536382975}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -37288,6 +37340,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SubtitleBlock
   container: {fileID: 1562712608}
   label: {fileID: 118477206}
+  positioner: {fileID: 1562712611}
 --- !u!114 &532449873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37304,6 +37357,7 @@ MonoBehaviour:
   bgGroup: {fileID: 1748644346}
   itemSprite: {fileID: 821737938}
   textField: {fileID: 644300104}
+  positioner: {fileID: 880908129}
   bgFadeInDuration: 0.4
   bgTargetAlpha: 0.8
 --- !u!114 &532449874
@@ -37321,6 +37375,7 @@ MonoBehaviour:
   container: {fileID: 1304458953}
   messageLabel: {fileID: 1389556962}
   displayDuration: 3
+  positioner: {fileID: 1304458956}
 --- !u!225 &532449875
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -37346,6 +37401,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractPromptUI
   container: {fileID: 1698497515}
+  positioner: {fileID: 0}
+  defaultPosition: 7
   interactIcon: {fileID: 1057862248}
   keyImage: {fileID: 0}
   keyLabel: {fileID: 726005574}
@@ -37364,6 +37421,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ConfirmationUI
   container: {fileID: 1244914732}
+  positioner: {fileID: 1244914735}
   messageLabel: {fileID: 76270645}
   yesLabel: {fileID: 1094368456}
   noLabel: {fileID: 884647335}
@@ -37539,6 +37597,50 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b21ad302ff383c14e8513afa861e9c44, type: 3}
   m_PrefabInstance: {fileID: 533292977}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &536382974
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 536382975}
+  m_Layer: 5
+  m_Name: ANCHORS
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &536382975
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 536382974}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 961426988}
+  - {fileID: 462183190}
+  - {fileID: 1730107214}
+  - {fileID: 1026420828}
+  - {fileID: 383157954}
+  - {fileID: 1989238725}
+  - {fileID: 107708524}
+  - {fileID: 326571253}
+  - {fileID: 1927432360}
+  m_Father: {fileID: 532449871}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &536684886
 GameObject:
   m_ObjectHideFlags: 0
@@ -39558,18 +39660,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1502959278efd4438ef7c64bb4eb961, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableRadio
+  uiPosition: 8
   subtitles: {fileID: 532449872}
   subtitleEntries:
   - text: The neighbors of [BEEP] are shaken by the brutal murder of [BEEP], the
       beloved daughter of the [BEEP] family.
     duration: 10
+    position: 8
   - text: 'The incident, though details remain uncharted, recounts: first the killer''s
       approach and then his subsequent escape'
     duration: 8
+    position: 8
   - text: The stabbing was repeated
     duration: 3
+    position: 8
   - text: "A true tragedy\u2026"
     duration: 3
+    position: 8
+  oneTimeOnly: 0
   OnTurnedOn:
     m_PersistentCalls:
       m_Calls: []
@@ -46899,7 +47007,7 @@ GameObject:
   - component: {fileID: 648003070}
   - component: {fileID: 648003069}
   - component: {fileID: 648003068}
-  - component: {fileID: 648003067}
+  - component: {fileID: 648003071}
   m_Layer: 6
   m_Name: FACE_MODEL
   m_TagString: Untagged
@@ -46907,28 +47015,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!64 &648003067
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 648003066}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &648003068
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -47001,6 +47087,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1072698495}
   m_LocalEulerAnglesHint: {x: 0, y: -92.848, z: 0}
+--- !u!65 &648003071
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 648003066}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.0000004, y: 1, z: 6.1232356e-17}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &649041989
 GameObject:
   m_ObjectHideFlags: 0
@@ -64262,6 +64369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70411757c9ebe7b468af6ccde1ac5e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
+  uiPosition: 7
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 0
@@ -64306,6 +64414,7 @@ GameObject:
   - component: {fileID: 880908128}
   - component: {fileID: 880908127}
   - component: {fileID: 880908126}
+  - component: {fileID: 880908129}
   m_Layer: 5
   m_Name: 'READABLE CONTAINER '
   m_TagString: Untagged
@@ -64383,6 +64492,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 880908124}
   m_CullTransparentMesh: 1
+--- !u!114 &880908129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 880908124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 991ae24320cd97940a081b5355d155c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIPositioner
+  upperLeft: {fileID: 961426988}
+  upperCenter: {fileID: 1730107214}
+  upperRight: {fileID: 462183190}
+  middleLeft: {fileID: 383157954}
+  middleCenter: {fileID: 1026420828}
+  middleRight: {fileID: 1989238725}
+  lowerLeft: {fileID: 1927432360}
+  lowerCenter: {fileID: 326571253}
+  lowerRight: {fileID: 107708524}
 --- !u!1 &884647333
 GameObject:
   m_ObjectHideFlags: 0
@@ -65736,10 +65866,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1502959278efd4438ef7c64bb4eb961, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableRadio
+  uiPosition: 7
   subtitles: {fileID: 532449872}
   subtitleEntries:
   - text: Nothing
     duration: 3
+    position: 7
+  oneTimeOnly: 0
   OnTurnedOn:
     m_PersistentCalls:
       m_Calls: []
@@ -70409,6 +70542,41 @@ MonoBehaviour:
   anisotropy: 0.25
   scattering: 1
   radius: 0.2
+--- !u!1 &961426987
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 961426988}
+  m_Layer: 5
+  m_Name: UPLEFT
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &961426988
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 961426987}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 536382975}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 400, y: -150}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &962704939
 GameObject:
   m_ObjectHideFlags: 0
@@ -70738,7 +70906,7 @@ GameObject:
   - component: {fileID: 966808456}
   - component: {fileID: 966808455}
   m_Layer: 0
-  m_Name: Door (1)
+  m_Name: BATH DOOR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -70777,6 +70945,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70411757c9ebe7b468af6ccde1ac5e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
+  uiPosition: 7
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 0
@@ -75695,6 +75864,41 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!1 &1026420827
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1026420828}
+  m_Layer: 5
+  m_Name: MIDMID
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1026420828
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1026420827}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 536382975}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1027160110
 GameObject:
   m_ObjectHideFlags: 0
@@ -89402,8 +89606,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1154864154}
-  - component: {fileID: 1154864159}
-  - component: {fileID: 1154864158}
   - component: {fileID: 1154864157}
   - component: {fileID: 1154864156}
   - component: {fileID: 1154864155}
@@ -89508,12 +89710,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70411757c9ebe7b468af6ccde1ac5e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
+  uiPosition: 8
   requiredItemId: doorknob
   startLocked: 0
   playerCanToggle: 1
   canClose: 1
   lockedFeedback: Damn... locked
-  confirmationText: Seems the doorknob goes here. Do I put it?
+  confirmationText: "Seems the doorknob goes here. \nDo I put it?"
   startOpen: 0
   interactCooldown: 3
   pivot: {fileID: 1747866664}
@@ -89561,63 +89764,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &1154864158
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1154864153}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_MaskInteraction: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &1154864159
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1154864153}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1157682463
 GameObject:
   m_ObjectHideFlags: 0
@@ -92748,6 +92894,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1180672860}
   - component: {fileID: 1180672861}
+  - component: {fileID: 1180672862}
   m_Layer: 3
   m_Name: DOOR TO beat 2
   m_TagString: Untagged
@@ -92783,11 +92930,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70411757c9ebe7b468af6ccde1ac5e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
+  uiPosition: 7
   requiredItemId: 
-  startLocked: 0
+  startLocked: 1
   playerCanToggle: 0
   canClose: 1
-  lockedFeedback: 
+  lockedFeedback: Locked as well
   confirmationText: 
   startOpen: 0
   interactCooldown: 0.5
@@ -92815,6 +92963,27 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+--- !u!65 &1180672862
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1180672859}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.6546397, y: 0.80663943, z: 0.8230911}
+  m_Center: {x: 0.12773609, y: 0.026718995, z: -0.46206245}
 --- !u!1 &1181375644
 GameObject:
   m_ObjectHideFlags: 0
@@ -99720,6 +99889,7 @@ GameObject:
   - component: {fileID: 1244914734}
   - component: {fileID: 1244914733}
   - component: {fileID: 1244914732}
+  - component: {fileID: 1244914735}
   m_Layer: 5
   m_Name: CONFIRM CONTAINER
   m_TagString: Untagged
@@ -99799,6 +99969,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1244914730}
   m_CullTransparentMesh: 1
+--- !u!114 &1244914735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1244914730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 991ae24320cd97940a081b5355d155c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIPositioner
+  upperLeft: {fileID: 961426988}
+  upperCenter: {fileID: 1730107214}
+  upperRight: {fileID: 462183190}
+  middleLeft: {fileID: 383157954}
+  middleCenter: {fileID: 1026420828}
+  middleRight: {fileID: 1989238725}
+  lowerLeft: {fileID: 1927432360}
+  lowerCenter: {fileID: 326571253}
+  lowerRight: {fileID: 107708524}
 --- !u!1 &1246426868
 GameObject:
   m_ObjectHideFlags: 0
@@ -99848,6 +100039,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e9ad4083f776d848811476d8e7121d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Collectible
+  uiPosition: 8
   itemId: doorknob
   prompt: .
   feedbackMessage: Doorknob acquired
@@ -100180,6 +100372,42 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!1 &1247283588
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1247283589}
+  m_Layer: 5
+  m_Name: PARENT
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1247283589
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1247283588}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1285690943}
+  m_Father: {fileID: 1562712607}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1248148061
 GameObject:
   m_ObjectHideFlags: 0
@@ -101675,11 +101903,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 118477204}
-  m_Father: {fileID: 1562712607}
+  m_Father: {fileID: 1247283589}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -450.3}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1285690944
@@ -102078,6 +102306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70411757c9ebe7b468af6ccde1ac5e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
+  uiPosition: 7
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 0
@@ -104989,11 +105218,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1389556960}
-  m_Father: {fileID: 1304458952}
+  m_Father: {fileID: 485666178}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -450.3}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1301829099
@@ -105106,6 +105335,7 @@ GameObject:
   - component: {fileID: 1304458955}
   - component: {fileID: 1304458954}
   - component: {fileID: 1304458953}
+  - component: {fileID: 1304458956}
   m_Layer: 5
   m_Name: FEEDBACK CONTAINER
   m_TagString: Untagged
@@ -105125,7 +105355,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1301829098}
+  - {fileID: 485666178}
   m_Father: {fileID: 532449871}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -105183,6 +105413,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1304458951}
   m_CullTransparentMesh: 1
+--- !u!114 &1304458956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1304458951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 991ae24320cd97940a081b5355d155c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIPositioner
+  upperLeft: {fileID: 961426988}
+  upperCenter: {fileID: 1730107214}
+  upperRight: {fileID: 462183190}
+  middleLeft: {fileID: 383157954}
+  middleCenter: {fileID: 1026420828}
+  middleRight: {fileID: 1989238725}
+  lowerLeft: {fileID: 1927432360}
+  lowerCenter: {fileID: 326571253}
+  lowerRight: {fileID: 107708524}
 --- !u!1 &1307067749
 GameObject:
   m_ObjectHideFlags: 0
@@ -112479,6 +112730,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9db0531baa81e8f4a9b64767a65bd196, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ReadableItem
+  uiPosition: 4
   sprite: {fileID: 21300000, guid: a02de4e6e98a1e4499a3340874401a3b, type: 3}
   text: 'The LMH Hotel re opens its doors! Enjoy the magical breath of the forests
     as you settle down in one of the most comfortable resorts in all (text becomes
@@ -114359,14 +114611,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70411757c9ebe7b468af6ccde1ac5e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
+  uiPosition: 3
   requiredItemId: 
   startLocked: 1
-  playerCanToggle: 1
-  canClose: 1
+  playerCanToggle: 0
+  canClose: 0
   lockedFeedback: Damn! its locked
   confirmationText: 
   startOpen: 0
-  interactCooldown: 2
+  interactCooldown: 3
   pivot: {fileID: 0}
   openAngle: 90
   speed: 120
@@ -114851,7 +115104,6 @@ Transform:
   - {fileID: 1741382707}
   - {fileID: 1072698495}
   - {fileID: 966808459}
-  - {fileID: 1747866664}
   - {fileID: 1719568681}
   - {fileID: 400422573}
   - {fileID: 84401713}
@@ -126796,6 +127048,7 @@ GameObject:
   - component: {fileID: 1562712610}
   - component: {fileID: 1562712609}
   - component: {fileID: 1562712608}
+  - component: {fileID: 1562712611}
   m_Layer: 5
   m_Name: SUBTITLES CONTAINER
   m_TagString: Untagged
@@ -126815,7 +127068,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1285690943}
+  - {fileID: 1247283589}
   m_Father: {fileID: 532449871}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -126873,6 +127126,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1562712606}
   m_CullTransparentMesh: 1
+--- !u!114 &1562712611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562712606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 991ae24320cd97940a081b5355d155c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIPositioner
+  upperLeft: {fileID: 961426988}
+  upperCenter: {fileID: 1730107214}
+  upperRight: {fileID: 462183190}
+  middleLeft: {fileID: 383157954}
+  middleCenter: {fileID: 1026420828}
+  middleRight: {fileID: 1989238725}
+  lowerLeft: {fileID: 1927432360}
+  lowerCenter: {fileID: 326571253}
+  lowerRight: {fileID: 107708524}
 --- !u!1 &1564538047
 GameObject:
   m_ObjectHideFlags: 0
@@ -128877,7 +129151,7 @@ GameObject:
   - component: {fileID: 1581268125}
   - component: {fileID: 1581268124}
   m_Layer: 0
-  m_Name: Door
+  m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -131594,6 +131868,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1747866664}
   - {fileID: 2027376360}
   - {fileID: 1800063695}
   - {fileID: 906946207}
@@ -138259,7 +138534,6 @@ Transform:
   - {fileID: 2020958819}
   - {fileID: 1343231022}
   - {fileID: 1727034245}
-  - {fileID: 12481113}
   - {fileID: 2137272569}
   - {fileID: 2025189656}
   - {fileID: 2056596550}
@@ -143517,6 +143791,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70411757c9ebe7b468af6ccde1ac5e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
+  uiPosition: 7
   requiredItemId: doorknob
   startLocked: 0
   playerCanToggle: 1
@@ -145869,6 +146144,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1728465739}
   m_CullTransparentMesh: 1
+--- !u!1 &1730107213
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1730107214}
+  m_Layer: 5
+  m_Name: UPMID
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1730107214
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1730107213}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 536382975}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -150}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1734910172
 GameObject:
   m_ObjectHideFlags: 0
@@ -147789,7 +148099,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1747866664}
   m_Layer: 3
-  m_Name: Exit_Balcony_Door313
+  m_Name: EXIT 313 Pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -147804,12 +148114,12 @@ Transform:
   m_GameObject: {fileID: 1747866663}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.7132998, y: 0.80616, z: 5.30248}
+  m_LocalPosition: {x: 9.85856, y: 6.013, z: 6.7062}
   m_LocalScale: {x: 0.25527, y: 2.7814999, z: 2.17341}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1154864154}
-  m_Father: {fileID: 1393217751}
+  m_Father: {fileID: 1619270692}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1748644342
 GameObject:
@@ -149989,7 +150299,7 @@ Transform:
   m_GameObject: {fileID: 1800063694}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -1, z: -0, w: 0.00000058114523}
-  m_LocalPosition: {x: 15.67, y: 5.845257, z: 1.108}
+  m_LocalPosition: {x: 15.67, y: 5.916, z: 1.635}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -150008,6 +150318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4da7311af2bd9449bda8198d2aa5859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PhoneInteractable
+  uiPosition: 7
   _player: {fileID: 1875973313}
   _maxDistance: 1.5
   putUpPhoneReference:
@@ -153863,7 +154174,7 @@ Transform:
   m_GameObject: {fileID: 1875973312}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.70710707, z: -0, w: 0.70710653}
-  m_LocalPosition: {x: 22.17, y: 5.73, z: -1.13}
+  m_LocalPosition: {x: 22.65, y: 5.73, z: -1.11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -159331,6 +159642,41 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1926471175}
   m_Mesh: {fileID: -629719859055844128, guid: 8448176c16cd7bf4a85ff959b963dbd7, type: 3}
+--- !u!1 &1927432359
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1927432360}
+  m_Layer: 5
+  m_Name: DOWNLEFT
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1927432360
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1927432359}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 536382975}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 400, y: 150}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!43 &1933021730
 Mesh:
   m_ObjectHideFlags: 0
@@ -168679,6 +169025,41 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1672395152}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1989238724
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1989238725}
+  m_Layer: 5
+  m_Name: MIDRIGHT
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1989238725
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1989238724}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 536382975}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -400, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1991112677
 GameObject:
   m_ObjectHideFlags: 0
@@ -171617,6 +171998,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4da7311af2bd9449bda8198d2aa5859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PhoneInteractable
+  uiPosition: 7
   _player: {fileID: 1875973313}
   _maxDistance: 1.5
   putUpPhoneReference:
@@ -178340,6 +178722,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4da7311af2bd9449bda8198d2aa5859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PhoneInteractable
+  uiPosition: 7
   _player: {fileID: 1875973313}
   _maxDistance: 1.5
   putUpPhoneReference:
@@ -183845,7 +184228,7 @@ GameObject:
   - component: {fileID: 8918280150392430972}
   - component: {fileID: 1380934563}
   - component: {fileID: 1380934562}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -184537,7 +184920,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &8918280150392430972
 MeshRenderer:
   m_ObjectHideFlags: 0

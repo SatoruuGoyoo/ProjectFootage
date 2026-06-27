@@ -5,6 +5,7 @@ public class ConfirmationUI : MonoBehaviour
 {
     [Header("Root")]
     [SerializeField] private CanvasGroup container;
+    [SerializeField] private UIPositioner positioner;
 
     [Header("Labels")]
     [SerializeField] private TMP_Text messageLabel;
@@ -47,11 +48,10 @@ public class ConfirmationUI : MonoBehaviour
         if (_input.Decline) { Decline(); return; }
     }
 
-    private void OnRequested(string message, System.Action onConfirm, System.Action onDecline)
+    private void OnRequested(string message, System.Action onConfirm, System.Action onDecline, UIPositioner.ScreenPosition position)
     {
-        // Confirmation tiene prioridad máxima: cierra todo lo que esté debajo.
         UILayerManager.TryShow(UILayerManager.Layer.Confirmation, ForceHide);
-
+        positioner?.SetPosition(position);
         _onConfirm = onConfirm;
         _onDecline = onDecline;
         if (messageLabel != null) messageLabel.SetText(message);
@@ -92,8 +92,6 @@ public class ConfirmationUI : MonoBehaviour
         GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
     }
 
-    // Callback registrado en UILayerManager (en la práctica nunca se llama
-    // porque Confirmation es la prioridad más alta, pero lo dejamos por consistencia).
     private void ForceHide()
     {
         _onConfirm = null;

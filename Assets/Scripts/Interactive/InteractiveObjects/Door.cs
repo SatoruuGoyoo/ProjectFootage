@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using FMODUnity;
 
-public class Door : MonoBehaviour, IInteractable
+public class Door : Interactable
 {
     [Header("Lock")]
     [SerializeField] private string requiredItemId;
@@ -11,6 +11,7 @@ public class Door : MonoBehaviour, IInteractable
     [SerializeField] private string lockedFeedback = "";
 
     [Header("Confirmation (shown once when player has the item)")]
+    [TextArea(2, 5)]
     [SerializeField] private string confirmationText = "";
 
     [Header("State")]
@@ -33,6 +34,7 @@ public class Door : MonoBehaviour, IInteractable
     private bool manualLock;
     private bool _itemUsed;
     private bool _pendingConfirm;
+    private bool _waitingForExit;
     private float _interactCooldownTimer;
     private Quaternion closedRot;
     private Quaternion openRot;
@@ -50,9 +52,9 @@ public class Door : MonoBehaviour, IInteractable
 
     private bool CanToggle => playerCanToggle && (!isOpen || canClose);
 
-    public string PromptMessage => (CanToggle || IsLocked || NeedsConfirmation) ? "door" : "";
-    public bool CanInteract => _interactCooldownTimer <= 0f && (IsLocked || NeedsConfirmation || CanToggle);
-    public bool BlockMovement => false;
+    public override string PromptMessage => (CanToggle || IsLocked || NeedsConfirmation) ? "door" : "";
+    public override bool CanInteract => _interactCooldownTimer <= 0f && !_waitingForExit && (IsLocked || NeedsConfirmation || CanToggle);
+    public override bool BlockMovement => false;
 
     private void Awake()
     {
@@ -77,7 +79,13 @@ public class Door : MonoBehaviour, IInteractable
     private void OnEnable() => GameEvents.OnConfirmationClosed += OnConfirmationClosed;
     private void OnDisable() => GameEvents.OnConfirmationClosed -= OnConfirmationClosed;
 
-    public void Interact()
+    private void OnTriggerExit(Collider other)
+    {
+        if (!_waitingForExit) return;
+        if (other.CompareTag("Player")) _waitingForExit = false;
+    }
+
+    public override void Interact()
     {
         if (_interactCooldownTimer > 0f) return;
 
@@ -85,7 +93,7 @@ public class Door : MonoBehaviour, IInteractable
         {
             _interactCooldownTimer = interactCooldown;
             if (!lockedSound.IsNull) RuntimeManager.PlayOneShot(lockedSound, transform.position);
-            GameEvents.FeedbackMessage(lockedFeedback);
+            GameEvents.FeedbackMessage(lockedFeedback, uiPosition);
             return;
         }
 
@@ -93,7 +101,7 @@ public class Door : MonoBehaviour, IInteractable
         {
             if (_pendingConfirm) return;
             _pendingConfirm = true;
-            GameEvents.RequestConfirmation(confirmationText, OnConfirmed, OnDeclined);
+            GameEvents.RequestConfirmation(confirmationText, OnConfirmed, OnDeclined, uiPosition);
             return;
         }
 
@@ -113,7 +121,7 @@ public class Door : MonoBehaviour, IInteractable
     private void OnDeclined()
     {
         _pendingConfirm = false;
-        _interactCooldownTimer = interactCooldown;
+        _waitingForExit = true;
     }
 
     private void OnConfirmationClosed() => _pendingConfirm = false;

@@ -4,7 +4,7 @@ using FMODUnity;
 using FMOD.Studio;
 
 [RequireComponent(typeof(Collider))]
-public class PhoneInteractable : MonoBehaviour, IInteractable
+public class PhoneInteractable : Interactable
 {
     [Header("Auto Close")]
     [SerializeField] private Transform _player;
@@ -46,7 +46,7 @@ public class PhoneInteractable : MonoBehaviour, IInteractable
     private PhoneState _state = PhoneState.Idle;
     private EventInstance _currentPhoneAudio;
 
-    public string PromptMessage
+    public override string PromptMessage
     {
         get
         {
@@ -55,8 +55,8 @@ public class PhoneInteractable : MonoBehaviour, IInteractable
         }
     }
 
-    public bool CanInteract => _state != PhoneState.Done;
-    public bool BlockMovement => true;
+    public override bool CanInteract => _state != PhoneState.Done;
+    public override bool BlockMovement => true;
     public bool IsOpen => _isOpen;
     public EventReference MarkNumberReference => markNumberReference;
 
@@ -105,7 +105,7 @@ public class PhoneInteractable : MonoBehaviour, IInteractable
         }
     }
 
-    public void Interact()
+    public override void Interact()
     {
         switch (_state)
         {

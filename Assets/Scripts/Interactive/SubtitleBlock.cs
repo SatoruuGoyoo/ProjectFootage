@@ -6,8 +6,10 @@ public class SubtitleBlock : MonoBehaviour
 {
     [SerializeField] private CanvasGroup container;
     [SerializeField] private TMP_Text label;
+    [SerializeField] private UIPositioner positioner;
 
     private string _pendingText;
+    private UIPositioner.ScreenPosition _pendingPosition;
     private Coroutine _sequenceCoroutine;
 
     private void Awake() => ForceHide();
@@ -19,13 +21,15 @@ public class SubtitleBlock : MonoBehaviour
         StopSequence();
     }
 
-    public void Show(string text)
+    public void Show(string text, UIPositioner.ScreenPosition position = UIPositioner.ScreenPosition.LowerCenter)
     {
         if (string.IsNullOrEmpty(text)) return;
         _pendingText = text;
+        _pendingPosition = position;
 
         if (!UILayerManager.TryShow(UILayerManager.Layer.Subtitles, ForceHide)) return;
 
+        positioner?.SetPosition(position);
         if (label != null) label.SetText(text);
         SetVisible(true);
     }
@@ -49,7 +53,7 @@ public class SubtitleBlock : MonoBehaviour
     {
         foreach (var entry in entries)
         {
-            Show(entry.text);
+            Show(entry.text, entry.position);
             yield return new WaitForSeconds(entry.duration);
         }
         Hide();
@@ -67,7 +71,7 @@ public class SubtitleBlock : MonoBehaviour
     private void OnConfirmationClosed()
     {
         if (string.IsNullOrEmpty(_pendingText)) return;
-        Show(_pendingText);
+        Show(_pendingText, _pendingPosition);
     }
 
     private void SetVisible(bool visible)
