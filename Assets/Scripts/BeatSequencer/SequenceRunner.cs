@@ -21,7 +21,6 @@ public class SequenceRunner : MonoBehaviour
     [SerializeField] private TriggerZone triggerZone;
 
     [Header("Setup")]
-    [SerializeField] private SequenceStep[] steps;
     [SerializeField] private bool logSteps = true;
 
     [Header("Events")]
@@ -74,6 +73,8 @@ public class SequenceRunner : MonoBehaviour
     {
         IsRunning = true;
 
+        SequenceStep[] steps = GetStepsFromChildren();
+
         for (int i = 0; i < steps.Length; i++)
         {
             CurrentStepIndex = i;
@@ -101,12 +102,14 @@ public class SequenceRunner : MonoBehaviour
         OnSequenceCompleted?.Invoke();
     }
 
-    //public void ResetSequence()
-    //{
-    //    if (IsRunning) StopAllCoroutines();
-    //    IsRunning = false;
-    //    CurrentStepIndex = -1;
-    //    foreach (var step in steps)
-    //        if (step != null) step.ResetStep();
-    //}
+    public SequenceStep[] GetStepsFromChildren()
+    {
+        var steps = new System.Collections.Generic.List<SequenceStep>();
+        foreach (Transform child in transform)
+        {
+            var step = child.GetComponent<SequenceStep>();
+            if (step != null) steps.Add(step);
+        }
+        return steps.ToArray();
+    }
 }
