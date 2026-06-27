@@ -33,8 +33,15 @@ namespace SM.UI
 
             if (!string.IsNullOrEmpty(ambienceEvent))
             {
-                _ambience = FMODUnity.RuntimeManager.CreateInstance(ambienceEvent);
-                _ambience.start();
+                try
+                {
+                    _ambience = FMODUnity.RuntimeManager.CreateInstance(ambienceEvent);
+                    _ambience.start();
+                }
+                catch (System.Exception e)
+                {
+                    Debug.LogWarning($"[MainMenuManager] No se pudo crear el evento de ambiente: {e.Message}");
+                }
             }
         }
 

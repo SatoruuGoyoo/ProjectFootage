@@ -623,6 +623,7 @@ MonoBehaviour:
   textFadeDuration: 0.4
   fontSize: 34
   textColor: {r: 1, g: 0.86562586, b: 0, a: 1}
+  introVideoClip: {fileID: 32900000, guid: 5fec9069d2fff4347b70667a45611487, type: 3}
 --- !u!4 &230374873
 Transform:
   m_ObjectHideFlags: 0
@@ -912,6 +913,7 @@ MonoBehaviour:
   backgroundImage: {fileID: 188122500}
   buttonText: {fileID: 1818861166}
   style: {fileID: 11400000, guid: 1407921ff08b78e4b88be12f9faa7d56, type: 2}
+  hoverEvent: event:/MainMenu/UI - UX/UI - ButtonHover
 --- !u!114 &394668170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2303,14 +2305,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e27f16250d40f74fb38ed5e75bd2a1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SM.UI.MainMenuManager
-  gameSceneName: SCN_AssetsIntegrate
+  gameScene:
+    sceneAsset: {fileID: 102900000, guid: 03f40c0d8c119e0469e027b48dfa1cc4, type: 3}
+    sceneName: SCN_Integration2
   introText: 'Sk4rz_26
 
 
     2:21 AM'
   mainPanel: {fileID: 2013229679}
   optionsPanel: {fileID: 0}
-  menuCanvasGroup: {fileID: 0}
+  menuCanvas: {fileID: 989660646}
+  clickEvent: event:/MainMenu/UI - UX/UI - ButtonClick
+  ambienceEvent: event:/MainMenu/Ambient/MenuMusic
 --- !u!114 &989660644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3061,6 +3067,7 @@ MonoBehaviour:
   backgroundImage: {fileID: 1190333018}
   buttonText: {fileID: 343138083}
   style: {fileID: 11400000, guid: 1407921ff08b78e4b88be12f9faa7d56, type: 2}
+  hoverEvent: event:/MainMenu/UI - UX/UI - ButtonHover
 --- !u!114 &1251177702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3495,6 +3502,7 @@ MonoBehaviour:
   backgroundImage: {fileID: 2083464426}
   buttonText: {fileID: 1133159312}
   style: {fileID: 11400000, guid: 1407921ff08b78e4b88be12f9faa7d56, type: 2}
+  hoverEvent: event:/MainMenu/UI - UX/UI - ButtonHover
 --- !u!114 &1523313149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3676,6 +3684,7 @@ GameObject:
   - component: {fileID: 1624600157}
   - component: {fileID: 1624600159}
   - component: {fileID: 1624600158}
+  - component: {fileID: 1624600161}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3801,6 +3810,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -37.097, z: 0}
+--- !u!114 &1624600161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1624600156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioListener
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!1 &1635086713
 GameObject:
   m_ObjectHideFlags: 0
@@ -4087,6 +4110,7 @@ MonoBehaviour:
   backgroundImage: {fileID: 889865807}
   buttonText: {fileID: 1811226787}
   style: {fileID: 11400000, guid: 1407921ff08b78e4b88be12f9faa7d56, type: 2}
+  hoverEvent: event:/MainMenu/UI - UX/UI - ButtonHover
 --- !u!114 &1685002342
 MonoBehaviour:
   m_ObjectHideFlags: 0

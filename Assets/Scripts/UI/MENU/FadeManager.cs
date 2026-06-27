@@ -97,7 +97,7 @@ public sealed class FadeManager : MonoBehaviour
         if (introVideoClip != null)
             yield return RunIntroVideo();
 
-        // 3. Texto Sk4rz_26
+        // 3. Texto
         yield return RunIntroText(config.IntroText, config.HoldDuration);
 
         // 4. Cargar escena
@@ -114,7 +114,7 @@ public sealed class FadeManager : MonoBehaviour
 
         yield return new WaitForEndOfFrame();
 
-        // 5. Fade In al juego
+        // 5. Fade In
         yield return TweenOverlay(1f, 0f, config.FadeInDuration);
         OnFadeInComplete?.Invoke();
         IsBusy = false;
@@ -126,20 +126,16 @@ public sealed class FadeManager : MonoBehaviour
         _videoPlayer.clip = introVideoClip;
         _videoPlayer.Prepare();
 
-        // Esperar que el video esté listo
         while (!_videoPlayer.isPrepared)
             yield return null;
 
         _videoPlayer.Play();
 
-        // Fade In al video
         yield return TweenOverlay(1f, 0f, 0.5f);
 
-        // Esperar que termine
         while (_videoPlayer.isPlaying)
             yield return null;
 
-        // Fade Out de vuelta a negro
         yield return TweenOverlay(0f, 1f, 0.5f);
 
         _videoDisplay.gameObject.SetActive(false);
@@ -201,7 +197,6 @@ public sealed class FadeManager : MonoBehaviour
         _overlay = CreateFullscreenImage("FadeOverlay", Color.black);
         _label = CreateCenteredLabel("FadeLabel");
 
-        // Video
         var videoGO = new GameObject("VideoDisplay");
         videoGO.transform.SetParent(transform, false);
 
@@ -268,12 +263,7 @@ public sealed class FadeManager : MonoBehaviour
         public readonly float HoldDuration;
         public readonly float FadeInDuration;
 
-        public TransitionConfig(
-            string sceneName,
-            string introText,
-            float fadeOutDuration,
-            float holdDuration,
-            float fadeInDuration)
+        public TransitionConfig(string sceneName, string introText, float fadeOutDuration, float holdDuration, float fadeInDuration)
         {
             SceneName = sceneName;
             IntroText = introText;
