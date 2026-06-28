@@ -14,12 +14,9 @@ public class CamcorderPickup : MonoBehaviour, IInteractable
     [Header("Audio")]
     [SerializeField] private EventReference pickupSound;
 
-    // ── IInteractable ─────────────────────────────────────────────────────────
     public string PromptMessage => "camcorder";
     public bool CanInteract => true;
     public bool BlockMovement => false;
-
-    // ── Unity ────────────────────────────────────────────────────────────────
 
     private void Awake()
     {
@@ -31,8 +28,6 @@ public class CamcorderPickup : MonoBehaviour, IInteractable
         if (camcorderModel != null) camcorderModel.SetActive(false);
     }
 
-    // ── IInteractable ─────────────────────────────────────────────────────────
-
     public void Interact()
     {
         if (!pickupSound.IsNull)
@@ -42,8 +37,10 @@ public class CamcorderPickup : MonoBehaviour, IInteractable
         if (camcorderModel != null) camcorderModel.SetActive(true);
 
         GameEvents.CamcorderPickedUp();
-        GameEvents.FeedbackMessage(postPickupMessage);
-
+        if (!string.IsNullOrEmpty(postPickupMessage))
+        {
+            GameEvents.FeedbackMessage(postPickupMessage);
+        }
         gameObject.SetActive(false);
     }
 }

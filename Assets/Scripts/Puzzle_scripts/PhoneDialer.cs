@@ -20,10 +20,6 @@ public class PhoneDialer : MonoBehaviour
     [Header("Phone")]
     public PhoneInteractable phone;
 
-    [Header("On Success")]
-    public GameObject objectToActivate;
-    public UnityEvent onPuzzleSolved;
-
     private string currentInput = "";
 
     void Start()
@@ -33,10 +29,8 @@ public class PhoneDialer : MonoBehaviour
             string key = btn.gameObject.name.Replace("Btn_", "");
             btn.onClick.AddListener(() => OnKeyPressed(key));
         }
-
         btnClear.onClick.AddListener(OnClear);
         btnCall.onClick.AddListener(OnCall);
-
         UpdateDisplay();
     }
 
@@ -58,17 +52,14 @@ public class PhoneDialer : MonoBehaviour
 
     void OnCall()
     {
-        if (phone != null) phone.PlayMarkNumber();
-
         if (currentInput == correctCode)
         {
-            if (objectToActivate != null)
-                objectToActivate.SetActive(false);
-
-            onPuzzleSolved?.Invoke();
+            
+            if (phone != null) phone.PlayCorrectCode();
         }
         else
         {
+            if (phone != null) phone.PlayWrongCode();
             currentInput = "";
             UpdateDisplay();
         }
