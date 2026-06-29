@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using FMODUnity;
 
 public class Stalker : MonoBehaviour
@@ -7,27 +8,29 @@ public class Stalker : MonoBehaviour
     [SerializeField] private Transform player;
 
     [Header("Spawn")]
-    [Tooltip("Posición donde el Stalker aparece cuando se activa.")]
     [SerializeField] private Transform spawnPoint;
 
     [Header("Movement")]
-    [Tooltip("Velocidad a la que el Stalker se acerca al player.")]
     [SerializeField] private float approachSpeed = 2.5f;
-    [Tooltip("Altura del Stalker respecto al player (ajuste vertical).")]
     [SerializeField] private float heightOffset = 0f;
 
     [Header("Footsteps")]
     [SerializeField] private EventReference footstepEvent;
-    [Tooltip("Metros recorridos entre cada paso.")]
     [SerializeField] private float stepInterval = 0.7f;
+
+    [Header("Arrival")]
+    [SerializeField] private float arrivalDistance = 1f;
+    public UnityEvent OnReachedPlayer;
 
     private float _distanceAccumulated;
     private bool _isActive;
+    private bool _hasReached;
 
     private void OnEnable()
     {
         ResetToSpawn();
         _isActive = true;
+        _hasReached = false;
     }
 
     private void OnDisable()
@@ -44,8 +47,7 @@ public class Stalker : MonoBehaviour
 
     private void Update()
     {
-        if (!_isActive) return;
-        if (player == null) return;
+        if (!_isActive || player == null) return;
 
         Vector3 targetPos = player.position;
         targetPos.y += heightOffset;
@@ -65,6 +67,13 @@ public class Stalker : MonoBehaviour
         {
             _distanceAccumulated -= stepInterval;
             PlayFootstep();
+        }
+
+        if (!_hasReached && Vector3.Distance(transform.position, player.position) <= arrivalDistance)
+        {
+            _hasReached = true;
+            _isActive = false;
+            OnReachedPlayer?.Invoke();
         }
     }
 
@@ -91,5 +100,9 @@ public class Stalker : MonoBehaviour
             Gizmos.DrawWireSphere(spawnPoint.position, 0.6f);
             Gizmos.DrawLine(spawnPoint.position, transform.position);
         }
+
+        Gizmos.color = new Color(1f, 1f, 0f, 0.4f);
+        if (player != null)
+            Gizmos.DrawWireSphere(player.position, arrivalDistance);
     }
 }
