@@ -1,13 +1,32 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CamcorderWatchedFeedback : MonoBehaviour
 {
-    [SerializeField] private PlayerVoiceLine fearLine;
+    [Serializable]
+    private class WatchedFeedbackEntry
+    {
+        public string eventId;
+        public PlayerVoiceLine line;
+    }
 
+    [SerializeField] private List<WatchedFeedbackEntry> entries = new List<WatchedFeedbackEntry>();
+
+    private Dictionary<string, PlayerVoiceLine> _lookup;
     private readonly HashSet<string> _alreadyTriggered = new HashSet<string>();
-    private bool _watchedSomethingThisSession;
+    private string _pendingEventId;
     private bool _menuWasOpen;
+
+    private void Awake()
+    {
+        _lookup = new Dictionary<string, PlayerVoiceLine>();
+        foreach (var entry in entries)
+        {
+            if (!string.IsNullOrEmpty(entry.eventId))
+                _lookup[entry.eventId] = entry.line;
+        }
+    }
 
     private void OnEnable()
     {
@@ -25,8 +44,9 @@ public class CamcorderWatchedFeedback : MonoBehaviour
     {
         if (!_menuWasOpen) return;
         if (_alreadyTriggered.Contains(eventId)) return;
+        if (!_lookup.ContainsKey(eventId)) return;
 
-        _watchedSomethingThisSession = true;
+        _pendingEventId = eventId;
         _alreadyTriggered.Add(eventId);
     }
 
@@ -37,7 +57,7 @@ public class CamcorderWatchedFeedback : MonoBehaviour
         if (isMenuOpenNow)
         {
             _menuWasOpen = true;
-            _watchedSomethingThisSession = false;
+            _pendingEventId = null;
             return;
         }
 
@@ -45,20 +65,20 @@ public class CamcorderWatchedFeedback : MonoBehaviour
         {
             _menuWasOpen = false;
 
-            if (_watchedSomethingThisSession)
-                PlayFearFeedback();
+            if (_pendingEventId != null && _lookup.TryGetValue(_pendingEventId, out var line))
+                PlayLine(line);
 
-            _watchedSomethingThisSession = false;
+            _pendingEventId = null;
         }
     }
 
-    private void PlayFearFeedback()
+    private void PlayLine(PlayerVoiceLine line)
     {
         if (PlayerVoicePlayer.Instance == null)
         {
             Debug.LogWarning("[CamcorderWatchedFeedback] No hay PlayerVoicePlayer en escena.");
             return;
         }
-        PlayerVoicePlayer.Instance.Play(fearLine);
+        PlayerVoicePlayer.Instance.Play(line);
     }
 }
