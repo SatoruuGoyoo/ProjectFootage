@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public static bool MovementBlocked = false;
+    public static bool ForwardOnlyMode = false;
 
     private PlayerInput input;
     private PlayerMotor motor;
@@ -37,9 +38,7 @@ public class PlayerController : MonoBehaviour
         currentMode = newMode;
 
         if (newMode == PlayerMode.InteractionMode || newMode == PlayerMode.MenuCameraMode)
-        {
             motor.StopPlayer();
-        }
     }
 
     private void OnControllerSchemeChanged(ControlScheme newScheme) => currentScheme = newScheme;
@@ -48,12 +47,8 @@ public class PlayerController : MonoBehaviour
     {
         if (currentMode == PlayerMode.MenuCameraMode) return;
         if (currentMode == PlayerMode.InteractionMode) return;
-        if (MovementBlocked)
-        {
-            Debug.Log("[PlayerController] BLOCKED, ignorando movimiento");
-            return;
-     
-        }
+        if (MovementBlocked) return;
+
         if (currentScheme == ControlScheme.Tank)
             UpdateTank();
         else
@@ -62,20 +57,28 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateTank()
     {
-        motor.MoveTank(input.MoveForward, input.IsSprinting);
+        float move = ForwardOnlyMode ? Mathf.Max(0f, input.MoveForward) : input.MoveForward;
+        float turn = ForwardOnlyMode ? 0f : input.Turn;
+
+        motor.MoveTank(move, input.IsSprinting);
+
         if (currentMode == PlayerMode.ExplorationMode)
-            motor.Turn(input.Turn);
+            motor.Turn(turn);
     }
 
     private void UpdateModern()
     {
         Camera activeCam = CameraManager.Instance?.ActiveCamera;
 
+        Vector2 move = ForwardOnlyMode
+            ? new Vector2(0f, Mathf.Max(0f, input.MoveVector.y))
+            : input.MoveVector;
+
         if (currentMode == PlayerMode.ExplorationMode)
-            motor.MoveRelativeToCamera(input.MoveVector, activeCam, input.IsSprinting);
+            motor.MoveRelativeToCamera(move, activeCam, input.IsSprinting);
 
         if (currentMode == PlayerMode.CameraMode)
-            motor.MoveRelativeToSelf(input.MoveVector);
+            motor.MoveRelativeToSelf(ForwardOnlyMode ? new Vector2(0f, Mathf.Max(0f, input.MoveVector.y)) : input.MoveVector);
 
         if (currentMode == PlayerMode.RecordingMode)
             motor.MoveRelativeToSelf(new Vector2(0f, input.MoveForward));

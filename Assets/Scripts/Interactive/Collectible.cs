@@ -2,7 +2,7 @@
 using FMODUnity;
 using FMOD.Studio;
 
-public class Collectible : MonoBehaviour, IInteractable
+public class Collectible : Interactable
 {
     [SerializeField] private string itemId;
     [SerializeField] private string prompt = "";
@@ -16,15 +16,11 @@ public class Collectible : MonoBehaviour, IInteractable
     private bool _collected;
     private bool _pendingConfirmation;
 
-    public string PromptMessage => prompt;
-    public bool CanInteract => !_collected;
-    public bool BlockMovement => false;
+    public override string PromptMessage => prompt;
+    public override bool CanInteract => !_collected;
+    public override bool BlockMovement => false;
 
-
-    private void OnEnable()
-    {
-        GameEvents.OnConfirmationClosed += OnConfirmationClosed;
-    }
+    private void OnEnable() => GameEvents.OnConfirmationClosed += OnConfirmationClosed;
 
     private void OnDisable()
     {
@@ -32,14 +28,14 @@ public class Collectible : MonoBehaviour, IInteractable
         _pendingConfirmation = false;
     }
 
-    public void Interact()
+    public override void Interact()
     {
         if (_collected) return;
 
         if (requiresConfirmation)
         {
             _pendingConfirmation = true;
-            GameEvents.RequestConfirmation(confirmationText, OnConfirmed, OnDeclined);
+            GameEvents.RequestConfirmation(confirmationText, OnConfirmed, OnDeclined, uiPosition);
         }
         else
         {
@@ -47,26 +43,15 @@ public class Collectible : MonoBehaviour, IInteractable
         }
     }
 
-    // ── Confirmation callbacks ────────────────────────────────────────────────
-
     private void OnConfirmed()
     {
         _pendingConfirmation = false;
         Collect();
     }
 
-    private void OnDeclined()
-    {
-        _pendingConfirmation = false;
-    }
+    private void OnDeclined() => _pendingConfirmation = false;
 
-    /// <summary>Called when the panel closes externally (player walked away).</summary>
-    private void OnConfirmationClosed()
-    {
-        _pendingConfirmation = false;
-    }
-
-    // ── Internal ──────────────────────────────────────────────────────────────
+    private void OnConfirmationClosed() => _pendingConfirmation = false;
 
     private void Collect()
     {
@@ -75,7 +60,7 @@ public class Collectible : MonoBehaviour, IInteractable
 
         ItemRegistry.Instance.Collect(itemId);
         GameEvents.ItemCollected(itemId);
-        GameEvents.FeedbackMessage(feedbackMessage);
+        GameEvents.FeedbackMessage(feedbackMessage, uiPosition);
 
         RuntimeManager.PlayOneShot(collectSound, transform.position);
 

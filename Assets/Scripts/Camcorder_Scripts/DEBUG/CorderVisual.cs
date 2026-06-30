@@ -36,6 +36,7 @@ public sealed class CorderVisual : MonoBehaviour
     [SerializeField] private Image recDot;
     [SerializeField] private TMP_Text recText;
     [SerializeField] private TMP_Text timecodeText;
+    [SerializeField] private Image recordingIndicatorImage;
 
     // ─── GL rendering ─────────────────────────────────────────────────────────
 
@@ -221,24 +222,33 @@ public sealed class CorderVisual : MonoBehaviour
         recDot.gameObject.SetActive(showIndicator);
         recText.gameObject.SetActive(showIndicator);
 
-        if (!showIndicator) return;
+        if (!showIndicator)
+        {
+            if (recordingIndicatorImage != null)
+                recordingIndicatorImage.color = hudColor;
+            return;
+        }
 
         if (isRec)
         {
             float b = (Mathf.Sin(Time.time * recBlinkSpeed * Mathf.PI * 2f) + 1f) * 0.5f;
 
-            // Reusar color precalculado, solo mutar alpha → sin new Color
             Color c = _recFrameColor;
             c.a = b;
             recDot.color = c;
             recText.color = c;
 
-            // Solo asignar string si cambió el modo (el texto "REC" no cambia frame a frame)
+            if (recordingIndicatorImage != null)
+                recordingIndicatorImage.color = _recFrameColor; // <- nuevo
+
             if (_lastMode != CamcorderMode.Recording)
                 recText.text = "REC";
         }
         else // isPrep
         {
+            if (recordingIndicatorImage != null)
+                recordingIndicatorImage.color = hudColor;
+
             recDot.color = _prepFrameColor;
 
             float b = Mathf.Sin(Time.time * 6f) > 0f ? 1f : 0.2f;

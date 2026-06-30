@@ -11,8 +11,7 @@ public class CamcorderInput : MonoBehaviour
     public bool IsPreparingRecording { get; private set; }
     public bool IsRecordingReleased { get; private set; }
     public bool StartedRecording { get; private set; }
-
-    // Menu
+    // Menu — pressed this frame
     public bool OpenCloseMenu { get; private set; }
     public bool NavigateRight { get; private set; }
     public bool NavigateLeft { get; private set; }
@@ -21,8 +20,14 @@ public class CamcorderInput : MonoBehaviour
     public bool FastForwardRecording { get; private set; }
     public float RotateRecording { get; private set; }
     public bool DiscardRecording { get; private set; }
-
     public bool StopRecording { get; private set; }
+    // Menu — held
+    public bool OpenCloseMenuHeld { get; private set; }
+    public bool NavigateRightHeld { get; private set; }
+    public bool NavigateLeftHeld { get; private set; }
+    public bool PlayPauseRecordingHeld { get; private set; }
+    public bool DiscardRecordingHeld { get; private set; }
+    public bool StopRecordingHeld { get; private set; }
 
     private PlayerInputActions actions;
 
@@ -46,7 +51,6 @@ public class CamcorderInput : MonoBehaviour
     {
         LiftCamera = actions.Exploration.LiftCamera.WasPressedThisFrame() ||
                      actions.Camera.PutDownCamera.WasPressedThisFrame();
-
         RecordingRotate = actions.Camera.RecordingRotate.ReadValue<float>();
         RecordingTilt = actions.Camera.RecordingTilt.ReadValue<float>();
         TiltCamera = actions.Camera.TiltCamera.ReadValue<float>();
@@ -63,5 +67,12 @@ public class CamcorderInput : MonoBehaviour
         RotateRecording = actions.MenuCamera.Rotate.ReadValue<float>();
         DiscardRecording = actions.MenuCamera.Discard.WasPressedThisFrame();
         StopRecording = actions.MenuCamera.Stop.WasPressedThisFrame();
+
+        OpenCloseMenuHeld = actions.MenuCamera.OpenClose.IsPressed();
+        NavigateRightHeld = actions.MenuCamera.Navigate.IsPressed() && actions.MenuCamera.Navigate.ReadValue<float>() > 0.1f;
+        NavigateLeftHeld = actions.MenuCamera.Navigate.IsPressed() && actions.MenuCamera.Navigate.ReadValue<float>() < -0.1f;
+        PlayPauseRecordingHeld = actions.MenuCamera.PlayPause.IsPressed();
+        DiscardRecordingHeld = actions.MenuCamera.Discard.IsPressed();
+        StopRecordingHeld = actions.MenuCamera.Stop.IsPressed();
     }
 }

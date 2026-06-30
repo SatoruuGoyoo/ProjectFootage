@@ -1,29 +1,78 @@
 ﻿using UnityEngine;
 using TMPro;
+using System.Collections;
 
-/// <summary>
-/// UI block that displays subtitle text while a radio (or anything) is playing.
-/// Assign to a Canvas GO with a CanvasGroup + TMP_Text child.
-///
-/// HIERARCHY:
-/// SubtitleBlock  (this script + CanvasGroup)
-///  └─ Label      (TMP_Text)
-/// </summary>
 public class SubtitleBlock : MonoBehaviour
 {
     [SerializeField] private CanvasGroup container;
     [SerializeField] private TMP_Text label;
+    [SerializeField] private UIPositioner positioner;
+
+    private string _pendingText;
+    private UIPositioner.ScreenPosition _pendingPosition;
+    private Coroutine _sequenceCoroutine;
 
     private void Awake() => ForceHide();
 
-    public void Show(string text)
+    private void OnEnable() => GameEvents.OnConfirmationClosed += OnConfirmationClosed;
+    private void OnDisable()
+    {
+        GameEvents.OnConfirmationClosed -= OnConfirmationClosed;
+        StopSequence();
+    }
+
+    public void Show(string text, UIPositioner.ScreenPosition position = UIPositioner.ScreenPosition.LowerCenter)
     {
         if (string.IsNullOrEmpty(text)) return;
+        _pendingText = text;
+        _pendingPosition = position;
+
+        if (!UILayerManager.TryShow(UILayerManager.Layer.Subtitles, ForceHide)) return;
+
+        positioner?.SetPosition(position);
         if (label != null) label.SetText(text);
         SetVisible(true);
     }
 
-    public void Hide() => SetVisible(false);
+    public void ShowSequence(SubtitleEntry[] entries)
+    {
+        if (entries == null || entries.Length == 0) return;
+        StopSequence();
+        _sequenceCoroutine = StartCoroutine(RunSequence(entries));
+    }
+
+    public void Hide()
+    {
+        StopSequence();
+        _pendingText = null;
+        UILayerManager.Release(UILayerManager.Layer.Subtitles);
+        SetVisible(false);
+    }
+
+    private IEnumerator RunSequence(SubtitleEntry[] entries)
+    {
+        foreach (var entry in entries)
+        {
+            Show(entry.text, entry.position);
+            yield return new WaitForSeconds(entry.duration);
+        }
+        Hide();
+    }
+
+    private void StopSequence()
+    {
+        if (_sequenceCoroutine != null)
+        {
+            StopCoroutine(_sequenceCoroutine);
+            _sequenceCoroutine = null;
+        }
+    }
+
+    private void OnConfirmationClosed()
+    {
+        if (string.IsNullOrEmpty(_pendingText)) return;
+        Show(_pendingText, _pendingPosition);
+    }
 
     private void SetVisible(bool visible)
     {

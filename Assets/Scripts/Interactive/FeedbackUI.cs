@@ -1,24 +1,22 @@
-﻿using UnityEngine;
-using TMPro;
+﻿using TMPro;
+using UnityEngine;
 
-/// <summary>
-/// Displays temporary text messages (e.g. "Está cerrada", "Objeto recogido").
-/// Listens to GameEvents.OnFeedbackMessage and auto-hides after a duration.
-///
-/// HIERARCHY:
-/// FeedbackUI  (this script + CanvasGroup)
-///  └─ MessageLabel  (TMP_Text)
-/// </summary>
 public class FeedbackUI : MonoBehaviour
 {
     [SerializeField] private CanvasGroup container;
     [SerializeField] private TMP_Text messageLabel;
     [SerializeField] private float displayDuration = 3f;
+    [SerializeField] private UIPositioner positioner;
 
     private float _timer;
     private bool _isVisible;
 
-    private void Awake() => ForceHide();
+    private void Awake()
+    {
+        
+        _isVisible = true;
+        ForceHide();
+    }
 
     private void OnEnable() => GameEvents.OnFeedbackMessage += OnFeedback;
     private void OnDisable() => GameEvents.OnFeedbackMessage -= OnFeedback;
@@ -27,14 +25,30 @@ public class FeedbackUI : MonoBehaviour
     {
         if (_timer <= 0f) return;
         _timer -= Time.deltaTime;
-        if (_timer <= 0f) SetVisible(false);
+        if (_timer <= 0f) Hide();
     }
 
-    private void OnFeedback(string message)
+    private void OnFeedback(string message, UIPositioner.ScreenPosition position)
     {
+        if (!UILayerManager.TryShow(UILayerManager.Layer.Feedback, ForceHide)) return;
+        positioner?.SetPosition(position);
         if (messageLabel != null) messageLabel.SetText(message);
         _timer = displayDuration;
         SetVisible(true);
+    }
+
+    private void Hide()
+    {
+        UILayerManager.Release(UILayerManager.Layer.Feedback);
+        SetVisible(false);
+    }
+
+    // Llamado por UILayerManager si algo de mayor prioridad nos desplaza.
+    private void ForceHide()
+    {
+        _timer = 0f;
+        UILayerManager.Release(UILayerManager.Layer.Feedback);
+        SetVisible(false);
     }
 
     private void SetVisible(bool visible)
@@ -45,14 +59,5 @@ public class FeedbackUI : MonoBehaviour
         container.alpha = visible ? 1f : 0f;
         container.interactable = visible;
         container.blocksRaycasts = visible;
-    }
-
-    private void ForceHide()
-    {
-        _isVisible = false;
-        if (container == null) return;
-        container.alpha = 0f;
-        container.interactable = false;
-        container.blocksRaycasts = false;
     }
 }
