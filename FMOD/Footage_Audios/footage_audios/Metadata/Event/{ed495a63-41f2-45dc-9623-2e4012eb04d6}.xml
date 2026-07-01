@@ -78,6 +78,9 @@
 		<property name="length">
 			<value>2.0693333333333332</value>
 		</property>
+		<property name="volume">
+			<value>-25</value>
+		</property>
 		<relationship name="audioFile">
 			<destination>{7414994c-73fc-472f-8ff7-3443528a5c35}</destination>
 		</relationship>
@@ -91,9 +94,11 @@
 	<object class="MixerBusEffectChain" id="{d6c0c370-a691-4ecf-8344-f4042c0e5cd2}">
 		<relationship name="effects">
 			<destination>{4fe888a5-0bf2-4b47-8d4f-785a39d92df8}</destination>
+			<destination>{f3e60a9f-a5d9-4e77-989f-d2511ea1b9ce}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{f3e189a9-9f64-4eec-bb1e-7af581bb6d4a}" />
 	<object class="MixerBusFader" id="{b5366e99-fd47-422c-a06c-9d4db970a36f}" />
 	<object class="MixerBusFader" id="{4fe888a5-0bf2-4b47-8d4f-785a39d92df8}" />
+	<object class="LoudnessMeter" id="{f3e60a9f-a5d9-4e77-989f-d2511ea1b9ce}" />
 </objects>

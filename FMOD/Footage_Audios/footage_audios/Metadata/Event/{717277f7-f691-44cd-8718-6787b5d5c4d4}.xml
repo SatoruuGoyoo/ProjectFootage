@@ -72,9 +72,6 @@
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{d5b6e594-2476-44d6-a417-a3421b263adc}">
-		<property name="volume">
-			<value>-10</value>
-		</property>
 		<relationship name="effectChain">
 			<destination>{aa188eec-0b25-4390-96cf-c889e52a6145}</destination>
 		</relationship>
@@ -94,6 +91,9 @@
 	<object class="SingleSound" id="{5c0a9eed-6b0c-4345-a3c2-6507db74e50e}">
 		<property name="length">
 			<value>21.546666666666667</value>
+		</property>
+		<property name="volume">
+			<value>-10</value>
 		</property>
 		<relationship name="audioFile">
 			<destination>{f0462783-6217-4d75-8f35-0f71d3dfb707}</destination>
@@ -116,7 +116,7 @@
 	<object class="MixerBusEffectChain" id="{aa188eec-0b25-4390-96cf-c889e52a6145}">
 		<relationship name="effects">
 			<destination>{5eb680ae-09c9-402e-879c-5cbc81fe5840}</destination>
-			<destination>{ae398734-7126-4dce-bd40-d4c864ccb66e}</destination>
+			<destination>{3706b80c-45c6-48c5-8310-f5335ec68f2e}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{56edf380-afb1-4461-9732-8762c95ac688}" />
@@ -128,6 +128,6 @@
 	</object>
 	<object class="MixerBusPanner" id="{1e3cb526-29cc-4dcb-abaa-0758789cdc49}" />
 	<object class="MixerBusFader" id="{5eb680ae-09c9-402e-879c-5cbc81fe5840}" />
-	<object class="SFXReverbEffect" id="{ae398734-7126-4dce-bd40-d4c864ccb66e}" />
+	<object class="LoudnessMeter" id="{3706b80c-45c6-48c5-8310-f5335ec68f2e}" />
 	<object class="MixerBusFader" id="{3dc48411-d374-4fa2-abcd-9c8317e32786}" />
 </objects>

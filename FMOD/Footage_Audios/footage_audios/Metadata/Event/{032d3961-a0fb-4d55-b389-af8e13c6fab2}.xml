@@ -64,9 +64,6 @@
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{512ec449-5907-4967-a7fd-40005a43e8dd}">
-		<property name="volume">
-			<value>-6.5</value>
-		</property>
 		<relationship name="effectChain">
 			<destination>{3db86513-52cd-4846-8e6e-cd6095a063c5}</destination>
 		</relationship>
@@ -82,7 +79,7 @@
 			<value>12.023999999999999</value>
 		</property>
 		<property name="volume">
-			<value>-4</value>
+			<value>-30</value>
 		</property>
 		<property name="pitch">
 			<value>-8.5</value>
@@ -100,9 +97,15 @@
 	<object class="MixerBusEffectChain" id="{3db86513-52cd-4846-8e6e-cd6095a063c5}">
 		<relationship name="effects">
 			<destination>{d756a570-7fbf-400e-8c49-c1aa25900c6d}</destination>
+			<destination>{9e7b2dc0-3086-4527-80b6-510c8990e671}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{cca4ca13-e48e-4258-ba54-4140e5456d8e}" />
 	<object class="MixerBusFader" id="{dc526cd7-f8e7-4f61-b4b8-ff1e385908f7}" />
 	<object class="MixerBusFader" id="{d756a570-7fbf-400e-8c49-c1aa25900c6d}" />
+	<object class="LoudnessMeter" id="{9e7b2dc0-3086-4527-80b6-510c8990e671}">
+		<property name="loudnessTarget">
+			<value>-20</value>
+		</property>
+	</object>
 </objects>

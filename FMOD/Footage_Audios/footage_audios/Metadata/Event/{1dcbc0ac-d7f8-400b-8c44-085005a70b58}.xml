@@ -78,6 +78,9 @@
 		<property name="length">
 			<value>1.024</value>
 		</property>
+		<property name="volume">
+			<value>-20</value>
+		</property>
 		<relationship name="audioFile">
 			<destination>{c1e3dfa4-2766-4055-bed8-055ce72e6484}</destination>
 		</relationship>
@@ -90,10 +93,28 @@
 	<object class="MixerBusPanner" id="{2d00fda4-c231-42ef-b636-50ef8d6f44ee}" />
 	<object class="MixerBusEffectChain" id="{488a1f09-69eb-4074-ac98-9aab941452ef}">
 		<relationship name="effects">
+			<destination>{6e839398-e959-49ac-ac47-058ba32f0204}</destination>
 			<destination>{b6a12f49-396b-4907-bdea-188abb5bbc58}</destination>
+			<destination>{149f97ec-3899-4a1c-b010-237c1c13237e}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{ce833d20-8ab2-4077-9d43-c3c1a9bc2db0}" />
 	<object class="MixerBusFader" id="{ebec35ff-2687-453e-b33e-6e2ff4bed82b}" />
+	<object class="LoudnessMeter" id="{6e839398-e959-49ac-ac47-058ba32f0204}">
+		<property name="loudnessTarget">
+			<value>-18</value>
+		</property>
+	</object>
 	<object class="MixerBusFader" id="{b6a12f49-396b-4907-bdea-188abb5bbc58}" />
+	<object class="LimiterEffect" id="{149f97ec-3899-4a1c-b010-237c1c13237e}">
+		<property name="boost">
+			<value>1</value>
+		</property>
+		<property name="ceiling">
+			<value>-7</value>
+		</property>
+		<property name="release">
+			<value>1</value>
+		</property>
+	</object>
 </objects>
