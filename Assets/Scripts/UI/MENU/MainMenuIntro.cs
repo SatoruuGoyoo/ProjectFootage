@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using FMODUnity;
+
 
 /// <summary>
 /// Drives the main menu intro sequence:
@@ -82,6 +84,8 @@ public sealed class MainMenuIntro : MonoBehaviour
     {
         while (!Input.GetKeyDown(startKey))
             yield return null;
+        FMODUnity.RuntimeManager.PlayOneShot("event:/MainMenu/UI - UX/UI - ButtonClick");
+
     }
 
     private IEnumerator AnimateCamera()

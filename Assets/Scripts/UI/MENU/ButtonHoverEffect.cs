@@ -4,10 +4,6 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 
-/// <summary>
-/// Animates a button's background and text colors on pointer enter/exit.
-/// Assign a <see cref="ButtonHoverStyle"/> asset for shared, reusable styling.
-/// </summary>
 [RequireComponent(typeof(Selectable))]
 public sealed class ButtonHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -18,14 +14,18 @@ public sealed class ButtonHoverEffect : MonoBehaviour, IPointerEnterHandler, IPo
     [Header("Style")]
     [SerializeField] private ButtonHoverStyle style;
 
+    [Header("Sound")]
+    [SerializeField] private string hoverEvent = "event:/MainMenu/UI - UX/UI - ButtonHover";
+
     private Coroutine _tweenCoroutine;
 
-    // ── Pointer Events ────────────────────────────────────────────────────
+    public void OnPointerEnter(PointerEventData _)
+    {
+        TransitionTo(isHover: true);
+        FMODUnity.RuntimeManager.PlayOneShot(hoverEvent);
+    }
 
-    public void OnPointerEnter(PointerEventData _) => TransitionTo(isHover: true);
     public void OnPointerExit(PointerEventData _) => TransitionTo(isHover: false);
-
-    // ── Tween ─────────────────────────────────────────────────────────────
 
     private void TransitionTo(bool isHover)
     {
@@ -46,8 +46,10 @@ public sealed class ButtonHoverEffect : MonoBehaviour, IPointerEnterHandler, IPo
         for (float t = 0f; t < duration; t += Time.unscaledDeltaTime)
         {
             float progress = t / duration;
-            ApplyColors(Color.Lerp(startBg, targetBg, progress),
-                        Color.Lerp(startText, targetText, progress));
+            ApplyColors(
+                Color.Lerp(startBg, targetBg, progress),
+                Color.Lerp(startText, targetText, progress)
+            );
             yield return null;
         }
 

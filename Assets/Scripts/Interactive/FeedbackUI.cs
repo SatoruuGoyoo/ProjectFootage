@@ -5,7 +5,7 @@ public class FeedbackUI : MonoBehaviour
 {
     [SerializeField] private CanvasGroup container;
     [SerializeField] private TMP_Text messageLabel;
-    [SerializeField] private float displayDuration = 3f;
+    [SerializeField] private float defaultDisplayDuration = 3f;
     [SerializeField] private UIPositioner positioner;
 
     private float _timer;
@@ -13,7 +13,6 @@ public class FeedbackUI : MonoBehaviour
 
     private void Awake()
     {
-        
         _isVisible = true;
         ForceHide();
     }
@@ -28,12 +27,12 @@ public class FeedbackUI : MonoBehaviour
         if (_timer <= 0f) Hide();
     }
 
-    private void OnFeedback(string message, UIPositioner.ScreenPosition position)
+    private void OnFeedback(string message, UIPositioner.ScreenPosition position, float duration)
     {
         if (!UILayerManager.TryShow(UILayerManager.Layer.Feedback, ForceHide)) return;
         positioner?.SetPosition(position);
         if (messageLabel != null) messageLabel.SetText(message);
-        _timer = displayDuration;
+        _timer = duration > 0f ? duration : defaultDisplayDuration;
         SetVisible(true);
     }
 

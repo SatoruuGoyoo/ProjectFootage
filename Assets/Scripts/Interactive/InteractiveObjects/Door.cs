@@ -34,7 +34,6 @@ public class Door : Interactable
     private bool manualLock;
     private bool _itemUsed;
     private bool _pendingConfirm;
-    private bool _waitingForExit;
     private float _interactCooldownTimer;
     private Quaternion closedRot;
     private Quaternion openRot;
@@ -53,7 +52,7 @@ public class Door : Interactable
     private bool CanToggle => playerCanToggle && (!isOpen || canClose);
 
     public override string PromptMessage => (CanToggle || IsLocked || NeedsConfirmation) ? "door" : "";
-    public override bool CanInteract => _interactCooldownTimer <= 0f && !_waitingForExit && (IsLocked || NeedsConfirmation || CanToggle);
+    public override bool CanInteract => _interactCooldownTimer <= 0f && (IsLocked || NeedsConfirmation || CanToggle);
     public override bool BlockMovement => false;
 
     private void Awake()
@@ -78,12 +77,6 @@ public class Door : Interactable
 
     private void OnEnable() => GameEvents.OnConfirmationClosed += OnConfirmationClosed;
     private void OnDisable() => GameEvents.OnConfirmationClosed -= OnConfirmationClosed;
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (!_waitingForExit) return;
-        if (other.CompareTag("Player")) _waitingForExit = false;
-    }
 
     public override void Interact()
     {
@@ -121,7 +114,7 @@ public class Door : Interactable
     private void OnDeclined()
     {
         _pendingConfirm = false;
-        _waitingForExit = true;
+        _interactCooldownTimer = interactCooldown;
     }
 
     private void OnConfirmationClosed() => _pendingConfirm = false;

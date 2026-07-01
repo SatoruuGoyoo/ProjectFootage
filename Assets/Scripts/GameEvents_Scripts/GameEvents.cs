@@ -15,7 +15,7 @@ public static class GameEvents
 
     // Items
     public static event Action<string> OnItemCollected;
-    public static event Action<string, UIPositioner.ScreenPosition> OnFeedbackMessage;
+    public static event Action<string, UIPositioner.ScreenPosition, float> OnFeedbackMessage;
 
     // Player Mode
     public static event Action<PlayerMode> OnPlayerModeChanged;
@@ -62,8 +62,9 @@ public static class GameEvents
 
     // ── ITEMS ────────────────────────────────────────────────────────────────
     public static void ItemCollected(string itemId) => OnItemCollected?.Invoke(itemId);
-    public static void FeedbackMessage(string message, UIPositioner.ScreenPosition position = UIPositioner.ScreenPosition.LowerCenter)
-        => OnFeedbackMessage?.Invoke(message, position);
+
+    public static void FeedbackMessage(string message, UIPositioner.ScreenPosition position = UIPositioner.ScreenPosition.LowerCenter, float duration = -1f)
+        => OnFeedbackMessage?.Invoke(message, position, duration);
 
     // ── CAMCORDER ────────────────────────────────────────────────────────────
     public static void CamcorderPickedUp() => OnCamcorderPickedUp?.Invoke();
