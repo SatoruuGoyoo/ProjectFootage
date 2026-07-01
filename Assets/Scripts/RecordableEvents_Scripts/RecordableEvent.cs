@@ -38,6 +38,7 @@ public class RecordableEvent : MonoBehaviour, ICamcorderTarget
     {
         GameEvents.OnRecordingStarted += HandleRecordingStarted;
         GameEvents.OnRecordingStopped += HandleRecordingStopped;
+        GameEvents.OnRecordingDiscarded += HandleRecordingDiscarded;
 
         if (CamcorderDetectionSystem.Instance != null)
             CamcorderDetectionSystem.Instance.Register(this);
@@ -50,6 +51,7 @@ public class RecordableEvent : MonoBehaviour, ICamcorderTarget
     {
         GameEvents.OnRecordingStarted -= HandleRecordingStarted;
         GameEvents.OnRecordingStopped -= HandleRecordingStopped;
+        GameEvents.OnRecordingDiscarded -= HandleRecordingDiscarded;
 
         if (CamcorderDetectionSystem.Instance != null)
             CamcorderDetectionSystem.Instance.Unregister(this);
@@ -63,8 +65,6 @@ public class RecordableEvent : MonoBehaviour, ICamcorderTarget
         CamcorderZone zone = CamcorderDetectionSystem.Instance != null
             ? CamcorderDetectionSystem.Instance.GetZoneForTarget(this)
             : CamcorderZone.None;
-
-        //Debug.Log($"[Event {eventId}] zone: {zone} | state: {_state} | recording: {_camcorderRecording}");
 
         if (zone == CamcorderZone.DeadZone)
         {
@@ -93,15 +93,22 @@ public class RecordableEvent : MonoBehaviour, ICamcorderTarget
         if (_elapsed >= duration) Complete();
     }
 
-    private void HandleRecordingStarted(RecordingSession session)
-    {
-        _camcorderRecording = true;
-    }
+    private void HandleRecordingStarted(RecordingSession session) => _camcorderRecording = true;
 
     private void HandleRecordingStopped()
     {
         _camcorderRecording = false;
         Interrupt();
+    }
+
+    private void HandleRecordingDiscarded(RecordingSession session)
+    {
+        if (_state != RecordableEventState.Completed) return;
+        if (repeatable) return;
+        if (!session.ContainsEvent(eventId)) return;
+
+        _state = RecordableEventState.Idle;
+        _elapsed = 0f;
     }
 
     private void TryStart()
