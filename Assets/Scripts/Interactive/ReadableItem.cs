@@ -1,3 +1,4 @@
+using FMODUnity;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
@@ -6,6 +7,9 @@ public class ReadableItem : Interactable
     [SerializeField] private Sprite sprite;
     [TextArea(3, 10)]
     [SerializeField] private string text = "";
+
+    [SerializeField] private EventReference openSound;
+    [SerializeField] private EventReference closeSound;
 
     private bool _isReading;
 
@@ -27,6 +31,7 @@ public class ReadableItem : Interactable
     private void Open()
     {
         _isReading = true;
+        RuntimeManager.PlayOneShot(openSound, transform.position);
         GameEvents.ReadableOpened(sprite, text, uiPosition);
         GameEvents.PlayerModeChanged(PlayerMode.InteractionMode);
         GameEvents.InteractPromptActivated(PromptMessage);
@@ -35,6 +40,8 @@ public class ReadableItem : Interactable
     private void Close()
     {
         _isReading = false;
+        if (!closeSound.IsNull)
+            RuntimeManager.PlayOneShot(closeSound, transform.position);
         GameEvents.ReadableClosed();
         GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
         GameEvents.InteractPromptDeactivated();

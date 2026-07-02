@@ -30,7 +30,6 @@ public class InteractableRadio : Interactable
     public override void Interact()
     {
         if (_used) return;
-
         if (oneTimeOnly) _used = true;
 
         _source.Toggle();
@@ -43,7 +42,15 @@ public class InteractableRadio : Interactable
                 subtitles.Hide();
         }
 
-        if (_source.IsPlaying) OnTurnedOn?.Invoke();
-        else OnTurnedOff?.Invoke();
+        if (_source.IsPlaying)
+        {
+            GameEvents.InteractPromptActivated(PromptMessage);
+            OnTurnedOn?.Invoke();
+        }
+        else
+        {
+            GameEvents.InteractPromptDeactivated();
+            OnTurnedOff?.Invoke();
+        }
     }
 }

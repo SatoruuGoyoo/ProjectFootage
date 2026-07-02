@@ -6,6 +6,12 @@ using FMOD.Studio;
 [RequireComponent(typeof(Collider))]
 public class PhoneInteractable : Interactable
 {
+    [Header("Broken State")]
+    [SerializeField] private bool isBroken = false;
+    [SerializeField] private string brokenMessage = "El telefono no funciona";
+    [SerializeField] private UIPositioner.ScreenPosition brokenMessagePosition = UIPositioner.ScreenPosition.LowerCenter;
+    [SerializeField] private float brokenMessageDuration = -1f;
+
     [Header("Auto Close")]
     [SerializeField] private Transform _player;
     [SerializeField] private float _maxDistance = 1.5f;
@@ -36,11 +42,11 @@ public class PhoneInteractable : Interactable
     {
         Idle,
         Open,
-        WaitingForRing,  // codigo correcto escuchado, telefono cerrado, esperando alejarse
-        Ringing,         // sonando, esperando que el jugador conteste
-        LockedCorrect,   // escuchando audio de codigo correcto, no puede cerrar HASTA que termine
-        LockedCall,      // escuchando conversacion, no puede cerrar
-        Done,            // llamada terminada, telefono inutilizable para siempre
+        WaitingForRing,
+        Ringing,
+        LockedCorrect,
+        LockedCall,
+        Done,
     }
 
     private PhoneState _state = PhoneState.Idle;
@@ -69,20 +75,16 @@ public class PhoneInteractable : Interactable
         switch (_state)
         {
             case PhoneState.Open:
-                // auto-close por distancia
                 if (_player != null && Vector3.Distance(transform.position, _player.position) > _maxDistance)
                     ClosePhone();
                 break;
 
             case PhoneState.WaitingForRing:
-                // espera a que el jugador se aleje para empezar a sonar
                 if (_player != null && Vector3.Distance(transform.position, _player.position) > _maxDistance)
                     StartRinging();
                 break;
 
             case PhoneState.LockedCorrect:
-                // Auto-cierre cuando termina el audio del codigo correcto.
-                // El jugador tambien puede interrumpirlo manualmente via Interact().
                 if (IsAudioFinished())
                     ClosePhone();
                 break;
@@ -90,16 +92,16 @@ public class PhoneInteractable : Interactable
             case PhoneState.LockedCall:
                 if (IsAudioFinished())
                 {
-                    // Cierra el telefono, abre la puerta, y lo deja inutilizable
                     _phoneUI.SetActive(false);
                     StopCurrentPhoneAudio();
                     if (!putDownPhoneReference.IsNull)
                         RuntimeManager.PlayOneShot(putDownPhoneReference, transform.position);
                     GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
                     if (MouseCursorController.Instance != null) MouseCursorController.Instance.ReleaseCursor();
+                    GameEvents.InteractPromptDeactivated();
                     _state = PhoneState.Done;
                     OnPhoneClosed?.Invoke();
-                    OnConversationEnded?.Invoke(); // abre la puerta
+                    OnConversationEnded?.Invoke();
                 }
                 break;
         }
@@ -107,6 +109,12 @@ public class PhoneInteractable : Interactable
 
     public override void Interact()
     {
+        if (isBroken && _state == PhoneState.Idle)
+        {
+            GameEvents.FeedbackMessage(brokenMessage, brokenMessagePosition, brokenMessageDuration);
+            return;
+        }
+
         switch (_state)
         {
             case PhoneState.Idle:
@@ -119,8 +127,6 @@ public class PhoneInteractable : Interactable
                 break;
 
             case PhoneState.LockedCorrect:
-                // Permite cerrar en cualquier momento, haya terminado o no el audio.
-                // StopCurrentPhoneAudio() se llama dentro de ClosePhone().
                 ClosePhone();
                 break;
 
@@ -129,11 +135,9 @@ public class PhoneInteractable : Interactable
                 break;
 
             case PhoneState.LockedCall:
-                // no hace nada, bloqueado
                 break;
 
             case PhoneState.Done:
-                // ya termino todo, no hace nada
                 break;
         }
     }
@@ -169,6 +173,7 @@ public class PhoneInteractable : Interactable
         if (correctCodeReference.IsNull) return;
         StopCurrentPhoneAudio();
         _state = PhoneState.LockedCorrect;
+        _phoneUI.SetActive(false);
         _currentPhoneAudio = RuntimeManager.CreateInstance(correctCodeReference);
         _currentPhoneAudio.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
         _currentPhoneAudio.start();
@@ -188,7 +193,7 @@ public class PhoneInteractable : Interactable
     {
         StopCurrentPhoneAudio(); // corta el ring
         _state = PhoneState.LockedCall;
-        OpenPhone();
+        OpenPhone(showUI: false);
         OnCallAnswered?.Invoke();
 
         if (callConversationReference.IsNull) return;
@@ -197,9 +202,9 @@ public class PhoneInteractable : Interactable
         _currentPhoneAudio.start();
     }
 
-    private void OpenPhone()
+    private void OpenPhone(bool showUI = true)
     {
-        _phoneUI.SetActive(true);
+        if (showUI) _phoneUI.SetActive(true);
         if (!putUpPhoneReference.IsNull)
             RuntimeManager.PlayOneShot(putUpPhoneReference, transform.position);
         GameEvents.PlayerModeChanged(PlayerMode.InteractionMode);
