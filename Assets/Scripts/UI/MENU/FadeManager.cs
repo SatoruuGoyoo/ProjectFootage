@@ -18,6 +18,7 @@ public sealed class FadeManager : MonoBehaviour
     [SerializeField, Min(0f)] private float defaultFadeDuration = 0.8f;
     [SerializeField, Min(0f)] private float defaultHoldDuration = 2.0f;
     [SerializeField, Min(0f)] private float textFadeDuration = 0.4f;
+    [SerializeField, Min(0f)] private float videoSkipHoldDuration = 0.5f;
 
     [Header("Intro Text Style")]
     [SerializeField, Min(1f)] private float fontSize = 28f;
@@ -124,25 +125,39 @@ public sealed class FadeManager : MonoBehaviour
     {
         _videoDisplay.gameObject.SetActive(true);
         _videoPlayer.clip = introVideoClip;
-        _videoPlayer.EnableAudioTrack(0, false); // el video no tiene audio
+        _videoPlayer.EnableAudioTrack(0, false);
         _videoPlayer.Prepare();
 
         while (!_videoPlayer.isPrepared)
             yield return null;
 
-        // Disparar audio por FMOD
         var audioInstance = FMODUnity.RuntimeManager.CreateInstance("event:/MainMenu/Ambient/IntroVideo");
         audioInstance.start();
-        audioInstance.release();
-
-
+        // ← ya no se hace release() aquí
 
         _videoPlayer.Play();
 
         yield return TweenOverlay(1f, 0f, 0.5f);
 
+        float skipTimer = 0f;
         while (_videoPlayer.isPlaying)
+        {
+            if (Input.GetKey(KeyCode.Space))
+            {
+                skipTimer += Time.unscaledDeltaTime;
+                if (skipTimer >= videoSkipHoldDuration)
+                    break;
+            }
+            else
+            {
+                skipTimer = 0f;
+            }
             yield return null;
+        }
+
+        // ← se detiene aquí, tanto si se skipea como si termina solo
+        audioInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        audioInstance.release();
 
         yield return TweenOverlay(0f, 1f, 0.5f);
 

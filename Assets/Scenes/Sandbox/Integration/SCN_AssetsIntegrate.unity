@@ -30281,7 +30281,7 @@ PrefabInstance:
     - target: {fileID: 8111781155169087978, guid: fcdc227fd5b43ef41b5115e093518221, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 4ce6f22a50f10164a9320994b61f72b6, type: 2}
+      objectReference: {fileID: 2100000, guid: 8ee03f2ad29b56a459179c643ee9e931, type: 2}
     - target: {fileID: 8817898888258712963, guid: fcdc227fd5b43ef41b5115e093518221, type: 3}
       propertyPath: m_Layer
       value: 13
@@ -31976,6 +31976,32 @@ RectTransform:
   m_AnchoredPosition: {x: -400, y: -150}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &462311626 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: bcdfabe7ecc0aa74a85878137587c09c, type: 3}
+  m_PrefabInstance: {fileID: 839149949}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &462311630
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 462311626}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2, y: 2, z: 1.9760423}
+  m_Center: {x: 5.626874e-16, y: 0, z: -0.0012373626}
 --- !u!1 &462552141
 GameObject:
   m_ObjectHideFlags: 0
@@ -55305,6 +55331,7 @@ MonoBehaviour:
   defaultFadeDuration: 2
   defaultHoldDuration: 2
   textFadeDuration: 0.4
+  videoSkipHoldDuration: 0.5
   fontSize: 34
   textColor: {r: 1, g: 0.86562586, b: 0, a: 1}
   introVideoClip: {fileID: 32900000, guid: 5fec9069d2fff4347b70667a45611487, type: 3}
@@ -63130,10 +63157,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: ChestOfDrawers
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bcdfabe7ecc0aa74a85878137587c09c, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: bcdfabe7ecc0aa74a85878137587c09c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 462311630}
   m_SourcePrefab: {fileID: 100100000, guid: bcdfabe7ecc0aa74a85878137587c09c, type: 3}
 --- !u!1 &841944242
 GameObject:
@@ -94752,7 +94786,7 @@ MonoBehaviour:
   uiPosition: 7
   requiredItemId: 
   startLocked: 0
-  playerCanToggle: 1
+  playerCanToggle: 0
   canClose: 0
   lockedFeedback: Locked as well
   confirmationText: 
