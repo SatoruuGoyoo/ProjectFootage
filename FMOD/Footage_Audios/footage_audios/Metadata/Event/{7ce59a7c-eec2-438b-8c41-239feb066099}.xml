@@ -84,6 +84,9 @@
 		<property name="length">
 			<value>0.624</value>
 		</property>
+		<property name="volume">
+			<value>-20</value>
+		</property>
 		<relationship name="audioFile">
 			<destination>{9763430c-a22d-404d-9bf5-baab8aaeca6b}</destination>
 		</relationship>
@@ -94,6 +97,9 @@
 		</property>
 		<property name="length">
 			<value>0.624</value>
+		</property>
+		<property name="volume">
+			<value>-20</value>
 		</property>
 		<relationship name="audioFile">
 			<destination>{9763430c-a22d-404d-9bf5-baab8aaeca6b}</destination>
@@ -106,6 +112,9 @@
 		<property name="length">
 			<value>0.624</value>
 		</property>
+		<property name="volume">
+			<value>-20</value>
+		</property>
 		<relationship name="audioFile">
 			<destination>{9763430c-a22d-404d-9bf5-baab8aaeca6b}</destination>
 		</relationship>
@@ -116,6 +125,9 @@
 		</property>
 		<property name="length">
 			<value>0.624</value>
+		</property>
+		<property name="volume">
+			<value>-20</value>
 		</property>
 		<relationship name="audioFile">
 			<destination>{9763430c-a22d-404d-9bf5-baab8aaeca6b}</destination>
@@ -130,9 +142,15 @@
 	<object class="MixerBusEffectChain" id="{95c2e773-bc7e-4a77-80e6-460e7636a1c0}">
 		<relationship name="effects">
 			<destination>{77aa61d4-c6d5-4158-8fbc-187c74510168}</destination>
+			<destination>{dba777da-04be-4209-8329-c257f8b4e87a}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{fc2154b0-09c4-4582-9f58-495ac0c16960}" />
 	<object class="MixerBusFader" id="{ade6171c-0d92-4abb-9701-e7547e5b3f5c}" />
 	<object class="MixerBusFader" id="{77aa61d4-c6d5-4158-8fbc-187c74510168}" />
+	<object class="LoudnessMeter" id="{dba777da-04be-4209-8329-c257f8b4e87a}">
+		<property name="loudnessTarget">
+			<value>-20</value>
+		</property>
+	</object>
 </objects>

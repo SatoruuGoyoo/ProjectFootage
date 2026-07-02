@@ -12,9 +12,7 @@ public class CamcorderStorage : MonoBehaviour
     public void AddRecording(RecordingSession session)
     {
         if (!session.IsCompleted) return;
-
         if (IsFull) _recordings.RemoveAt(0);
-
         _recordings.Add(session);
     }
 
@@ -28,7 +26,10 @@ public class CamcorderStorage : MonoBehaviour
 
     public void DiscardRecording(int index)
     {
-        if (index >= 0 && index < _recordings.Count)
-            _recordings.RemoveAt(index);
+        if (index < 0 || index >= _recordings.Count) return;
+
+        RecordingSession session = _recordings[index];
+        _recordings.RemoveAt(index);
+        GameEvents.RecordingDiscarded(session);
     }
 }

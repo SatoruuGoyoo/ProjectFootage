@@ -124,10 +124,18 @@ public sealed class FadeManager : MonoBehaviour
     {
         _videoDisplay.gameObject.SetActive(true);
         _videoPlayer.clip = introVideoClip;
+        _videoPlayer.EnableAudioTrack(0, false); // el video no tiene audio
         _videoPlayer.Prepare();
 
         while (!_videoPlayer.isPrepared)
             yield return null;
+
+        // Disparar audio por FMOD
+        var audioInstance = FMODUnity.RuntimeManager.CreateInstance("event:/MainMenu/Ambient/IntroVideo");
+        audioInstance.start();
+        audioInstance.release();
+
+
 
         _videoPlayer.Play();
 

@@ -40,6 +40,7 @@ public static class GameEvents
     public static event Action<string> OnRecordableEventCompleted;
     public static event Action<string> OnRecordableEventInterrupted;
     public static event Action<string> OnRecordableEventWatched;
+    public static event Action<RecordingSession> OnRecordingDiscarded;
 
     // Confirmation
     public static event Action<string, Action, Action, UIPositioner.ScreenPosition> OnConfirmationRequested;
@@ -80,6 +81,7 @@ public static class GameEvents
     public static void RecordableEventCompleted(string eventId) => OnRecordableEventCompleted?.Invoke(eventId);
     public static void RecordableEventInterrupted(string eventId) => OnRecordableEventInterrupted?.Invoke(eventId);
     public static void RecordableEventWatched(string id) => OnRecordableEventWatched?.Invoke(id);
+    public static void RecordingDiscarded(RecordingSession session) => OnRecordingDiscarded?.Invoke(session);
 
     // ── CONFIRMATION ─────────────────────────────────────────────────────────
     public static void RequestConfirmation(string message, Action onConfirm, Action onDecline = null, UIPositioner.ScreenPosition position = UIPositioner.ScreenPosition.MiddleCenter)

@@ -79,7 +79,7 @@
 			<value>1.6679999999999999</value>
 		</property>
 		<property name="volume">
-			<value>10</value>
+			<value>-10</value>
 		</property>
 		<relationship name="audioFile">
 			<destination>{c0c66d41-d552-43ce-858f-6eecf2e0b73e}</destination>
@@ -95,10 +95,16 @@
 		<relationship name="effects">
 			<destination>{cac4f686-ac41-4b50-bd86-662b44f5023a}</destination>
 			<destination>{3b668371-dd8d-4521-bb85-fe3b50fcd69b}</destination>
+			<destination>{c5f9cb8c-675f-4fe1-b5ec-7ae2b6d0267a}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{135e5f43-7f87-483f-b591-d20dd6128d5e}" />
 	<object class="MixerBusFader" id="{2f2f6706-100c-45e2-affe-70c7fd4da0af}" />
 	<object class="MixerBusFader" id="{cac4f686-ac41-4b50-bd86-662b44f5023a}" />
-	<object class="SpatialiserEffect" id="{3b668371-dd8d-4521-bb85-fe3b50fcd69b}" />
+	<object class="SpatialiserEffect" id="{3b668371-dd8d-4521-bb85-fe3b50fcd69b}">
+		<property name="userStereoSeparation">
+			<value>146.948532</value>
+		</property>
+	</object>
+	<object class="LoudnessMeter" id="{c5f9cb8c-675f-4fe1-b5ec-7ae2b6d0267a}" />
 </objects>
