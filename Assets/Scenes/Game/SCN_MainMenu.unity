@@ -780,9 +780,15 @@ MonoBehaviour:
   defaultFadeDuration: 2
   defaultHoldDuration: 2
   textFadeDuration: 0.4
+  videoSkipHoldDuration: 0.5
+  font: {fileID: 11400000, guid: 98dcff70187a3e74d9c16adabdbde102, type: 2}
   fontSize: 34
   textColor: {r: 1, g: 0.86562586, b: 0, a: 1}
-  introVideoClip: {fileID: 32900000, guid: 5a9edc785f23d6d478003713fe01cfdb, type: 3}
+  defaultIntroVideoClip: {fileID: 0}
+  menuSceneName: SCN_MainMenu
+  menuIntroVideoClip: {fileID: 32900000, guid: 5a9edc785f23d6d478003713fe01cfdb, type: 3}
+  gameSceneName: SCN_AssetsIntegrate
+  gameIntroVideoClip: {fileID: 32900000, guid: 39501e4b01b55bb49966935cb1b4f4c3, type: 3}
 --- !u!4 &230374873
 Transform:
   m_ObjectHideFlags: 0
@@ -2399,7 +2405,7 @@ MonoBehaviour:
     2:21 AM'
   mainPanel: {fileID: 2013229679}
   optionsPanel: {fileID: 0}
-  menuCanvas: {fileID: 0}
+  menuCanvas: {fileID: 989660646}
   clickEvent: event:/MainMenu/UI - UX/UI - ButtonClick
   ambienceEvent: event:/MainMenu/Ambient/MenuMusic
 --- !u!114 &989660644

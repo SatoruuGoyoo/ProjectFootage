@@ -27,6 +27,9 @@ public class PhoneInteractable : Interactable
 
     [SerializeField] private GameObject _phoneUI;
 
+    [Header("On Call Answered")]
+    [SerializeField] private GameObject _onAnswerActivateGO;
+
     [Header("Settings")]
     [SerializeField] private string _openPrompt = "";
     [SerializeField] private string _closePrompt = "";
@@ -191,10 +194,13 @@ public class PhoneInteractable : Interactable
 
     private void AnswerCall()
     {
-        StopCurrentPhoneAudio(); // corta el ring
+        StopCurrentPhoneAudio();
         _state = PhoneState.LockedCall;
         OpenPhone(showUI: false);
         OnCallAnswered?.Invoke();
+
+        if (_onAnswerActivateGO != null)
+            _onAnswerActivateGO.SetActive(true);
 
         if (callConversationReference.IsNull) return;
         _currentPhoneAudio = RuntimeManager.CreateInstance(callConversationReference);

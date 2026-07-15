@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using TMPro;
-using System.Collections;
 
 public class ReadableUI : MonoBehaviour
 {
@@ -9,6 +11,7 @@ public class ReadableUI : MonoBehaviour
     [SerializeField] private CanvasGroup bgGroup;
     [SerializeField] private Image itemSprite;
     [SerializeField] private TMP_Text textField;
+    [SerializeField] private TMP_Text pageIndicator;
     [SerializeField] private UIPositioner positioner;
 
     [Header("Animation")]
@@ -16,8 +19,21 @@ public class ReadableUI : MonoBehaviour
     [SerializeField] private float bgTargetAlpha = 0.7f;
 
     private Coroutine _animCoroutine;
+    private InputAction _navigateAction;
+    private InputAction _cancelAction;
+    private bool _isOpen;
+    private bool _navigateNeutral = true;
+    private string[] _pages;
+    private int _currentPage;
+    private Action _onCloseRequested;
 
     private void Awake() => ForceHide();
+
+    private void Start()
+    {
+        _navigateAction = PlayerInput.Actions.UI.Navigate;
+        _cancelAction = PlayerInput.Actions.UI.Cancel;
+    }
 
     private void OnEnable()
     {
@@ -31,18 +47,65 @@ public class ReadableUI : MonoBehaviour
         GameEvents.OnReadableClosed -= OnClosed;
     }
 
-    private void OnOpened(Sprite sprite, string text, UIPositioner.ScreenPosition position)
+    private void Update()
+    {
+        if (!_isOpen) return;
+
+        if (_cancelAction.WasPressedThisFrame())
+        {
+            _onCloseRequested?.Invoke();
+            return;
+        }
+
+        float h = _navigateAction.ReadValue<Vector2>().x;
+
+        if (_navigateNeutral)
+        {
+            if (h > 0.5f) GoToPage(_currentPage + 1);
+            else if (h < -0.5f) GoToPage(_currentPage - 1);
+
+            if (Mathf.Abs(h) > 0.5f) _navigateNeutral = false;
+        }
+        else if (Mathf.Abs(h) < 0.1f)
+        {
+            _navigateNeutral = true;
+        }
+    }
+
+    private void OnOpened(Sprite sprite, string[] pages, UIPositioner.ScreenPosition position, Action onCloseRequested)
     {
         if (!UILayerManager.TryShow(UILayerManager.Layer.Readable, ForceHide)) return;
         positioner?.SetPosition(position);
         if (itemSprite != null) itemSprite.sprite = sprite;
-        if (textField != null) textField.SetText(text);
+
+        _pages = (pages != null && pages.Length > 0) ? pages : new[] { "" };
+        _currentPage = 0;
+        _onCloseRequested = onCloseRequested;
+        _navigateNeutral = Mathf.Abs(_navigateAction.ReadValue<Vector2>().x) < 0.5f;
+        RefreshPage();
+        _isOpen = true;
+
         if (_animCoroutine != null) StopCoroutine(_animCoroutine);
         _animCoroutine = StartCoroutine(AnimateIn());
     }
 
+    private void GoToPage(int index)
+    {
+        index = Mathf.Clamp(index, 0, _pages.Length - 1);
+        if (index == _currentPage) return;
+        _currentPage = index;
+        RefreshPage();
+    }
+
+    private void RefreshPage()
+    {
+        if (textField != null) textField.SetText(_pages[_currentPage]);
+        if (pageIndicator != null) pageIndicator.SetText($"{_currentPage + 1}/{_pages.Length}");
+    }
+
     private void OnClosed()
     {
+        _isOpen = false;
         UILayerManager.Release(UILayerManager.Layer.Readable);
         if (_animCoroutine != null) { StopCoroutine(_animCoroutine); _animCoroutine = null; }
         ForceHide();
@@ -50,6 +113,7 @@ public class ReadableUI : MonoBehaviour
 
     private void ForceHide()
     {
+        _isOpen = false;
         UILayerManager.Release(UILayerManager.Layer.Readable);
         if (_animCoroutine != null) { StopCoroutine(_animCoroutine); _animCoroutine = null; }
         SetVisible(false);

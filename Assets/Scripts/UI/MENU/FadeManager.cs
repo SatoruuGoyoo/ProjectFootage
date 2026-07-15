@@ -18,13 +18,19 @@ public sealed class FadeManager : MonoBehaviour
     [SerializeField, Min(0f)] private float defaultFadeDuration = 0.8f;
     [SerializeField, Min(0f)] private float defaultHoldDuration = 2.0f;
     [SerializeField, Min(0f)] private float textFadeDuration = 0.4f;
+    [SerializeField, Min(0f)] private float videoSkipHoldDuration = 0.5f;
 
     [Header("Intro Text Style")]
+    [SerializeField] private TMP_FontAsset font;
     [SerializeField, Min(1f)] private float fontSize = 28f;
     [SerializeField] private Color textColor = new Color(0.85f, 0.85f, 0.85f, 1f);
 
     [Header("Intro Video")]
-    [SerializeField] private VideoClip introVideoClip;
+    [SerializeField] private VideoClip defaultIntroVideoClip;
+    [SerializeField] private string menuSceneName = "MainMenu";
+    [SerializeField] private VideoClip menuIntroVideoClip;
+    [SerializeField] private string gameSceneName = "Juego";
+    [SerializeField] private VideoClip gameIntroVideoClip;
 
     public bool IsBusy { get; private set; }
 
@@ -69,7 +75,8 @@ public sealed class FadeManager : MonoBehaviour
         string introText = "",
         float fadeOutDuration = -1f,
         float holdDuration = -1f,
-        float fadeInDuration = -1f)
+        float fadeInDuration = -1f,
+        VideoClip introVideo = null)
     {
         if (IsBusy) return;
 
@@ -78,10 +85,24 @@ public sealed class FadeManager : MonoBehaviour
             introText,
             fadeOutDuration < 0f ? defaultFadeDuration : fadeOutDuration,
             holdDuration < 0f ? defaultHoldDuration : holdDuration,
-            fadeInDuration < 0f ? defaultFadeDuration : fadeInDuration
+            fadeInDuration < 0f ? defaultFadeDuration : fadeInDuration,
+            introVideo != null ? introVideo : ResolveIntroVideo()
         );
 
         StartCoroutine(RunTransition(config));
+    }
+
+    private VideoClip ResolveIntroVideo()
+    {
+        string activeScene = SceneManager.GetActiveScene().name;
+
+        if (activeScene == menuSceneName)
+            return menuIntroVideoClip;
+
+        if (activeScene == gameSceneName)
+            return gameIntroVideoClip;
+
+        return defaultIntroVideoClip;
     }
 
     private IEnumerator RunTransition(TransitionConfig config)
@@ -94,8 +115,8 @@ public sealed class FadeManager : MonoBehaviour
         OnFadeOutComplete?.Invoke();
 
         // 2. Video si hay uno asignado
-        if (introVideoClip != null)
-            yield return RunIntroVideo();
+        if (config.IntroVideo != null)
+            yield return RunIntroVideo(config.IntroVideo);
 
         // 3. Texto
         yield return RunIntroText(config.IntroText, config.HoldDuration);
@@ -120,29 +141,43 @@ public sealed class FadeManager : MonoBehaviour
         IsBusy = false;
     }
 
-    private IEnumerator RunIntroVideo()
+    private IEnumerator RunIntroVideo(VideoClip clip)
     {
         _videoDisplay.gameObject.SetActive(true);
-        _videoPlayer.clip = introVideoClip;
-        _videoPlayer.EnableAudioTrack(0, false); // el video no tiene audio
+        _videoPlayer.clip = clip;
+        _videoPlayer.EnableAudioTrack(0, false);
         _videoPlayer.Prepare();
 
         while (!_videoPlayer.isPrepared)
             yield return null;
 
-        // Disparar audio por FMOD
         var audioInstance = FMODUnity.RuntimeManager.CreateInstance("event:/MainMenu/Ambient/IntroVideo");
         audioInstance.start();
-        audioInstance.release();
-
-
+        // ← ya no se hace release() aquí
 
         _videoPlayer.Play();
 
         yield return TweenOverlay(1f, 0f, 0.5f);
 
+        float skipTimer = 0f;
         while (_videoPlayer.isPlaying)
+        {
+            if (Input.GetKey(KeyCode.Space))
+            {
+                skipTimer += Time.unscaledDeltaTime;
+                if (skipTimer >= videoSkipHoldDuration)
+                    break;
+            }
+            else
+            {
+                skipTimer = 0f;
+            }
             yield return null;
+        }
+
+        // ← se detiene aquí, tanto si se skipea como si termina solo
+        audioInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        audioInstance.release();
 
         yield return TweenOverlay(0f, 1f, 0.5f);
 
@@ -250,6 +285,7 @@ public sealed class FadeManager : MonoBehaviour
         go.transform.SetParent(transform, false);
 
         var tmp = go.AddComponent<TextMeshProUGUI>();
+        tmp.font = font;
         tmp.fontSize = fontSize;
         tmp.color = textColor;
         tmp.alignment = TextAlignmentOptions.Center;
@@ -270,14 +306,16 @@ public sealed class FadeManager : MonoBehaviour
         public readonly float FadeOutDuration;
         public readonly float HoldDuration;
         public readonly float FadeInDuration;
+        public readonly VideoClip IntroVideo;
 
-        public TransitionConfig(string sceneName, string introText, float fadeOutDuration, float holdDuration, float fadeInDuration)
+        public TransitionConfig(string sceneName, string introText, float fadeOutDuration, float holdDuration, float fadeInDuration, VideoClip introVideo)
         {
             SceneName = sceneName;
             IntroText = introText;
             FadeOutDuration = fadeOutDuration;
             HoldDuration = holdDuration;
             FadeInDuration = fadeInDuration;
+            IntroVideo = introVideo;
         }
     }
 }

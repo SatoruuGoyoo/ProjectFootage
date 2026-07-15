@@ -44,7 +44,7 @@ public class InteractPromptUI : MonoBehaviour
         GameEvents.OnInteractPromptDeactivated -= OnDeactivated;
     }
 
-    private void OnPromptChanged(string prompt)
+    private void OnPromptChanged(string prompt, Sprite icon)
     {
         if (_isActive) return;
 
@@ -57,8 +57,8 @@ public class InteractPromptUI : MonoBehaviour
         if (!UILayerManager.TryShow(UILayerManager.Layer.InteractPrompt, ForceHide)) return;
 
         positioner?.SetPosition(defaultPosition);
-        if (interactIcon != null && proximitySprite != null)
-            interactIcon.sprite = proximitySprite;
+        if (interactIcon != null)
+            interactIcon.sprite = icon != null ? icon : proximitySprite;
 
         SetVisible(true);
     }
