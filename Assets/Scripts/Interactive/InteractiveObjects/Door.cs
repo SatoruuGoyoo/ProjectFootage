@@ -114,7 +114,6 @@ public class Door : Interactable
     private void OnDeclined()
     {
         _pendingConfirm = false;
-        _interactCooldownTimer = interactCooldown;
     }
 
     private void OnConfirmationClosed() => _pendingConfirm = false;

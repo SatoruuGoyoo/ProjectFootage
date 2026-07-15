@@ -11,12 +11,12 @@ public class PauseManager : MonoBehaviour
     private void OnEnable()
     {
         actions.UI.Enable();
-        actions.UI.Pause.performed += OnPausePressed;
+      
     }
 
     private void OnDisable()
     {
-        actions.UI.Pause.performed -= OnPausePressed;
+       
         actions.UI.Disable();
     }
 

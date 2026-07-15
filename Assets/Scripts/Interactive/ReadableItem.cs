@@ -6,7 +6,7 @@ public class ReadableItem : Interactable
 {
     [SerializeField] private Sprite sprite;
     [TextArea(3, 10)]
-    [SerializeField] private string text = "";
+    [SerializeField] private string[] pages = new[] { "" };
 
     [SerializeField] private EventReference openSound;
     [SerializeField] private EventReference closeSound;
@@ -24,15 +24,15 @@ public class ReadableItem : Interactable
 
     public override void Interact()
     {
-        if (_isReading) Close();
-        else Open();
+        if (_isReading) return;
+        Open();
     }
 
     private void Open()
     {
         _isReading = true;
         RuntimeManager.PlayOneShot(openSound, transform.position);
-        GameEvents.ReadableOpened(sprite, text, uiPosition);
+        GameEvents.ReadableOpened(sprite, pages, uiPosition, Close);
         GameEvents.PlayerModeChanged(PlayerMode.InteractionMode);
         GameEvents.InteractPromptActivated(PromptMessage);
     }

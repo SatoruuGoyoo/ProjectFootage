@@ -14,16 +14,19 @@ public class CamcorderPickup : MonoBehaviour, IInteractable
     [Header("Audio")]
     [SerializeField] private EventReference pickupSound;
 
+    [Header("Prompt Icon")]
+    [SerializeField] private Sprite promptIcon;
+
     public string PromptMessage => "camcorder";
     public bool CanInteract => true;
     public bool BlockMovement => false;
+    public Sprite PromptIcon => promptIcon;
 
     private void Awake()
     {
         // Ensure trigger
         var col = GetComponent<Collider>();
         if (!col.isTrigger) col.isTrigger = true;
-
         if (camcorderSystem != null) camcorderSystem.SetActive(false);
         if (camcorderModel != null) camcorderModel.SetActive(false);
     }
@@ -32,10 +35,8 @@ public class CamcorderPickup : MonoBehaviour, IInteractable
     {
         if (!pickupSound.IsNull)
             RuntimeManager.PlayOneShot(pickupSound, transform.position);
-
         if (camcorderSystem != null) camcorderSystem.SetActive(true);
         if (camcorderModel != null) camcorderModel.SetActive(true);
-
         GameEvents.CamcorderPickedUp();
         if (!string.IsNullOrEmpty(postPickupMessage))
         {

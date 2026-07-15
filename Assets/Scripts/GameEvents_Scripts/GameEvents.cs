@@ -7,7 +7,7 @@ public static class GameEvents
     public static event Action<float> OnHealthChanged;
 
     // Interaction
-    public static event Action<string> OnInteractPromptChanged;
+    public static event Action<string, UnityEngine.Sprite> OnInteractPromptChanged;
 
     // Interact Prompt State
     public static event Action<string> OnInteractPromptActivated;
@@ -47,8 +47,10 @@ public static class GameEvents
     public static event Action OnConfirmationClosed;
 
     // Readable
-    public static event Action<UnityEngine.Sprite, string, UIPositioner.ScreenPosition> OnReadableOpened;
+    public static event Action<UnityEngine.Sprite, string[], UIPositioner.ScreenPosition, Action> OnReadableOpened;
     public static event Action OnReadableClosed;
+
+
 
     // ── PLAYER ───────────────────────────────────────────────────────────────
     public static void PlayerDied() => OnPlayerDeath?.Invoke();
@@ -57,7 +59,7 @@ public static class GameEvents
     public static void ControllerSchemeChanged(ControlScheme scheme) => OnControllerSchemeChanged?.Invoke(scheme);
 
     // ── INTERACTION ──────────────────────────────────────────────────────────
-    public static void InteractPromptChanged(string newPrompt) => OnInteractPromptChanged?.Invoke(newPrompt);
+    public static void InteractPromptChanged(string newPrompt, UnityEngine.Sprite icon = null) => OnInteractPromptChanged?.Invoke(newPrompt, icon);
     public static void InteractPromptActivated(string promptType) => OnInteractPromptActivated?.Invoke(promptType);
     public static void InteractPromptDeactivated() => OnInteractPromptDeactivated?.Invoke();
 
@@ -89,8 +91,8 @@ public static class GameEvents
     public static void CloseConfirmation() => OnConfirmationClosed?.Invoke();
 
     // ── READABLE ─────────────────────────────────────────────────────────────
-    public static void ReadableOpened(UnityEngine.Sprite sprite, string text, UIPositioner.ScreenPosition position = UIPositioner.ScreenPosition.MiddleRight)
-        => OnReadableOpened?.Invoke(sprite, text, position);
+    public static void ReadableOpened(UnityEngine.Sprite sprite, string[] pages, UIPositioner.ScreenPosition position, Action onCloseRequested)
+    => OnReadableOpened?.Invoke(sprite, pages, position, onCloseRequested);
     public static void ReadableClosed() => OnReadableClosed?.Invoke();
 
     // ── PAUSE ────────────────────────────────────────────────────────────────

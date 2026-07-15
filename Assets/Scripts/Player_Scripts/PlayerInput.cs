@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class PlayerInput : MonoBehaviour
 {
     public static bool SprintBlocked = false;
+    public static PlayerInputActions Actions { get; private set; }
 
     public float MoveForward { get; private set; }
     public float Turn { get; private set; }
@@ -24,6 +25,7 @@ public class PlayerInput : MonoBehaviour
     private void Awake()
     {
         actions = new PlayerInputActions();
+        Actions = actions;
         _move = actions.Exploration.Move;
         _turn = actions.Exploration.Turn;
         _sprint = actions.Exploration.Sprint;
@@ -34,12 +36,14 @@ public class PlayerInput : MonoBehaviour
     private void OnEnable()
     {
         actions.Exploration.Enable();
+        actions.UI.Enable();
         GameEvents.OnPlayerModeChanged += OnModeChanged;
     }
 
     private void OnDisable()
     {
         actions.Exploration.Disable();
+        actions.UI.Disable();
         GameEvents.OnPlayerModeChanged -= OnModeChanged;
     }
 

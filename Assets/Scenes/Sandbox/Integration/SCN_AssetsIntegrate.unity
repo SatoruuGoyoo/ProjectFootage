@@ -37389,6 +37389,7 @@ MonoBehaviour:
   bgGroup: {fileID: 1748644346}
   itemSprite: {fileID: 821737938}
   textField: {fileID: 644300104}
+  pageIndicator: {fileID: 0}
   positioner: {fileID: 880908129}
   bgFadeInDuration: 0.2
   bgTargetAlpha: 1
@@ -37457,8 +37458,10 @@ MonoBehaviour:
   messageLabel: {fileID: 76270645}
   yesLabel: {fileID: 1094368456}
   noLabel: {fileID: 884647335}
-  yesText: '[E] YES'
-  noText: '[F] NO'
+  yesText: YES
+  noText: NO
+  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &532449878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102964,9 +102967,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ReadableItem
   uiPosition: 4
   sprite: {fileID: 21300000, guid: 7514bf4d000e0ce45ba72d88457e8835, type: 3}
-  text: 'The LMH Hotel re opens its doors! Enjoy the magical breath of the forests
-    as you settle down in one of the most comfortable resorts in all (text becomes
-    blurry after this point) '
+  pages:
+  - Hola soy Nicolas
+  - Estoy en Discord trabajando
   openSound:
     Guid:
       Data1: 628579962

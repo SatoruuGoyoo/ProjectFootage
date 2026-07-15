@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ConfirmationUI : MonoBehaviour
 {
@@ -13,20 +14,32 @@ public class ConfirmationUI : MonoBehaviour
     [SerializeField] private TMP_Text noLabel;
 
     [Header("Default button labels")]
-    [SerializeField] private string yesText = "[E] Sí";
-    [SerializeField] private string noText = "[F] No";
+    [SerializeField] private string yesText = "Sí";
+    [SerializeField] private string noText = "No";
+
+    [Header("Selection Highlight")]
+    [SerializeField] private Color selectedColor = Color.yellow;
+    [SerializeField] private Color normalColor = Color.white;
 
     private bool _isOpen;
+    private bool _yesSelected;
+    private bool _navigateNeutral = true;
     private System.Action _onConfirm;
     private System.Action _onDecline;
-    private PlayerInput _input;
+    private InputAction _navigateAction;
+    private InputAction _submitAction;
 
     private void Awake()
     {
-        _input = FindAnyObjectByType<PlayerInput>();
         if (yesLabel != null) yesLabel.SetText(yesText);
         if (noLabel != null) noLabel.SetText(noText);
         ForceHide();
+    }
+
+    private void Start()
+    {
+        _navigateAction = PlayerInput.Actions.UI.Navigate;
+        _submitAction = PlayerInput.Actions.UI.Submit;
     }
 
     private void OnEnable()
@@ -43,9 +56,34 @@ public class ConfirmationUI : MonoBehaviour
 
     private void Update()
     {
-        if (!_isOpen || _input == null) return;
-        if (_input.Interact) { Confirm(); return; }
-        if (_input.Decline) { Decline(); return; }
+        if (!_isOpen) return;
+
+        float h = _navigateAction.ReadValue<Vector2>().x;
+
+        if (_navigateNeutral)
+        {
+            if (h > 0.5f) SetSelected(false);
+            else if (h < -0.5f) SetSelected(true);
+
+            if (Mathf.Abs(h) > 0.5f) _navigateNeutral = false;
+        }
+        else if (Mathf.Abs(h) < 0.1f)
+        {
+            _navigateNeutral = true;
+        }
+
+        if (_submitAction.WasPressedThisFrame())
+        {
+            if (_yesSelected) Confirm();
+            else Decline();
+        }
+    }
+
+    private void SetSelected(bool yes)
+    {
+        _yesSelected = yes;
+        if (yesLabel != null) yesLabel.color = yes ? selectedColor : normalColor;
+        if (noLabel != null) noLabel.color = yes ? normalColor : selectedColor;
     }
 
     private void OnRequested(string message, System.Action onConfirm, System.Action onDecline, UIPositioner.ScreenPosition position)
@@ -55,6 +93,8 @@ public class ConfirmationUI : MonoBehaviour
         _onConfirm = onConfirm;
         _onDecline = onDecline;
         if (messageLabel != null) messageLabel.SetText(message);
+        SetSelected(false);
+        _navigateNeutral = Mathf.Abs(_navigateAction.ReadValue<Vector2>().x) < 0.5f;
         SetVisible(true);
         GameEvents.PlayerModeChanged(PlayerMode.InteractionMode);
     }
