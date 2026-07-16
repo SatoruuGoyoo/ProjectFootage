@@ -30,7 +30,7 @@ public class Collectible : Interactable
 
     public override void Interact()
     {
-        Debug.Log($"[Collectible] Interact() frame={Time.frameCount} pendingConfirmation={_pendingConfirmation}");
+        
         if (_collected) return;
 
         if (requiresConfirmation)
