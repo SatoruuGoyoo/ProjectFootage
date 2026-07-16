@@ -93,7 +93,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: d1731955079a50245a73528ec4353aad, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -13437,15 +13437,20 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b16046ce8faac4241a30b03b2ee17f09, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 187037275}
+      addedObject: {fileID: 187037279}
   m_SourcePrefab: {fileID: 100100000, guid: b16046ce8faac4241a30b03b2ee17f09, type: 3}
 --- !u!1 &187037274 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b16046ce8faac4241a30b03b2ee17f09, type: 3}
   m_PrefabInstance: {fileID: 187037273}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &187037275
-BoxCollider:
+--- !u!4 &187037276 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b16046ce8faac4241a30b03b2ee17f09, type: 3}
+  m_PrefabInstance: {fileID: 187037273}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &187037279
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -13463,13 +13468,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 134.56924, y: 103.72913, z: 123.115074}
-  m_Center: {x: 3.3644505, y: -3.482849, z: -9.630657}
---- !u!4 &187037276 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b16046ce8faac4241a30b03b2ee17f09, type: 3}
-  m_PrefabInstance: {fileID: 187037273}
-  m_PrefabAsset: {fileID: 0}
+  m_Radius: 65
+  m_Center: {x: 3.3642073, y: -3.4829116, z: -9.630599}
 --- !u!1 &187519275
 GameObject:
   m_ObjectHideFlags: 0
@@ -19499,6 +19499,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8bca95f7c947b4db5fb152a0d693d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: com.cqf.urpvolumetricfog.runtime::VolumetricAdditionalLight
+  anisotropy: 0.25
+  scattering: 1
+  radius: 0.2
 --- !u!114 &280050671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19837,15 +19840,20 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b16046ce8faac4241a30b03b2ee17f09, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 284211081}
+      addedObject: {fileID: 284211085}
   m_SourcePrefab: {fileID: 100100000, guid: b16046ce8faac4241a30b03b2ee17f09, type: 3}
 --- !u!1 &284211080 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b16046ce8faac4241a30b03b2ee17f09, type: 3}
   m_PrefabInstance: {fileID: 284211079}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &284211081
-BoxCollider:
+--- !u!4 &284211082 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b16046ce8faac4241a30b03b2ee17f09, type: 3}
+  m_PrefabInstance: {fileID: 284211079}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &284211085
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -19863,13 +19871,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 134.56927, y: 103.72916, z: 123.11512}
-  m_Center: {x: 3.36445, y: -3.482972, z: -9.630659}
---- !u!4 &284211082 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b16046ce8faac4241a30b03b2ee17f09, type: 3}
-  m_PrefabInstance: {fileID: 284211079}
-  m_PrefabAsset: {fileID: 0}
+  m_Radius: 65
+  m_Center: {x: 3.36445, y: -3.4828498, z: -9.630659}
 --- !u!43 &285051570
 Mesh:
   m_ObjectHideFlags: 0
@@ -24242,6 +24245,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8bca95f7c947b4db5fb152a0d693d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: com.cqf.urpvolumetricfog.runtime::VolumetricAdditionalLight
+  anisotropy: 0.25
+  scattering: 0.3
+  radius: 0.2
 --- !u!114 &353907717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27216,7 +27222,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fcdc227fd5b43ef41b5115e093518221, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.094
+      value: -1.063
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fcdc227fd5b43ef41b5115e093518221, type: 3}
       propertyPath: m_LocalPosition.z
@@ -28196,6 +28202,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8bca95f7c947b4db5fb152a0d693d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: com.cqf.urpvolumetricfog.runtime::VolumetricAdditionalLight
+  anisotropy: 0.25
+  scattering: 1
+  radius: 0.2
 --- !u!114 &447551482
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37605,6 +37614,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8bca95f7c947b4db5fb152a0d693d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: com.cqf.urpvolumetricfog.runtime::VolumetricAdditionalLight
+  anisotropy: 0.25
+  scattering: 1
+  radius: 0.2
 --- !u!114 &541400162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54153,6 +54165,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8bca95f7c947b4db5fb152a0d693d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: com.cqf.urpvolumetricfog.runtime::VolumetricAdditionalLight
+  anisotropy: 0.25
+  scattering: 0.3
+  radius: 0.2
 --- !u!114 &789388996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73977,6 +73992,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8bca95f7c947b4db5fb152a0d693d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: com.cqf.urpvolumetricfog.runtime::VolumetricAdditionalLight
+  anisotropy: 0.25
+  scattering: 0.3
+  radius: 0.2
 --- !u!114 &1094035188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102896,6 +102914,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8bca95f7c947b4db5fb152a0d693d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: com.cqf.urpvolumetricfog.runtime::VolumetricAdditionalLight
+  anisotropy: 0.25
+  scattering: 1
+  radius: 0.2
 --- !u!1 &1363148065
 GameObject:
   m_ObjectHideFlags: 0
@@ -105979,7 +106000,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b16046ce8faac4241a30b03b2ee17f09, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1430118372}
+      addedObject: {fileID: 1430118375}
   m_SourcePrefab: {fileID: 100100000, guid: b16046ce8faac4241a30b03b2ee17f09, type: 3}
 --- !u!4 &1430118370 stripped
 Transform:
@@ -105991,8 +106012,8 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b16046ce8faac4241a30b03b2ee17f09, type: 3}
   m_PrefabInstance: {fileID: 1430118369}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &1430118372
-BoxCollider:
+--- !u!135 &1430118375
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -106010,8 +106031,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 134.56924, y: 103.72913, z: 123.115074}
-  m_Center: {x: 3.3644505, y: -3.482849, z: -9.630657}
+  m_Radius: 65
+  m_Center: {x: 3.364329, y: -3.4828496, z: -9.630718}
 --- !u!1 &1432499486
 GameObject:
   m_ObjectHideFlags: 0
@@ -130377,6 +130398,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8bca95f7c947b4db5fb152a0d693d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: com.cqf.urpvolumetricfog.runtime::VolumetricAdditionalLight
+  anisotropy: 0.25
+  scattering: 1
+  radius: 0.2
 --- !u!114 &1801644102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141001,6 +141025,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8bca95f7c947b4db5fb152a0d693d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: com.cqf.urpvolumetricfog.runtime::VolumetricAdditionalLight
+  anisotropy: 0.25
+  scattering: 0.3
+  radius: 0.2
 --- !u!114 &1955619852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147773,6 +147800,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8bca95f7c947b4db5fb152a0d693d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: com.cqf.urpvolumetricfog.runtime::VolumetricAdditionalLight
+  anisotropy: -0.06
+  scattering: 0.3
+  radius: 0.2
 --- !u!1 &2010746768
 GameObject:
   m_ObjectHideFlags: 0
@@ -149754,6 +149784,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8bca95f7c947b4db5fb152a0d693d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: com.cqf.urpvolumetricfog.runtime::VolumetricAdditionalLight
+  anisotropy: 0.25
+  scattering: 1
+  radius: 0.2
 --- !u!1 &2056625063
 GameObject:
   m_ObjectHideFlags: 0
