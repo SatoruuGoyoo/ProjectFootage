@@ -22,6 +22,7 @@ public class PlayerMotor : MonoBehaviour
     public bool IsMovingBackward { get; private set; }
     public bool IsSprinting { get; private set; }
     public bool IsBlocked { get; private set; }
+    public float TurnInput { get; private set; }
 
     private Vector3 lastObstacleNormal;
     private bool hasObstacleContact;
@@ -48,6 +49,7 @@ public class PlayerMotor : MonoBehaviour
     public void MoveTank(float moveInput, bool sprint)
     {
         if (config == null) return;
+        TurnInput = 0f;
 
         IsMovingBackward = moveInput < -0.01f;
         IsSprinting = sprint && moveInput > 0.01f;
@@ -73,6 +75,7 @@ public class PlayerMotor : MonoBehaviour
     public void Turn(float turnInput)
     {
         if (config == null) return;
+        TurnInput = turnInput;
         transform.Rotate(0, turnInput * config.TurnSpeed * Time.deltaTime, 0);
     }
 
@@ -81,6 +84,7 @@ public class PlayerMotor : MonoBehaviour
     {
 
         if (config == null || activeCamera == null) return;
+        TurnInput = 0f;
 
         Vector3 camForward = activeCamera.transform.forward;
         Vector3 camRight = activeCamera.transform.right;
@@ -152,6 +156,7 @@ public class PlayerMotor : MonoBehaviour
     public void MoveRelativeToSelf(Vector2 input, bool tankSpeed = false)
     {
         if (config == null) return;
+        TurnInput = 0f;
 
         Vector3 flatForward = new Vector3(transform.forward.x, 0f, transform.forward.z).normalized;
         Vector3 flatRight = new Vector3(transform.right.x, 0f, transform.right.z).normalized;
@@ -216,5 +221,6 @@ public class PlayerMotor : MonoBehaviour
         directionLocked = false;
         hasObstacleContact = false;
         IsBlocked = false;
+        TurnInput = 0f;
     }
 }
