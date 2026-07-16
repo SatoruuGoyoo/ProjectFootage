@@ -12,12 +12,36 @@ public class PlayerMotor : MonoBehaviour
     private Vector3 lockedWorldDir = Vector3.forward;
     private bool directionLocked = false;
 
+    public LayerMask obstacleLayerMask;
+    [SerializeField] private float obstacleClearDot = -0.1f;
+
     [SerializeField] float angleForInput = 75f;
     private void Awake() => characterController = GetComponent<CharacterController>();
 
     public bool HasInput { get; private set; }
     public bool IsMovingBackward { get; private set; }
     public bool IsSprinting { get; private set; }
+    public bool IsBlocked { get; private set; }
+
+    private Vector3 lastObstacleNormal;
+    private bool hasObstacleContact;
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if ((obstacleLayerMask.value & (1 << hit.gameObject.layer)) != 0)
+        {
+            lastObstacleNormal = hit.normal;
+            hasObstacleContact = true;
+        }
+    }
+
+    private bool IsPushingIntoObstacle(Vector3 desiredDir)
+    {
+        if (!hasObstacleContact || desiredDir.sqrMagnitude < 0.0001f)
+            return false;
+
+        return Vector3.Dot(desiredDir.normalized, lastObstacleNormal) < obstacleClearDot;
+    }
 
     // Tank 
 
@@ -26,12 +50,19 @@ public class PlayerMotor : MonoBehaviour
         if (config == null) return;
 
         IsMovingBackward = moveInput < -0.01f;
-        IsSprinting = sprint && moveInput > 0.01f; 
+        IsSprinting = sprint && moveInput > 0.01f;
+        HasInput = Mathf.Abs(moveInput) > 0.01f;
+
+        Vector3 desiredDir = HasInput ? transform.forward * Mathf.Sign(moveInput) : Vector3.zero;
+        bool wasBlocked = IsPushingIntoObstacle(desiredDir);
+        if (hasObstacleContact && desiredDir.sqrMagnitude > 0.0001f && !wasBlocked)
+            hasObstacleContact = false;
+        IsBlocked = wasBlocked;
+
         float topSpeed = IsSprinting ? config.SprintSpeed : config.MoveSpeed;
-        float targetSpeed = moveInput * topSpeed;
+        float targetSpeed = wasBlocked ? 0f : moveInput * topSpeed;
         float accel = Mathf.Abs(targetSpeed) > 0.01f ? config.Acceleration : config.Deceleration;
         currentSpeedTank = Mathf.MoveTowards(currentSpeedTank, targetSpeed, accel * Time.deltaTime);
-        HasInput = Mathf.Abs(moveInput) > 0.01f;
 
         ApplyGravity();
         Vector3 movement = transform.forward * currentSpeedTank * Time.deltaTime;
@@ -71,7 +102,7 @@ public class PlayerMotor : MonoBehaviour
 
             if (directionLocked)
             {
-                
+
                 float angle = Vector3.Angle(lockedWorldDir, desiredDir);
                 if (angle > angleForInput)
                     directionLocked = false;
@@ -85,9 +116,15 @@ public class PlayerMotor : MonoBehaviour
             directionLocked = false;
         }
 
+        Vector3 movementDir = hasInput ? lockedWorldDir : Vector3.zero;
+        bool wasBlocked = IsPushingIntoObstacle(movementDir);
+        if (hasObstacleContact && movementDir.sqrMagnitude > 0.0001f && !wasBlocked)
+            hasObstacleContact = false;
+        IsBlocked = wasBlocked;
+
         IsSprinting = sprint && hasInput;
         float topSpeed = IsSprinting ? config.SprintSpeed : config.ModernMoveSpeed;
-        float targetSpeed = hasInput ? topSpeed : 0f;
+        float targetSpeed = (hasInput && !wasBlocked) ? topSpeed : 0f;
         float accel = targetSpeed > 0.01f ? config.Acceleration : config.Deceleration;
         currentSpeedModern = Mathf.MoveTowards(currentSpeedModern, targetSpeed, accel * Time.deltaTime);
 
@@ -119,11 +156,17 @@ public class PlayerMotor : MonoBehaviour
         Vector3 flatForward = new Vector3(transform.forward.x, 0f, transform.forward.z).normalized;
         Vector3 flatRight = new Vector3(transform.right.x, 0f, transform.right.z).normalized;
 
-        Vector3 inputDir = flatForward * input.y + flatRight * input.x; // strafe incluido
+        Vector3 inputDir = flatForward * input.y + flatRight * input.x;
         IsMovingBackward = input.y < -0.01f;
+        HasInput = inputDir.sqrMagnitude > 0.01f;
+
+        bool wasBlocked = IsPushingIntoObstacle(inputDir);
+        if (hasObstacleContact && inputDir.sqrMagnitude > 0.0001f && !wasBlocked)
+            hasObstacleContact = false;
+        IsBlocked = wasBlocked;
 
         float speed = tankSpeed ? config.RecordingSpeedTank : config.RecordingSpeedModern;
-        float targetSpeed = inputDir.sqrMagnitude > 0.01f ? speed : 0f;
+        float targetSpeed = (HasInput && !wasBlocked) ? speed : 0f;
         float accel = targetSpeed > 0.01f ? config.Acceleration : config.Deceleration;
 
         if (tankSpeed)
@@ -132,7 +175,6 @@ public class PlayerMotor : MonoBehaviour
             currentSpeedModern = Mathf.MoveTowards(currentSpeedModern, targetSpeed, accel * Time.deltaTime);
 
         float finalSpeed = tankSpeed ? currentSpeedTank : currentSpeedModern;
-        HasInput = inputDir.sqrMagnitude > 0.01f;
 
         ApplyGravity();
         Vector3 movement = inputDir.normalized * finalSpeed * Time.deltaTime;
@@ -172,5 +214,7 @@ public class PlayerMotor : MonoBehaviour
         IsMovingBackward = false;
         IsSprinting = false;
         directionLocked = false;
+        hasObstacleContact = false;
+        IsBlocked = false;
     }
 }

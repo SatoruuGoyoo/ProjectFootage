@@ -37,9 +37,10 @@ public class PlayerAnimator : MonoBehaviour
 
         bool isBack = motor.IsMovingBackward;
         bool isSprint = motor.IsSprinting;
-        animator.SetBool(IsWalkingHash, motor.HasInput && !isBack && !isSprint);
-        animator.SetBool(IsWalkingBackHash, motor.HasInput && isBack);
-        animator.SetBool(IsSprintingHash, isSprint);
+        bool hasInput = motor.HasInput && !motor.IsBlocked;
+        animator.SetBool(IsWalkingHash, hasInput && !isBack && !isSprint);
+        animator.SetBool(IsWalkingBackHash, hasInput && isBack);
+        animator.SetBool(IsSprintingHash, isSprint && !motor.IsBlocked);
 
         if (currentMode == PlayerMode.ExplorationMode)
         {
