@@ -1,0 +1,130 @@
+using UnityEngine;
+
+public class PlayerHeadLook : MonoBehaviour
+{
+    [Header("Detection")]
+    [SerializeField] private Vector3 boxSize = new Vector3(6f, 3f, 6f);
+    [SerializeField] private Vector3 boxCenter = Vector3.zero;
+    [SerializeField] private LayerMask interactableMask = ~0;
+    [SerializeField] private float refreshDelay = 0.15f;
+
+    [Header("Head Aim")]
+    [SerializeField] private Animator animator;
+    [SerializeField] private float maxYawAngle = 60f;
+    [SerializeField] private float maxPitchAngle = 30f;
+    [SerializeField] private float turnSpeed = 180f;
+    [SerializeField] private float blendInSpeed = 3f;
+    [SerializeField] private float blendOutSpeed = 4f;
+
+    private Transform _headBone;
+    private Transform _currentTargetTransform;
+    private Transform _trackedLastFrame;
+    private IInteractable _currentTarget;
+    private PlayerMode _currentMode = PlayerMode.ExplorationMode;
+    private Quaternion _currentLookRotation;
+    private float _weight;
+    private float _refreshTimer;
+
+    private Collider[] _hits = new Collider[32];
+
+    private void Awake()
+    {
+        if (animator == null) animator = GetComponentInChildren<Animator>();
+        if (animator != null) _headBone = animator.GetBoneTransform(HumanBodyBones.Head);
+        _currentLookRotation = _headBone != null ? _headBone.rotation : transform.rotation;
+    }
+
+    private void OnEnable() => GameEvents.OnPlayerModeChanged += OnModeChanged;
+    private void OnDisable() => GameEvents.OnPlayerModeChanged -= OnModeChanged;
+
+    private void OnModeChanged(PlayerMode newMode) => _currentMode = newMode;
+
+    private void Update()
+    {
+        _refreshTimer -= Time.deltaTime;
+        if (_refreshTimer <= 0f)
+        {
+            RefreshTarget();
+            _refreshTimer = refreshDelay;
+        }
+    }
+
+    private void RefreshTarget()
+    {
+        Vector3 center = transform.TransformPoint(boxCenter);
+        int hitCount = Physics.OverlapBoxNonAlloc(center, boxSize * 0.5f, _hits, transform.rotation, interactableMask);
+
+        IInteractable best = null;
+        Transform bestTransform = null;
+        float bestDist = float.MaxValue;
+
+        for (int i = 0; i < hitCount; i++)
+        {
+            if (!_hits[i].TryGetComponent<IInteractable>(out var interactable)) continue;
+            if (!interactable.CanInteract) continue;
+
+            float d = (_hits[i].transform.position - transform.position).sqrMagnitude;
+            if (d < bestDist)
+            {
+                bestDist = d;
+                best = interactable;
+                bestTransform = _hits[i].transform;
+            }
+        }
+
+        _currentTarget = best;
+        _currentTargetTransform = bestTransform;
+    }
+
+    private void LateUpdate()
+    {
+        if (_headBone == null) return;
+
+        bool hasTarget = _currentTargetTransform != null && _currentMode == PlayerMode.ExplorationMode;
+        float targetWeight = 0f;
+
+        if (hasTarget)
+        {
+            Vector3 desiredDir = (_currentTargetTransform.position - _headBone.position).normalized;
+            Vector3 local = transform.InverseTransformDirection(desiredDir);
+
+            float yaw = Mathf.Clamp(Mathf.Atan2(local.x, local.z) * Mathf.Rad2Deg, -maxYawAngle, maxYawAngle);
+            float pitch = Mathf.Clamp(Mathf.Asin(Mathf.Clamp(local.y, -1f, 1f)) * Mathf.Rad2Deg, -maxPitchAngle, maxPitchAngle);
+
+            float yawRad = yaw * Mathf.Deg2Rad;
+            float pitchRad = pitch * Mathf.Deg2Rad;
+            Vector3 clampedLocal = new Vector3(
+                Mathf.Sin(yawRad) * Mathf.Cos(pitchRad),
+                Mathf.Sin(pitchRad),
+                Mathf.Cos(yawRad) * Mathf.Cos(pitchRad));
+
+            Vector3 clampedWorldDir = transform.TransformDirection(clampedLocal);
+            Quaternion desiredRot = Quaternion.LookRotation(clampedWorldDir, Vector3.up);
+
+            bool isNewEngagement = _weight <= 0.001f || _currentTargetTransform != _trackedLastFrame;
+            _currentLookRotation = isNewEngagement
+                ? desiredRot
+                : Quaternion.RotateTowards(_currentLookRotation, desiredRot, turnSpeed * Time.deltaTime);
+
+            _trackedLastFrame = _currentTargetTransform;
+            targetWeight = 1f;
+        }
+        else
+        {
+            _trackedLastFrame = null;
+        }
+
+        float blendSpeed = targetWeight > _weight ? blendInSpeed : blendOutSpeed;
+        _weight = Mathf.MoveTowards(_weight, targetWeight, blendSpeed * Time.deltaTime);
+
+        if (_weight > 0.001f)
+            _headBone.rotation = Quaternion.Slerp(_headBone.rotation, _currentLookRotation, _weight);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = new Color(1f, 0.6f, 0f, 0.35f);
+        Gizmos.matrix = Matrix4x4.TRS(transform.TransformPoint(boxCenter), transform.rotation, Vector3.one);
+        Gizmos.DrawWireCube(Vector3.zero, boxSize);
+    }
+}

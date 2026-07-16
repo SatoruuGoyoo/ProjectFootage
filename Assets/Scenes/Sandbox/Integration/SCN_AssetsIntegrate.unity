@@ -37543,6 +37543,7 @@ MonoBehaviour:
   leftArrow: {fileID: 489574702}
   rightArrow: {fileID: 1384913012}
   bgFadeInDuration: 0.2
+  bgFadeOutDuration: 0.4
   bgTargetAlpha: 1
 --- !u!114 &532449874
 MonoBehaviour:
@@ -103147,7 +103148,7 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 7514bf4d000e0ce45ba72d88457e8835, type: 3}
   pages:
   - Hola soy Nicolas
-  - Estoy en Discord trabajando
+  - Estoy en Discord trabajando. Mi <color=red>mama</color> me mima
   - Me gusta mucho comer
   - Y Kiara
   openSound:
@@ -135191,6 +135192,7 @@ GameObject:
   - component: {fileID: 1875973319}
   - component: {fileID: 1875973318}
   - component: {fileID: 1875973317}
+  - component: {fileID: 1875973325}
   m_Layer: 0
   m_Name: PLAYER
   m_TagString: Player
@@ -135242,7 +135244,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9687057719cacfc478338d3d7efacbf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteractor
-  interactRange: 1
+  boxSize: {x: 0.3, y: 2, z: 0.3}
+  boxCenter: {x: 0, y: 0, z: 0.4}
   interactableMask:
     serializedVersion: 2
     m_Bits: 8
@@ -135368,6 +135371,30 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: -0.07, z: 0}
+--- !u!114 &1875973325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875973312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c10ae178ab7bfd4199d9205a8b605ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHeadLook
+  boxSize: {x: 3, y: 2, z: 1.5}
+  boxCenter: {x: 0, y: 0, z: 1}
+  interactableMask:
+    serializedVersion: 2
+    m_Bits: 8
+  refreshDelay: 0.15
+  animator: {fileID: 427742730}
+  maxYawAngle: 60
+  maxPitchAngle: 30
+  turnSpeed: 100
+  blendInSpeed: 3
+  blendOutSpeed: 4
 --- !u!1001 &1878886531
 PrefabInstance:
   m_ObjectHideFlags: 0

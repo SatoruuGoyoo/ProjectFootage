@@ -4,11 +4,12 @@ using UnityEngine.InputSystem;
 public class PlayerInteractor : MonoBehaviour
 {
     [Header("Detection")]
-    [SerializeField] private float interactRange = 2f;
+    [SerializeField] private Vector3 boxSize = new Vector3(2f, 2f, 2f);
+    [SerializeField] private Vector3 boxCenter = Vector3.zero;
     [SerializeField] private LayerMask interactableMask = ~0;
     [SerializeField] private float refreshDelay = 0.1f;
 
-    private PlayerInput input;
+    private InputAction _interactAction;
     private InputAction _cancelAction;
     private IInteractable current;
     private PlayerMode currentMode = PlayerMode.ExplorationMode;
@@ -20,10 +21,9 @@ public class PlayerInteractor : MonoBehaviour
     private Sprite lastIcon;
     private bool lastActive;
 
-    private void Awake() => input = GetComponent<PlayerInput>();
-
     private void Start()
     {
+        _interactAction = PlayerInput.Actions.Exploration.Interact;
         _cancelAction = PlayerInput.Actions.UI.Cancel;
     }
 
@@ -37,12 +37,22 @@ public class PlayerInteractor : MonoBehaviour
 
     private void OnModeChanged(PlayerMode newMode)
     {
-        if (currentMode == PlayerMode.InteractionMode && newMode == PlayerMode.ExplorationMode)
-            _suppressInteractThisFrame = true;
-
+        bool returningFromInteraction = currentMode == PlayerMode.InteractionMode && newMode == PlayerMode.ExplorationMode;
         currentMode = newMode;
-        if (newMode == PlayerMode.ExplorationMode)
-            SetCurrent(null);
+
+        if (!returningFromInteraction)
+        {
+            if (newMode == PlayerMode.ExplorationMode) SetCurrent(null);
+            return;
+        }
+
+        _suppressInteractThisFrame = true;
+        current = null;
+        lastActive = false;
+        lastPrompt = "";
+        lastIcon = null;
+        RefreshCurrent();
+        refreshTimer = refreshDelay;
     }
 
     private void Update()
@@ -59,7 +69,7 @@ public class PlayerInteractor : MonoBehaviour
         }
         else if (currentMode == PlayerMode.InteractionMode && current != null && current.BlockMovement)
         {
-            if (input.Interact) current.Interact();
+            if (_interactAction.WasPressedThisFrame()) current.Interact();
         }
     }
 
@@ -72,16 +82,23 @@ public class PlayerInteractor : MonoBehaviour
             refreshTimer = refreshDelay;
         }
 
-        if (current != null && input.Interact)
+        if (current != null && _interactAction.WasPressedThisFrame())
+        {
             current.Interact();
+            RefreshCurrent();
+        }
 
         if (current != null && current.IsActive && _cancelAction.WasPressedThisFrame())
+        {
             current.Interact();
+            RefreshCurrent();
+        }
     }
 
     private void RefreshCurrent()
     {
-        int hitCount = Physics.OverlapSphereNonAlloc(transform.position, interactRange, hits, interactableMask);
+        Vector3 center = transform.TransformPoint(boxCenter);
+        int hitCount = Physics.OverlapBoxNonAlloc(center, boxSize * 0.5f, hits, transform.rotation, interactableMask);
 
         IInteractable best = null;
         float bestDist = float.MaxValue;
@@ -137,6 +154,7 @@ public class PlayerInteractor : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = new Color(0f, 1f, 1f, 0.35f);
-        Gizmos.DrawWireSphere(transform.position, interactRange);
+        Gizmos.matrix = Matrix4x4.TRS(transform.TransformPoint(boxCenter), transform.rotation, Vector3.one);
+        Gizmos.DrawWireCube(Vector3.zero, boxSize);
     }
 }
