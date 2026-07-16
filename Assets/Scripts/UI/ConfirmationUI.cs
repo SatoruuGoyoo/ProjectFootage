@@ -24,6 +24,7 @@ public class ConfirmationUI : MonoBehaviour
     private bool _isOpen;
     private bool _yesSelected;
     private bool _navigateNeutral = true;
+    private bool _suppressSubmitThisFrame;
     private System.Action _onConfirm;
     private System.Action _onDecline;
     private InputAction _navigateAction;
@@ -72,6 +73,12 @@ public class ConfirmationUI : MonoBehaviour
             _navigateNeutral = true;
         }
 
+        if (_suppressSubmitThisFrame)
+        {
+            _suppressSubmitThisFrame = false;
+            return;
+        }
+
         if (_submitAction.WasPressedThisFrame())
         {
             if (_yesSelected) Confirm();
@@ -95,6 +102,7 @@ public class ConfirmationUI : MonoBehaviour
         if (messageLabel != null) messageLabel.SetText(message);
         SetSelected(false);
         _navigateNeutral = Mathf.Abs(_navigateAction.ReadValue<Vector2>().x) < 0.5f;
+        _suppressSubmitThisFrame = true;
         SetVisible(true);
         GameEvents.PlayerModeChanged(PlayerMode.InteractionMode);
     }
@@ -129,6 +137,7 @@ public class ConfirmationUI : MonoBehaviour
         _onDecline = null;
         SetVisible(false);
         UILayerManager.Release(UILayerManager.Layer.Confirmation);
+        //GameEvents.CloseConfirmation();
         GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
     }
 

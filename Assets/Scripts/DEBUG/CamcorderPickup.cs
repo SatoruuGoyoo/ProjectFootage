@@ -17,6 +17,9 @@ public class CamcorderPickup : MonoBehaviour, IInteractable
     [Header("Prompt Icon")]
     [SerializeField] private Sprite promptIcon;
 
+    public bool IsActive => false;
+    public Sprite ActiveIcon => null;
+
     public string PromptMessage => "camcorder";
     public bool CanInteract => true;
     public bool BlockMovement => false;

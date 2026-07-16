@@ -16,16 +16,24 @@ public class InteractPromptUI : MonoBehaviour
     [SerializeField] private Image keyImage;
     [SerializeField] private TMP_Text keyLabel;
 
+    [Header("Key Badge — Active State (closes with Cancel)")]
+    [SerializeField] private Sprite activeKeySprite;
+    [SerializeField] private string activeKeyText = "[F]";
+
     [Header("Icon Sprites")]
     [SerializeField] private Sprite proximitySprite;
     [SerializeField] private Sprite closeSprite;
 
     private bool _isVisible;
     private bool _isActive;
+    private Sprite _proximityKeySprite;
+    private string _proximityKeyText;
 
     private void Awake()
     {
         _isVisible = true;
+        _proximityKeySprite = keyImage != null ? keyImage.sprite : null;
+        _proximityKeyText = keyLabel != null ? keyLabel.text : "";
         RefreshKeyBadgeMode();
         ForceHide();
     }
@@ -60,17 +68,19 @@ public class InteractPromptUI : MonoBehaviour
         if (interactIcon != null)
             interactIcon.sprite = icon != null ? icon : proximitySprite;
 
+        SetKeyBadge(active: false);
         SetVisible(true);
     }
 
-    private void OnActivated(string promptType)
+    private void OnActivated(string promptType, Sprite icon)
     {
         _isActive = true;
         UILayerManager.Release(UILayerManager.Layer.InteractPrompt);
         positioner?.SetPosition(defaultPosition);
-        if (interactIcon != null && closeSprite != null)
-            interactIcon.sprite = closeSprite;
+        if (interactIcon != null)
+            interactIcon.sprite = icon != null ? icon : closeSprite;
 
+        SetKeyBadge(active: true);
         SetVisible(true);
     }
 
@@ -91,6 +101,15 @@ public class InteractPromptUI : MonoBehaviour
         if (_isActive) return;
         UILayerManager.Release(UILayerManager.Layer.InteractPrompt);
         SetVisible(false);
+    }
+
+    private void SetKeyBadge(bool active)
+    {
+        if (keyImage != null)
+            keyImage.sprite = (active && activeKeySprite != null) ? activeKeySprite : _proximityKeySprite;
+
+        if (keyLabel != null)
+            keyLabel.SetText((active && !string.IsNullOrEmpty(activeKeyText)) ? activeKeyText : _proximityKeyText);
     }
 
     private void SetVisible(bool visible)

@@ -6,5 +6,7 @@ public interface IInteractable
     bool CanInteract { get; }
     bool BlockMovement { get; }
     Sprite PromptIcon { get; }
+    bool IsActive { get; }
+    Sprite ActiveIcon { get; }
     void Interact();
 }

@@ -93,7 +93,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: d1731955079a50245a73528ec4353aad, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -4347,6 +4347,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableRadio
   uiPosition: 7
+  promptIcon: {fileID: 0}
+  activeIcon: {fileID: 0}
   subtitles: {fileID: 532449872}
   subtitleEntries: []
   oneTimeOnly: 1
@@ -22276,7 +22278,9 @@ GameObject:
   - component: {fileID: 330097322}
   - component: {fileID: 330097321}
   - component: {fileID: 330097320}
-  m_Layer: 0
+  - component: {fileID: 330097323}
+  - component: {fileID: 330097324}
+  m_Layer: 3
   m_Name: Door (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22357,6 +22361,74 @@ Transform:
   - {fileID: 1273849594}
   m_Father: {fileID: 1180672860}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &330097323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330097319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70411757c9ebe7b468af6ccde1ac5e81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Door
+  uiPosition: 7
+  promptIcon: {fileID: 21300000, guid: a87835061dd1f0f4bb6a28198fcb4254, type: 3}
+  activeIcon: {fileID: 21300000, guid: da9e2f54af7abd44dadb7fe6a6d421b1, type: 3}
+  requiredItemId: 
+  startLocked: 1
+  playerCanToggle: 0
+  canClose: 0
+  lockedFeedback: 
+  confirmationText: 
+  startOpen: 0
+  interactCooldown: 0.5
+  pivot: {fileID: 0}
+  openAngle: 90
+  speed: 120
+  openSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  closeSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  lockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+--- !u!65 &330097324
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330097319}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.030000024, y: 0.99999994, z: 2.071929}
+  m_Center: {x: 0.014999986, y: 0.49312732, z: 0.005015611}
 --- !u!1 &334011436
 GameObject:
   m_ObjectHideFlags: 0
@@ -24833,6 +24905,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableRadio
   uiPosition: 7
+  promptIcon: {fileID: 0}
+  activeIcon: {fileID: 0}
   subtitles: {fileID: 532449872}
   subtitleEntries: []
   oneTimeOnly: 1
@@ -35121,6 +35195,81 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &489574702
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 489574703}
+  - component: {fileID: 489574705}
+  - component: {fileID: 489574704}
+  m_Layer: 5
+  m_Name: LEFT
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &489574703
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 489574702}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1748644343}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 300, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &489574704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 489574702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 5cc948b34d4aaf6409547728f1c30d6b, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &489574705
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 489574702}
+  m_CullTransparentMesh: 1
 --- !u!1 &489653818
 GameObject:
   m_ObjectHideFlags: 0
@@ -37391,6 +37540,8 @@ MonoBehaviour:
   textField: {fileID: 644300104}
   pageIndicator: {fileID: 0}
   positioner: {fileID: 880908129}
+  leftArrow: {fileID: 489574702}
+  rightArrow: {fileID: 1384913012}
   bgFadeInDuration: 0.2
   bgTargetAlpha: 1
 --- !u!114 &532449874
@@ -37439,6 +37590,8 @@ MonoBehaviour:
   interactIcon: {fileID: 1057862248}
   keyImage: {fileID: 0}
   keyLabel: {fileID: 726005574}
+  activeKeySprite: {fileID: 0}
+  activeKeyText: F
   proximitySprite: {fileID: 21300000, guid: 4b4a8cf2126b6ce42b79d7b760c8001b, type: 3}
   closeSprite: {fileID: 21300000, guid: 85ac7263a8c446c449445f121ee16c75, type: 3}
 --- !u!114 &532449877
@@ -39531,6 +39684,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableRadio
   uiPosition: 7
+  promptIcon: {fileID: 21300000, guid: a87835061dd1f0f4bb6a28198fcb4254, type: 3}
+  activeIcon: {fileID: 21300000, guid: da9e2f54af7abd44dadb7fe6a6d421b1, type: 3}
   subtitles: {fileID: 532449872}
   subtitleEntries:
   - text: The neighbors of [BEEP] are shaken by the brutal murder of [BEEP], the
@@ -43057,8 +43212,12 @@ MonoBehaviour:
   - {fileID: 1908051036}
   btnClear: {fileID: 1904238569}
   btnCall: {fileID: 735974529}
+  buttonGrid: {fileID: 2146184611}
+  columns: 3
   correctCode: 8611
   maxDigits: 4
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightColor: {r: 1, g: 0.85, b: 0.3, a: 1}
   phone: {fileID: 2108997843}
 --- !u!1001 &610407756
 PrefabInstance:
@@ -55084,6 +55243,7 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  promptIcon: {fileID: 0}
 --- !u!65 &793080177
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -61574,6 +61734,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
   uiPosition: 7
+  promptIcon: {fileID: 0}
+  activeIcon: {fileID: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 0
@@ -63367,6 +63529,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableRadio
   uiPosition: 7
+  promptIcon: {fileID: 21300000, guid: a87835061dd1f0f4bb6a28198fcb4254, type: 3}
+  activeIcon: {fileID: 21300000, guid: da9e2f54af7abd44dadb7fe6a6d421b1, type: 3}
   subtitles: {fileID: 532449872}
   subtitleEntries:
   - text: Just static...
@@ -66617,10 +66781,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
   uiPosition: 3
+  promptIcon: {fileID: 0}
+  activeIcon: {fileID: 0}
   requiredItemId: 
   startLocked: 1
   playerCanToggle: 1
-  canClose: 1
+  canClose: 0
   lockedFeedback: Won't budge
   confirmationText: 
   startOpen: 0
@@ -72062,6 +72228,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableRadio
   uiPosition: 7
+  promptIcon: {fileID: 0}
+  activeIcon: {fileID: 0}
   subtitles: {fileID: 532449872}
   subtitleEntries: []
   oneTimeOnly: 1
@@ -82352,6 +82520,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
   uiPosition: 8
+  promptIcon: {fileID: 21300000, guid: a87835061dd1f0f4bb6a28198fcb4254, type: 3}
+  activeIcon: {fileID: 21300000, guid: da9e2f54af7abd44dadb7fe6a6d421b1, type: 3}
   requiredItemId: doorknob
   startLocked: 0
   playerCanToggle: 1
@@ -85628,6 +85798,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
   uiPosition: 7
+  promptIcon: {fileID: 0}
+  activeIcon: {fileID: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 0
@@ -92689,6 +92861,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Collectible
   uiPosition: 8
+  promptIcon: {fileID: 21300000, guid: a87835061dd1f0f4bb6a28198fcb4254, type: 3}
+  activeIcon: {fileID: 21300000, guid: da9e2f54af7abd44dadb7fe6a6d421b1, type: 3}
   itemId: doorknob
   prompt: .
   feedbackMessage: Doorknob acquired
@@ -94088,7 +94262,7 @@ GameObject:
   - component: {fileID: 1273849594}
   - component: {fileID: 1273849596}
   - component: {fileID: 1273849595}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Handle.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94952,6 +95126,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
   uiPosition: 7
+  promptIcon: {fileID: 0}
+  activeIcon: {fileID: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 0
@@ -102966,10 +103142,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ReadableItem
   uiPosition: 4
+  promptIcon: {fileID: 21300000, guid: a87835061dd1f0f4bb6a28198fcb4254, type: 3}
+  activeIcon: {fileID: 21300000, guid: da9e2f54af7abd44dadb7fe6a6d421b1, type: 3}
   sprite: {fileID: 21300000, guid: 7514bf4d000e0ce45ba72d88457e8835, type: 3}
   pages:
   - Hola soy Nicolas
   - Estoy en Discord trabajando
+  - Me gusta mucho comer
+  - Y Kiara
   openSound:
     Guid:
       Data1: 628579962
@@ -104822,6 +105002,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
   uiPosition: 3
+  promptIcon: {fileID: 0}
+  activeIcon: {fileID: 0}
   requiredItemId: 
   startLocked: 1
   playerCanToggle: 1
@@ -104961,6 +105143,81 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 71bcc032da19bf749b71ac5f3cd3d1ba, type: 3}
   m_PrefabInstance: {fileID: 1384214918}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1384913012
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1384913013}
+  - component: {fileID: 1384913015}
+  - component: {fileID: 1384913014}
+  m_Layer: 5
+  m_Name: RIGHT
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1384913013
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1384913012}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1748644343}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -300, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1384913014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1384913012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 6e2f613cc8f90824bb0e165e083c2d1a, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1384913015
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1384913012}
+  m_CullTransparentMesh: 1
 --- !u!1 &1389556959
 GameObject:
   m_ObjectHideFlags: 0
@@ -107982,7 +108239,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1456507817
 Transform:
   m_ObjectHideFlags: 0
@@ -124736,7 +124993,7 @@ GameObject:
   - component: {fileID: 1703041989}
   - component: {fileID: 1703041991}
   - component: {fileID: 1703041990}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125265,6 +125522,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
   uiPosition: 7
+  promptIcon: {fileID: 0}
+  activeIcon: {fileID: 0}
   requiredItemId: doorknob
   startLocked: 0
   playerCanToggle: 1
@@ -129086,6 +129345,8 @@ RectTransform:
   m_Children:
   - {fileID: 821737937}
   - {fileID: 644300106}
+  - {fileID: 489574703}
+  - {fileID: 1384913013}
   m_Father: {fileID: 880908125}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -131103,6 +131364,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PhoneInteractable
   uiPosition: 7
+  promptIcon: {fileID: 21300000, guid: a87835061dd1f0f4bb6a28198fcb4254, type: 3}
+  activeIcon: {fileID: 21300000, guid: da9e2f54af7abd44dadb7fe6a6d421b1, type: 3}
   isBroken: 1
   brokenMessage: This one is broken too
   brokenMessagePosition: 7
@@ -131152,6 +131415,13 @@ MonoBehaviour:
       Data4: 0
     Path: 
   callConversationReference:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  navigateSound:
     Guid:
       Data1: 0
       Data2: 0
@@ -134937,7 +135207,7 @@ Transform:
   m_GameObject: {fileID: 1875973312}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.70710707, z: -0, w: 0.70710653}
-  m_LocalPosition: {x: 22.13, y: 5.77, z: -1.35}
+  m_LocalPosition: {x: 22.5, y: 5.77, z: -1.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -149220,6 +149490,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PhoneInteractable
   uiPosition: 7
+  promptIcon: {fileID: 21300000, guid: a87835061dd1f0f4bb6a28198fcb4254, type: 3}
+  activeIcon: {fileID: 21300000, guid: da9e2f54af7abd44dadb7fe6a6d421b1, type: 3}
   isBroken: 1
   brokenMessage: This one is broken
   brokenMessagePosition: 7
@@ -149269,6 +149541,13 @@ MonoBehaviour:
       Data4: 0
     Path: 
   callConversationReference:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  navigateSound:
     Guid:
       Data1: 0
       Data2: 0
@@ -155311,6 +155590,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PhoneInteractable
   uiPosition: 7
+  promptIcon: {fileID: 21300000, guid: a87835061dd1f0f4bb6a28198fcb4254, type: 3}
+  activeIcon: {fileID: 21300000, guid: da9e2f54af7abd44dadb7fe6a6d421b1, type: 3}
   isBroken: 0
   brokenMessage: El telefono no funciona
   brokenMessagePosition: 7
@@ -155366,6 +155647,13 @@ MonoBehaviour:
       Data3: 1090393485
       Data4: -29859285
     Path: event:/Horror/PhoneConversation
+  navigateSound:
+    Guid:
+      Data1: -1396879681
+      Data2: 1087668714
+      Data3: 1896587939
+      Data4: -580362929
+    Path: event:/MainMenu/UI - UX/UI - ButtonHover
   _phoneUI: {fileID: 1113736674}
   _onAnswerActivateGO: {fileID: 691287545}
   _openPrompt: .

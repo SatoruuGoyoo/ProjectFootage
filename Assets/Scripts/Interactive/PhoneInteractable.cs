@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 using FMODUnity;
 using FMOD.Studio;
 
@@ -24,6 +25,7 @@ public class PhoneInteractable : Interactable
     [SerializeField] private EventReference correctCodeReference;
     [SerializeField] private EventReference ringReference;
     [SerializeField] private EventReference callConversationReference;
+    [SerializeField] private EventReference navigateSound;
 
     [SerializeField] private GameObject _phoneUI;
 
@@ -54,6 +56,7 @@ public class PhoneInteractable : Interactable
 
     private PhoneState _state = PhoneState.Idle;
     private EventInstance _currentPhoneAudio;
+    private InputAction _cancelAction;
 
     public override string PromptMessage
     {
@@ -66,15 +69,27 @@ public class PhoneInteractable : Interactable
 
     public override bool CanInteract => _state != PhoneState.Done;
     public override bool BlockMovement => true;
-    public bool IsOpen => _isOpen;
+    public override bool IsActive => _isOpen;
     public EventReference MarkNumberReference => markNumberReference;
 
     private bool _isOpen => _state == PhoneState.Open
                          || _state == PhoneState.LockedCorrect
                          || _state == PhoneState.LockedCall;
 
+    private void Start()
+    {
+        _cancelAction = PlayerInput.Actions.UI.Cancel;
+    }
+
     private void Update()
     {
+        if (_cancelAction.WasPressedThisFrame()
+            && (_state == PhoneState.Open || _state == PhoneState.LockedCorrect))
+        {
+            ClosePhone();
+            return;
+        }
+
         switch (_state)
         {
             case PhoneState.Open:
@@ -99,9 +114,9 @@ public class PhoneInteractable : Interactable
                     StopCurrentPhoneAudio();
                     if (!putDownPhoneReference.IsNull)
                         RuntimeManager.PlayOneShot(putDownPhoneReference, transform.position);
+                    GameEvents.InteractPromptDeactivated();
                     GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
                     if (MouseCursorController.Instance != null) MouseCursorController.Instance.ReleaseCursor();
-                    GameEvents.InteractPromptDeactivated();
                     _state = PhoneState.Done;
                     OnPhoneClosed?.Invoke();
                     OnConversationEnded?.Invoke();
@@ -125,22 +140,8 @@ public class PhoneInteractable : Interactable
                 _state = PhoneState.Open;
                 break;
 
-            case PhoneState.Open:
-                ClosePhone();
-                break;
-
-            case PhoneState.LockedCorrect:
-                ClosePhone();
-                break;
-
             case PhoneState.Ringing:
                 AnswerCall();
-                break;
-
-            case PhoneState.LockedCall:
-                break;
-
-            case PhoneState.Done:
                 break;
         }
     }
@@ -150,9 +151,9 @@ public class PhoneInteractable : Interactable
         StopCurrentPhoneAudio();
         _state = PhoneState.Idle;
         _phoneUI.SetActive(false);
+        GameEvents.InteractPromptDeactivated();
         GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
         if (MouseCursorController.Instance != null) MouseCursorController.Instance.ReleaseCursor();
-        GameEvents.InteractPromptDeactivated();
         OnPhoneClosed?.Invoke();
     }
 
@@ -181,7 +182,11 @@ public class PhoneInteractable : Interactable
         _currentPhoneAudio.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
         _currentPhoneAudio.start();
     }
-
+    public void PlayNavigate()
+    {
+        if (navigateSound.IsNull) return;
+        RuntimeManager.PlayOneShot(navigateSound, transform.position);
+    }
     private void StartRinging()
     {
         _state = PhoneState.Ringing;
@@ -215,7 +220,7 @@ public class PhoneInteractable : Interactable
             RuntimeManager.PlayOneShot(putUpPhoneReference, transform.position);
         GameEvents.PlayerModeChanged(PlayerMode.InteractionMode);
         if (MouseCursorController.Instance != null) MouseCursorController.Instance.RequestCursor();
-        GameEvents.InteractPromptActivated(PromptMessage);
+        GameEvents.InteractPromptActivated(PromptMessage, ActiveIcon);
         OnPhoneOpened?.Invoke();
     }
 
@@ -230,9 +235,9 @@ public class PhoneInteractable : Interactable
         StopCurrentPhoneAudio();
         if (!putDownPhoneReference.IsNull)
             RuntimeManager.PlayOneShot(putDownPhoneReference, transform.position);
+        GameEvents.InteractPromptDeactivated();
         GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
         if (MouseCursorController.Instance != null) MouseCursorController.Instance.ReleaseCursor();
-        GameEvents.InteractPromptDeactivated();
         OnPhoneClosed?.Invoke();
     }
 

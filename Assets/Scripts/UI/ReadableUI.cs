@@ -14,8 +14,13 @@ public class ReadableUI : MonoBehaviour
     [SerializeField] private TMP_Text pageIndicator;
     [SerializeField] private UIPositioner positioner;
 
+    [Header("Page Arrows")]
+    [SerializeField] private GameObject leftArrow;
+    [SerializeField] private GameObject rightArrow;
+
     [Header("Animation")]
     [SerializeField] private float bgFadeInDuration = 0.4f;
+    [SerializeField] private float bgFadeOutDuration = 0.4f;
     [SerializeField] private float bgTargetAlpha = 0.7f;
 
     private Coroutine _animCoroutine;
@@ -101,14 +106,16 @@ public class ReadableUI : MonoBehaviour
     {
         if (textField != null) textField.SetText(_pages[_currentPage]);
         if (pageIndicator != null) pageIndicator.SetText($"{_currentPage + 1}/{_pages.Length}");
+        if (leftArrow != null) leftArrow.SetActive(_currentPage > 0);
+        if (rightArrow != null) rightArrow.SetActive(_currentPage < _pages.Length - 1);
     }
 
     private void OnClosed()
     {
         _isOpen = false;
         UILayerManager.Release(UILayerManager.Layer.Readable);
-        if (_animCoroutine != null) { StopCoroutine(_animCoroutine); _animCoroutine = null; }
-        ForceHide();
+        if (_animCoroutine != null) StopCoroutine(_animCoroutine);
+        _animCoroutine = StartCoroutine(AnimateOut());
     }
 
     private void ForceHide()
@@ -139,6 +146,25 @@ public class ReadableUI : MonoBehaviour
         if (itemSprite != null) itemSprite.gameObject.SetActive(true);
         if (textField != null) textField.gameObject.SetActive(true);
 
+        _animCoroutine = null;
+    }
+
+    private IEnumerator AnimateOut()
+    {
+        if (itemSprite != null) itemSprite.gameObject.SetActive(false);
+        if (textField != null) textField.gameObject.SetActive(false);
+
+        float startAlpha = bgGroup != null ? bgGroup.alpha : 0f;
+        float t = 0f;
+        while (t < bgFadeOutDuration)
+        {
+            t += Time.deltaTime;
+            if (bgGroup != null) bgGroup.alpha = Mathf.Lerp(startAlpha, 0f, t / bgFadeOutDuration);
+            yield return null;
+        }
+        if (bgGroup != null) bgGroup.alpha = 0f;
+
+        SetVisible(false);
         _animCoroutine = null;
     }
 

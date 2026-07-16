@@ -122,7 +122,6 @@ public class Door : Interactable
 
     public void Open()
     {
-        if (IsLocked) return;
         isOpen = true;
         if (!openSound.IsNull) RuntimeManager.PlayOneShot(openSound, transform.position);
     }

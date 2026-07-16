@@ -54,6 +54,7 @@ public class PlayerInput : MonoBehaviour
 
     private void Update()
     {
+
         Interact = _interact.WasPressedThisFrame();
         Decline = _decline.WasPressedThisFrame();
 

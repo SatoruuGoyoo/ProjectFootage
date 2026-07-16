@@ -34,7 +34,7 @@ public class ReadableItem : Interactable
         RuntimeManager.PlayOneShot(openSound, transform.position);
         GameEvents.ReadableOpened(sprite, pages, uiPosition, Close);
         GameEvents.PlayerModeChanged(PlayerMode.InteractionMode);
-        GameEvents.InteractPromptActivated(PromptMessage);
+        GameEvents.InteractPromptActivated(PromptMessage, ActiveIcon);
     }
 
     private void Close()
@@ -43,7 +43,7 @@ public class ReadableItem : Interactable
         if (!closeSound.IsNull)
             RuntimeManager.PlayOneShot(closeSound, transform.position);
         GameEvents.ReadableClosed();
-        GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
         GameEvents.InteractPromptDeactivated();
+        GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
     }
 }

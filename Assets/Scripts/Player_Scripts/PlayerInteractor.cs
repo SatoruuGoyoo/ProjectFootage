@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerInteractor : MonoBehaviour
 {
@@ -8,15 +9,23 @@ public class PlayerInteractor : MonoBehaviour
     [SerializeField] private float refreshDelay = 0.1f;
 
     private PlayerInput input;
+    private InputAction _cancelAction;
     private IInteractable current;
     private PlayerMode currentMode = PlayerMode.ExplorationMode;
+    private bool _suppressInteractThisFrame;
 
     private Collider[] hits = new Collider[32];
     private float refreshTimer;
     private string lastPrompt = "";
     private Sprite lastIcon;
+    private bool lastActive;
 
     private void Awake() => input = GetComponent<PlayerInput>();
+
+    private void Start()
+    {
+        _cancelAction = PlayerInput.Actions.UI.Cancel;
+    }
 
     private void OnEnable() => GameEvents.OnPlayerModeChanged += OnModeChanged;
 
@@ -28,6 +37,9 @@ public class PlayerInteractor : MonoBehaviour
 
     private void OnModeChanged(PlayerMode newMode)
     {
+        if (currentMode == PlayerMode.InteractionMode && newMode == PlayerMode.ExplorationMode)
+            _suppressInteractThisFrame = true;
+
         currentMode = newMode;
         if (newMode == PlayerMode.ExplorationMode)
             SetCurrent(null);
@@ -35,6 +47,12 @@ public class PlayerInteractor : MonoBehaviour
 
     private void Update()
     {
+        if (_suppressInteractThisFrame)
+        {
+            _suppressInteractThisFrame = false;
+            return;
+        }
+
         if (currentMode == PlayerMode.ExplorationMode)
         {
             UpdateExploration();
@@ -55,6 +73,9 @@ public class PlayerInteractor : MonoBehaviour
         }
 
         if (current != null && input.Interact)
+            current.Interact();
+
+        if (current != null && current.IsActive && _cancelAction.WasPressedThisFrame())
             current.Interact();
     }
 
@@ -83,15 +104,33 @@ public class PlayerInteractor : MonoBehaviour
 
     private void SetCurrent(IInteractable next)
     {
-        if (next != current)
-            GameEvents.InteractPromptDeactivated();
+        bool nextActive = next != null && next.IsActive;
+        string prompt = next != null ? next.PromptMessage : "";
+        Sprite icon = next != null ? (nextActive ? next.ActiveIcon : next.PromptIcon) : null;
 
+        if (next == current && nextActive == lastActive && prompt == lastPrompt && icon == lastIcon)
+            return;
+
+        bool wasActive = lastActive;
         current = next;
-        string prompt = current != null ? current.PromptMessage : "";
-        Sprite icon = current != null ? current.PromptIcon : null;
-        if (prompt == lastPrompt && icon == lastIcon) return;
+        lastActive = nextActive;
         lastPrompt = prompt;
         lastIcon = icon;
+
+        if (next == null)
+        {
+            GameEvents.InteractPromptDeactivated();
+            GameEvents.InteractPromptChanged("", null);
+            return;
+        }
+
+        if (nextActive)
+        {
+            GameEvents.InteractPromptActivated(prompt, icon);
+            return;
+        }
+
+        if (wasActive) GameEvents.InteractPromptDeactivated();
         GameEvents.InteractPromptChanged(prompt, icon);
     }
 

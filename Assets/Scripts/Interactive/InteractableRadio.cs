@@ -21,6 +21,7 @@ public class InteractableRadio : Interactable
     public override string PromptMessage => "radio";
     public override bool CanInteract => !_used;
     public override bool BlockMovement => false;
+    public override bool IsActive => _source.IsPlaying;
 
     private void Awake()
     {
@@ -43,14 +44,8 @@ public class InteractableRadio : Interactable
         }
 
         if (_source.IsPlaying)
-        {
-            GameEvents.InteractPromptActivated(PromptMessage);
             OnTurnedOn?.Invoke();
-        }
         else
-        {
-            GameEvents.InteractPromptDeactivated();
             OnTurnedOff?.Invoke();
-        }
     }
 }
