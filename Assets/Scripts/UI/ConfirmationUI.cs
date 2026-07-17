@@ -1,6 +1,8 @@
 ﻿using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
+using FMODUnity;
 
 public class ConfirmationUI : MonoBehaviour
 {
@@ -18,8 +20,13 @@ public class ConfirmationUI : MonoBehaviour
     [SerializeField] private string noText = "No";
 
     [Header("Selection Highlight")]
-    [SerializeField] private Color selectedColor = Color.yellow;
-    [SerializeField] private Color normalColor = Color.white;
+    [SerializeField] private Image yesHighlight;
+    [SerializeField] private Image noHighlight;
+    [SerializeField] private Color highlightColor = new Color(0.1f, 0.2f, 0.8f, 1f);
+
+    [Header("Audio")]
+    [SerializeField] private EventReference selectSound;
+    [SerializeField] private EventReference confirmSound;
 
     private bool _isOpen;
     private bool _yesSelected;
@@ -34,6 +41,8 @@ public class ConfirmationUI : MonoBehaviour
     {
         if (yesLabel != null) yesLabel.SetText(yesText);
         if (noLabel != null) noLabel.SetText(noText);
+        if (yesHighlight != null) yesHighlight.color = highlightColor;
+        if (noHighlight != null) noHighlight.color = highlightColor;
         ForceHide();
     }
 
@@ -63,8 +72,8 @@ public class ConfirmationUI : MonoBehaviour
 
         if (_navigateNeutral)
         {
-            if (h > 0.5f) SetSelected(false);
-            else if (h < -0.5f) SetSelected(true);
+            if (h > 0.5f) SetSelected(false, playSound: true);
+            else if (h < -0.5f) SetSelected(true, playSound: true);
 
             if (Mathf.Abs(h) > 0.5f) _navigateNeutral = false;
         }
@@ -81,16 +90,21 @@ public class ConfirmationUI : MonoBehaviour
 
         if (_submitAction.WasPressedThisFrame())
         {
+            if (!confirmSound.IsNull) RuntimeManager.PlayOneShot(confirmSound, transform.position);
+
             if (_yesSelected) Confirm();
             else Decline();
         }
     }
 
-    private void SetSelected(bool yes)
+    private void SetSelected(bool yes, bool playSound = false)
     {
+        if (playSound && yes != _yesSelected && !selectSound.IsNull)
+            RuntimeManager.PlayOneShot(selectSound, transform.position);
+
         _yesSelected = yes;
-        if (yesLabel != null) yesLabel.color = yes ? selectedColor : normalColor;
-        if (noLabel != null) noLabel.color = yes ? normalColor : selectedColor;
+        if (yesHighlight != null) yesHighlight.gameObject.SetActive(yes);
+        if (noHighlight != null) noHighlight.gameObject.SetActive(!yes);
     }
 
     private void OnRequested(string message, System.Action onConfirm, System.Action onDecline, UIPositioner.ScreenPosition position)

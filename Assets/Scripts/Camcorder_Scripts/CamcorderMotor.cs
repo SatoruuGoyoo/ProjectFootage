@@ -18,6 +18,7 @@ public class CamcorderMotor : MonoBehaviour
 
     public float LastRotateDelta { get; private set; }
     public float RotateSpeed => rotateSpeed;
+    public float CurrentTilt => currentTilt;
 
     private float currentTilt = 0f;
     private float currentRotate = 0f;

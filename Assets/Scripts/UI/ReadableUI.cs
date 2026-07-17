@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using TMPro;
+using FMODUnity;
 
 public class ReadableUI : MonoBehaviour
 {
@@ -22,6 +23,9 @@ public class ReadableUI : MonoBehaviour
     [SerializeField] private float bgFadeInDuration = 0.4f;
     [SerializeField] private float bgFadeOutDuration = 0.4f;
     [SerializeField] private float bgTargetAlpha = 0.7f;
+
+    [Header("Audio")]
+    [SerializeField] private EventReference pageTurnSound;
 
     private Coroutine _animCoroutine;
     private InputAction _navigateAction;
@@ -100,6 +104,7 @@ public class ReadableUI : MonoBehaviour
         if (index == _currentPage) return;
         _currentPage = index;
         RefreshPage();
+        if (!pageTurnSound.IsNull) RuntimeManager.PlayOneShot(pageTurnSound, transform.position);
     }
 
     private void RefreshPage()
