@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using FMODUnity;
 
 
 /// <summary>
 /// Drives the main menu intro sequence:
-///   1. Wait for player input.
+///   1. Wait for player input (Space, via el nuevo Input System).
 ///   2. Animate the camera from a wide shot to the menu screen.
 ///   3. Reveal the main menu canvas.
 ///
@@ -35,11 +36,14 @@ public sealed class MainMenuIntro : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField, Min(0.1f)] private float moveDuration = 2f;
-    [SerializeField] private KeyCode startKey = KeyCode.Space;
 
     // ── Cached rotations ──────────────────────────────────────────────────
     private Quaternion _startRot;
     private Quaternion _endRot;
+
+    // ── Input ─────────────────────────────────────────────────────────────
+    private InputAction _startAction;
+    private bool _startPressed;
 
     // ── Lifecycle ─────────────────────────────────────────────────────────
 
@@ -47,7 +51,16 @@ public sealed class MainMenuIntro : MonoBehaviour
     {
         _startRot = Quaternion.Euler(startRotation);
         _endRot = Quaternion.Euler(endRotation);
+
+        _startAction = new InputAction(name: "MenuStart", type: InputActionType.Button, binding: "<Keyboard>/space");
+        _startAction.performed += ctx => _startPressed = true;
     }
+
+    private void OnEnable() => _startAction.Enable();
+
+    private void OnDisable() => _startAction.Disable();
+
+    private void OnDestroy() => _startAction.Dispose();
 
     private void Start()
     {
@@ -82,10 +95,11 @@ public sealed class MainMenuIntro : MonoBehaviour
 
     private IEnumerator WaitForStartKey()
     {
-        while (!Input.GetKeyDown(startKey))
+        _startPressed = false;
+        while (!_startPressed)
             yield return null;
-        FMODUnity.RuntimeManager.PlayOneShot("event:/MainMenu/UI - UX/UI - ButtonClick");
 
+        FMODUnity.RuntimeManager.PlayOneShot("event:/MainMenu/UI - UX/UI - ButtonClick");
     }
 
     private IEnumerator AnimateCamera()

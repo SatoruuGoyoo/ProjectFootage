@@ -2377,6 +2377,7 @@ GameObject:
   - component: {fileID: 989660645}
   - component: {fileID: 989660644}
   - component: {fileID: 989660643}
+  - component: {fileID: 989660648}
   m_Layer: 5
   m_Name: MainMenuCanvas
   m_TagString: Untagged
@@ -2494,6 +2495,25 @@ RectTransform:
   m_AnchoredPosition: {x: 39.076, y: -17.070002}
   m_SizeDelta: {x: 22.479, y: 15.3367}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &989660648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989660642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c8959d34b683c34792f22d1862286e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MenuKeyBoardNavigator
+  menuButtons:
+  - {fileID: 1523313149}
+  - {fileID: 394668170}
+  - {fileID: 1685002342}
+  - {fileID: 1251177702}
+  moveEvent: event:/MainMenu/UI - UX/UI - ButtonHover
+  playSoundOnMove: 1
 --- !u!1 &1003046852
 GameObject:
   m_ObjectHideFlags: 0
@@ -5379,7 +5399,6 @@ MonoBehaviour:
   endPosition: {x: 40.25, y: -17.15, z: 97.06}
   endRotation: {x: 0, y: -37.097, z: 0}
   moveDuration: 2
-  startKey: 323
 --- !u!4 &1939484350
 Transform:
   m_ObjectHideFlags: 0
