@@ -19,6 +19,10 @@ public class CamcorderMenuUI : MonoBehaviour
     [SerializeField] private Color colorUnselected = new Color(0.45f, 0.45f, 0.45f, 1f);
     [SerializeField] private Color borderColor = new Color(1f, 0.30f, 0.30f, 1f);
 
+    [Header("Textos")]
+    [SerializeField] private string noRecordingsMessage = "NO RECORDINGS";
+    [SerializeField] private string selectFootageMessage = "SELECT A FOOTAGE";
+
     private Texture2D[] _thumbnailTextures;
 
     private CamcorderStorage _storage;
@@ -33,7 +37,8 @@ public class CamcorderMenuUI : MonoBehaviour
         IReadOnlyList<RecordingSession> recordings = _storage.GetAllRecordings();
         bool hasRecordings = recordings.Count > 0;
 
-        noRecordingText.gameObject.SetActive(!hasRecordings);
+        noRecordingText.gameObject.SetActive(true);
+        noRecordingText.text = hasRecordings ? selectFootageMessage : noRecordingsMessage;
         recordingsPanel.SetActive(hasRecordings);
 
         if (_thumbnailTextures == null || _thumbnailTextures.Length != recordingSlots.Length)
