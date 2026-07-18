@@ -12,12 +12,14 @@ using UnityEngine;
 [RequireComponent(typeof(VideoPlayback))]
 [RequireComponent(typeof(AudioPlayback))]
 [RequireComponent(typeof(CamcorderMenuAudio))]
+
 public class CamcorderMenuController : MonoBehaviour
 {
     public static bool MenuInputBlocked = false;
 
     [Header("Menu UI")]
     [SerializeField] private Canvas menuCanvas;
+    [SerializeField] private CamcorderMenuAnimator _menuAnimator;
 
     [Header("Timing/TweakDesigner")]
     [SerializeField] private float rffStep = 1f;
@@ -32,6 +34,7 @@ public class CamcorderMenuController : MonoBehaviour
     private VideoPlayback _videoPlayback;
     private AudioPlayback _audioPlayback;
     private CamcorderMenuAudio _audio;
+
 
     private int _currentIndex = 0;
     private float _rffTimer = 0f;
@@ -49,16 +52,19 @@ public class CamcorderMenuController : MonoBehaviour
         _videoPlayback = GetComponent<VideoPlayback>();
         _audioPlayback = GetComponent<AudioPlayback>();
         _audio = GetComponent<CamcorderMenuAudio>();
+        //_menuAnimator = GetComponent<CamcorderMenuAnimator>();
     }
 
     private void OnEnable()
     {
         _clock.OnComplete += OnPlaybackComplete;
+        _menuAnimator.OnCloseAnimationFinished += HandleCloseAnimationFinished;
     }
 
     private void OnDisable()
     {
         _clock.OnComplete -= OnPlaybackComplete;
+        _menuAnimator.OnCloseAnimationFinished -= HandleCloseAnimationFinished;
     }
 
     private void Start()
@@ -86,6 +92,7 @@ public class CamcorderMenuController : MonoBehaviour
         GameEvents.PlayerModeChanged(PlayerMode.MenuCameraMode);
         menuCanvas.gameObject.SetActive(true);
         _ui.UpdateUI(_currentIndex);
+        _menuAnimator.PlayOpen();
     }
 
     private void CloseMenu()
@@ -94,9 +101,9 @@ public class CamcorderMenuController : MonoBehaviour
 
         IsMenuOpen = false;
         _currentIndex = 0;
-        menuCanvas.gameObject.SetActive(false);
 
         GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
+        _menuAnimator.PlayClose();
     }
 
     private void ToggleMenu()
@@ -220,5 +227,9 @@ public class CamcorderMenuController : MonoBehaviour
     {
         if (!_clock.HasSession) return;
         _clock.Stop();
+    }
+    private void HandleCloseAnimationFinished()
+    {
+        menuCanvas.gameObject.SetActive(false);
     }
 }
