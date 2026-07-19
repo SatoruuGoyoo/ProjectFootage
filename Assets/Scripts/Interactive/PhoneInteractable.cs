@@ -9,6 +9,7 @@ public class PhoneInteractable : Interactable
 {
     [Header("Broken State")]
     [SerializeField] private bool isBroken = false;
+    [TextArea(3, 6)]
     [SerializeField] private string brokenMessage = "El telefono no funciona";
     [SerializeField] private UIPositioner.ScreenPosition brokenMessagePosition = UIPositioner.ScreenPosition.LowerCenter;
     [SerializeField] private float brokenMessageDuration = -1f;
