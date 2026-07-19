@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_CRTShader
-  m_Shader: {fileID: -6465566751694194690, guid: c64305f1118c7c9438080f1da844a13d, type: 3}
+  m_Name: PosterizeCorder
+  m_Shader: {fileID: -6465566751694194690, guid: eeeac431a0b82f342b1743aaef362629, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -37,13 +37,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Blur_Offset: 0.00227
-    - _Number_of_Scan_Lines: 2
-    - _Scan_Lines_Speed: 1
+    - _BlackLift: 0.03
+    - _DisplayUpscale: 2.1979737
+    - _DitherSize: 1
+    - _DitherStrength: 0.5
+    - _Exposure: 2
+    - _Float: 0.5
+    - _Float_1: 3.65
+    - _Levels: 10
     m_Colors:
-    - _Bar_Color: {r: 1, g: 1, b: 1, a: 0}
-    - _Color: {r: 1.2622073, g: 1.2622073, b: 1.2622073, a: 1}
-    - _Color_1: {r: 1, g: 1, b: 1, a: 0}
-    - _Color_2: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 0}
+    - _Blacklift: {r: 0.01, g: 16, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

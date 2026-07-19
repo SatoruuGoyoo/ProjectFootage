@@ -21506,6 +21506,7 @@ GameObject:
   - component: {fileID: 326033781}
   - component: {fileID: 326033780}
   - component: {fileID: 326033794}
+  - component: {fileID: 326033795}
   m_Layer: 0
   m_Name: Camcorder
   m_TagString: Untagged
@@ -21801,6 +21802,21 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+--- !u!114 &326033795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 326033778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 246f8c1ba38e4134a83c68e66d814fd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CamcorderDisplayScaler
+  viewfinderImage: {fileID: 261853575}
+  ditherMaterial: {fileID: 2100000, guid: 8b0ea91722e315f43a1948c22d3c404a, type: 2}
+  recordingTexture: {fileID: 8400000, guid: ffb0013606e860a46827bf05339461a2, type: 2}
 --- !u!1 &326571252
 GameObject:
   m_ObjectHideFlags: 0
@@ -24136,7 +24152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8bca95f7c947b4db5fb152a0d693d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: com.cqf.urpvolumetricfog.runtime::VolumetricAdditionalLight
-  anisotropy: 0.25
+  anisotropy: -0.9
   scattering: 0.3
   radius: 0.2
 --- !u!114 &353907717
@@ -24179,7 +24195,7 @@ Light:
   serializedVersion: 12
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.8
   m_Range: 3
   m_SpotAngle: 45.790695
   m_InnerSpotAngle: 44.48272
@@ -43276,55 +43292,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AmbienceManager
   crossfadeTime: 2
---- !u!1 &615264327
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 615264329}
-  - component: {fileID: 615264328}
-  m_Layer: 0
-  m_Name: CRTVolume
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &615264328
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 615264327}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.Volume
-  m_IsGlobal: 1
-  priority: 0
-  blendDistance: 0
-  weight: 1
-  sharedProfile: {fileID: 11400000, guid: d04b760402950fd4e959342f70c186e3, type: 2}
---- !u!4 &615264329
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 615264327}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 23.99434, y: 5.62484, z: -0.55378}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &618098925
 GameObject:
   m_ObjectHideFlags: 0
@@ -54862,7 +54829,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8bca95f7c947b4db5fb152a0d693d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: com.cqf.urpvolumetricfog.runtime::VolumetricAdditionalLight
-  anisotropy: 0.25
+  anisotropy: -0.9
   scattering: 0.3
   radius: 0.2
 --- !u!114 &789388996
@@ -54905,7 +54872,7 @@ Light:
   serializedVersion: 12
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.8
   m_Range: 3
   m_SpotAngle: 45.790695
   m_InnerSpotAngle: 44.48272
@@ -63724,7 +63691,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.15382624, y: 0.120285444, z: 0.037717793}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1086459193}
@@ -63746,7 +63713,7 @@ MonoBehaviour:
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
   m_Cameras: []
-  m_RendererIndex: -1
+  m_RendererIndex: 1
   m_VolumeLayerMask:
     serializedVersion: 2
     m_Bits: 65536
@@ -63767,7 +63734,7 @@ MonoBehaviour:
   m_RequiresColorTexture: 0
   m_TaaSettings:
     m_Quality: 3
-    m_FrameInfluence: 0.1
+    m_FrameInfluence: 0.100000024
     m_JitterScale: 1
     m_MipBias: 0
     m_VarianceClampScale: 0.9
@@ -74593,7 +74560,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8bca95f7c947b4db5fb152a0d693d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: com.cqf.urpvolumetricfog.runtime::VolumetricAdditionalLight
-  anisotropy: 0.25
+  anisotropy: -0.9
   scattering: 0.3
   radius: 0.2
 --- !u!114 &1094035188
@@ -74636,7 +74603,7 @@ Light:
   serializedVersion: 12
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.8
   m_Range: 3
   m_SpotAngle: 45.790695
   m_InnerSpotAngle: 44.48272
@@ -142398,7 +142365,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8bca95f7c947b4db5fb152a0d693d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: com.cqf.urpvolumetricfog.runtime::VolumetricAdditionalLight
-  anisotropy: 0.25
+  anisotropy: -0.9
   scattering: 0.3
   radius: 0.2
 --- !u!114 &1955619852
@@ -142441,7 +142408,7 @@ Light:
   serializedVersion: 12
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.8
   m_Range: 3
   m_SpotAngle: 45.790695
   m_InnerSpotAngle: 44.48272
@@ -149173,7 +149140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8bca95f7c947b4db5fb152a0d693d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: com.cqf.urpvolumetricfog.runtime::VolumetricAdditionalLight
-  anisotropy: -0.06
+  anisotropy: 0.12
   scattering: 0.3
   radius: 0.2
 --- !u!1 &2010746768
@@ -160407,4 +160374,3 @@ SceneRoots:
   - {fileID: 1250842511}
   - {fileID: 268017759}
   - {fileID: 246675655}
-  - {fileID: 615264329}
