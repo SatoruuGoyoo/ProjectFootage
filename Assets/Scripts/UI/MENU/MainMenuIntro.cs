@@ -25,6 +25,7 @@ public sealed class MainMenuIntro : MonoBehaviour
     [SerializeField] private GameObject pressStartText;
     [SerializeField] private GameObject mainMenuCanvas;
     [SerializeField] private GameObject titleObject;
+    [SerializeField] private GameObject subtitleObject;
 
     [Header("Camera — Wide Shot (start)")]
     [SerializeField] private Vector3 startPosition;
@@ -75,6 +76,7 @@ public sealed class MainMenuIntro : MonoBehaviour
         mainCamera.SetPositionAndRotation(startPosition, _startRot);
         SetActive(pressStartText, true);
         SetActive(titleObject, true);
+        SetActive(subtitleObject, true);
         SetActive(mainMenuCanvas, false);
     }
 
@@ -86,6 +88,7 @@ public sealed class MainMenuIntro : MonoBehaviour
 
         SetActive(pressStartText, false);
         SetActive(titleObject, false);
+        SetActive(subtitleObject, false);
 
         yield return AnimateCamera();
 
