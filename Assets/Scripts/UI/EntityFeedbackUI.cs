@@ -31,7 +31,7 @@ public class EntityFeedbackUI : MonoBehaviour
     private void OnFeedback(string message, UIPositioner.ScreenPosition position, float duration)
     {
         if (!UILayerManager.TryShow(UILayerManager.Layer.EntityFeedback, ForceHide)) return;
-        positioner?.SetPosition(position != UIPositioner.ScreenPosition.LowerLeft ? position : defaultPosition);
+        positioner?.SetPosition(position);
         if (messageLabel != null) messageLabel.SetText(message);
         _timer = duration > 0f ? duration : defaultDisplayDuration;
         SetVisible(true);
