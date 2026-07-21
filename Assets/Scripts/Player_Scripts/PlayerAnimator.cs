@@ -11,8 +11,6 @@ public class PlayerAnimator : MonoBehaviour
     private static readonly int IsWalkingHash = Animator.StringToHash("IsWalking");
     private static readonly int IsWalkingBackHash = Animator.StringToHash("IsWalkingBack");
     private static readonly int IsSprintingHash = Animator.StringToHash("IsSprinting");
-    private static readonly int IsTurningLeftHash = Animator.StringToHash("IsTurningLeft");
-    private static readonly int IsTurningRightHash = Animator.StringToHash("IsTurningRight");
     private PlayerMode currentMode = PlayerMode.ExplorationMode;
 
     private void OnEnable() => GameEvents.OnPlayerModeChanged += OnPlayerModeChanged;
@@ -39,15 +37,9 @@ public class PlayerAnimator : MonoBehaviour
 
         bool isBack = motor.IsMovingBackward;
         bool isSprint = motor.IsSprinting;
-        bool hasInput = motor.HasInput && !motor.IsBlocked;
-
-        animator.SetBool(IsWalkingHash, hasInput && !isBack && !isSprint);
-        animator.SetBool(IsWalkingBackHash, hasInput && isBack);
-        animator.SetBool(IsSprintingHash, isSprint && !motor.IsBlocked);
-
-        bool isTurning = !hasInput && currentMode == PlayerMode.ExplorationMode;
-        animator.SetBool(IsTurningLeftHash, isTurning && motor.TurnInput < -0.01f);
-        animator.SetBool(IsTurningRightHash, isTurning && motor.TurnInput > 0.01f);
+        animator.SetBool(IsWalkingHash, motor.HasInput && !isBack && !isSprint);
+        animator.SetBool(IsWalkingBackHash, motor.HasInput && isBack);
+        animator.SetBool(IsSprintingHash, isSprint);
 
         if (currentMode == PlayerMode.ExplorationMode)
         {
