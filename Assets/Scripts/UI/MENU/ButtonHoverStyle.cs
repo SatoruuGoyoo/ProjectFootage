@@ -15,6 +15,11 @@ public sealed class ButtonHoverStyle : ScriptableObject
     public Color normalText = Color.white;
     public Color hoverText = Color.black;
 
+    [Header("Denied")]
+    public Color deniedBackground = new Color(0.35f, 0.08f, 0.08f, 1f);
+    public Color deniedText = Color.white;
+    [Min(0f)] public float deniedHoldDuration = 0.25f;
+
     [Header("Transition")]
     [Min(0f)] public float tweenDuration = 0.12f;
 }

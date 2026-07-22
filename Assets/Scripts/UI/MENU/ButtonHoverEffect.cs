@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -47,6 +47,52 @@ public sealed class ButtonHoverEffect : MonoBehaviour, IPointerEnterHandler, IPo
 
         if (highlighted && playSound && !string.IsNullOrEmpty(hoverEvent))
             FMODUnity.RuntimeManager.PlayOneShot(hoverEvent);
+    }
+
+    /// <summary>
+    /// Tinte breve de "no disponible" (rojo apagado) para acciones que
+    /// todavía no están habilitadas (ej: Options, Load Game).
+    /// </summary>
+    public void FlashDenied()
+    {
+        if (style == null) return;
+
+        if (_tweenCoroutine != null) StopCoroutine(_tweenCoroutine);
+        _tweenCoroutine = StartCoroutine(FlashDeniedRoutine());
+    }
+
+    private IEnumerator FlashDeniedRoutine()
+    {
+        Color startBg = backgroundImage != null ? backgroundImage.color : Color.clear;
+        Color startText = buttonText != null ? buttonText.color : Color.white;
+
+        float inDuration = style.tweenDuration;
+        for (float t = 0f; t < inDuration; t += Time.unscaledDeltaTime)
+        {
+            float progress = t / inDuration;
+            ApplyColors(
+                Color.Lerp(startBg, style.deniedBackground, progress),
+                Color.Lerp(startText, style.deniedText, progress)
+            );
+            yield return null;
+        }
+        ApplyColors(style.deniedBackground, style.deniedText);
+
+        yield return new WaitForSecondsRealtime(style.deniedHoldDuration);
+
+        Color returnBg = _isKeyboardHighlighted ? style.hoverBackground : style.normalBackground;
+        Color returnText = _isKeyboardHighlighted ? style.hoverText : style.normalText;
+        for (float t = 0f; t < inDuration; t += Time.unscaledDeltaTime)
+        {
+            float progress = t / inDuration;
+            ApplyColors(
+                Color.Lerp(style.deniedBackground, returnBg, progress),
+                Color.Lerp(style.deniedText, returnText, progress)
+            );
+            yield return null;
+        }
+        ApplyColors(returnBg, returnText);
+        _tweenCoroutine = null;
     }
 
     private void TransitionTo(bool isHover)

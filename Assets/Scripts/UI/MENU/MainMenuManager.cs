@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace SM.UI
 {
@@ -15,12 +16,17 @@ namespace SM.UI
         [SerializeField] private GameObject mainPanel;
         [SerializeField] private GameObject optionsPanel;
 
+        [Header("Unavailable Features")]
+        [SerializeField] private Button optionsButton;
+        [SerializeField] private Button loadGameButton;
+
         [Header("Canvas")]
         [SerializeField] private Canvas menuCanvas;
 
         [Header("Sounds")]
         [SerializeField] private string clickEvent = "event:/MainMenu/UI - UX/UI - ButtonClick";
         [SerializeField] private string ambienceEvent = "event:/MainMenu/Ambient/MenuMusic";
+        [SerializeField] private string unavailableEvent; // sonido "no disponible"; asignar cuando esté definido en FMOD
 
         private FMOD.Studio.EventInstance _ambience;
         private bool _menuLocked;
@@ -65,9 +71,15 @@ namespace SM.UI
         public void OnOptionsClicked()
         {
             if (_menuLocked) return;
-            FMODUnity.RuntimeManager.PlayOneShot(clickEvent);
-            SetPanel(mainPanel, false);
-            SetPanel(optionsPanel, true);
+
+            ShowUnavailable(optionsButton);
+        }
+
+        public void OnLoadGameClicked()
+        {
+            if (_menuLocked) return;
+
+            ShowUnavailable(loadGameButton);
         }
 
         public void OnBackClicked()
@@ -88,6 +100,18 @@ namespace SM.UI
 #else
             Application.Quit();
 #endif
+        }
+
+        private void ShowUnavailable(Button button)
+        {
+            if (!string.IsNullOrEmpty(unavailableEvent))
+                FMODUnity.RuntimeManager.PlayOneShot(unavailableEvent);
+
+            if (button != null)
+            {
+                ButtonHoverEffect hover = button.GetComponent<ButtonHoverEffect>();
+                hover?.FlashDenied();
+            }
         }
 
         private void LockMenu()
