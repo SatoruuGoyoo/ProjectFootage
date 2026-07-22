@@ -1267,6 +1267,8 @@ GameObject:
   - component: {fileID: 593324623}
   - component: {fileID: 593324622}
   - component: {fileID: 593324621}
+  - component: {fileID: 593324620}
+  - component: {fileID: 593324619}
   m_Layer: 5
   m_Name: BluePanelCanvas
   m_TagString: Untagged
@@ -1274,6 +1276,52 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
   m_IsActive: 1
+--- !u!114 &593324619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 593324618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c8959d34b683c34792f22d1862286e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MenuKeyBoardNavigator
+  menuButtons:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  moveEvent: event:/MainMenu/UI - UX/UI - ButtonHover
+  playSoundOnMove: 1
+--- !u!114 &593324620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 593324618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e27f16250d40f74fb38ed5e75bd2a1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SM.UI.MainMenuManager
+  gameScene:
+    sceneAsset: {fileID: 102900000, guid: 4b3806b12c8a95c44a94784ce1d91fae, type: 3}
+    sceneName: SCN_AssetsIntegrateLvlCorrection
+  introText: 'Sk4rz_26
+
+
+    2:21 AM'
+  mainPanel: {fileID: 0}
+  optionsPanel: {fileID: 0}
+  optionsButton: {fileID: 0}
+  loadGameButton: {fileID: 0}
+  menuCanvas: {fileID: 593324623}
+  clickEvent: event:/MainMenu/UI - UX/UI - ButtonClick
+  ambienceEvent: event:/MainMenu/Ambient/MenuMusic
+  unavailableEvent: 
 --- !u!114 &593324621
 MonoBehaviour:
   m_ObjectHideFlags: 0
