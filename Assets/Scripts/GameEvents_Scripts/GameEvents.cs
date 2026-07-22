@@ -16,7 +16,13 @@ public static class GameEvents
     // Items
     public static event Action<string> OnItemCollected;
     public static event Action<string, UIPositioner.ScreenPosition, float> OnFeedbackMessage;
+
+    // Entity
     public static event Action<string, UIPositioner.ScreenPosition, float> OnEntityFeedbackMessage;
+
+    // Tutorial
+    public static event Action<string, UIPositioner.ScreenPosition> OnTutorialPromptShown;
+    public static event Action OnTutorialPromptHidden;
 
     // Player Mode
     public static event Action<PlayerMode> OnPlayerModeChanged;
@@ -70,8 +76,14 @@ public static class GameEvents
     public static void FeedbackMessage(string message, UIPositioner.ScreenPosition position = UIPositioner.ScreenPosition.LowerCenter, float duration = -1f)
         => OnFeedbackMessage?.Invoke(message, position, duration);
 
+    // ── ENTITY ───────────────────────────────────────────────────────────────
     public static void EntityFeedbackMessage(string message, UIPositioner.ScreenPosition position = UIPositioner.ScreenPosition.LowerCenter, float duration = -1f)
-    => OnEntityFeedbackMessage?.Invoke(message, position, duration);
+        => OnEntityFeedbackMessage?.Invoke(message, position, duration);
+
+    // ── TUTORIAL ─────────────────────────────────────────────────────────────
+    public static void TutorialPromptShown(string message, UIPositioner.ScreenPosition position = UIPositioner.ScreenPosition.LowerCenter)
+        => OnTutorialPromptShown?.Invoke(message, position);
+    public static void TutorialPromptHidden() => OnTutorialPromptHidden?.Invoke();
 
     // ── CAMCORDER ────────────────────────────────────────────────────────────
     public static void CamcorderPickedUp() => OnCamcorderPickedUp?.Invoke();

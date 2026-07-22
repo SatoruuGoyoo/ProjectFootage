@@ -14,8 +14,9 @@ using System.Collections.Generic;
 ///   2  Feedback
 ///   3  Readable
 ///   4  Confirmation
-///   98 EntityFeedback ← pista paralela, solo bloqueada por Confirmation
-///   99 Subtitles  ← pista paralela, solo bloqueada por Confirmation
+///   97 TutorialPrompt  ← pista paralela, solo bloqueada por Confirmation
+///   98 EntityFeedback  ← pista paralela, solo bloqueada por Confirmation
+///   99 Subtitles       ← pista paralela, solo bloqueada por Confirmation
 ///
 /// Uso:
 ///   Al mostrar:  if (!UILayerManager.TryShow(Layer.X, OnForceHide)) return;
@@ -29,6 +30,7 @@ public static class UILayerManager
         Feedback = 2,
         Readable = 3,
         Confirmation = 4,
+        TutorialPrompt = 97,
         EntityFeedback = 98,
         Subtitles = 99,
     }
@@ -46,7 +48,8 @@ public static class UILayerManager
     /// </summary>
     public static bool TryShow(Layer layer, Action onForceHide)
     {
-        if (layer == Layer.Subtitles || layer == Layer.InteractPrompt || layer == Layer.EntityFeedback)
+        if (layer == Layer.Subtitles || layer == Layer.InteractPrompt
+            || layer == Layer.EntityFeedback || layer == Layer.TutorialPrompt)
         {
             if (_active.ContainsKey(Layer.Confirmation)) return false;
             if (layer == Layer.InteractPrompt && _active.ContainsKey(Layer.Readable)) return false;
@@ -59,6 +62,7 @@ public static class UILayerManager
             if (kv.Key == Layer.Subtitles) continue;
             if (kv.Key == Layer.InteractPrompt) continue;
             if (kv.Key == Layer.EntityFeedback) continue;
+            if (kv.Key == Layer.TutorialPrompt) continue;
             if ((int)kv.Key > (int)layer) return false;
         }
 
@@ -103,6 +107,7 @@ public static class UILayerManager
             if (kv.Key == Layer.Subtitles) continue;
             if (kv.Key == Layer.InteractPrompt) continue;
             if (kv.Key == Layer.EntityFeedback) continue;
+            if (kv.Key == Layer.TutorialPrompt) continue;
             if ((int)kv.Key <= (int)incoming)
                 toClose.Add(kv.Key);
         }
