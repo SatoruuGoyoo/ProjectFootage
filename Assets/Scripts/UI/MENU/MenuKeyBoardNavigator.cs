@@ -29,7 +29,7 @@ public sealed class MenuKeyBoardNavigator : MonoBehaviour
     [SerializeField] private Button[] menuButtons;
 
     [Header("Sound")]
-    [SerializeField] private string moveEvent = "event:/MainMenu/UI - UX/UI - ButtonHover";
+    [SerializeField] private FMODUnity.EventReference moveEvent;
     [SerializeField] private bool playSoundOnMove = true;
 
     private ButtonHoverEffect[] _hoverEffects;
@@ -124,7 +124,7 @@ public sealed class MenuKeyBoardNavigator : MonoBehaviour
 
         HighlightCurrent();
 
-        if (playSoundOnMove && !string.IsNullOrEmpty(moveEvent))
+        if (playSoundOnMove && !moveEvent.IsNull)
             FMODUnity.RuntimeManager.PlayOneShot(moveEvent);
     }
 

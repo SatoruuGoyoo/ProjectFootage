@@ -15,6 +15,10 @@ public sealed class ButtonHoverStyle : ScriptableObject
     public Color normalText = Color.white;
     public Color hoverText = Color.black;
 
+    [Header("Icon")]
+    public Color normalIconColor = Color.white;
+    public Color hoverIconColor = Color.black;
+
     [Header("Denied")]
     public Color deniedBackground = new Color(0.35f, 0.08f, 0.08f, 1f);
     public Color deniedText = Color.white;

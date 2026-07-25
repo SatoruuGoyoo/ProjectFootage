@@ -10,12 +10,14 @@ public sealed class ButtonHoverEffect : MonoBehaviour, IPointerEnterHandler, IPo
     [Header("References")]
     [SerializeField] private Image backgroundImage;
     [SerializeField] private TextMeshProUGUI buttonText;
+    [SerializeField] private Image icon;
 
     [Header("Style")]
     [SerializeField] private ButtonHoverStyle style;
 
     [Header("Sound")]
-    [SerializeField] private string hoverEvent = "event:/MainMenu/UI - UX/UI - ButtonHover";
+    [SerializeField] private FMODUnity.EventReference hoverEvent;
+    [SerializeField] private FMODUnity.EventReference clickEvent;
 
     private Coroutine _tweenCoroutine;
 
@@ -36,23 +38,23 @@ public sealed class ButtonHoverEffect : MonoBehaviour, IPointerEnterHandler, IPo
         TransitionTo(isHover: false);
     }
 
-    /// <summary>
-    /// Permite disparar el mismo efecto visual de hover desde código,
-    /// por ejemplo desde un sistema de navegación por teclado (W/S).
-    /// </summary>
+    public void PlayClick()
+    {
+        if (!clickEvent.IsNull)
+            FMODUnity.RuntimeManager.PlayOneShot(clickEvent);
+    }
+
+
     public void SetHighlighted(bool highlighted, bool playSound = false)
     {
         _isKeyboardHighlighted = highlighted;
         TransitionTo(highlighted);
 
-        if (highlighted && playSound && !string.IsNullOrEmpty(hoverEvent))
+        if (highlighted && playSound && !hoverEvent.IsNull)
             FMODUnity.RuntimeManager.PlayOneShot(hoverEvent);
     }
 
-    /// <summary>
-    /// Tinte breve de "no disponible" (rojo apagado) para acciones que
-    /// todavía no están habilitadas (ej: Options, Load Game).
-    /// </summary>
+
     public void FlashDenied()
     {
         if (style == null) return;
@@ -65,6 +67,7 @@ public sealed class ButtonHoverEffect : MonoBehaviour, IPointerEnterHandler, IPo
     {
         Color startBg = backgroundImage != null ? backgroundImage.color : Color.clear;
         Color startText = buttonText != null ? buttonText.color : Color.white;
+        Color currentIcon = icon != null ? icon.color : Color.white;
 
         float inDuration = style.tweenDuration;
         for (float t = 0f; t < inDuration; t += Time.unscaledDeltaTime)
@@ -72,26 +75,29 @@ public sealed class ButtonHoverEffect : MonoBehaviour, IPointerEnterHandler, IPo
             float progress = t / inDuration;
             ApplyColors(
                 Color.Lerp(startBg, style.deniedBackground, progress),
-                Color.Lerp(startText, style.deniedText, progress)
+                Color.Lerp(startText, style.deniedText, progress),
+                currentIcon
             );
             yield return null;
         }
-        ApplyColors(style.deniedBackground, style.deniedText);
+        ApplyColors(style.deniedBackground, style.deniedText, currentIcon);
 
         yield return new WaitForSecondsRealtime(style.deniedHoldDuration);
 
         Color returnBg = _isKeyboardHighlighted ? style.hoverBackground : style.normalBackground;
         Color returnText = _isKeyboardHighlighted ? style.hoverText : style.normalText;
+        Color returnIcon = _isKeyboardHighlighted ? style.hoverIconColor : style.normalIconColor;
         for (float t = 0f; t < inDuration; t += Time.unscaledDeltaTime)
         {
             float progress = t / inDuration;
             ApplyColors(
                 Color.Lerp(style.deniedBackground, returnBg, progress),
-                Color.Lerp(style.deniedText, returnText, progress)
+                Color.Lerp(style.deniedText, returnText, progress),
+                Color.Lerp(currentIcon, returnIcon, progress)
             );
             yield return null;
         }
-        ApplyColors(returnBg, returnText);
+        ApplyColors(returnBg, returnText, returnIcon);
         _tweenCoroutine = null;
     }
 
@@ -101,45 +107,47 @@ public sealed class ButtonHoverEffect : MonoBehaviour, IPointerEnterHandler, IPo
 
         Color targetBg = isHover ? style.hoverBackground : style.normalBackground;
         Color targetText = isHover ? style.hoverText : style.normalText;
+        Color targetIcon = isHover ? style.hoverIconColor : style.normalIconColor;
 
         if (_tweenCoroutine != null) StopCoroutine(_tweenCoroutine);
 
-        // Al desactivar el panel, OnDisable del navegador puede restaurar el
-        // estado visual cuando este botón ya está inactivo. Unity no permite
-        // iniciar coroutines en ese estado; aplicamos el resultado directamente.
+
         if (!isActiveAndEnabled)
         {
-            ApplyColors(targetBg, targetText);
+            ApplyColors(targetBg, targetText, targetIcon);
             _tweenCoroutine = null;
             return;
         }
 
-        _tweenCoroutine = StartCoroutine(TweenColors(targetBg, targetText, style.tweenDuration));
+        _tweenCoroutine = StartCoroutine(TweenColors(targetBg, targetText, targetIcon, style.tweenDuration));
     }
 
-    private IEnumerator TweenColors(Color targetBg, Color targetText, float duration)
+    private IEnumerator TweenColors(Color targetBg, Color targetText, Color targetIcon, float duration)
     {
         Color startBg = backgroundImage != null ? backgroundImage.color : Color.clear;
         Color startText = buttonText != null ? buttonText.color : Color.white;
+        Color startIcon = icon != null ? icon.color : Color.white;
 
         for (float t = 0f; t < duration; t += Time.unscaledDeltaTime)
         {
             float progress = t / duration;
             ApplyColors(
                 Color.Lerp(startBg, targetBg, progress),
-                Color.Lerp(startText, targetText, progress)
+                Color.Lerp(startText, targetText, progress),
+                Color.Lerp(startIcon, targetIcon, progress)
             );
             yield return null;
         }
 
-        ApplyColors(targetBg, targetText);
+        ApplyColors(targetBg, targetText, targetIcon);
         _tweenCoroutine = null;
     }
 
-    private void ApplyColors(Color bg, Color text)
+    private void ApplyColors(Color bg, Color text, Color iconColor)
     {
         if (backgroundImage != null) backgroundImage.color = bg;
         if (buttonText != null) buttonText.color = text;
+        if (icon != null) icon.color = iconColor;
     }
 
 #if UNITY_EDITOR
