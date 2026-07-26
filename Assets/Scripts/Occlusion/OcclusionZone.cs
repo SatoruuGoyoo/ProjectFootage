@@ -2,10 +2,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Volumen manual que agrupa renderers para culling por zonas. Cada zona
-/// representa un cuarto/área; su lista de renderers se cachea una sola vez
-/// y se prende/apaga en bloque (Renderer.enabled, nunca SetActive) para que
-/// el toggle sea prácticamente gratis.
+/// Volumen manual que agrupa el contenido de un cuarto para culling por
+/// zonas: renderers, colliders, luces y partículas se cachean una sola vez
+/// y se prenden/apagan en bloque (nunca SetActive) para que el toggle sea
+/// prácticamente gratis. Ocultar también colliders y luces evita que la
+/// física siga simulando choques o que una luz siga tirando sombra por un
+/// cuarto que nadie está mirando.
 ///
 /// 'visibleNeighbors' es la PVS manual: qué otras zonas deberían verse
 /// cuando esta zona está activa (por ejemplo, el cuarto del otro lado de
@@ -21,6 +23,9 @@ public sealed class OcclusionZone : MonoBehaviour
 {
     [Header("Contenido")]
     [SerializeField] private Renderer[] renderers = System.Array.Empty<Renderer>();
+    [SerializeField] private Collider[] colliders = System.Array.Empty<Collider>();
+    [SerializeField] private Light[] lights = System.Array.Empty<Light>();
+    [SerializeField] private ParticleSystem[] particles = System.Array.Empty<ParticleSystem>();
 
     [Header("PVS manual")]
     [SerializeField] private OcclusionZone[] visibleNeighbors = System.Array.Empty<OcclusionZone>();
@@ -30,12 +35,19 @@ public sealed class OcclusionZone : MonoBehaviour
     [SerializeField] private string playerTag = "Player";
 
     public IReadOnlyList<OcclusionZone> VisibleNeighbors => visibleNeighbors;
+    public IReadOnlyList<Renderer> Renderers => renderers;
     public bool IsVisible { get; private set; } = true;
 
     private void OnTriggerEnter(Collider other)
     {
         if (!triggeredByPlayer || !other.CompareTag(playerTag)) return;
         OcclusionCullingManager.Instance.SetPlayerZone(this);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (!triggeredByPlayer || !other.CompareTag(playerTag)) return;
+        OcclusionCullingManager.Instance.ClearPlayerZoneIfCurrent(this);
     }
 
     public void SetVisible(bool visible)
@@ -48,13 +60,41 @@ public sealed class OcclusionZone : MonoBehaviour
             if (renderers[i] != null)
                 renderers[i].enabled = visible;
         }
+
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            if (colliders[i] != null)
+                colliders[i].enabled = visible;
+        }
+
+        for (int i = 0; i < lights.Length; i++)
+        {
+            if (lights[i] != null)
+                lights[i].enabled = visible;
+        }
+
+        for (int i = 0; i < particles.Length; i++)
+        {
+            if (particles[i] == null) continue;
+
+            if (visible) particles[i].Play();
+            else particles[i].Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        }
     }
 
 #if UNITY_EDITOR
-    [ContextMenu("Recolectar renderers de los hijos")]
-    private void CollectChildRenderers()
+    [ContextMenu("Recolectar contenido de los hijos")]
+    private void CollectChildContent()
     {
         renderers = GetComponentsInChildren<Renderer>(includeInactive: true);
+
+        var childColliders = new List<Collider>(GetComponentsInChildren<Collider>(includeInactive: true));
+        childColliders.RemoveAll(c => c.gameObject == gameObject);
+        colliders = childColliders.ToArray();
+
+        lights = GetComponentsInChildren<Light>(includeInactive: true);
+        particles = GetComponentsInChildren<ParticleSystem>(includeInactive: true);
+
         UnityEditor.EditorUtility.SetDirty(this);
     }
 

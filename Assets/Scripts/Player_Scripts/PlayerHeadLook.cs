@@ -7,6 +7,8 @@ public class PlayerHeadLook : MonoBehaviour
     [SerializeField] private Vector3 boxCenter = Vector3.zero;
     [SerializeField] private LayerMask interactableMask = ~0;
     [SerializeField] private float refreshDelay = 0.15f;
+    [Tooltip("El nuevo target tiene que estar a esta fracción de la distancia actual (o menos) para reemplazarlo. Evita que titile entre dos interactuables a distancias parecidas.")]
+    [Range(0.1f, 1f)][SerializeField] private float switchMargin = 0.85f;
 
     [Header("Head Aim")]
     [SerializeField] private Animator animator;
@@ -18,7 +20,6 @@ public class PlayerHeadLook : MonoBehaviour
 
     private Transform _headBone;
     private Transform _currentTargetTransform;
-    private Transform _trackedLastFrame;
     private IInteractable _currentTarget;
     private PlayerMode _currentMode = PlayerMode.ExplorationMode;
     private Quaternion _currentLookRotation;
@@ -57,6 +58,8 @@ public class PlayerHeadLook : MonoBehaviour
         IInteractable best = null;
         Transform bestTransform = null;
         float bestDist = float.MaxValue;
+        bool currentStillValid = false;
+        float currentDist = float.MaxValue;
 
         for (int i = 0; i < hitCount; i++)
         {
@@ -64,12 +67,25 @@ public class PlayerHeadLook : MonoBehaviour
             if (!interactable.CanInteract) continue;
 
             float d = (_hits[i].transform.position - transform.position).sqrMagnitude;
+
+            if (_hits[i].transform == _currentTargetTransform)
+            {
+                currentStillValid = true;
+                currentDist = d;
+            }
+
             if (d < bestDist)
             {
                 bestDist = d;
                 best = interactable;
                 bestTransform = _hits[i].transform;
             }
+        }
+
+        if (currentStillValid && bestTransform != _currentTargetTransform &&
+            bestDist > currentDist * switchMargin * switchMargin)
+        {
+            return;
         }
 
         _currentTarget = best;
@@ -101,17 +117,12 @@ public class PlayerHeadLook : MonoBehaviour
             Vector3 clampedWorldDir = transform.TransformDirection(clampedLocal);
             Quaternion desiredRot = Quaternion.LookRotation(clampedWorldDir, Vector3.up);
 
-            bool isNewEngagement = _weight <= 0.001f || _currentTargetTransform != _trackedLastFrame;
+            bool isNewEngagement = _weight <= 0.001f;
             _currentLookRotation = isNewEngagement
                 ? desiredRot
                 : Quaternion.RotateTowards(_currentLookRotation, desiredRot, turnSpeed * Time.deltaTime);
 
-            _trackedLastFrame = _currentTargetTransform;
             targetWeight = 1f;
-        }
-        else
-        {
-            _trackedLastFrame = null;
         }
 
         float blendSpeed = targetWeight > _weight ? blendInSpeed : blendOutSpeed;

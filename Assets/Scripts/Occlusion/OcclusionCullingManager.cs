@@ -29,6 +29,8 @@ public sealed class OcclusionCullingManager : MonoBehaviour
     private readonly HashSet<OcclusionZone> _playerZones = new HashSet<OcclusionZone>();
     private readonly HashSet<OcclusionZone> _visible = new HashSet<OcclusionZone>();
     private readonly HashSet<OcclusionZone> _nextVisible = new HashSet<OcclusionZone>();
+    private readonly HashSet<Renderer> _hiddenByOccluder = new HashSet<Renderer>();
+    private readonly Dictionary<Renderer, OcclusionZone> _zoneOf = new Dictionary<Renderer, OcclusionZone>();
 
     private OcclusionZone _currentPlayerZone;
 
@@ -47,7 +49,16 @@ public sealed class OcclusionCullingManager : MonoBehaviour
         // por orden normal de escena o porque el getter recién lo creó.
         OcclusionZone[] allZones = FindObjectsOfType<OcclusionZone>();
         for (int i = 0; i < allZones.Length; i++)
+        {
             allZones[i].SetVisible(false);
+
+            IReadOnlyList<Renderer> zoneRenderers = allZones[i].Renderers;
+            for (int r = 0; r < zoneRenderers.Count; r++)
+            {
+                if (zoneRenderers[r] != null)
+                    _zoneOf[zoneRenderers[r]] = allZones[i];
+            }
+        }
     }
 
     public void SetPlayerZone(OcclusionZone zone)
@@ -61,7 +72,16 @@ public sealed class OcclusionCullingManager : MonoBehaviour
         Recompute();
     }
 
-    public void SetFixedCameraZones(IReadOnlyList<OcclusionZone> zones, int margin = 1)
+    // Llamado desde OnTriggerExit. Si mientras tanto ya entraste a otra
+    // zona, esta ya no es la actual y no hace nada — evita pisar la nueva
+    // cuando dos triggers se solapan y Exit llega después de Enter.
+    public void ClearPlayerZoneIfCurrent(OcclusionZone zone)
+    {
+        if (_currentPlayerZone != zone) return;
+        SetPlayerZone(null);
+    }
+
+    public void SetFixedCameraZones(IReadOnlyList<OcclusionZone> zones, IReadOnlyList<Renderer> hiddenByOccluders = null, int margin = 1)
     {
         _fixedCameraZones.Clear();
 
@@ -72,6 +92,45 @@ public sealed class OcclusionCullingManager : MonoBehaviour
         }
 
         Recompute();
+        ApplyOccluderOverrides(hiddenByOccluders);
+    }
+
+    // Corre después de Recompute, así que las zonas ya están en su estado
+    // correcto. Solo tapa objetos puntuales dentro de una zona visible (algo
+    // detrás de un sillón), y devuelve la visibilidad de lo que la cámara
+    // anterior tapaba pero esta no — siempre que su zona siga visible.
+    private void ApplyOccluderOverrides(IReadOnlyList<Renderer> hiddenByOccluders)
+    {
+        foreach (Renderer r in _hiddenByOccluder)
+        {
+            if (hiddenByOccluders != null && Contains(hiddenByOccluders, r)) continue;
+
+            if (_zoneOf.TryGetValue(r, out OcclusionZone zone) && _visible.Contains(zone))
+                r.enabled = true;
+        }
+
+        _hiddenByOccluder.Clear();
+
+        if (hiddenByOccluders != null)
+        {
+            for (int i = 0; i < hiddenByOccluders.Count; i++)
+            {
+                Renderer r = hiddenByOccluders[i];
+                if (r == null) continue;
+
+                r.enabled = false;
+                _hiddenByOccluder.Add(r);
+            }
+        }
+    }
+
+    private static bool Contains(IReadOnlyList<Renderer> list, Renderer target)
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            if (list[i] == target) return true;
+        }
+        return false;
     }
 
     // Además de lo listado a mano, camina 'margin' saltos más por el grafo
