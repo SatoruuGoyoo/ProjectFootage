@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraManager : MonoBehaviour
@@ -30,11 +30,11 @@ public class CameraManager : MonoBehaviour
     {
         if (activeZones.Count == 0)
         {
-            // no queda ninguna zona pisada, se mantiene la última cámara activa
+            // no queda ninguna zona pisada, se mantiene la ï¿½ltima cï¿½mara activa
             return;
         }
 
-        // gana la de mayor prioridad, y entre empates la última en entrar
+        // gana la de mayor prioridad, y entre empates la ï¿½ltima en entrar
         CameraZone winner = activeZones[0];
         for (int i = 1; i < activeZones.Count; i++)
         {
@@ -53,5 +53,6 @@ public class CameraManager : MonoBehaviour
         currentCamera = newCam;
         currentCamera.gameObject.SetActive(true);
         currentCamera.GetComponent<FixedCameraController>()?.OnActivated();
+        currentCamera.GetComponent<FixedCameraOcclusionSource>()?.Activate();
     }
 }
