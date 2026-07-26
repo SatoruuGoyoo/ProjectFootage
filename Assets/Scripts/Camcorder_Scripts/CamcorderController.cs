@@ -15,6 +15,7 @@ public class CamcorderController : MonoBehaviour
     [Header("Setup")]
     [SerializeField] private GameObject camcorderVisual;
     [SerializeField] private PlayerMotor playerMotor;
+    [SerializeField] private Camera recordingCamera;
 
     [Header("Timing/Runtime")]
     [SerializeField] private float prepareTimer = 0f;
@@ -55,7 +56,11 @@ public class CamcorderController : MonoBehaviour
     private void OnEnable() => GameEvents.OnPlayerModeChanged += OnPlayerModeChanged;
     private void OnDisable() => GameEvents.OnPlayerModeChanged -= OnPlayerModeChanged;
 
-    private void Start() => camcorderVisual.SetActive(false);
+    private void Start()
+    {
+        camcorderVisual.SetActive(false);
+        if (recordingCamera != null) recordingCamera.enabled = false;
+    }
 
     private void OnPlayerModeChanged(PlayerMode newMode)
     {
@@ -65,6 +70,7 @@ public class CamcorderController : MonoBehaviour
         {
             _isCameraUp = false;
             camcorderVisual.SetActive(false);
+            if (recordingCamera != null) recordingCamera.enabled = false;
             _currentCamMode = CamcorderMode.Idle;
             prepareTimer = 0f;
             recordTimer = 0f;
@@ -95,6 +101,7 @@ public class CamcorderController : MonoBehaviour
 
         _isCameraUp = !_isCameraUp;
         camcorderVisual.SetActive(_isCameraUp);
+        if (recordingCamera != null) recordingCamera.enabled = _isCameraUp;
 
         FMODManager.Instance.PlayOneShot(toggleEvent, transform.position);
 
