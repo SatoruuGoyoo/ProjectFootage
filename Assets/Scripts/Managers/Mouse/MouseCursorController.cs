@@ -2,9 +2,11 @@ using UnityEngine;
 
 public class MouseCursorController : MonoBehaviour
 {
-   public static MouseCursorController Instance { get; private set; }
+    public static MouseCursorController Instance { get; private set; }
 
-   private int _requestCount = 0;
+    private int _requestCount = 0;
+
+    public bool CursorRequested => _requestCount > 0;
 
     private void Awake()
     {
@@ -22,7 +24,7 @@ public class MouseCursorController : MonoBehaviour
         if (Instance == this)
         {
             Instance = null;
-        } 
+        }
     }
 
     private void Start()

@@ -9,13 +9,14 @@ public class MouseConfiner : MonoBehaviour
 
     private void OnApplicationFocus(bool focus)
     {
-         if (focus) Confine();
+        if (focus) Confine();
     }
 
     private static void Confine()
     {
+        if (MouseCursorController.Instance != null && MouseCursorController.Instance.CursorRequested)
+            return;
+
         Cursor.lockState = CursorLockMode.Confined;
-        //Cursor.visible = true;
     }
-   
 }
