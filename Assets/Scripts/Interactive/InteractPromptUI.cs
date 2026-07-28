@@ -72,7 +72,7 @@ public class InteractPromptUI : MonoBehaviour
         SetVisible(true);
     }
 
-    private void OnActivated(string promptType, Sprite icon)
+    private void OnActivated(string promptType, Sprite icon, bool keepProximityKey)
     {
         _isActive = true;
         UILayerManager.Release(UILayerManager.Layer.InteractPrompt);
@@ -80,7 +80,7 @@ public class InteractPromptUI : MonoBehaviour
         if (interactIcon != null)
             interactIcon.sprite = icon != null ? icon : closeSprite;
 
-        SetKeyBadge(active: true);
+        SetKeyBadge(active: !keepProximityKey);
         SetVisible(true);
     }
 

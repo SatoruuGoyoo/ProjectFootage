@@ -166,13 +166,10 @@ public class PhoneDialer : MonoBehaviour
 
     void OnCall()
     {
-        if (currentInput == correctCode)
+        bool correct = currentInput == correctCode;
+        if (phone != null) phone.SubmitCode(correct);
+        if (!correct)
         {
-            if (phone != null) phone.PlayCorrectCode();
-        }
-        else
-        {
-            if (phone != null) phone.PlayWrongCode();
             currentInput = "";
             UpdateDisplay();
         }

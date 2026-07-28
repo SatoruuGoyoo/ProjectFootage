@@ -12,11 +12,8 @@ public class PhoneInteractable : Interactable
     [TextArea(3, 6)]
     [SerializeField] private string brokenMessage = "El telefono no funciona";
     [SerializeField] private UIPositioner.ScreenPosition brokenMessagePosition = UIPositioner.ScreenPosition.LowerCenter;
-    [SerializeField] private float brokenMessageDuration = -1f;
-
-    [Header("Auto Close")]
-    [SerializeField] private Transform _player;
-    [SerializeField] private float _maxDistance = 1.5f;
+    [SerializeField] private SubtitleBlock brokenSubtitles;
+    [SerializeField] private float brokenSubtitleDuration = 3f;
 
     [Header("FMOD")]
     [SerializeField] private EventReference putUpPhoneReference;
@@ -24,58 +21,49 @@ public class PhoneInteractable : Interactable
     [SerializeField] private EventReference markNumberReference;
     [SerializeField] private EventReference wrongCodeReference;
     [SerializeField] private EventReference correctCodeReference;
-    [SerializeField] private EventReference ringReference;
-    [SerializeField] private EventReference callConversationReference;
     [SerializeField] private EventReference navigateSound;
 
     [SerializeField] private GameObject _phoneUI;
 
-    [Header("On Call Answered")]
-    [SerializeField] private GameObject _onAnswerActivateGO;
-
-    [Header("Settings")]
+    [Header("Prompts")]
     [SerializeField] private string _openPrompt = "";
     [SerializeField] private string _closePrompt = "";
     [SerializeField] private string _answerPrompt = "";
 
     [Header("Events")]
-    public UnityEvent OnPhoneOpened;
-    public UnityEvent OnPhoneClosed;
+    public UnityEvent OnPickedUp;
+    public UnityEvent OnHungUp;
+    public UnityEvent OnCodeCorrect;
+    public UnityEvent OnCodeWrong;
     public UnityEvent OnCallAnswered;
-    public UnityEvent OnConversationEnded;
+    public UnityEvent OnBrokenInteract;
 
     private enum PhoneState
     {
         Idle,
         Open,
-        WaitingForRing,
         Ringing,
-        LockedCorrect,
-        LockedCall,
+        Answered,
         Done,
     }
 
     private PhoneState _state = PhoneState.Idle;
-    private EventInstance _currentPhoneAudio;
     private InputAction _cancelAction;
+    private Coroutine _brokenHideRoutine;
+    private EventInstance _codeAudio;
 
     public override string PromptMessage
     {
         get
         {
-            if (_state == PhoneState.Ringing && !_isOpen) return _answerPrompt;
-            return _isOpen ? _closePrompt : _openPrompt;
+            if (_state == PhoneState.Ringing) return _answerPrompt;
+            return _state == PhoneState.Open ? _closePrompt : _openPrompt;
         }
     }
 
     public override bool CanInteract => _state != PhoneState.Done;
     public override bool BlockMovement => true;
-    public override bool IsActive => _isOpen;
-    public EventReference MarkNumberReference => markNumberReference;
-
-    private bool _isOpen => _state == PhoneState.Open
-                         || _state == PhoneState.LockedCorrect
-                         || _state == PhoneState.LockedCall;
+    public override bool IsActive => _state == PhoneState.Open || _state == PhoneState.Answered;
 
     private void Start()
     {
@@ -84,61 +72,22 @@ public class PhoneInteractable : Interactable
 
     private void Update()
     {
-        if (_cancelAction.WasPressedThisFrame()
-            && (_state == PhoneState.Open || _state == PhoneState.LockedCorrect))
-        {
-            ClosePhone();
-            return;
-        }
-
-        switch (_state)
-        {
-            case PhoneState.Open:
-                if (_player != null && Vector3.Distance(transform.position, _player.position) > _maxDistance)
-                    ClosePhone();
-                break;
-
-            case PhoneState.WaitingForRing:
-                if (_player != null && Vector3.Distance(transform.position, _player.position) > _maxDistance)
-                    StartRinging();
-                break;
-
-            case PhoneState.LockedCorrect:
-                if (IsAudioFinished())
-                    ClosePhone();
-                break;
-
-            case PhoneState.LockedCall:
-                if (IsAudioFinished())
-                {
-                    _phoneUI.SetActive(false);
-                    StopCurrentPhoneAudio();
-                    if (!putDownPhoneReference.IsNull)
-                        RuntimeManager.PlayOneShot(putDownPhoneReference, transform.position);
-                    GameEvents.InteractPromptDeactivated();
-                    GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
-                    if (MouseCursorController.Instance != null) MouseCursorController.Instance.ReleaseCursor();
-                    _state = PhoneState.Done;
-                    OnPhoneClosed?.Invoke();
-                    OnConversationEnded?.Invoke();
-                }
-                break;
-        }
+        if (_cancelAction.WasPressedThisFrame() && _state == PhoneState.Open)
+            HangUp();
     }
 
     public override void Interact()
     {
-        if (isBroken && _state == PhoneState.Idle)
-        {
-            GameEvents.FeedbackMessage(brokenMessage, brokenMessagePosition, brokenMessageDuration);
-            return;
-        }
-
         switch (_state)
         {
             case PhoneState.Idle:
+                if (isBroken)
+                {
+                    ShowBrokenMessage();
+                    OnBrokenInteract?.Invoke();
+                    return;
+                }
                 OpenPhone();
-                _state = PhoneState.Open;
                 break;
 
             case PhoneState.Ringing:
@@ -147,15 +96,53 @@ public class PhoneInteractable : Interactable
         }
     }
 
+    public void SetRinging(bool ringing)
+    {
+        if (_state == PhoneState.Done) return;
+        _state = ringing ? PhoneState.Ringing : PhoneState.Idle;
+    }
+
+    public void SubmitCode(bool correct)
+    {
+        StopCodeAudio();
+
+        if (correct)
+        {
+            if (!correctCodeReference.IsNull)
+            {
+                _codeAudio = RuntimeManager.CreateInstance(correctCodeReference);
+                _codeAudio.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
+                _codeAudio.start();
+            }
+            OnCodeCorrect?.Invoke();
+            CloseAndRelease(playHangUpSound: false);
+        }
+        else
+        {
+            if (!wrongCodeReference.IsNull)
+            {
+                _codeAudio = RuntimeManager.CreateInstance(wrongCodeReference);
+                _codeAudio.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
+                _codeAudio.start();
+            }
+            OnCodeWrong?.Invoke();
+        }
+    }
+
+    public void MarkAnsweredComplete()
+    {
+        StopCodeAudio();
+        ExitInteractionMode();
+        _state = PhoneState.Done;
+        OnHungUp?.Invoke();
+    }
+
     public void ForceClose()
     {
-        StopCurrentPhoneAudio();
+        StopCodeAudio();
+        CloseAndRelease();
         _state = PhoneState.Idle;
-        _phoneUI.SetActive(false);
-        GameEvents.InteractPromptDeactivated();
-        GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
-        if (MouseCursorController.Instance != null) MouseCursorController.Instance.ReleaseCursor();
-        OnPhoneClosed?.Invoke();
+        OnHungUp?.Invoke();
     }
 
     public void PlayMarkNumber()
@@ -164,102 +151,86 @@ public class PhoneInteractable : Interactable
         RuntimeManager.PlayOneShot(markNumberReference, transform.position);
     }
 
-    public void PlayWrongCode()
-    {
-        if (wrongCodeReference.IsNull) return;
-        StopCurrentPhoneAudio();
-        _currentPhoneAudio = RuntimeManager.CreateInstance(wrongCodeReference);
-        _currentPhoneAudio.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
-        _currentPhoneAudio.start();
-    }
-
-    public void PlayCorrectCode()
-    {
-        if (correctCodeReference.IsNull) return;
-        StopCurrentPhoneAudio();
-        _state = PhoneState.LockedCorrect;
-        _phoneUI.SetActive(false);
-        _currentPhoneAudio = RuntimeManager.CreateInstance(correctCodeReference);
-        _currentPhoneAudio.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
-        _currentPhoneAudio.start();
-    }
     public void PlayNavigate()
     {
         if (navigateSound.IsNull) return;
         RuntimeManager.PlayOneShot(navigateSound, transform.position);
     }
-    private void StartRinging()
-    {
-        _state = PhoneState.Ringing;
-        if (ringReference.IsNull) return;
-        StopCurrentPhoneAudio();
-        _currentPhoneAudio = RuntimeManager.CreateInstance(ringReference);
-        _currentPhoneAudio.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
-        _currentPhoneAudio.start();
-    }
 
     private void AnswerCall()
     {
-        StopCurrentPhoneAudio();
-        _state = PhoneState.LockedCall;
-        OpenPhone(showUI: false);
+        _state = PhoneState.Answered;
+        if (_phoneUI != null) _phoneUI.SetActive(false);
+        if (!putUpPhoneReference.IsNull)
+            RuntimeManager.PlayOneShot(putUpPhoneReference, transform.position);
+        GameEvents.PlayerModeChanged(PlayerMode.InteractionMode);
+        GameEvents.InteractPromptDeactivated();
         OnCallAnswered?.Invoke();
-
-        if (_onAnswerActivateGO != null)
-            _onAnswerActivateGO.SetActive(true);
-
-        if (callConversationReference.IsNull) return;
-        _currentPhoneAudio = RuntimeManager.CreateInstance(callConversationReference);
-        _currentPhoneAudio.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
-        _currentPhoneAudio.start();
     }
 
-    private void OpenPhone(bool showUI = true)
+    private void OpenPhone()
     {
-        if (showUI) _phoneUI.SetActive(true);
+        _state = PhoneState.Open;
+        if (_phoneUI != null) _phoneUI.SetActive(true);
         if (!putUpPhoneReference.IsNull)
             RuntimeManager.PlayOneShot(putUpPhoneReference, transform.position);
         GameEvents.PlayerModeChanged(PlayerMode.InteractionMode);
         if (MouseCursorController.Instance != null) MouseCursorController.Instance.RequestCursor();
         GameEvents.InteractPromptActivated(PromptMessage, ActiveIcon);
-        OnPhoneOpened?.Invoke();
+        OnPickedUp?.Invoke();
     }
 
-    private void ClosePhone()
+    private void HangUp()
     {
-        if (_state == PhoneState.LockedCorrect)
-            _state = PhoneState.WaitingForRing;
-        else
-            _state = PhoneState.Idle;
+        StopCodeAudio();
+        CloseAndRelease();
+        _state = PhoneState.Idle;
+        OnHungUp?.Invoke();
+    }
 
-        _phoneUI.SetActive(false);
-        StopCurrentPhoneAudio();
-        if (!putDownPhoneReference.IsNull)
+    private void CloseAndRelease(bool playHangUpSound = true)
+    {
+        if (_phoneUI != null) _phoneUI.SetActive(false);
+        if (playHangUpSound && !putDownPhoneReference.IsNull)
             RuntimeManager.PlayOneShot(putDownPhoneReference, transform.position);
         GameEvents.InteractPromptDeactivated();
         GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
         if (MouseCursorController.Instance != null) MouseCursorController.Instance.ReleaseCursor();
-        OnPhoneClosed?.Invoke();
     }
 
-    private bool IsAudioFinished()
+    private void ExitInteractionMode()
     {
-        if (!_currentPhoneAudio.isValid()) return true;
-        _currentPhoneAudio.getPlaybackState(out PLAYBACK_STATE state);
-        return state == PLAYBACK_STATE.STOPPED;
+        GameEvents.InteractPromptDeactivated();
+        GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
+        if (MouseCursorController.Instance != null) MouseCursorController.Instance.ReleaseCursor();
     }
 
-    private void StopCurrentPhoneAudio()
+    private void StopCodeAudio()
     {
-        if (_currentPhoneAudio.isValid())
+        if (_codeAudio.isValid())
         {
-            _currentPhoneAudio.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-            _currentPhoneAudio.release();
+            _codeAudio.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            _codeAudio.release();
         }
+    }
+
+    private void ShowBrokenMessage()
+    {
+        if (brokenSubtitles == null) return;
+        brokenSubtitles.Show(brokenMessage, brokenMessagePosition);
+        if (_brokenHideRoutine != null) StopCoroutine(_brokenHideRoutine);
+        _brokenHideRoutine = StartCoroutine(HideBrokenAfterDelay());
+    }
+
+    private System.Collections.IEnumerator HideBrokenAfterDelay()
+    {
+        yield return new WaitForSeconds(brokenSubtitleDuration);
+        if (brokenSubtitles != null) brokenSubtitles.Hide();
+        _brokenHideRoutine = null;
     }
 
     private void OnDestroy()
     {
-        StopCurrentPhoneAudio();
+        StopCodeAudio();
     }
 }

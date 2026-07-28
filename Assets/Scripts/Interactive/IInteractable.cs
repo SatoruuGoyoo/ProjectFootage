@@ -8,5 +8,6 @@ public interface IInteractable
     Sprite PromptIcon { get; }
     bool IsActive { get; }
     Sprite ActiveIcon { get; }
+    bool KeepProximityKeyWhenActive { get; }
     void Interact();
 }

@@ -15,5 +15,6 @@ public abstract class Interactable : MonoBehaviour, IInteractable
     public virtual Sprite PromptIcon => promptIcon;
     public virtual bool IsActive => false;
     public virtual Sprite ActiveIcon => activeIcon;
+    public virtual bool KeepProximityKeyWhenActive => false;
     public abstract void Interact();
 }

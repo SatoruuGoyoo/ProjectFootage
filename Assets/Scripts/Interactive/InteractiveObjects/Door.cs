@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
+using UnityEngine.Events;
 using FMODUnity;
 
 public class Door : Interactable
@@ -9,6 +11,7 @@ public class Door : Interactable
     [SerializeField] private bool playerCanToggle = true;
     [SerializeField] private bool canClose = true;
     [SerializeField] private string lockedFeedback = "";
+    [SerializeField] private float lockedFeedbackDuration = 3f;
 
     [Header("Confirmation (shown once when player has the item)")]
     [TextArea(2, 5)]
@@ -30,10 +33,17 @@ public class Door : Interactable
     [SerializeField] private EventReference closeSound;
     [SerializeField] private EventReference lockedSound;
 
+    [Header("Events")]
+    public UnityEvent OnFirstLockedInteract;
+    public UnityEvent OnLockedInteract;
+    public UnityEvent OnUnlockedWithItem;
+
     private bool isOpen;
     private bool manualLock;
     private bool _itemUsed;
     private bool _pendingConfirm;
+    private bool _lockedInteractedOnce;
+    private bool _lockedFeedbackActive;
     private float _interactCooldownTimer;
     private Quaternion closedRot;
     private Quaternion openRot;
@@ -84,9 +94,10 @@ public class Door : Interactable
 
         if (IsLocked)
         {
+            if (_lockedFeedbackActive) return;
             _interactCooldownTimer = interactCooldown;
             if (!lockedSound.IsNull) RuntimeManager.PlayOneShot(lockedSound, transform.position);
-            GameEvents.FeedbackMessage(lockedFeedback, uiPosition);
+            StartCoroutine(LockedFeedbackRoutine());
             return;
         }
 
@@ -103,11 +114,29 @@ public class Door : Interactable
         Toggle();
     }
 
+    private IEnumerator LockedFeedbackRoutine()
+    {
+        _lockedFeedbackActive = true;
+        GameEvents.FeedbackMessage(lockedFeedback, uiPosition, lockedFeedbackDuration);
+
+        yield return new WaitForSeconds(lockedFeedbackDuration);
+
+        OnLockedInteract?.Invoke();
+        if (!_lockedInteractedOnce)
+        {
+            _lockedInteractedOnce = true;
+            OnFirstLockedInteract?.Invoke();
+        }
+
+        _lockedFeedbackActive = false;
+    }
+
     private void OnConfirmed()
     {
         _pendingConfirm = false;
         _itemUsed = true;
         _interactCooldownTimer = interactCooldown;
+        OnUnlockedWithItem?.Invoke();
         Open();
     }
 

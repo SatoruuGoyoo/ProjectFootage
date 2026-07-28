@@ -88,7 +88,7 @@ public class PlayerInteractor : MonoBehaviour
             RefreshCurrent();
         }
 
-        if (current != null && current.IsActive && _cancelAction.WasPressedThisFrame())
+        if (current != null && current.IsActive && !current.KeepProximityKeyWhenActive && _cancelAction.WasPressedThisFrame())
         {
             current.Interact();
             RefreshCurrent();
@@ -143,7 +143,7 @@ public class PlayerInteractor : MonoBehaviour
 
         if (nextActive)
         {
-            GameEvents.InteractPromptActivated(prompt, icon);
+            GameEvents.InteractPromptActivated(prompt, icon, next.KeepProximityKeyWhenActive);
             return;
         }
 

@@ -10,7 +10,7 @@ public static class GameEvents
     public static event Action<string, UnityEngine.Sprite> OnInteractPromptChanged;
 
     // Interact Prompt State
-    public static event Action<string, UnityEngine.Sprite> OnInteractPromptActivated;
+    public static event Action<string, UnityEngine.Sprite, bool> OnInteractPromptActivated;
     public static event Action OnInteractPromptDeactivated;
 
     // Items
@@ -67,7 +67,7 @@ public static class GameEvents
 
     // ── INTERACTION ──────────────────────────────────────────────────────────
     public static void InteractPromptChanged(string newPrompt, UnityEngine.Sprite icon = null) => OnInteractPromptChanged?.Invoke(newPrompt, icon);
-    public static void InteractPromptActivated(string promptType, UnityEngine.Sprite icon = null) => OnInteractPromptActivated?.Invoke(promptType, icon);
+    public static void InteractPromptActivated(string promptType, UnityEngine.Sprite icon = null, bool keepProximityKey = false) => OnInteractPromptActivated?.Invoke(promptType, icon, keepProximityKey);
     public static void InteractPromptDeactivated() => OnInteractPromptDeactivated?.Invoke();
 
     // ── ITEMS ────────────────────────────────────────────────────────────────
