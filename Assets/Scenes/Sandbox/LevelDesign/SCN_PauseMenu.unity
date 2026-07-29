@@ -38013,7 +38013,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64.814064, y: -44.533}
+  m_AnchoredPosition: {x: 64.813965, y: -44.533}
   m_SizeDelta: {x: 50, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &514311462
@@ -114383,7 +114383,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 68.671265, y: 6.0734863}
+  m_AnchoredPosition: {x: 68.67114, y: 6.0734863}
   m_SizeDelta: {x: -111.7251, y: 64.0934}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &726123357
@@ -125614,6 +125614,7 @@ MonoBehaviour:
   playerCanToggle: 0
   canClose: 1
   lockedFeedback: 
+  lockedFeedbackDuration: 3
   confirmationText: 
   startOpen: 1
   interactCooldown: 0.5
@@ -125641,6 +125642,15 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  OnFirstLockedInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLockedInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &880908124
 GameObject:
   m_ObjectHideFlags: 0
@@ -142627,6 +142637,7 @@ MonoBehaviour:
   playerCanToggle: 1
   canClose: 0
   lockedFeedback: The door is missing <color="red">something</color>
+  lockedFeedbackDuration: 3
   confirmationText: "Seems the <color=\"blue\">doorknob</color> goes here. \nDo I
     put it?"
   startOpen: 0
@@ -142655,6 +142666,15 @@ MonoBehaviour:
       Data3: 1076765590
       Data4: -704320750
     Path: event:/SFX/Door/LockedDoor/LockedDoor
+  OnFirstLockedInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLockedInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!65 &1154864157
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -144886,6 +144906,7 @@ MonoBehaviour:
   playerCanToggle: 1
   canClose: 1
   lockedFeedback: Locked as well
+  lockedFeedbackDuration: 3
   confirmationText: 
   startOpen: 0
   interactCooldown: 0.5
@@ -144913,6 +144934,15 @@ MonoBehaviour:
       Data3: 1076765590
       Data4: -704320750
     Path: event:/SFX/Door/LockedDoor/LockedDoor
+  OnFirstLockedInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLockedInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!65 &1180672862
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -231172,6 +231202,7 @@ MonoBehaviour:
   playerCanToggle: 0
   canClose: 1
   lockedFeedback: Im trapped !
+  lockedFeedbackDuration: 3
   confirmationText: 
   startOpen: 0
   interactCooldown: 0.5
@@ -231199,6 +231230,15 @@ MonoBehaviour:
       Data3: 1076765590
       Data4: -704320750
     Path: event:/SFX/Door/LockedDoor/LockedDoor
+  OnFirstLockedInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLockedInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!65 &1291413180
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -318015,6 +318055,7 @@ MonoBehaviour:
   playerCanToggle: 1
   canClose: 1
   lockedFeedback: Locked...
+  lockedFeedbackDuration: 3
   confirmationText: 
   startOpen: 0
   interactCooldown: 3
@@ -318042,6 +318083,15 @@ MonoBehaviour:
       Data3: 1076765590
       Data4: -704320750
     Path: event:/SFX/Door/LockedDoor/LockedDoor
+  OnFirstLockedInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLockedInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!65 &1380934563
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -334905,9 +334955,8 @@ MonoBehaviour:
   isBroken: 1
   brokenMessage: This one is broken too
   brokenMessagePosition: 7
-  brokenMessageDuration: 2
-  _player: {fileID: 1875973313}
-  _maxDistance: 1.5
+  brokenSubtitles: {fileID: 0}
+  brokenSubtitleDuration: 3
   putUpPhoneReference:
     Guid:
       Data1: 1949342055
@@ -334943,20 +334992,6 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
-  ringReference:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  callConversationReference:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
   navigateSound:
     Guid:
       Data1: 0
@@ -334965,20 +335000,25 @@ MonoBehaviour:
       Data4: 0
     Path: 
   _phoneUI: {fileID: 633956825}
-  _onAnswerActivateGO: {fileID: 0}
   _openPrompt: .
   _closePrompt: .
   _answerPrompt: .
-  OnPhoneOpened:
+  OnPickedUp:
     m_PersistentCalls:
       m_Calls: []
-  OnPhoneClosed:
+  OnHungUp:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCodeCorrect:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCodeWrong:
     m_PersistentCalls:
       m_Calls: []
   OnCallAnswered:
     m_PersistentCalls:
       m_Calls: []
-  OnConversationEnded:
+  OnBrokenInteract:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &1641815010
@@ -339961,6 +340001,7 @@ MonoBehaviour:
   playerCanToggle: 1
   canClose: 1
   lockedFeedback: Damn! its locked
+  lockedFeedbackDuration: 3
   confirmationText: Seems the doorknob goes here. Do I put it?
   startOpen: 0
   interactCooldown: 0.5
@@ -339988,6 +340029,15 @@ MonoBehaviour:
       Data3: 1076765590
       Data4: -704320750
     Path: event:/SFX/Door/LockedDoor/LockedDoor
+  OnFirstLockedInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLockedInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!65 &1713720987
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -484800,9 +484850,8 @@ MonoBehaviour:
   isBroken: 1
   brokenMessage: This one is broken.
   brokenMessagePosition: 7
-  brokenMessageDuration: 2
-  _player: {fileID: 1875973313}
-  _maxDistance: 1.5
+  brokenSubtitles: {fileID: 0}
+  brokenSubtitleDuration: 3
   putUpPhoneReference:
     Guid:
       Data1: 1949342055
@@ -484838,20 +484887,6 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
-  ringReference:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  callConversationReference:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
   navigateSound:
     Guid:
       Data1: 0
@@ -484860,20 +484895,25 @@ MonoBehaviour:
       Data4: 0
     Path: 
   _phoneUI: {fileID: 633956825}
-  _onAnswerActivateGO: {fileID: 0}
   _openPrompt: .
   _closePrompt: .
   _answerPrompt: .
-  OnPhoneOpened:
+  OnPickedUp:
     m_PersistentCalls:
       m_Calls: []
-  OnPhoneClosed:
+  OnHungUp:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCodeCorrect:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCodeWrong:
     m_PersistentCalls:
       m_Calls: []
   OnCallAnswered:
     m_PersistentCalls:
       m_Calls: []
-  OnConversationEnded:
+  OnBrokenInteract:
     m_PersistentCalls:
       m_Calls: []
 --- !u!65 &2027376367
@@ -490862,9 +490902,8 @@ MonoBehaviour:
   isBroken: 0
   brokenMessage: El telefono no funciona
   brokenMessagePosition: 7
-  brokenMessageDuration: -1
-  _player: {fileID: 1875973313}
-  _maxDistance: 1.5
+  brokenSubtitles: {fileID: 0}
+  brokenSubtitleDuration: 3
   putUpPhoneReference:
     Guid:
       Data1: 1949342055
@@ -490900,20 +490939,6 @@ MonoBehaviour:
       Data3: 419948194
       Data4: -1746732197
     Path: event:/SFX/RedTelephone/Call
-  ringReference:
-    Guid:
-      Data1: 53295457
-      Data2: 1297457403
-      Data3: -1901098573
-      Data4: -1292188141
-    Path: event:/SFX/RedTelephone/Ring
-  callConversationReference:
-    Guid:
-      Data1: -1254169112
-      Data2: 1115292602
-      Data3: 1090393485
-      Data4: -29859285
-    Path: event:/Horror/PhoneConversation
   navigateSound:
     Guid:
       Data1: 0
@@ -490922,46 +490947,27 @@ MonoBehaviour:
       Data4: 0
     Path: 
   _phoneUI: {fileID: 1113736674}
-  _onAnswerActivateGO: {fileID: 691287545}
   _openPrompt: .
   _closePrompt: .
   _answerPrompt: .
-  OnPhoneOpened:
+  OnPickedUp:
     m_PersistentCalls:
       m_Calls: []
-  OnPhoneClosed:
+  OnHungUp:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCodeCorrect:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCodeWrong:
     m_PersistentCalls:
       m_Calls: []
   OnCallAnswered:
     m_PersistentCalls:
       m_Calls: []
-  OnConversationEnded:
+  OnBrokenInteract:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1024916460}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 154109008}
-        m_TargetAssemblyTypeName: DoorActivator, Assembly-CSharp
-        m_MethodName: ActivateDoor
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!65 &2108997844
 BoxCollider:
   m_ObjectHideFlags: 0
