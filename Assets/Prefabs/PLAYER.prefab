@@ -652,7 +652,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5412732141011941280}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.40678692, y: 0.41111904, z: -0.45663568, w: -0.67600995}
+  m_LocalRotation: {x: 0.60884726, y: 0.1870162, z: -0.4876853, w: -0.59707034}
   m_LocalPosition: {x: 0.008, y: 0.123, z: 0.041}
   m_LocalScale: {x: 8.902318, y: 2.74599, z: 2.791486}
   m_ConstrainProportionsScale: 1
@@ -660,7 +660,7 @@ Transform:
   - {fileID: 3748538225528424062}
   - {fileID: 4424313943855849595}
   m_Father: {fileID: 9172725088655615527}
-  m_LocalEulerAnglesHint: {x: -10.051, y: 289.64398, z: 75.17}
+  m_LocalEulerAnglesHint: {x: -33, y: 283, z: 105}
 --- !u!33 &8790048173324392597
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1005,8 +1005,8 @@ Light:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 7
   m_Range: 20
-  m_SpotAngle: 60
-  m_InnerSpotAngle: 30.636818
+  m_SpotAngle: 148.82022
+  m_InnerSpotAngle: 32.449482
   m_CookieSize2D: {x: 0.5, y: 0.5}
   m_Shadows:
     m_Type: 1
@@ -1015,7 +1015,7 @@ Light:
     m_Strength: 1
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 0.9450174
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -1180,6 +1180,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CamcorderController
   camcorderVisual: {fileID: 4180035918772650141}
   playerMotor: {fileID: 8963212244730326767}
+  recordingCamera: {fileID: 0}
   prepareTimer: 0
   recordTimer: 0
   prepareDuration: 0

@@ -13,7 +13,6 @@ public class ExplorationInteractable : Interactable
 
     [Header("Settings")]
     [SerializeField] private bool oneTimeOnly = false;
-    [SerializeField] private bool blockMovement = false;
 
     [Header("Events")]
     public UnityEvent OnExamineStarted;
@@ -24,7 +23,7 @@ public class ExplorationInteractable : Interactable
 
     public override string PromptMessage => examinePrompt;
     public override bool CanInteract => !_used && lines != null && lines.Length > 0;
-    public override bool BlockMovement => blockMovement;
+    public override bool BlockMovement => true;
     public override bool IsActive => _index >= 0;
     public override bool KeepProximityKeyWhenActive => true;
 
@@ -39,7 +38,11 @@ public class ExplorationInteractable : Interactable
         }
 
         if (_index == 0)
+        {
+            GameEvents.PlayerModeChanged(PlayerMode.InteractionMode);
+            GameEvents.InteractPromptActivated(PromptMessage, ActiveIcon, KeepProximityKeyWhenActive);
             OnExamineStarted?.Invoke();
+        }
 
         subtitles.Show(lines[_index], uiPosition);
     }
@@ -49,6 +52,15 @@ public class ExplorationInteractable : Interactable
         _index = -1;
         subtitles.Hide();
         if (oneTimeOnly) _used = true;
+
+        GameEvents.InteractPromptDeactivated();
+        GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
+
         OnExamineFinished?.Invoke();
+    }
+
+    private void OnDisable()
+    {
+        if (_index >= 0) EndSequence();
     }
 }

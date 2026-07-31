@@ -81,13 +81,12 @@ public class PhoneInteractable : Interactable
         switch (_state)
         {
             case PhoneState.Idle:
+                OpenPhone();
                 if (isBroken)
                 {
                     ShowBrokenMessage();
                     OnBrokenInteract?.Invoke();
-                    return;
                 }
-                OpenPhone();
                 break;
 
             case PhoneState.Ringing:
@@ -104,6 +103,7 @@ public class PhoneInteractable : Interactable
 
     public void SubmitCode(bool correct)
     {
+        if (isBroken) return;
         StopCodeAudio();
 
         if (correct)
