@@ -19068,6 +19068,95 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e9d14b76a380f854fa1d21dd58d42e25, type: 3}
   m_PrefabInstance: {fileID: 1672541506}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &260616817
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 260616818}
+  - component: {fileID: 260616823}
+  - component: {fileID: 260616819}
+  m_Layer: 0
+  m_Name: RainManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &260616818
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 260616817}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -4.47, y: 1.3786197, z: 0.62}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 432356622}
+  - {fileID: 1626482128}
+  - {fileID: 1329653344}
+  m_Father: {fileID: 1393217751}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &260616819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 260616817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a46bd5ee3ad0a54fa5567dd2422bf1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RainController
+  interiorRain:
+    Guid:
+      Data1: 1170681593
+      Data2: 1329381463
+      Data3: 1121140921
+      Data4: -1170180201
+    Path: event:/Ambience/Interior/Rain_Interior
+  exteriorRain:
+    Guid:
+      Data1: 1318298
+      Data2: 1203392598
+      Data3: 1307980972
+      Data4: 1467950379
+    Path: event:/Ambience/Exterior/Rain_Ext
+  interiorSource: {fileID: 432356622}
+  exteriorSource: {fileID: 1626482128}
+  player: {fileID: 1875973313}
+  blendSpeed: 3
+  interiorFadeOutDistance: 10
+  exteriorFadeOutDistance: 10
+--- !u!65 &260616823
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 260616817}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 11.587776, y: 1.9956198, z: 15.796662}
+  m_Center: {x: 5.084178, y: -0.83369684, z: -0.16502428}
 --- !u!1 &260805625
 GameObject:
   m_ObjectHideFlags: 0
@@ -30225,6 +30314,37 @@ MonoBehaviour:
     text: The radio is playing again
     displayDurationNoAudio: 3
     graceTimeAfterAudio: 0.5
+--- !u!1 &432356621
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 432356622}
+  m_Layer: 0
+  m_Name: --- AMB_Rain_Interior_313 ---
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &432356622
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 432356621}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 7.838, y: 1.063, z: -0.125}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 260616818}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &437916750
 GameObject:
   m_ObjectHideFlags: 0
@@ -125773,11 +125893,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayFMODSoundStep
   soundEvent:
     Guid:
-      Data1: -528575192
-      Data2: 1309612817
-      Data3: 1707948188
-      Data4: 939620495
-    Path: event:/SFX/LightsOff
+      Data1: -977814024
+      Data2: 1255070791
+      Data3: -738527850
+      Data4: 1970527592
+    Path: event:/SFX/Drawer_Falling
   waitForFinish: 0
   soundPosition: {fileID: 0}
 --- !u!1 &876482207
@@ -313610,6 +313730,75 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!1 &1329653343
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1329653344}
+  - component: {fileID: 1329653346}
+  - component: {fileID: 1329653345}
+  m_Layer: 0
+  m_Name: Rain_Stop
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1329653344
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1329653343}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 12.597, y: -1.445, z: -6.742}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 260616818}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1329653345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1329653343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bc986a228330b9488ca890c22a273c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RainStopTrigger
+  rainController: {fileID: 260616819}
+  playerTag: Player
+  disableAfterTrigger: 1
+--- !u!65 &1329653346
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1329653343}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.58701324, y: 1, z: 1}
+  m_Center: {x: 0.0850296, y: 0, z: 0}
 --- !u!43 &1330745838
 Mesh:
   m_ObjectHideFlags: 0
@@ -319138,6 +319327,7 @@ Transform:
   - {fileID: 644166748}
   - {fileID: 1594105357}
   - {fileID: 790730456}
+  - {fileID: 260616818}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1393370826
@@ -333497,6 +333687,37 @@ MonoBehaviour:
   blockLift: 1
   blockRecord: 1
   blockMenu: 1
+--- !u!1 &1626482127
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1626482128}
+  m_Layer: 0
+  m_Name: '--- AMB_Rain_Exterior --- '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1626482128
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1626482127}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -3.16, y: -0.928, z: -2.13}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 260616818}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &1632082689
 Mesh:
   m_ObjectHideFlags: 0
