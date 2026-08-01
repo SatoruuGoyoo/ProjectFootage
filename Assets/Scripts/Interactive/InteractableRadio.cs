@@ -22,6 +22,7 @@ public class InteractableRadio : Interactable
     public override bool CanInteract => !_used;
     public override bool BlockMovement => false;
     public override bool IsActive => _source.IsPlaying;
+    public override bool KeepProximityKeyWhenActive => true;
 
     private void Awake()
     {

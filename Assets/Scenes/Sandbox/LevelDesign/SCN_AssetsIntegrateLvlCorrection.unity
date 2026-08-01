@@ -12486,6 +12486,7 @@ GameObject:
   - component: {fileID: 222011769}
   - component: {fileID: 222011768}
   - component: {fileID: 222011772}
+  - component: {fileID: 222011773}
   m_Layer: 0
   m_Name: Hallway_Camera_1
   m_TagString: Untagged
@@ -12640,6 +12641,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioListener
   nonRigidbodyVelocity: 0
   attenuationObject: {fileID: 0}
+--- !u!114 &222011773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 222011766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86f31e88352777842a3c1e6ecfc51b7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FixedCameraOcclusionSource
+  visibleZones:
+  - {fileID: 1672395153}
+  margin: 1
+  occluderMask:
+    serializedVersion: 2
+    m_Bits: 0
+  hiddenByOccluders: []
 --- !u!4 &222315373 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0d114d908d688834590b0845979fbf99, type: 3}
@@ -104777,11 +104797,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayFMODSoundStep
   soundEvent:
     Guid:
-      Data1: -528575192
-      Data2: 1309612817
-      Data3: 1707948188
-      Data4: 939620495
-    Path: event:/SFX/LightsOff
+      Data1: -977814024
+      Data2: 1255070791
+      Data3: -738527850
+      Data4: 1970527592
+    Path: event:/SFX/Drawer_Falling
   waitForFinish: 0
   soundPosition: {fileID: 0}
 --- !u!1 &876482207
@@ -105438,6 +105458,7 @@ GameObject:
   - component: {fileID: 885884761}
   - component: {fileID: 885884760}
   - component: {fileID: 885884764}
+  - component: {fileID: 885884765}
   m_Layer: 0
   m_Name: Hallway_Camera_2
   m_TagString: Untagged
@@ -105590,6 +105611,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioListener
   nonRigidbodyVelocity: 0
   attenuationObject: {fileID: 0}
+--- !u!114 &885884765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 885884758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86f31e88352777842a3c1e6ecfc51b7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FixedCameraOcclusionSource
+  visibleZones:
+  - {fileID: 1672395153}
+  margin: 1
+  occluderMask:
+    serializedVersion: 2
+    m_Bits: 0
+  hiddenByOccluders: []
 --- !u!1 &888088849
 GameObject:
   m_ObjectHideFlags: 0
@@ -110288,6 +110328,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c2da6c6c032942e41b79ba09cbc99bc1, type: 3}
   m_PrefabInstance: {fileID: 1058631044}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1058796675
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1058796676}
+  - component: {fileID: 1058796677}
+  m_Layer: 0
+  m_Name: Wait_2_Seconds
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1058796676
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1058796675}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1741382707}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1058796677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1058796675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dd65fa4470df2142a3c1d06a16be7d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaitSecondsStep
+  seconds: 1
 --- !u!1 &1060123807
 GameObject:
   m_ObjectHideFlags: 0
@@ -115292,8 +115377,8 @@ MonoBehaviour:
   activeIcon: {fileID: 0}
   requiredItemId: 
   startLocked: 1
-  playerCanToggle: 1
-  canClose: 1
+  playerCanToggle: 0
+  canClose: 0
   lockedFeedback: Locked as well
   lockedFeedbackDuration: 3
   confirmationText: 
@@ -280074,13 +280159,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1354877663}
   serializedVersion: 2
-  m_LocalRotation: {x: -7.105427e-14, y: -1, z: -0.00000004470348, w: 0.00000058114534}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 17.643696, y: 5.6225, z: 9.4261}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1619270692}
-  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1354877665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281525,14 +281610,14 @@ Transform:
   m_GameObject: {fileID: 1375874806}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10.682301, y: 6.64346, z: -7.8324804}
+  m_LocalPosition: {x: -4.4699993, y: 1.3786197, z: 0.6199999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 487399581}
   - {fileID: 241349850}
   - {fileID: 830981214}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1393217751}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1376749576
 GameObject:
@@ -282338,6 +282423,7 @@ Transform:
   - {fileID: 400422573}
   - {fileID: 675935993}
   - {fileID: 438994677}
+  - {fileID: 1375874809}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1393370826
@@ -285270,7 +285356,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dd65fa4470df2142a3c1d06a16be7d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaitSecondsStep
-  seconds: 2
+  seconds: 1
 --- !u!4 &1462154449
 Transform:
   m_ObjectHideFlags: 0
@@ -298148,14 +298234,15 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1091050646}
-  - {fileID: 1462154449}
   - {fileID: 300136747}
   - {fileID: 1727982513}
   - {fileID: 196886842}
+  - {fileID: 1462154449}
   - {fileID: 431649268}
   - {fileID: 2113881288}
-  - {fileID: 1785666350}
   - {fileID: 1093229120}
+  - {fileID: 1058796676}
+  - {fileID: 1785666350}
   - {fileID: 770582582}
   - {fileID: 209521538}
   - {fileID: 1482395236}
@@ -298281,7 +298368,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.78431374}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -357274,7 +357361,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CinematicBarsStep
   action: 0
-  fadeDuration: 1
+  fadeDuration: 0.5
   curve:
     serializedVersion: 2
     m_Curve:
@@ -441268,6 +441355,10 @@ PrefabInstance:
       propertyPath: playbackListener
       value: 
       objectReference: {fileID: 2113813940}
+    - target: {fileID: 8365216236012476066, guid: 5b8f8b8138eaad84bba31e9a53e0981f, type: 3}
+      propertyPath: m_Intensity
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -442104,4 +442195,3 @@ SceneRoots:
   - {fileID: 1376749577}
   - {fileID: 494806288}
   - {fileID: 1531222313}
-  - {fileID: 1375874809}
