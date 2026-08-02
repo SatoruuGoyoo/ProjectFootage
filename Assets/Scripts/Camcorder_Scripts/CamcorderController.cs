@@ -53,8 +53,17 @@ public class CamcorderController : MonoBehaviour
         _motor = GetComponent<CamcorderMotor>();
     }
 
-    private void OnEnable() => GameEvents.OnPlayerModeChanged += OnPlayerModeChanged;
-    private void OnDisable() => GameEvents.OnPlayerModeChanged -= OnPlayerModeChanged;
+    private void OnEnable()
+    {
+        GameEvents.OnPlayerModeChanged += OnPlayerModeChanged;
+        GameEvents.OnRecordableEventCompleted += OnRecordableEventCompleted;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.OnPlayerModeChanged -= OnPlayerModeChanged;
+        GameEvents.OnRecordableEventCompleted -= OnRecordableEventCompleted;
+    }
 
     private void Start()
     {
@@ -75,6 +84,11 @@ public class CamcorderController : MonoBehaviour
             prepareTimer = 0f;
             recordTimer = 0f;
         }
+    }
+    private void OnRecordableEventCompleted(string eventId)
+    {
+        if (_currentCamMode == CamcorderMode.Recording)
+            StopRecording();
     }
 
     private void Update()
