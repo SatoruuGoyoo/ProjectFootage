@@ -40,11 +40,11 @@ public class FlashlightController : MonoBehaviour
         if (flashlight != null) flashlight.enabled = _isCameraUp;
     }
 
-    private void LateUpdate()
-    {
-        if (!syncWithFrustum || referenceCamera == null || flashlight == null || !_isCameraUp) return;
+    //private void LateUpdate()
+    //{
+    //    if (!syncWithFrustum || referenceCamera == null || flashlight == null || !_isCameraUp) return;
 
-        flashlight.range = referenceCamera.farClipPlane * rangeMultiplier;
-        flashlight.spotAngle = Mathf.Clamp(referenceCamera.fieldOfView + angleBonus, 1f, 179f);
-    }
+    //    flashlight.range = referenceCamera.farClipPlane * rangeMultiplier;
+    //    flashlight.spotAngle = Mathf.Clamp(referenceCamera.fieldOfView + angleBonus, 1f, 179f);
+    //}
 }
