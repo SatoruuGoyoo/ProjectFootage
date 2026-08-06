@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,6 +18,10 @@ public class PauseMenuUI : MonoBehaviour
 
     [Header("Scene")]
     [SerializeField] private SceneField mainMenuScene;
+
+    [Header("Timing")]
+    [SerializeField] private float fadeOutDuration = 0.8f;
+    [SerializeField] private float fadeInDuration = 0.8f;
 
     [Header("Sounds")]
     [SerializeField] private string clickEvent = "event:/MainMenu/UI - UX/UI - ButtonClick";
@@ -80,9 +85,29 @@ public class PauseMenuUI : MonoBehaviour
 
     public void LoadMainMenu()
     {
+        StartCoroutine(LoadMainMenuRoutine());
+    }
+
+    private IEnumerator LoadMainMenuRoutine()
+    {
         if (FadeManager.Instance != null)
         {
-            FadeManager.Instance.FadeToScene(mainMenuScene, string.Empty);
+            yield return FadeManager.Instance.FadeOut(fadeOutDuration);
+
+            AsyncOperation loadOp = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(mainMenuScene);
+            loadOp.allowSceneActivation = false;
+
+            while (loadOp.progress < 0.9f)
+                yield return null;
+
+            loadOp.allowSceneActivation = true;
+
+            while (!loadOp.isDone)
+                yield return null;
+
+            yield return new WaitForEndOfFrame();
+
+            yield return FadeManager.Instance.FadeIn(fadeInDuration);
         }
         else
         {

@@ -30,6 +30,7 @@ public class CamcorderInput : MonoBehaviour
     public bool StopRecordingHeld { get; private set; }
 
     private PlayerInputActions actions;
+    private bool _isPaused;
 
     private void Awake() => actions = new PlayerInputActions();
 
@@ -38,6 +39,7 @@ public class CamcorderInput : MonoBehaviour
         actions.Exploration.Enable();
         actions.Camera.Enable();
         actions.MenuCamera.Enable();
+        GameEvents.OnPauseChanged += OnPauseChanged;
     }
 
     private void OnDisable()
@@ -45,10 +47,23 @@ public class CamcorderInput : MonoBehaviour
         actions.Exploration.Disable();
         actions.Camera.Disable();
         actions.MenuCamera.Disable();
+        GameEvents.OnPauseChanged -= OnPauseChanged;
+    }
+
+    private void OnPauseChanged(bool paused)
+    {
+        _isPaused = paused;
+        if (paused) ClearAll();
     }
 
     private void Update()
     {
+        if (InputLock.AllBlocked || _isPaused)
+        {
+            ClearAll();
+            return;
+        }
+
         LiftCamera = actions.Exploration.LiftCamera.WasPressedThisFrame() ||
                      actions.Camera.PutDownCamera.WasPressedThisFrame();
         RecordingRotate = actions.Camera.RecordingRotate.ReadValue<float>();
@@ -74,5 +89,31 @@ public class CamcorderInput : MonoBehaviour
         PlayPauseRecordingHeld = actions.MenuCamera.PlayPause.IsPressed();
         DiscardRecordingHeld = actions.MenuCamera.Discard.IsPressed();
         StopRecordingHeld = actions.MenuCamera.Stop.IsPressed();
+    }
+
+    private void ClearAll()
+    {
+        LiftCamera = false;
+        RecordingRotate = 0f;
+        RecordingTilt = 0f;
+        TiltCamera = 0f;
+        IsPreparingRecording = false;
+        StartedRecording = false;
+        IsRecordingReleased = false;
+        OpenCloseMenu = false;
+        NavigateRight = false;
+        NavigateLeft = false;
+        PlayPauseRecording = false;
+        RewindRecording = false;
+        FastForwardRecording = false;
+        RotateRecording = 0f;
+        DiscardRecording = false;
+        StopRecording = false;
+        OpenCloseMenuHeld = false;
+        NavigateRightHeld = false;
+        NavigateLeftHeld = false;
+        PlayPauseRecordingHeld = false;
+        DiscardRecordingHeld = false;
+        StopRecordingHeld = false;
     }
 }

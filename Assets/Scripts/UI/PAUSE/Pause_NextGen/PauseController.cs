@@ -2,70 +2,72 @@ using UnityEngine;
 
 public class PauseController : MonoBehaviour
 {
-    [SerializeField] private PauseMenuUI ui;
-    [SerializeField] private KeyCode pauseKey = KeyCode.Escape;
+    [SerializeField] private PauseMenuUI menuUI;
 
     private bool _isPaused;
-    private bool _isTransitioning;
-
-    public bool IsPaused => _isPaused;
+    private bool _isClosing;
 
     private void Update()
     {
-        if (Input.GetKeyDown(pauseKey))
-            Toggle();
-    }
-
-    private void Toggle()
-    {
-        if (_isTransitioning) return;
+        if (!Input.GetKeyDown(KeyCode.Escape)) return;
+        if (InputLock.AllBlocked) return;
 
         if (_isPaused) Resume();
         else Pause();
     }
 
-    public void Pause()
+    private void Pause()
     {
         if (_isPaused) return;
 
         _isPaused = true;
+        _isClosing = false;
         Time.timeScale = 0f;
-
-        if (MouseCursorController.Instance != null)
-            MouseCursorController.Instance.RequestCursor();
-
         GameEvents.PauseChanged(true);
-        ui.Show();
+
+        if (menuUI != null) menuUI.Show();
     }
 
     public void Resume()
     {
-        if (!_isPaused) return;
+        if (!_isPaused || _isClosing) return;
 
-        _isTransitioning = true;
-        ui.Hide(OnHideFinished);
+        _isClosing = true;
+        Time.timeScale = 1f;
+        GameEvents.PauseChanged(false);
+
+        if (menuUI != null)
+            menuUI.Hide(OnHideFinished);
+        else
+            OnHideFinished();
     }
 
     private void OnHideFinished()
     {
         _isPaused = false;
-        _isTransitioning = false;
-        Time.timeScale = 1f;
-
-        if (MouseCursorController.Instance != null)
-            MouseCursorController.Instance.ReleaseCursor();
-
-        GameEvents.PauseChanged(false);
+        _isClosing = false;
     }
 
     public void QuitToMainMenu()
     {
         Time.timeScale = 1f;
+        _isPaused = false;
+        _isClosing = false;
 
-        if (MouseCursorController.Instance != null)
-            MouseCursorController.Instance.ReleaseCursor();
+        ResetStaticState();
 
-        GameEvents.PauseChanged(false);
-        ui.LoadMainMenu();
+        if (menuUI != null)
+            menuUI.LoadMainMenu();
+    }
+
+    private void ResetStaticState()
+    {
+        InputLock.AllBlocked = false;
+        PlayerController.MovementBlocked = false;
+        PlayerController.ForwardOnlyMode = false;
+        PlayerInput.SprintBlocked = false;
+        CamcorderController.LiftInputBlocked = false;
+        CamcorderController.RecordInputBlocked = false;
+        CamcorderMenuController.MenuInputBlocked = false;
     }
 }
