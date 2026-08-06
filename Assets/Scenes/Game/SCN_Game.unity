@@ -93,7 +93,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: d1731955079a50245a73528ec4353aad, type: 2}
+  m_LightingDataAsset: {fileID: 0}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -17795,7 +17795,7 @@ MonoBehaviour:
       text: What the fuck was that
       displayDurationNoAudio: 3
       graceTimeAfterAudio: 0
-  - eventId: frame_iter1
+  - eventId: girl_ID
     line:
       audioEvent:
         Guid:
@@ -17804,19 +17804,7 @@ MonoBehaviour:
           Data3: 0
           Data4: 0
         Path: 
-      text: ...
-      displayDurationNoAudio: 3
-      graceTimeAfterAudio: 0
-  - eventId: frame_iter2
-    line:
-      audioEvent:
-        Guid:
-          Data1: 0
-          Data2: 0
-          Data3: 0
-          Data4: 0
-        Path: 
-      text: I'm feeling... weird...
+      text: What the fuck was that!
       displayDurationNoAudio: 3
       graceTimeAfterAudio: 0
 --- !u!1 &293487364
@@ -22533,6 +22521,8 @@ Transform:
   - {fileID: 1174801944}
   - {fileID: 18027192}
   - {fileID: 158913155}
+  - {fileID: 1912452851}
+  - {fileID: 1198815028}
   m_Father: {fileID: 1834319171}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &385400579
@@ -103759,7 +103749,7 @@ GameObject:
   m_Component:
   - component: {fileID: 720404342}
   - component: {fileID: 720404343}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GIRL_SFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104986,7 +104976,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 58046be894e390247b71348916f9d5a1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.553999
+      value: -1.554
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 58046be894e390247b71348916f9d5a1, type: 3}
       propertyPath: m_LocalPosition.y
@@ -104994,7 +104984,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 58046be894e390247b71348916f9d5a1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 8.128001
+      value: 7.696
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 58046be894e390247b71348916f9d5a1, type: 3}
       propertyPath: m_LocalRotation.w
@@ -107182,6 +107172,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -9048598699203551457, guid: 4db7dd2290546be41a4d7ad5c33a5bfc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4db7dd2290546be41a4d7ad5c33a5bfc, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.0578127
@@ -107234,13 +107228,85 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8480856180336937475, guid: 4db7dd2290546be41a4d7ad5c33a5bfc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -8466513957963004186, guid: 4db7dd2290546be41a4d7ad5c33a5bfc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -7772503801933282300, guid: 4db7dd2290546be41a4d7ad5c33a5bfc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -7107342587403584723, guid: 4db7dd2290546be41a4d7ad5c33a5bfc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -6859734995054323733, guid: 4db7dd2290546be41a4d7ad5c33a5bfc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -6839124409912633390, guid: 4db7dd2290546be41a4d7ad5c33a5bfc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -5331282631945313676, guid: 4db7dd2290546be41a4d7ad5c33a5bfc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -4372093788385109707, guid: 4db7dd2290546be41a4d7ad5c33a5bfc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -2588787237552858410, guid: 4db7dd2290546be41a4d7ad5c33a5bfc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -1860385238112678227, guid: 4db7dd2290546be41a4d7ad5c33a5bfc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 827075974287967996, guid: 4db7dd2290546be41a4d7ad5c33a5bfc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4db7dd2290546be41a4d7ad5c33a5bfc, type: 3}
       propertyPath: m_Name
       value: Ghost_Girl_Bath2
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4db7dd2290546be41a4d7ad5c33a5bfc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4db7dd2290546be41a4d7ad5c33a5bfc, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1752310950642210314, guid: 4db7dd2290546be41a4d7ad5c33a5bfc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2026739370263361038, guid: 4db7dd2290546be41a4d7ad5c33a5bfc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3672555003974348759, guid: 4db7dd2290546be41a4d7ad5c33a5bfc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5186244267734953177, guid: 4db7dd2290546be41a4d7ad5c33a5bfc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5246734254825892853, guid: 4db7dd2290546be41a4d7ad5c33a5bfc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5358185493486015155, guid: 4db7dd2290546be41a4d7ad5c33a5bfc, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 4db7dd2290546be41a4d7ad5c33a5bfc, type: 3}
       propertyPath: m_Controller
@@ -107250,10 +107316,42 @@ PrefabInstance:
       propertyPath: m_ApplyRootMotion
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5892283089725906527, guid: 4db7dd2290546be41a4d7ad5c33a5bfc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5901626889645293224, guid: 4db7dd2290546be41a4d7ad5c33a5bfc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6057286732890248245, guid: 4db7dd2290546be41a4d7ad5c33a5bfc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7036213049465896255, guid: 4db7dd2290546be41a4d7ad5c33a5bfc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7169882021502703907, guid: 4db7dd2290546be41a4d7ad5c33a5bfc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8111781155169087978, guid: 4db7dd2290546be41a4d7ad5c33a5bfc, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 296a3c9fab6e3c9469885e497d8da2ce, type: 2}
+    - target: {fileID: 8324922376569700957, guid: 4db7dd2290546be41a4d7ad5c33a5bfc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8347191302194288378, guid: 4db7dd2290546be41a4d7ad5c33a5bfc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8991258694697392397, guid: 4db7dd2290546be41a4d7ad5c33a5bfc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -110993,7 +111091,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &882438064
 Transform:
   m_ObjectHideFlags: 0
@@ -200659,6 +200757,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1195201872}
   m_CullTransparentMesh: 1
+--- !u!1 &1198815027
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1198815028}
+  - component: {fileID: 1198815029}
+  m_Layer: 0
+  m_Name: SetLightEnabledStep
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1198815028
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1198815027}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 385400578}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1198815029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1198815027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86f8433ce64d63a4d8079d3ca88bcc6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SetLightEnabledStep
+  targetLight: {fileID: 1420298011}
+  setEnabled: 0
 --- !u!1 &1198970829
 GameObject:
   m_ObjectHideFlags: 0
@@ -291919,6 +292063,7 @@ GameObject:
   - component: {fileID: 1420298013}
   - component: {fileID: 1420298011}
   - component: {fileID: 1420298012}
+  - component: {fileID: 1420298014}
   m_Layer: 0
   m_Name: TP_LIGHT
   m_TagString: Untagged
@@ -291937,8 +292082,8 @@ Light:
   serializedVersion: 12
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
-  m_Range: 10
+  m_Intensity: 0.6
+  m_Range: 1.8043907
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
@@ -291976,7 +292121,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 0
@@ -292035,6 +292180,47 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1672395152}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1420298014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1420298010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74add88d82885bb41b79e432bf5eb218, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HorrorFlickerLight
+  _mode: 0
+  _config:
+    minIntensityRatio: 0
+    maxIntensityRatio: 1
+    randomEventIntervalMin: 1
+    randomEventIntervalMax: 4
+    randomOnTimeMin: 0.05
+    randomOnTimeMax: 0.3
+    randomOffTimeMin: 0.02
+    randomOffTimeMax: 0.15
+    flickersPerEventMin: 2
+    flickersPerEventMax: 7
+    rhythmOnDuration: 0.1
+    rhythmOffDuration: 0.1
+    rhythmBurstCount: 0
+    rhythmPauseMin: 1
+    rhythmPauseMax: 3
+    stableTimeMin: 2
+    stableTimeMax: 6
+    malfunctionTimeMin: 0.5
+    malfunctionTimeMax: 2
+    malfunctionBaseRatio: 0.4
+    noiseSpeed: 1.5
+    noiseIntensity: 0.4
+  _useColorShift: 0
+  _stableColor: {r: 1, g: 1, b: 1, a: 1}
+  _flickerColor: {r: 1, g: 0.85, b: 0.6, a: 1}
+  _colorShiftIntensity: 0.5
+  _syncPhaseOffset: 0
 --- !u!1 &1424017324
 GameObject:
   m_ObjectHideFlags: 0
@@ -294810,52 +294996,6 @@ MonoBehaviour:
       text: No, not like that
       displayDurationNoAudio: 0
       graceTimeAfterAudio: 0
-  - eventId: frame_iter1
-    completedLine:
-      audioEvent:
-        Guid:
-          Data1: 0
-          Data2: 0
-          Data3: 0
-          Data4: 0
-        Path: 
-      text: Got it
-      displayDurationNoAudio: 3
-      graceTimeAfterAudio: 1
-    interruptedLine:
-      audioEvent:
-        Guid:
-          Data1: 0
-          Data2: 0
-          Data3: 0
-          Data4: 0
-        Path: 
-      text: No, not like that
-      displayDurationNoAudio: 0
-      graceTimeAfterAudio: 0
-  - eventId: frame_iter2
-    completedLine:
-      audioEvent:
-        Guid:
-          Data1: 0
-          Data2: 0
-          Data3: 0
-          Data4: 0
-        Path: 
-      text: Got it.
-      displayDurationNoAudio: 3
-      graceTimeAfterAudio: 1
-    interruptedLine:
-      audioEvent:
-        Guid:
-          Data1: 0
-          Data2: 0
-          Data3: 0
-          Data4: 0
-        Path: 
-      text: No, not like that
-      displayDurationNoAudio: 0
-      graceTimeAfterAudio: 0
   - eventId: paint_ID
     completedLine:
       audioEvent:
@@ -294866,6 +295006,52 @@ MonoBehaviour:
           Data4: 0
         Path: 
       text: Got it.
+      displayDurationNoAudio: 3
+      graceTimeAfterAudio: 1
+    interruptedLine:
+      audioEvent:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      text: No, not like that
+      displayDurationNoAudio: 0
+      graceTimeAfterAudio: 0
+  - eventId: paint_iter2_ID
+    completedLine:
+      audioEvent:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      text: Got it.
+      displayDurationNoAudio: 3
+      graceTimeAfterAudio: 1
+    interruptedLine:
+      audioEvent:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      text: No, not like that
+      displayDurationNoAudio: 0
+      graceTimeAfterAudio: 0
+  - eventId: girl_ID
+    completedLine:
+      audioEvent:
+        Guid:
+          Data1: 0
+          Data2: 0
+          Data3: 0
+          Data4: 0
+        Path: 
+      text: I think I got... someone?
       displayDurationNoAudio: 3
       graceTimeAfterAudio: 1
     interruptedLine:
@@ -303629,7 +303815,7 @@ Transform:
   m_GameObject: {fileID: 1639641541}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -1, z: -0, w: 0.00000058114523}
-  m_LocalPosition: {x: 15.67, y: 5.916, z: 1.635}
+  m_LocalPosition: {x: 15.669998, y: 5.916, z: 1.2029989}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -377559,7 +377745,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1849326576
 Transform:
   m_ObjectHideFlags: 0
@@ -380676,6 +380862,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1910688339}
   m_CullTransparentMesh: 1
+--- !u!1 &1912452850
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1912452851}
+  - component: {fileID: 1912452852}
+  m_Layer: 0
+  m_Name: GameObjectActiveStep
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1912452851
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1912452850}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 385400578}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1912452852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1912452850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af31c75b45afc974c943f4088dd4268e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameObjectActiveStep
+  targetGameObject: {fileID: 882438063}
+  setActive: 1
 --- !u!1 &1912747274
 GameObject:
   m_ObjectHideFlags: 0
