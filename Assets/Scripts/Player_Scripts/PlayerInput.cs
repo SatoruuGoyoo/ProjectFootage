@@ -21,6 +21,7 @@ public class PlayerInput : MonoBehaviour
     private InputAction _decline;
 
     private PlayerMode _currentMode = PlayerMode.ExplorationMode;
+    private bool _isPaused;
 
     private void Awake()
     {
@@ -38,6 +39,7 @@ public class PlayerInput : MonoBehaviour
         actions.Exploration.Enable();
         actions.UI.Enable();
         GameEvents.OnPlayerModeChanged += OnModeChanged;
+        GameEvents.OnPauseChanged += OnPauseChanged;
     }
 
     private void OnDisable()
@@ -45,6 +47,7 @@ public class PlayerInput : MonoBehaviour
         actions.Exploration.Disable();
         actions.UI.Disable();
         GameEvents.OnPlayerModeChanged -= OnModeChanged;
+        GameEvents.OnPauseChanged -= OnPauseChanged;
     }
 
     private void OnModeChanged(PlayerMode newMode)
@@ -52,8 +55,23 @@ public class PlayerInput : MonoBehaviour
         _currentMode = newMode;
     }
 
+    private void OnPauseChanged(bool paused)
+    {
+        _isPaused = paused;
+    }
+
     private void Update()
     {
+        if (InputLock.AllBlocked || _isPaused)
+        {
+            MoveVector = Vector2.zero;
+            MoveForward = 0f;
+            Turn = 0f;
+            IsSprinting = false;
+            Interact = false;
+            Decline = false;
+            return;
+        }
 
         Interact = _interact.WasPressedThisFrame();
         Decline = _decline.WasPressedThisFrame();

@@ -6,11 +6,7 @@ namespace SM.UI
     public sealed class MainMenuManager : MonoBehaviour
     {
         [Header("Scene Transition")]
-        [SerializeField] private SceneField gameScene;
-
-        [Header("Intro Text")]
-        [TextArea(2, 5)]
-        [SerializeField] private string introText = "Sk4rz_26\n2:21 AM";
+        [SerializeField] private SequenceRunner playSequence;
 
         [Header("Panels")]
         [SerializeField] private GameObject mainPanel;
@@ -26,7 +22,7 @@ namespace SM.UI
         [Header("Sounds")]
         [SerializeField] private string clickEvent = "event:/MainMenu/UI - UX/UI - ButtonClick";
         [SerializeField] private string ambienceEvent = "event:/MainMenu/Ambient/MenuMusic";
-        [SerializeField] private string unavailableEvent; // sonido "no disponible"; asignar cuando esté definido en FMOD
+        [SerializeField] private string unavailableEvent;
 
         private FMOD.Studio.EventInstance _ambience;
         private bool _menuLocked;
@@ -59,26 +55,26 @@ namespace SM.UI
 
         public void OnPlayClicked()
         {
-            if (_menuLocked || FadeManager.Instance.IsBusy) return;
+            if (_menuLocked) return;
 
             FMODUnity.RuntimeManager.PlayOneShot(clickEvent);
             _ambience.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 
             LockMenu();
-            FadeManager.Instance.FadeToScene(gameScene, introText);
+
+            if (playSequence != null)
+                playSequence.StartSequence();
         }
 
         public void OnOptionsClicked()
         {
             if (_menuLocked) return;
-
             ShowUnavailable(optionsButton);
         }
 
         public void OnLoadGameClicked()
         {
             if (_menuLocked) return;
-
             ShowUnavailable(loadGameButton);
         }
 
