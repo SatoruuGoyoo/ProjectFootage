@@ -100,20 +100,20 @@ public class TransformStep : SequenceStep
     {
         if (move)
         {
-            Vector3 pos = Vector3.LerpUnclamped(_startPos, _endPos, t);
+            Vector3 pos = Vector3.Lerp(_startPos, _endPos, t);
             if (useLocalSpace) target.localPosition = pos;
             else target.position = pos;
         }
 
         if (rotate)
         {
-            Quaternion rot = Quaternion.SlerpUnclamped(_startRot, _endRot, t);
+            Quaternion rot = Quaternion.Slerp(_startRot, _endRot, t);
             if (useLocalSpace) target.localRotation = rot;
             else target.rotation = rot;
         }
 
         if (scale)
-            target.localScale = Vector3.LerpUnclamped(_startScale, _endScale, t);
+            target.localScale = Vector3.Lerp(_startScale, _endScale, t);
     }
 
     private void ApplyDestination()
