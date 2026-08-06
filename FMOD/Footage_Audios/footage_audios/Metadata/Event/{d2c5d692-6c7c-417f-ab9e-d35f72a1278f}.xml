@@ -2,13 +2,13 @@
 <objects serializationModel="Studio.02.03.00">
 	<object class="Event" id="{d2c5d692-6c7c-417f-ab9e-d35f72a1278f}">
 		<property name="name">
-			<value>Ambience Whistles</value>
+			<value>Whistles</value>
 		</property>
 		<property name="outputFormat">
-			<value>2</value>
+			<value>1</value>
 		</property>
 		<relationship name="folder">
-			<destination>{e11ce570-b2fb-41b9-b61e-00bcd3cc3f20}</destination>
+			<destination>{95d3a8fa-2b36-4472-a2b7-695cdff5e678}</destination>
 		</relationship>
 		<relationship name="mixer">
 			<destination>{137f8488-0143-4692-9a31-5dc70845b7dd}</destination>
@@ -72,9 +72,6 @@
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{fea0aebb-6847-4e86-8f7f-a9d25d57aa49}">
-		<property name="volume">
-			<value>-14</value>
-		</property>
 		<relationship name="effectChain">
 			<destination>{96b0fd60-18e3-4537-bb29-6c40286ffde8}</destination>
 		</relationship>
@@ -116,7 +113,6 @@
 	<object class="MixerBusEffectChain" id="{96b0fd60-18e3-4537-bb29-6c40286ffde8}">
 		<relationship name="effects">
 			<destination>{80bb35c4-10e1-4b38-ae58-ed0fbce1addd}</destination>
-			<destination>{96b02483-22e7-4403-9c7b-261b83220b0b}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{5cdd2131-b247-47a8-9730-23b7144c177e}" />
@@ -128,6 +124,5 @@
 	</object>
 	<object class="MixerBusPanner" id="{f4269278-4cfc-4de9-b171-5a9c8d8cdc82}" />
 	<object class="MixerBusFader" id="{80bb35c4-10e1-4b38-ae58-ed0fbce1addd}" />
-	<object class="SpatialiserEffect" id="{96b02483-22e7-4403-9c7b-261b83220b0b}" />
 	<object class="MixerBusFader" id="{6b1b86fe-77ba-4399-bfa4-5e5b474b24a7}" />
 </objects>
