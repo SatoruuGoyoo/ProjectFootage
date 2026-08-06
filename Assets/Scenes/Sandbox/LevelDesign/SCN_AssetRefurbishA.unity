@@ -114840,17 +114840,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FadeManager
   defaultFadeDuration: 2
-  defaultHoldDuration: 2
-  textFadeDuration: 0.4
-  videoSkipHoldDuration: 0.5
-  font: {fileID: 11400000, guid: 98dcff70187a3e74d9c16adabdbde102, type: 2}
-  fontSize: 34
-  textColor: {r: 1, g: 0.86562586, b: 0, a: 1}
-  defaultIntroVideoClip: {fileID: 0}
-  menuSceneName: MainMenu
-  menuIntroVideoClip: {fileID: 0}
-  gameSceneName: Juego
-  gameIntroVideoClip: {fileID: 0}
 --- !u!4 &711979996
 Transform:
   m_ObjectHideFlags: 0
@@ -120019,6 +120008,8 @@ MonoBehaviour:
   mainMenuScene:
     sceneAsset: {fileID: 102900000, guid: c8339f7424241e149bbceaef2eea0264, type: 3}
     sceneName: SCN_MainMenu
+  fadeOutDuration: 0.8
+  fadeInDuration: 0.8
   clickEvent: event:/MainMenu/UI - UX/UI - ButtonClick
   unavailableEvent: 
 --- !u!114 &791138832
@@ -121704,8 +121695,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a495dc6a1668530409abea21b7f920e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PauseController
-  ui: {fileID: 791138831}
-  pauseKey: 27
+  menuUI: {fileID: 0}
 --- !u!1 &810782263
 GameObject:
   m_ObjectHideFlags: 0
@@ -122344,6 +122334,8 @@ Transform:
   - {fileID: 534337661}
   - {fileID: 4454929}
   - {fileID: 1363889191}
+  - {fileID: 868715173}
+  - {fileID: 1976246553}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &826507220
@@ -126558,7 +126550,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 823312805}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: c0f20af1895aea74cbc3ca1e67c23428, type: 3}
       propertyPath: m_LocalScale.x
@@ -126574,15 +126566,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c0f20af1895aea74cbc3ca1e67c23428, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 18.201
+      value: -5.06114
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c0f20af1895aea74cbc3ca1e67c23428, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.042
+      value: 0.35495996
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c0f20af1895aea74cbc3ca1e67c23428, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.071
+      value: 11.79305
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c0f20af1895aea74cbc3ca1e67c23428, type: 3}
       propertyPath: m_LocalRotation.w
@@ -126654,6 +126646,11 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.3374423, y: 0.43539518, z: 0.20383552}
   m_Center: {x: -0.0027920157, y: -0.040788315, z: 0.00056190416}
+--- !u!4 &868715173 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c0f20af1895aea74cbc3ca1e67c23428, type: 3}
+  m_PrefabInstance: {fileID: 868715170}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &871813074
 GameObject:
   m_ObjectHideFlags: 0
@@ -340145,7 +340142,6 @@ MonoBehaviour:
   inputActions: {fileID: -944628639613478452, guid: 7335199eecadbd848a73959bf2e256c6, type: 3}
   playerTag: Player
   sceneToLoad: SCN_MainMenu
-  introText: 'CHAPTER I: FIRST FOOTAGE'
 --- !u!1 &1663067848
 GameObject:
   m_ObjectHideFlags: 0
@@ -483781,7 +483777,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 823312805}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: c0f20af1895aea74cbc3ca1e67c23428, type: 3}
       propertyPath: m_LocalScale.x
@@ -483797,15 +483793,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c0f20af1895aea74cbc3ca1e67c23428, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11.804
+      value: -11.45814
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c0f20af1895aea74cbc3ca1e67c23428, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.042
+      value: 0.35495996
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c0f20af1895aea74cbc3ca1e67c23428, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -10.688
+      value: 5.17605
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c0f20af1895aea74cbc3ca1e67c23428, type: 3}
       propertyPath: m_LocalRotation.w
@@ -483877,6 +483873,11 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.3374423, y: 0.43539518, z: 0.20383552}
   m_Center: {x: -0.0027920157, y: -0.040788315, z: 0.00056190416}
+--- !u!4 &1976246553 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c0f20af1895aea74cbc3ca1e67c23428, type: 3}
+  m_PrefabInstance: {fileID: 1976246550}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1982085471
 GameObject:
   m_ObjectHideFlags: 0
@@ -498382,5 +498383,3 @@ SceneRoots:
   - {fileID: 1376749577}
   - {fileID: 494806288}
   - {fileID: 823312805}
-  - {fileID: 868715170}
-  - {fileID: 1976246550}
