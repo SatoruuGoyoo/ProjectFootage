@@ -17,24 +17,14 @@ public class LoadLevelStep : SequenceStep
     private IEnumerator RunLoad()
     {
         if (FadeManager.Instance != null)
+        {
             yield return FadeManager.Instance.FadeOut(fadeOutDuration);
 
-        AsyncOperation loadOp = SceneManager.LoadSceneAsync(targetScene);
-        loadOp.allowSceneActivation = false;
+            if (fadeInAfterLoad)
+                FadeManager.Instance.RequestFadeInOnNextLoad(fadeInDuration);
+        }
 
-        while (loadOp.progress < 0.9f)
-            yield return null;
-
-        loadOp.allowSceneActivation = true;
-
-        while (!loadOp.isDone)
-            yield return null;
-
-        yield return new WaitForEndOfFrame();
-
-        if (fadeInAfterLoad && FadeManager.Instance != null)
-            yield return FadeManager.Instance.FadeIn(fadeInDuration);
-
+        SceneManager.LoadScene(targetScene);
         Complete();
     }
 }

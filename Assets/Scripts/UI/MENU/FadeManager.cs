@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public sealed class FadeManager : MonoBehaviour
@@ -17,6 +18,8 @@ public sealed class FadeManager : MonoBehaviour
     public bool IsFadedOut { get; private set; }
 
     private Image _overlay;
+    private bool _autoFadeInOnLoad;
+    private float _autoFadeInDuration;
 
     private void Awake()
     {
@@ -31,6 +34,16 @@ public sealed class FadeManager : MonoBehaviour
 
         BuildOverlayUI();
         SetOverlayAlpha(0f);
+    }
+
+    private void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
+    private void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (!_autoFadeInOnLoad) return;
+        _autoFadeInOnLoad = false;
+        StartCoroutine(FadeIn(_autoFadeInDuration));
     }
 
     public IEnumerator FadeOut(float duration = -1f)
@@ -51,6 +64,12 @@ public sealed class FadeManager : MonoBehaviour
         IsFadedOut = false;
         IsBusy = false;
         OnFadeInComplete?.Invoke();
+    }
+
+    public void RequestFadeInOnNextLoad(float duration = -1f)
+    {
+        _autoFadeInOnLoad = true;
+        _autoFadeInDuration = duration;
     }
 
     public void SetBlackInstant()
