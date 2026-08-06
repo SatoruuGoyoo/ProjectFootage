@@ -17021,6 +17021,8 @@ MonoBehaviour:
   mainMenuScene:
     sceneAsset: {fileID: 102900000, guid: c8339f7424241e149bbceaef2eea0264, type: 3}
     sceneName: SCN_MainMenu
+  fadeOutDuration: 0.8
+  fadeInDuration: 0.8
   clickEvent: event:/MainMenu/UI - UX/UI - ButtonClick
   unavailableEvent: 
 --- !u!224 &282922832
@@ -38803,7 +38805,7 @@ Transform:
   m_GameObject: {fileID: 589172123}
   serializedVersion: 2
   m_LocalRotation: {x: 1, y: 0.00000031296773, z: 0.0000002980232, w: -0.00000063498914}
-  m_LocalPosition: {x: -0, y: -0.015, z: 2.009}
+  m_LocalPosition: {x: -0, y: -0.015, z: 1.226}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -103515,17 +103517,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FadeManager
   defaultFadeDuration: 2
-  defaultHoldDuration: 2
-  textFadeDuration: 0.4
-  videoSkipHoldDuration: 0.5
-  font: {fileID: 11400000, guid: 98dcff70187a3e74d9c16adabdbde102, type: 2}
-  fontSize: 34
-  textColor: {r: 1, g: 0.86562586, b: 0, a: 1}
-  defaultIntroVideoClip: {fileID: 0}
-  menuSceneName: MainMenu
-  menuIntroVideoClip: {fileID: 0}
-  gameSceneName: Juego
-  gameIntroVideoClip: {fileID: 0}
 --- !u!4 &711979996
 Transform:
   m_ObjectHideFlags: 0
@@ -119081,7 +119072,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RecordableEvent
   eventId: face_beat1
-  duration: 4
+  duration: 10
   repeatable: 0
   centerGracePeriod: 0.5
   targetOverride: {fileID: 0}
@@ -296664,8 +296655,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a495dc6a1668530409abea21b7f920e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PauseController
-  ui: {fileID: 282922831}
-  pauseKey: 27
+  menuUI: {fileID: 0}
 --- !u!114 &1531222311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -305413,7 +305403,6 @@ MonoBehaviour:
   inputActions: {fileID: -944628639613478452, guid: 7335199eecadbd848a73959bf2e256c6, type: 3}
   playerTag: Player
   sceneToLoad: SCN_MainMenu
-  introText: 'CHAPTER I: FIRST FOOTAGE'
 --- !u!1 &1663067848
 GameObject:
   m_ObjectHideFlags: 0
