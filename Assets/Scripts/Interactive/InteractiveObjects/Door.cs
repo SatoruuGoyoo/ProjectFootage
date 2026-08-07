@@ -25,6 +25,7 @@ public class Door : Interactable
 
     [Header("Motion")]
     [SerializeField] private Transform pivot;
+    [SerializeField] private Transform door;
     [SerializeField] private float openAngle = 90f;
     [SerializeField] private float speed = 120f;
 
@@ -47,6 +48,8 @@ public class Door : Interactable
     private float _interactCooldownTimer;
     private Quaternion closedRot;
     private Quaternion openRot;
+    private Quaternion doorClosedRot;
+    private Quaternion doorOpenRot;
 
     private bool IsLocked => manualLock
         || (!string.IsNullOrEmpty(requiredItemId)
@@ -69,25 +72,31 @@ public class Door : Interactable
     {
         if (pivot == null) pivot = transform;
 
-        if (startOpen)
-        {
-            openRot = pivot.localRotation;
-            closedRot = openRot * Quaternion.Euler(0f, -openAngle, 0f);
-        }
-        else
-        {
-            closedRot = pivot.localRotation;
-            openRot = closedRot * Quaternion.Euler(0f, openAngle, 0f);
-        }
+        SetupRotation(pivot, out closedRot, out openRot);
+        if (door != null) SetupRotation(door, out doorClosedRot, out doorOpenRot);
 
         manualLock = startLocked;
         isOpen = startOpen;
+
         pivot.localRotation = isOpen ? openRot : closedRot;
+        if (door != null) door.localRotation = isOpen ? doorOpenRot : doorClosedRot;
     }
 
     private void OnEnable() => GameEvents.OnConfirmationClosed += OnConfirmationClosed;
     private void OnDisable() => GameEvents.OnConfirmationClosed -= OnConfirmationClosed;
-
+    private void SetupRotation(Transform t, out Quaternion closed, out Quaternion open)
+    {
+        if (startOpen)
+        {
+            open = t.localRotation;
+            closed = open * Quaternion.Euler(0f, -openAngle, 0f);
+        }
+        else
+        {
+            closed = t.localRotation;
+            open = closed * Quaternion.Euler(0f, openAngle, 0f);
+        }
+    }
     public override void Interact()
     {
         if (_interactCooldownTimer > 0f) return;
@@ -170,5 +179,11 @@ public class Door : Interactable
 
         Quaternion target = isOpen ? openRot : closedRot;
         pivot.localRotation = Quaternion.RotateTowards(pivot.localRotation, target, speed * Time.deltaTime);
+
+        if (door != null)
+        {
+            Quaternion doorTarget = isOpen ? doorOpenRot : doorClosedRot;
+            door.localRotation = Quaternion.RotateTowards(door.localRotation, doorTarget, speed * Time.deltaTime);
+        }
     }
 }
