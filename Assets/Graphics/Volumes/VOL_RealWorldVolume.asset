@@ -84,6 +84,25 @@ MonoBehaviour:
   highlightsEnd:
     m_OverrideState: 0
     m_Value: 1
+--- !u!114 &-1426095281167237969
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 221518ef91623a7438a71fef23660601, type: 3}
+  m_Name: WhiteBalance
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.WhiteBalance
+  active: 1
+  temperature:
+    m_OverrideState: 1
+    m_Value: -10
+  tint:
+    m_OverrideState: 1
+    m_Value: 5
 --- !u!114 &-43859664470128783
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -99,7 +118,7 @@ MonoBehaviour:
   active: 1
   mode:
     m_OverrideState: 1
-    m_Value: 2
+    m_Value: 1
   neutralHDRRangeReductionMode:
     m_OverrideState: 0
     m_Value: 2
@@ -145,6 +164,7 @@ MonoBehaviour:
   - {fileID: -2822914796096694480}
   - {fileID: 8983493315325008039}
   - {fileID: -43859664470128783}
+  - {fileID: -1426095281167237969}
 --- !u!114 &3435962174839723439
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -160,10 +180,10 @@ MonoBehaviour:
   active: 1
   postExposure:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 1.5
   contrast:
     m_OverrideState: 1
-    m_Value: -20
+    m_Value: 40
   colorFilter:
     m_OverrideState: 1
     m_Value: {r: 0.6622641, g: 0.7874415, b: 1, a: 1}
@@ -171,8 +191,8 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 0
   saturation:
-    m_OverrideState: 0
-    m_Value: -100
+    m_OverrideState: 1
+    m_Value: -8
 --- !u!114 &5681234412645646281
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -255,7 +275,7 @@ MonoBehaviour:
   active: 1
   shadows:
     m_OverrideState: 1
-    m_Value: {r: 0.4566037, g: 0.4566037, b: 0.4566037, a: 1}
+    m_Value: {r: 0.2924528, g: 0.2924528, b: 0.2924528, a: 1}
   highlights:
     m_OverrideState: 1
     m_Value: {r: 0.6603774, g: 0.6603774, b: 0.6603774, a: 1}
