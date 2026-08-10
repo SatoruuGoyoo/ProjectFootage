@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 namespace SM.UI
 {
@@ -11,6 +12,12 @@ namespace SM.UI
         [Header("Panels")]
         [SerializeField] private GameObject mainPanel;
         [SerializeField] private GameObject optionsPanel;
+
+        [Header("Mouse")]
+        [SerializeField] private GraphicRaycaster raycaster;
+
+        [Header("Navigation")]
+        [SerializeField] private GameObject mainPanelFirstSelected;
 
         [Header("Unavailable Features")]
         [SerializeField] private Button optionsButton;
@@ -69,7 +76,8 @@ namespace SM.UI
         public void OnOptionsClicked()
         {
             if (_menuLocked) return;
-            ShowUnavailable(optionsButton);
+            FMODUnity.RuntimeManager.PlayOneShot(clickEvent);
+            ShowOptionsPanel();
         }
 
         public void OnLoadGameClicked()
@@ -121,7 +129,27 @@ namespace SM.UI
         {
             SetPanel(mainPanel, true);
             SetPanel(optionsPanel, false);
+
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            if (raycaster != null) raycaster.enabled = false;
+
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(mainPanelFirstSelected);
         }
+
+        private void ShowOptionsPanel()
+        {
+            SetPanel(mainPanel, false);
+            SetPanel(optionsPanel, true);
+
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            if (raycaster != null) raycaster.enabled = true;
+
+            EventSystem.current.SetSelectedGameObject(null);
+        }
+
 
         private static void SetPanel(GameObject panel, bool active)
         {

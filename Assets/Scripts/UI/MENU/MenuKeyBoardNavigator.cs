@@ -2,27 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
-/// <summary>
-/// Navegación de menú por teclado usando el nuevo Input System:
-///   - W / S: mover la selección arriba / abajo entre los botones asignados.
-///   - E: confirmar (equivale a un click sobre el botón seleccionado).
-///
-/// Reutiliza ButtonHoverEffect.SetHighlighted(bool) para el resaltado visual,
-/// así que cada Button en 'menuButtons' debería tener ese componente.
-///
-/// Colocá uno de estos por panel (mainPanel, optionsPanel, etc.) y asigná
-/// los botones en el orden en que querés que se navegue. El script se
-/// habilita/deshabilita automáticamente junto con el GameObject del panel
-/// (SetActive true/false), reseteando la selección al primer botón cada vez
-/// que el panel se muestra.
-///
-/// Requisitos:
-///   - Paquete "Input System" (com.unity.inputsystem) instalado.
-///   - En Project Settings > Player > Active Input Handling: "Input System
-///     Package (New)" o "Both".
-/// </summary>
-// El nombre debe coincidir con MenuKeyBoardNavigator.cs para que Unity pueda
-// cargar este MonoBehaviour en el GameObject del panel.
+
 public sealed class MenuKeyBoardNavigator : MonoBehaviour
 {
     [Header("Navigation Order")]
