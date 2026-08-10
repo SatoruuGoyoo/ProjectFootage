@@ -94,20 +94,9 @@ public class PauseMenuUI : MonoBehaviour
         {
             yield return FadeManager.Instance.FadeOut(fadeOutDuration);
 
-            AsyncOperation loadOp = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(mainMenuScene);
-            loadOp.allowSceneActivation = false;
+            FadeManager.Instance.RequestFadeInOnNextLoad(fadeInDuration);
 
-            while (loadOp.progress < 0.9f)
-                yield return null;
-
-            loadOp.allowSceneActivation = true;
-
-            while (!loadOp.isDone)
-                yield return null;
-
-            yield return new WaitForEndOfFrame();
-
-            yield return FadeManager.Instance.FadeIn(fadeInDuration);
+            UnityEngine.SceneManagement.SceneManager.LoadScene(mainMenuScene);
         }
         else
         {
