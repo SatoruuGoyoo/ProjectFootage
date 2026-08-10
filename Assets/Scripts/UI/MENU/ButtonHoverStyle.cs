@@ -24,6 +24,11 @@ public sealed class ButtonHoverStyle : ScriptableObject
     public Color deniedText = Color.white;
     [Min(0f)] public float deniedHoldDuration = 0.25f;
 
+    [Tooltip("Se agrega a la etiqueta del propio botón mientras dura el rechazo, con una " +
+        "etiqueta de color de rich text. No crea ningún objeto. Vacío = no se agrega nada.")]
+    public string deniedSuffix = " - ERROR";
+    public Color deniedSuffixColor = new Color(1f, 0.23f, 0.23f, 1f);
+
     [Header("Transition")]
     [Min(0f)] public float tweenDuration = 0.12f;
 }
