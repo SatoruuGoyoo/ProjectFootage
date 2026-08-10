@@ -25,6 +25,68 @@ public sealed class ButtonHoverEffect : MonoBehaviour, IPointerEnterHandler, IPo
     // (por ejemplo si el mouse está quieto sobre otro botón mientras navegás con W/S).
     private bool _isKeyboardHighlighted;
 
+    // Etiqueta limpia del botón. El sufijo de "no disponible" se arma siempre a
+    // partir de esta copia y nunca del texto actual, así aplicarlo dos veces da
+    // el mismo string y no se puede apilar.
+    private string _pristineLabel;
+    private TextWrappingModes _wrappingBeforeDenied;
+    private bool _deniedLabelApplied;
+
+    private void Awake()
+    {
+        if (buttonText == null) return;
+
+        _pristineLabel = buttonText.text;
+
+        // Si un reload de dominio cortó un flash a la mitad, el sufijo queda
+        // pegado al texto serializado. Acá se lo saca.
+        string suffix = BuildDeniedSuffix();
+        if (string.IsNullOrEmpty(suffix)) return;
+
+        while (_pristineLabel.EndsWith(suffix))
+            _pristineLabel = _pristineLabel.Substring(0, _pristineLabel.Length - suffix.Length);
+
+        if (buttonText.text != _pristineLabel)
+            buttonText.text = _pristineLabel;
+    }
+
+    private string BuildDeniedSuffix()
+    {
+        if (style == null || string.IsNullOrEmpty(style.deniedSuffix)) return null;
+        return "<color=#" + ColorUtility.ToHtmlStringRGB(style.deniedSuffixColor) + ">"
+             + style.deniedSuffix + "</color>";
+    }
+
+    private void ApplyDeniedLabel()
+    {
+        if (buttonText == null || _pristineLabel == null) return;
+
+        string suffix = BuildDeniedSuffix();
+        if (string.IsNullOrEmpty(suffix)) return;
+
+        if (!_deniedLabelApplied)
+        {
+            _wrappingBeforeDenied = buttonText.textWrappingMode;
+            _deniedLabelApplied = true;
+        }
+
+        buttonText.textWrappingMode = TextWrappingModes.NoWrap;
+        buttonText.text = _pristineLabel + suffix;
+    }
+
+    private void RestoreLabel()
+    {
+        if (!_deniedLabelApplied || buttonText == null) return;
+
+        buttonText.text = _pristineLabel;
+        buttonText.textWrappingMode = _wrappingBeforeDenied;
+        _deniedLabelApplied = false;
+    }
+
+    // Si el botón se apaga en medio del flash, la corrutina muere y el sufijo
+    // quedaría pegado a la etiqueta.
+    private void OnDisable() => RestoreLabel();
+
     public void OnPointerEnter(PointerEventData _)
     {
         if (_isKeyboardHighlighted) return;
@@ -60,11 +122,14 @@ public sealed class ButtonHoverEffect : MonoBehaviour, IPointerEnterHandler, IPo
         if (style == null) return;
 
         if (_tweenCoroutine != null) StopCoroutine(_tweenCoroutine);
+        RestoreLabel();
         _tweenCoroutine = StartCoroutine(FlashDeniedRoutine());
     }
 
     private IEnumerator FlashDeniedRoutine()
     {
+        ApplyDeniedLabel();
+
         Color startBg = backgroundImage != null ? backgroundImage.color : Color.clear;
         Color startText = buttonText != null ? buttonText.color : Color.white;
         Color currentIcon = icon != null ? icon.color : Color.white;
@@ -98,6 +163,7 @@ public sealed class ButtonHoverEffect : MonoBehaviour, IPointerEnterHandler, IPo
             yield return null;
         }
         ApplyColors(returnBg, returnText, returnIcon);
+        RestoreLabel();
         _tweenCoroutine = null;
     }
 
@@ -109,8 +175,9 @@ public sealed class ButtonHoverEffect : MonoBehaviour, IPointerEnterHandler, IPo
         Color targetText = isHover ? style.hoverText : style.normalText;
         Color targetIcon = isHover ? style.hoverIconColor : style.normalIconColor;
 
+        // Si veníamos de un rechazo interrumpido, el sufijo seguiría pegado.
         if (_tweenCoroutine != null) StopCoroutine(_tweenCoroutine);
-
+        RestoreLabel();
 
         if (!isActiveAndEnabled)
         {
