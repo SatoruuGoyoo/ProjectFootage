@@ -19,6 +19,9 @@ public class PlayerMotor : MonoBehaviour
     public bool IsMovingBackward { get; private set; }
     public bool IsSprinting { get; private set; }
 
+    public bool IsTurningLeft { get; private set; }
+    public bool IsTurningRight { get; private set; }
+
     // Tank 
 
     public void MoveTank(float moveInput, bool sprint)
@@ -43,6 +46,9 @@ public class PlayerMotor : MonoBehaviour
     {
         if (config == null) return;
         transform.Rotate(0, turnInput * config.TurnSpeed * Time.deltaTime, 0);
+
+        IsTurningRight = turnInput > 0.01f;
+        IsTurningLeft = turnInput < -0.01f;
     }
 
     // Modern 
@@ -172,5 +178,7 @@ public class PlayerMotor : MonoBehaviour
         IsMovingBackward = false;
         IsSprinting = false;
         directionLocked = false;
+        IsTurningLeft = false;
+        IsTurningRight = false;
     }
 }

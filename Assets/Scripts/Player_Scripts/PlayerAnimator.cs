@@ -11,6 +11,9 @@ public class PlayerAnimator : MonoBehaviour
     private static readonly int IsWalkingHash = Animator.StringToHash("IsWalking");
     private static readonly int IsWalkingBackHash = Animator.StringToHash("IsWalkingBack");
     private static readonly int IsSprintingHash = Animator.StringToHash("IsSprinting");
+    private static readonly int IsTurningLeftHash = Animator.StringToHash("IsTurningLeft");
+    private static readonly int IsTurningRightHash = Animator.StringToHash("IsTurningRight");
+
     private PlayerMode currentMode = PlayerMode.ExplorationMode;
 
     private void OnEnable() => GameEvents.OnPlayerModeChanged += OnPlayerModeChanged;
@@ -28,7 +31,7 @@ public class PlayerAnimator : MonoBehaviour
         if (animator == null)
             animator = GetComponentInChildren<Animator>();
 
-        animator.applyRootMotion = false;
+        //animator.applyRootMotion = false;
     }
 
     private void Update()
@@ -40,6 +43,8 @@ public class PlayerAnimator : MonoBehaviour
         animator.SetBool(IsWalkingHash, motor.HasInput && !isBack && !isSprint);
         animator.SetBool(IsWalkingBackHash, motor.HasInput && isBack);
         animator.SetBool(IsSprintingHash, isSprint);
+        animator.SetBool(IsTurningLeftHash, motor.IsTurningLeft);
+        animator.SetBool(IsTurningRightHash, motor.IsTurningRight);
 
         if (currentMode == PlayerMode.ExplorationMode)
         {
