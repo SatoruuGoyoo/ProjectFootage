@@ -27,9 +27,9 @@ namespace SM.UI
         [SerializeField] private Canvas menuCanvas;
 
         [Header("Sounds")]
-        [SerializeField] private string clickEvent = "event:/MainMenu/UI - UX/UI - ButtonClick";
-        [SerializeField] private string ambienceEvent = "event:/MainMenu/Ambient/MenuMusic";
-        [SerializeField] private string unavailableEvent;
+        [SerializeField] private FMODUnity.EventReference clickEvent;
+        [SerializeField] private FMODUnity.EventReference ambienceEvent;
+        [SerializeField] private FMODUnity.EventReference unavailableEvent;
 
         private FMOD.Studio.EventInstance _ambience;
         private bool _menuLocked;
@@ -40,7 +40,7 @@ namespace SM.UI
             Cursor.lockState = CursorLockMode.None;
             ShowMainPanel();
 
-            if (!string.IsNullOrEmpty(ambienceEvent))
+            if (!ambienceEvent.IsNull)
             {
                 try
                 {
@@ -108,7 +108,7 @@ namespace SM.UI
 
         private void ShowUnavailable(Button button)
         {
-            if (!string.IsNullOrEmpty(unavailableEvent))
+            if (!unavailableEvent.IsNull)
                 FMODUnity.RuntimeManager.PlayOneShot(unavailableEvent);
 
             if (button != null)
