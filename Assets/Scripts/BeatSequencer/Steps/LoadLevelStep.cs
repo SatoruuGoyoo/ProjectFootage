@@ -16,13 +16,11 @@ public class LoadLevelStep : SequenceStep
 
     private IEnumerator RunLoad()
     {
-        if (FadeManager.Instance != null)
-        {
+        if (FadeManager.Instance != null && !FadeManager.Instance.IsFadedOut)
             yield return FadeManager.Instance.FadeOut(fadeOutDuration);
 
-            if (fadeInAfterLoad)
-                FadeManager.Instance.RequestFadeInOnNextLoad(fadeInDuration);
-        }
+        if (FadeManager.Instance != null && fadeInAfterLoad)
+            FadeManager.Instance.RequestFadeInOnNextLoad(fadeInDuration);
 
         SceneManager.LoadScene(targetScene);
         Complete();

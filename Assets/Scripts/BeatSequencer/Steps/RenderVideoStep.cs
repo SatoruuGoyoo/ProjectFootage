@@ -81,6 +81,9 @@ public class RenderVideoStep : SequenceStep
             audioInstance.release();
         }
 
+        if (FadeManager.Instance != null)
+            FadeManager.Instance.SetBlackInstant();
+
         videoDisplay.gameObject.SetActive(false);
         _videoPlayer.Stop();
 
