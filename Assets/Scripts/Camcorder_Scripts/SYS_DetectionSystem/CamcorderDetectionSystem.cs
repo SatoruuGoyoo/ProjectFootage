@@ -14,7 +14,7 @@ public class CamcorderDetectionSystem : MonoBehaviour
     public static CamcorderDetectionSystem Instance { get; private set; }
 
     [Header("Setup")]
-    [Tooltip("Reference to the camcorder camera (uses its near/far for cylinder length)")]
+    [Tooltip("Reference to the camcorder camera (uses its position/forward for the cylinder axis)")]
     [SerializeField] private Camera camcorderCamera;
 
     [Header("Cylinder Config")]
@@ -22,11 +22,15 @@ public class CamcorderDetectionSystem : MonoBehaviour
     [SerializeField] private float objectiveRadius = 0.8f;
     [Tooltip("Radius of the dead zone (red). Between objective and this = RED. Outside this = nothing.")]
     [SerializeField] private float deadZoneRadius = 2.5f;
+    [Tooltip("Minimum detection distance (independent of the camera's near clip plane).")]
+    [SerializeField] private float detectionMinDistance = 0.3f;
+    [Tooltip("Maximum detection distance (independent of the camera's far clip plane). Raising the camera's far no longer affects this.")]
+    [SerializeField] private float detectionMaxDistance = 15f;
 
     [Header("Line of Sight")]
-    [Tooltip("Si está activado, requiere línea de visión limpia entre cámara y target")]
+    [Tooltip("If enabled, requires a clear line of sight between the camera and the target.")]
     [SerializeField] private bool requireLineOfSight = true;
-    [Tooltip("Layers que bloquean la línea de visión (paredes, puertas, etc.)")]
+    [Tooltip("Layers that block line of sight (walls, doors, etc.).")]
     [SerializeField] private LayerMask losBlockingMask = ~0;
 
     [Header("Gizmo")]
@@ -139,8 +143,8 @@ public class CamcorderDetectionSystem : MonoBehaviour
 
         float axialDistance = Vector3.Dot(toPoint, camForward);
 
-        if (axialDistance < camcorderCamera.nearClipPlane) return CamcorderZone.None;
-        if (axialDistance > camcorderCamera.farClipPlane) return CamcorderZone.None;
+        if (axialDistance < detectionMinDistance) return CamcorderZone.None;
+        if (axialDistance > detectionMaxDistance) return CamcorderZone.None;
 
         Vector3 axialPoint = camPos + camForward * axialDistance;
         float radialDistance = Vector3.Distance(worldPos, axialPoint);
@@ -180,8 +184,8 @@ public class CamcorderDetectionSystem : MonoBehaviour
         Vector3 camUp = camcorderCamera.transform.up;
         Vector3 camRight = camcorderCamera.transform.right;
 
-        float nearZ = camcorderCamera.nearClipPlane;
-        float farZ = camcorderCamera.farClipPlane;
+        float nearZ = detectionMinDistance;
+        float farZ = detectionMaxDistance;
 
         Vector3 nearCenter = camPos + camForward * nearZ;
         Vector3 farCenter = camPos + camForward * farZ;
