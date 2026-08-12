@@ -13,9 +13,6 @@ namespace SM.UI
         [SerializeField] private GameObject mainPanel;
         [SerializeField] private GameObject optionsPanel;
 
-        [Header("Mouse")]
-        [SerializeField] private GraphicRaycaster raycaster;
-
         [Header("Navigation")]
         [SerializeField] private GameObject mainPanelFirstSelected;
 
@@ -132,7 +129,7 @@ namespace SM.UI
 
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
-            if (raycaster != null) raycaster.enabled = false;
+
 
             EventSystem.current.SetSelectedGameObject(null);
             EventSystem.current.SetSelectedGameObject(mainPanelFirstSelected);
@@ -145,7 +142,7 @@ namespace SM.UI
 
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
-            if (raycaster != null) raycaster.enabled = true;
+
 
             EventSystem.current.SetSelectedGameObject(null);
         }
