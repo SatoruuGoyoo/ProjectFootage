@@ -196,4 +196,16 @@ public class CamcorderController : MonoBehaviour
         GameEvents.PlayerModeChanged(PlayerMode.CameraMode);
         GameEvents.RecordingStopped();
     }
+
+    public void ForceRaiseCamera()
+    {
+        if (!_isCameraUp)
+            ToggleCamera();
+    }
+
+    public void ForceLowerCamera()
+    {
+        if (_isCameraUp && _currentCamMode != CamcorderMode.Recording)
+            ToggleCamera();
+    }
 }
