@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Video;
 
 public class CamcorderKeyTarget : MonoBehaviour, ICamcorderTarget
 {
@@ -22,4 +23,10 @@ public class CamcorderKeyTarget : MonoBehaviour, ICamcorderTarget
     }
 
     public void SetActive(bool value) => _isActive = value;
+
+    public bool TryGetLiveActionClip(out VideoClip clip)
+    {
+        clip = null;
+        return false;
+    }
 }

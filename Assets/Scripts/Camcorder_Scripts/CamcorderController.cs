@@ -43,6 +43,7 @@ public class CamcorderController : MonoBehaviour
     private bool _isCameraUp = false;
     private RecordingSession _activeSession;
     private float _recordingTimer;
+    private bool _isLiveActionSession;
 
     private void Awake()
     {
@@ -85,6 +86,7 @@ public class CamcorderController : MonoBehaviour
             recordTimer = 0f;
         }
     }
+
     private void OnRecordableEventCompleted(string eventId)
     {
         if (_currentCamMode == CamcorderMode.Recording)
@@ -172,8 +174,22 @@ public class CamcorderController : MonoBehaviour
         _recordingTimer = 0f;
         recordTimer = 0f;
 
-        _videoRecorder.StartRecording(_activeSession);
-        _spatialAudioRecorder.StartRecording(_activeSession);
+        _isLiveActionSession = false;
+        var objectiveTarget = CamcorderDetectionSystem.Instance != null
+            ? CamcorderDetectionSystem.Instance.GetActiveObjectiveTarget()
+            : null;
+
+        if (objectiveTarget != null && objectiveTarget.TryGetLiveActionClip(out var clip))
+        {
+            _isLiveActionSession = true;
+            _activeSession.SetLiveAction(clip);
+        }
+
+        if (!_isLiveActionSession)
+        {
+            _videoRecorder.StartRecording(_activeSession);
+            _spatialAudioRecorder.StartRecording(_activeSession);
+        }
 
         _currentCamMode = CamcorderMode.Recording;
         GameEvents.PlayerModeChanged(PlayerMode.RecordingMode);
@@ -182,12 +198,16 @@ public class CamcorderController : MonoBehaviour
 
     private void StopRecording()
     {
-        _videoRecorder.StopRecording();
-        _spatialAudioRecorder.StopRecording();
+        if (!_isLiveActionSession)
+        {
+            _videoRecorder.StopRecording();
+            _spatialAudioRecorder.StopRecording();
+        }
 
         _activeSession.Complete(_recordingTimer);
         _storage.AddRecording(_activeSession);
         _activeSession = null;
+        _isLiveActionSession = false;
 
         recordTimer = 0f;
         _recordingTimer = 0f;

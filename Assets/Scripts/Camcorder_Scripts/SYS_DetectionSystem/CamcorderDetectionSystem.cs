@@ -104,6 +104,19 @@ public class CamcorderDetectionSystem : MonoBehaviour
         return GetZoneForPoint(target.TargetTransform.position);
     }
 
+    public ICamcorderTarget GetActiveObjectiveTarget()
+    {
+        if (!_isCameraUp || camcorderCamera == null) return null;
+
+        foreach (var target in _targets)
+        {
+            if (target == null || !target.IsActive || target.TargetTransform == null) continue;
+            if (GetZoneForPoint(target.TargetTransform.position) == CamcorderZone.Objective)
+                return target;
+        }
+        return null;
+    }
+
     private void EvaluateZone()
     {
         if (camcorderCamera == null)

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Video;
 
 public class RecordableEvent : MonoBehaviour, ICamcorderTarget
 {
@@ -13,6 +14,7 @@ public class RecordableEvent : MonoBehaviour, ICamcorderTarget
     [Header("Target")]
     [SerializeField] private Transform targetOverride;
     [SerializeField] private float detectionRadius = 0.8f;
+    [SerializeField] private VideoClip liveActionClip;
 
     private IRecordableEffect[] _effects;
     private RecordableEventState _state = RecordableEventState.Idle;
@@ -28,6 +30,12 @@ public class RecordableEvent : MonoBehaviour, ICamcorderTarget
     public bool IsActive => _state != RecordableEventState.Completed || repeatable;
     public Transform TargetTransform => targetOverride != null ? targetOverride : transform;
     public float DetectionRadius => detectionRadius;
+
+    public bool TryGetLiveActionClip(out VideoClip clip)
+    {
+        clip = liveActionClip;
+        return liveActionClip != null;
+    }
 
     private void Awake()
     {

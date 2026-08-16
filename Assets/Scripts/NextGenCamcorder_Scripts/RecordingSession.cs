@@ -1,11 +1,15 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Video;
 
 public class RecordingSession
 {
     public float Duration { get; private set; }
     public bool IsCompleted { get; private set; }
+
+    public bool IsLiveAction { get; private set; }
+    public VideoClip LiveActionClip { get; private set; }
 
     private readonly List<VideoFrame> _videoFrames = new List<VideoFrame>();
     public IReadOnlyList<VideoFrame> VideoFrames => _videoFrames;
@@ -25,6 +29,12 @@ public class RecordingSession
     public bool ContainsEvent(string eventId) => _eventIds.Contains(eventId);
     public bool IsCorrupted { get; private set; }
     public void MarkAsCorrupted() => IsCorrupted = true;
+
+    public void SetLiveAction(VideoClip clip)
+    {
+        IsLiveAction = true;
+        LiveActionClip = clip;
+    }
 
     public void AddVideoFrame(VideoFrame frame)
     {
@@ -137,7 +147,7 @@ public struct RecordedAudioTrack
 public struct RecordedOneShotEvent
 {
     public string FMODPath;
-    public float Timestamp;   
-    public Vector3 Position; 
-    public float Volume;      
+    public float Timestamp;
+    public Vector3 Position;
+    public float Volume;
 }
