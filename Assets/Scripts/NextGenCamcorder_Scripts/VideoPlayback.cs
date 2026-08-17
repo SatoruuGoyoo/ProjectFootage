@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
+using FMOD.Studio;
+using FMODUnity;
 
 [RequireComponent(typeof(PlaybackClock))]
 public class VideoPlayback : MonoBehaviour
@@ -20,6 +22,9 @@ public class VideoPlayback : MonoBehaviour
     private VideoPlayer _liveActionPlayer;
     private RenderTexture _liveActionTexture;
     private bool _playingLiveAction;
+
+    private EventInstance _liveActionAudioInstance;
+    private bool _hasLiveActionAudio;
 
     private void Awake()
     {
@@ -95,6 +100,7 @@ public class VideoPlayback : MonoBehaviour
             _liveActionPlayer.playOnAwake = false;
             _liveActionPlayer.isLooping = false;
             _liveActionPlayer.renderMode = VideoRenderMode.RenderTexture;
+            _liveActionPlayer.audioOutputMode = VideoAudioOutputMode.None;
         }
 
         if (_liveActionTexture == null)
@@ -105,18 +111,36 @@ public class VideoPlayback : MonoBehaviour
         _liveActionPlayer.targetTexture = _liveActionTexture;
         displayImage.texture = _liveActionTexture;
 
-        _liveActionPlayer.audioOutputMode = VideoAudioOutputMode.Direct;
-        _liveActionPlayer.controlledAudioTrackCount = 1;
-        _liveActionPlayer.EnableAudioTrack(0, true);
-        _liveActionPlayer.SetDirectAudioVolume(0, 1f);
-
         _liveActionPlayer.Play();
+
+        StartLiveActionAudio();
+    }
+
+    private void StartLiveActionAudio()
+    {
+        _hasLiveActionAudio = false;
+        if (_session == null || _session.LiveActionAudio.IsNull) return;
+
+        _liveActionAudioInstance = RuntimeManager.CreateInstance(_session.LiveActionAudio);
+        _liveActionAudioInstance.start();
+        _hasLiveActionAudio = true;
+    }
+
+    private void StopLiveActionAudio()
+    {
+        if (!_hasLiveActionAudio) return;
+        _liveActionAudioInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        _liveActionAudioInstance.release();
+        _hasLiveActionAudio = false;
     }
 
     private void OnPause()
     {
         if (_playingLiveAction && _liveActionPlayer != null)
             _liveActionPlayer.Pause();
+
+        if (_hasLiveActionAudio)
+            _liveActionAudioInstance.setPaused(true);
     }
 
     private void OnStop()
@@ -126,6 +150,7 @@ public class VideoPlayback : MonoBehaviour
         if (displayImage != null) displayImage.gameObject.SetActive(true);
 
         if (_liveActionPlayer != null) _liveActionPlayer.Stop();
+        StopLiveActionAudio();
         _playingLiveAction = false;
         _session = null;
     }
@@ -138,6 +163,9 @@ public class VideoPlayback : MonoBehaviour
         {
             if (_liveActionPlayer != null && _liveActionPlayer.canSetTime)
                 _liveActionPlayer.time = time;
+
+            if (_hasLiveActionAudio)
+                _liveActionAudioInstance.setTimelinePosition(Mathf.RoundToInt(time * 1000f));
             return;
         }
 
@@ -178,5 +206,6 @@ public class VideoPlayback : MonoBehaviour
             _liveActionTexture.Release();
             Destroy(_liveActionTexture);
         }
+        StopLiveActionAudio();
     }
 }

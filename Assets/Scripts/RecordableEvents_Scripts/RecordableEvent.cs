@@ -15,6 +15,7 @@ public class RecordableEvent : MonoBehaviour, ICamcorderTarget
     [SerializeField] private Transform targetOverride;
     [SerializeField] private float detectionRadius = 0.8f;
     [SerializeField] private VideoClip liveActionClip;
+    [SerializeField] private FMODUnity.EventReference liveActionAudio;
 
     private IRecordableEffect[] _effects;
     private RecordableEventState _state = RecordableEventState.Idle;
@@ -26,6 +27,7 @@ public class RecordableEvent : MonoBehaviour, ICamcorderTarget
     public bool Repeatable => repeatable;
     public RecordableEventState State => _state;
     public float RecordDuration => duration;
+    public FMODUnity.EventReference LiveActionAudio => liveActionAudio;
     public float NormalizedProgress => duration > 0f ? Mathf.Clamp01(_elapsed / duration) : 0f;
 
     public bool IsActive => _state != RecordableEventState.Completed || repeatable;

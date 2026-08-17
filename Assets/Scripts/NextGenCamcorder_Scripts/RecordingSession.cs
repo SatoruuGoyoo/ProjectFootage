@@ -10,6 +10,7 @@ public class RecordingSession
 
     public bool IsLiveAction { get; private set; }
     public VideoClip LiveActionClip { get; private set; }
+    public FMODUnity.EventReference LiveActionAudio { get; private set; }
 
     private readonly List<VideoFrame> _videoFrames = new List<VideoFrame>();
     public IReadOnlyList<VideoFrame> VideoFrames => _videoFrames;
@@ -30,10 +31,11 @@ public class RecordingSession
     public bool IsCorrupted { get; private set; }
     public void MarkAsCorrupted() => IsCorrupted = true;
 
-    public void SetLiveAction(VideoClip clip)
+    public void SetLiveAction(VideoClip clip, FMODUnity.EventReference audio)
     {
         IsLiveAction = true;
         LiveActionClip = clip;
+        LiveActionAudio = audio;
     }
 
     public void AddVideoFrame(VideoFrame frame)

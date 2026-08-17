@@ -184,8 +184,12 @@ public class CamcorderController : MonoBehaviour
         if (objectiveTarget != null && objectiveTarget.TryGetLiveActionClip(out var clip))
         {
             _isLiveActionSession = true;
-            _activeSession.SetLiveAction(clip);
-            CurrentRecordingTarget = objectiveTarget is RecordableEvent re ? re.RecordDuration : recordDuration;
+
+            var re = objectiveTarget as RecordableEvent;
+            FMODUnity.EventReference audio = re != null ? re.LiveActionAudio : default;
+            _activeSession.SetLiveAction(clip, audio);
+
+            CurrentRecordingTarget = re != null ? re.RecordDuration : recordDuration;
         }
         else
         {
