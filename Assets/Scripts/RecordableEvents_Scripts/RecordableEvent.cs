@@ -25,6 +25,7 @@ public class RecordableEvent : MonoBehaviour, ICamcorderTarget
     public string EventId => eventId;
     public bool Repeatable => repeatable;
     public RecordableEventState State => _state;
+    public float RecordDuration => duration;
     public float NormalizedProgress => duration > 0f ? Mathf.Clamp01(_elapsed / duration) : 0f;
 
     public bool IsActive => _state != RecordableEventState.Completed || repeatable;

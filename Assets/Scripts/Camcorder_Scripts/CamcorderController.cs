@@ -30,6 +30,8 @@ public class CamcorderController : MonoBehaviour
     [SerializeField] private EventReference toggleEvent;
 
     public CamcorderMode CurrentCamMode => _currentCamMode;
+    public float CurrentRecordingTarget { get; private set; }
+    public float CurrentRecordingElapsed => recordTimer;
 
     private CamcorderMode _currentCamMode = CamcorderMode.Idle;
     private PlayerMode _currentPlayerMode = PlayerMode.ExplorationMode;
@@ -183,6 +185,11 @@ public class CamcorderController : MonoBehaviour
         {
             _isLiveActionSession = true;
             _activeSession.SetLiveAction(clip);
+            CurrentRecordingTarget = objectiveTarget is RecordableEvent re ? re.RecordDuration : recordDuration;
+        }
+        else
+        {
+            CurrentRecordingTarget = recordDuration;
         }
 
         if (!_isLiveActionSession)
@@ -204,7 +211,11 @@ public class CamcorderController : MonoBehaviour
             _spatialAudioRecorder.StopRecording();
         }
 
-        _activeSession.Complete(_recordingTimer);
+        float finalDuration = _isLiveActionSession && _activeSession.LiveActionClip != null
+            ? (float)_activeSession.LiveActionClip.length
+            : _recordingTimer;
+        _activeSession.Complete(finalDuration);
+
         _storage.AddRecording(_activeSession);
         _activeSession = null;
         _isLiveActionSession = false;
