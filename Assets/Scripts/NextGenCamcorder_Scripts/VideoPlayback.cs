@@ -95,15 +95,20 @@ public class VideoPlayback : MonoBehaviour
             _liveActionPlayer.playOnAwake = false;
             _liveActionPlayer.isLooping = false;
             _liveActionPlayer.renderMode = VideoRenderMode.RenderTexture;
-            _liveActionPlayer.audioOutputMode = VideoAudioOutputMode.Direct;
         }
 
         if (_liveActionTexture == null)
             _liveActionTexture = new RenderTexture(1920, 1080, 0);
 
+        _liveActionPlayer.Stop();
         _liveActionPlayer.clip = _session.LiveActionClip;
         _liveActionPlayer.targetTexture = _liveActionTexture;
         displayImage.texture = _liveActionTexture;
+
+        _liveActionPlayer.audioOutputMode = VideoAudioOutputMode.Direct;
+        _liveActionPlayer.controlledAudioTrackCount = 1;
+        _liveActionPlayer.EnableAudioTrack(0, true);
+        _liveActionPlayer.SetDirectAudioVolume(0, 1f);
 
         _liveActionPlayer.Play();
     }

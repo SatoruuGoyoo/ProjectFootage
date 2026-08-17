@@ -217,15 +217,22 @@ public sealed class CorderVisual : MonoBehaviour
 
         if (mode == CamcorderMode.Recording)
         {
+            if (!recordingProgressBar.gameObject.activeSelf)
+                recordingProgressBar.gameObject.SetActive(true);
+
             float target = controller != null ? controller.CurrentRecordingTarget : 0f;
             float elapsed = controller != null ? controller.CurrentRecordingElapsed : 0f;
             float progress = target > 0f ? Mathf.Clamp01(elapsed / target) : 0f;
             recordingProgressBar.fillAmount = progress;
             _wasRecording = true;
         }
-        else if (_wasRecording && mode == CamcorderMode.Idle)
+        else
         {
-            recordingProgressBar.fillAmount = 0f;
+            if (recordingProgressBar.gameObject.activeSelf)
+            {
+                recordingProgressBar.fillAmount = 0f;
+                recordingProgressBar.gameObject.SetActive(false);
+            }
             _wasRecording = false;
         }
     }
