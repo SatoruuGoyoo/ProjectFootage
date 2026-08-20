@@ -35,6 +35,7 @@ public class Door : Interactable
     [SerializeField] private EventReference lockedSound;
 
     [Header("Events")]
+    public UnityEvent OnFirstInteract;
     public UnityEvent OnFirstLockedInteract;
     public UnityEvent OnLockedInteract;
     public UnityEvent OnUnlockedWithItem;
@@ -43,6 +44,7 @@ public class Door : Interactable
     private bool manualLock;
     private bool _itemUsed;
     private bool _pendingConfirm;
+    private bool _interactedOnce;
     private bool _lockedInteractedOnce;
     private bool _lockedFeedbackActive;
     private float _interactCooldownTimer;
@@ -100,6 +102,12 @@ public class Door : Interactable
     public override void Interact()
     {
         if (_interactCooldownTimer > 0f) return;
+
+        if (!_interactedOnce)
+        {
+            _interactedOnce = true;
+            OnFirstInteract?.Invoke();
+        }
 
         if (IsLocked)
         {
