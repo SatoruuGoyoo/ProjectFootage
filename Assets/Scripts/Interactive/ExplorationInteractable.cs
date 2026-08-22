@@ -21,30 +21,36 @@ public class ExplorationInteractable : Interactable
     private int _index = -1;
     private bool _used;
 
+    private bool HasLines => lines != null && lines.Length > 0;
+    private bool OnLastLine => _index >= 0 && _index >= lines.Length - 1;
+
     public override string PromptMessage => examinePrompt;
-    public override bool CanInteract => !_used && lines != null && lines.Length > 0;
-    public override bool BlockMovement => true;
+    public override bool CanInteract => !_used && HasLines && !OnLastLine;
     public override bool IsActive => _index >= 0;
-    public override bool KeepProximityKeyWhenActive => true;
+    public override bool BlockMovement => true;
 
     public override void Interact()
     {
-        _index++;
+        if (!CanInteract) return;
 
-        if (_index >= lines.Length)
+        if (_index < 0)
         {
-            EndSequence();
-            return;
-        }
-
-        if (_index == 0)
-        {
-            GameEvents.PlayerModeChanged(PlayerMode.InteractionMode);
-            GameEvents.InteractPromptActivated(PromptMessage, ActiveIcon, KeepProximityKeyWhenActive);
+            _index = 0;
+            EnterInteractionMode();
             OnExamineStarted?.Invoke();
+        }
+        else
+        {
+            _index++;
         }
 
         subtitles.Show(lines[_index], uiPosition);
+    }
+
+    public override void Cancel()
+    {
+        if (_index < 0) return;
+        EndSequence();
     }
 
     private void EndSequence()
@@ -53,9 +59,7 @@ public class ExplorationInteractable : Interactable
         subtitles.Hide();
         if (oneTimeOnly) _used = true;
 
-        GameEvents.InteractPromptDeactivated();
-        GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
-
+        ExitInteractionMode();
         OnExamineFinished?.Invoke();
     }
 

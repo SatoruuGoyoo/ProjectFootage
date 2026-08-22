@@ -8,6 +8,9 @@ public class InteractableRadio : Interactable
     [SerializeField] private SubtitleBlock subtitles;
     [SerializeField] private SubtitleEntry[] subtitleEntries;
 
+    [Header("Prompt")]
+    [SerializeField] private string radioPrompt = "radio";
+
     [Header("Settings")]
     [SerializeField] private bool oneTimeOnly = false;
 
@@ -18,11 +21,10 @@ public class InteractableRadio : Interactable
     private World3DSource _source;
     private bool _used;
 
-    public override string PromptMessage => "radio";
-    public override bool CanInteract => !_used;
-    public override bool BlockMovement => false;
+    public override string PromptMessage => radioPrompt;
+    public override bool CanInteract => !_used && !_source.IsPlaying;
     public override bool IsActive => _source.IsPlaying;
-    public override bool KeepProximityKeyWhenActive => true;
+    public override bool BlockMovement => false;
 
     private void Awake()
     {
@@ -31,22 +33,25 @@ public class InteractableRadio : Interactable
 
     public override void Interact()
     {
-        if (_used) return;
-        if (oneTimeOnly) _used = true;
+        if (!CanInteract) return;
 
         _source.Toggle();
 
-        if (subtitles != null)
-        {
-            if (_source.IsPlaying)
-                subtitles.ShowSequence(subtitleEntries);
-            else
-                subtitles.Hide();
-        }
+        if (subtitles != null && subtitleEntries != null && subtitleEntries.Length > 0)
+            subtitles.ShowSequence(subtitleEntries);
 
-        if (_source.IsPlaying)
-            OnTurnedOn?.Invoke();
-        else
-            OnTurnedOff?.Invoke();
+        OnTurnedOn?.Invoke();
+    }
+
+    public override void Cancel()
+    {
+        if (!_source.IsPlaying) return;
+
+        _source.Toggle();
+
+        if (subtitles != null) subtitles.Hide();
+        if (oneTimeOnly) _used = true;
+
+        OnTurnedOff?.Invoke();
     }
 }

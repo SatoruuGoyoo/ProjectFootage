@@ -39,8 +39,9 @@ public class PlayerController : MonoBehaviour
 
         if (newMode == PlayerMode.InteractionMode || newMode == PlayerMode.MenuCameraMode)
             motor.StopPlayer();
+        else if (newMode != PlayerMode.ExplorationMode)
+            motor.ClearTurn();
     }
-
     private void OnControllerSchemeChanged(ControlScheme newScheme) => currentScheme = newScheme;
 
     private void Update()
@@ -61,9 +62,7 @@ public class PlayerController : MonoBehaviour
         float turn = ForwardOnlyMode ? 0f : input.Turn;
 
         motor.MoveTank(move, input.IsSprinting);
-
-        if (currentMode == PlayerMode.ExplorationMode)
-            motor.Turn(turn);
+        motor.Turn(currentMode == PlayerMode.ExplorationMode ? turn : 0f);
     }
 
     private void UpdateModern()

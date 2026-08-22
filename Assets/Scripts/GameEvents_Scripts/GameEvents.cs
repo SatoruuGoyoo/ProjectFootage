@@ -6,12 +6,9 @@ public static class GameEvents
     public static event Action OnPlayerDeath;
     public static event Action<float> OnHealthChanged;
 
-    // Interaction
-    public static event Action<string, UnityEngine.Sprite> OnInteractPromptChanged;
-
-    // Interact Prompt State
-    public static event Action<string, UnityEngine.Sprite, bool> OnInteractPromptActivated;
-    public static event Action OnInteractPromptDeactivated;
+    // Interact Prompt
+    public static event Action<InteractPrompt> OnInteractPromptShown;
+    public static event Action OnInteractPromptHidden;
 
     // Items
     public static event Action<string> OnItemCollected;
@@ -54,7 +51,7 @@ public static class GameEvents
     public static event Action OnConfirmationClosed;
 
     // Readable
-    public static event Action<UnityEngine.Sprite, string[], UIPositioner.ScreenPosition, Action> OnReadableOpened;
+    public static event Action<UnityEngine.Sprite, string[], UIPositioner.ScreenPosition> OnReadableOpened;
     public static event Action OnReadableClosed;
 
 
@@ -66,9 +63,8 @@ public static class GameEvents
     public static void ControllerSchemeChanged(ControlScheme scheme) => OnControllerSchemeChanged?.Invoke(scheme);
 
     // ── INTERACTION ──────────────────────────────────────────────────────────
-    public static void InteractPromptChanged(string newPrompt, UnityEngine.Sprite icon = null) => OnInteractPromptChanged?.Invoke(newPrompt, icon);
-    public static void InteractPromptActivated(string promptType, UnityEngine.Sprite icon = null, bool keepProximityKey = false) => OnInteractPromptActivated?.Invoke(promptType, icon, keepProximityKey);
-    public static void InteractPromptDeactivated() => OnInteractPromptDeactivated?.Invoke();
+    public static void InteractPromptShown(InteractPrompt prompt) => OnInteractPromptShown?.Invoke(prompt);
+    public static void InteractPromptHidden() => OnInteractPromptHidden?.Invoke();
 
     // ── ITEMS ────────────────────────────────────────────────────────────────
     public static void ItemCollected(string itemId) => OnItemCollected?.Invoke(itemId);
@@ -107,8 +103,8 @@ public static class GameEvents
     public static void CloseConfirmation() => OnConfirmationClosed?.Invoke();
 
     // ── READABLE ─────────────────────────────────────────────────────────────
-    public static void ReadableOpened(UnityEngine.Sprite sprite, string[] pages, UIPositioner.ScreenPosition position, Action onCloseRequested)
-    => OnReadableOpened?.Invoke(sprite, pages, position, onCloseRequested);
+    public static void ReadableOpened(UnityEngine.Sprite sprite, string[] pages, UIPositioner.ScreenPosition position)
+        => OnReadableOpened?.Invoke(sprite, pages, position);
     public static void ReadableClosed() => OnReadableClosed?.Invoke();
 
     // ── PAUSE ────────────────────────────────────────────────────────────────

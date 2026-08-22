@@ -10,6 +10,14 @@ public class PlayerHeadLook : MonoBehaviour
     [Tooltip("El nuevo target tiene que estar a esta fracción de la distancia actual (o menos) para reemplazarlo. Evita que titile entre dos interactuables a distancias parecidas.")]
     [Range(0.1f, 1f)][SerializeField] private float switchMargin = 0.85f;
 
+    [Header("Line of Sight")]
+    [SerializeField] private LayerMask occluderMask = 0;
+    [SerializeField] private Vector3 eyeOffset = new Vector3(0f, 1.4f, 0f);
+
+    [Header("Interaction")]
+    [Tooltip("Mantiene la mirada en el objeto mientras dura la interacción, en vez de volver a reposo.")]
+    [SerializeField] private bool holdTargetWhileInteracting = true;
+
     [Header("Head Aim")]
     [SerializeField] private Animator animator;
     [SerializeField] private float maxYawAngle = 60f;
@@ -28,6 +36,8 @@ public class PlayerHeadLook : MonoBehaviour
 
     private Collider[] _hits = new Collider[32];
 
+    public IInteractable CurrentTarget => HasValidTarget() ? _currentTarget : null;
+
     private void Awake()
     {
         if (animator == null) animator = GetComponentInChildren<Animator>();
@@ -38,10 +48,22 @@ public class PlayerHeadLook : MonoBehaviour
     private void OnEnable() => GameEvents.OnPlayerModeChanged += OnModeChanged;
     private void OnDisable() => GameEvents.OnPlayerModeChanged -= OnModeChanged;
 
-    private void OnModeChanged(PlayerMode newMode) => _currentMode = newMode;
+    private void OnModeChanged(PlayerMode newMode)
+    {
+        bool returningFromInteraction = _currentMode == PlayerMode.InteractionMode
+            && newMode == PlayerMode.ExplorationMode;
+
+        _currentMode = newMode;
+
+        if (returningFromInteraction) _refreshTimer = 0f;
+        else if (newMode == PlayerMode.InteractionMode && !holdTargetWhileInteracting)
+            ClearTarget();
+    }
 
     private void Update()
     {
+        if (_currentMode != PlayerMode.ExplorationMode) return;
+
         _refreshTimer -= Time.deltaTime;
         if (_refreshTimer <= 0f)
         {
@@ -55,6 +77,8 @@ public class PlayerHeadLook : MonoBehaviour
         Vector3 center = transform.TransformPoint(boxCenter);
         int hitCount = Physics.OverlapBoxNonAlloc(center, boxSize * 0.5f, _hits, transform.rotation, interactableMask);
 
+        Vector3 eye = transform.TransformPoint(eyeOffset);
+
         IInteractable best = null;
         Transform bestTransform = null;
         float bestDist = float.MaxValue;
@@ -63,8 +87,10 @@ public class PlayerHeadLook : MonoBehaviour
 
         for (int i = 0; i < hitCount; i++)
         {
-            if (!_hits[i].TryGetComponent<IInteractable>(out var interactable)) continue;
-            if (!interactable.CanInteract) continue;
+            var interactable = _hits[i].GetComponentInParent<IInteractable>();
+            if (interactable == null) continue;
+            if (!interactable.CanInteract && !interactable.IsActive) continue;
+            if (InteractionSight.IsBlocked(eye, _hits[i], interactable, occluderMask)) continue;
 
             float d = (_hits[i].transform.position - transform.position).sqrMagnitude;
 
@@ -92,11 +118,25 @@ public class PlayerHeadLook : MonoBehaviour
         _currentTargetTransform = bestTransform;
     }
 
+    private void ClearTarget()
+    {
+        _currentTarget = null;
+        _currentTargetTransform = null;
+    }
+
+    private bool HasValidTarget()
+    {
+        if (_currentTargetTransform == null) return false;
+        if (!_currentTargetTransform.gameObject.activeInHierarchy) return false;
+        if (_currentMode != PlayerMode.ExplorationMode && !holdTargetWhileInteracting) return false;
+        return true;
+    }
+
     private void LateUpdate()
     {
         if (_headBone == null) return;
 
-        bool hasTarget = _currentTargetTransform != null && _currentMode == PlayerMode.ExplorationMode;
+        bool hasTarget = HasValidTarget();
         float targetWeight = 0f;
 
         if (hasTarget)
