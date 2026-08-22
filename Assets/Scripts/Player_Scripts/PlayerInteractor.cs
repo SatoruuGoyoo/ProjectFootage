@@ -9,6 +9,10 @@ public class PlayerInteractor : MonoBehaviour
     [SerializeField] private LayerMask interactableMask = ~0;
     [SerializeField] private float refreshDelay = 0.1f;
 
+    [Header("Prompt Range")]
+    [Tooltip("Mientras no haya nada al alcance, el prompt sigue al objetivo del head look, atenuado por distancia.")]
+    [SerializeField] private PlayerHeadLook headLook;
+
     [Header("Line of Sight")]
     [SerializeField] private LayerMask occluderMask = 0;
     [SerializeField] private Vector3 eyeOffset = new Vector3(0f, 1.4f, 0f);
@@ -19,12 +23,18 @@ public class PlayerInteractor : MonoBehaviour
     private InputAction _cancelAction;
 
     private IInteractable _current;
+    private IInteractable _promptTarget;
     private PlayerMode _mode = PlayerMode.ExplorationMode;
     private float _refreshTimer;
     private bool _skipInputThisFrame;
 
     private InteractPrompt _published;
     private bool _promptVisible;
+
+    private void Awake()
+    {
+        if (headLook == null) headLook = GetComponentInParent<PlayerHeadLook>();
+    }
 
     private void Start()
     {
@@ -38,6 +48,7 @@ public class PlayerInteractor : MonoBehaviour
     {
         GameEvents.OnPlayerModeChanged -= OnModeChanged;
         _current = null;
+        _promptTarget = null;
         PublishPrompt();
     }
 
@@ -96,8 +107,14 @@ public class PlayerInteractor : MonoBehaviour
 
     private void RefreshCurrent()
     {
+        _current = FindNearest(boxSize);
+        _promptTarget = _current ?? (headLook != null ? headLook.CurrentTarget : null);
+    }
+
+    private IInteractable FindNearest(Vector3 size)
+    {
         Vector3 center = transform.TransformPoint(boxCenter);
-        int hitCount = Physics.OverlapBoxNonAlloc(center, boxSize * 0.5f, _hits, transform.rotation, interactableMask);
+        int hitCount = Physics.OverlapBoxNonAlloc(center, size * 0.5f, _hits, transform.rotation, interactableMask);
 
         Vector3 eye = transform.TransformPoint(eyeOffset);
 
@@ -111,11 +128,7 @@ public class PlayerInteractor : MonoBehaviour
             if (!target.CanInteract && !target.IsActive) continue;
             if (InteractionSight.IsBlocked(eye, _hits[i], target, occluderMask)) continue;
 
-            if (target.IsActive)
-            {
-                best = target;
-                break;
-            }
+            if (target.IsActive) return target;
 
             float d = (_hits[i].transform.position - transform.position).sqrMagnitude;
             if (d < bestDist)
@@ -125,14 +138,16 @@ public class PlayerInteractor : MonoBehaviour
             }
         }
 
-        _current = best;
+        return best;
     }
 
     private void PublishPrompt()
     {
         if (!HasCurrent()) _current = null;
+        if (!IsAlive(_promptTarget)) _promptTarget = null;
 
-        InteractPrompt prompt = InteractPrompt.From(_current);
+        IInteractable target = _promptTarget ?? _current;
+        InteractPrompt prompt = InteractPrompt.From(target, target != null && ReferenceEquals(target, _current));
         bool visible = prompt.IsVisible;
 
         if (visible == _promptVisible && prompt.Equals(_published)) return;
@@ -144,16 +159,19 @@ public class PlayerInteractor : MonoBehaviour
         else GameEvents.InteractPromptHidden();
     }
 
-    private bool HasCurrent()
+    private bool HasCurrent() => IsAlive(_current);
+
+    private static bool IsAlive(IInteractable target)
     {
-        if (_current == null) return false;
-        return !(_current is Object obj) || obj != null;
+        if (target == null) return false;
+        return !(target is Object obj) || obj != null;
     }
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = new Color(0f, 1f, 1f, 0.35f);
         Gizmos.matrix = Matrix4x4.TRS(transform.TransformPoint(boxCenter), transform.rotation, Vector3.one);
+
+        Gizmos.color = new Color(0f, 1f, 1f, 0.35f);
         Gizmos.DrawWireCube(Vector3.zero, boxSize);
     }
 }

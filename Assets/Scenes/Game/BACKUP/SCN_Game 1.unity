@@ -15845,6 +15845,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -20128,6 +20130,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 532449872}
   lines:
   - Wood seems to be falling off.
@@ -21925,6 +21929,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 532449872}
   subtitleEntries: []
   radioPrompt: radio
@@ -22641,6 +22647,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -25314,6 +25322,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 532449872}
   subtitleEntries: []
   radioPrompt: radio
@@ -37193,6 +37203,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -39613,8 +39625,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractPromptUI
   container: {fileID: 1698497515}
+  promptRect: {fileID: 0}
+  placement: 1
   positioner: {fileID: 0}
   defaultPosition: 4
+  player: {fileID: 0}
+  fullDistance: 1.4
+  fadeDistance: 4
+  minScale: 0.1
+  minAlpha: 0.1
+  blendSpeed: 6
+  promptCamera: {fileID: 0}
+  screenPadding: {x: 48, y: 48}
+  clampToScreen: 1
   interactIcon: {fileID: 1057862248}
   defaultInteractSprite: {fileID: 0}
   defaultCancelSprite: {fileID: 0}
@@ -39622,8 +39645,8 @@ MonoBehaviour:
   keyLabel: {fileID: 726005574}
   interactKeySprite: {fileID: 0}
   cancelKeySprite: {fileID: 0}
-  interactKeyText: '[E]'
-  cancelKeyText: '[F]'
+  interactKeyText: E
+  cancelKeyText: F
 --- !u!114 &532449877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40814,6 +40837,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 532449872}
   subtitleEntries:
   - text: The neighbors of [BEEP] are shaken by the brutal murder of [BEEP], the
@@ -110293,8 +110318,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 38.3728, y: 6.2573e-10}
-  m_SizeDelta: {x: 76.7456, y: 99.999}
+  m_AnchoredPosition: {x: 31.761593, y: 0}
+  m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &726005574
 MonoBehaviour:
@@ -110343,8 +110368,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
-  m_fontSizeBase: 50
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -112453,6 +112478,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 532449872}
   lines:
   - No use. Jammed.
@@ -113445,6 +113472,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   camcorderSystem: {fileID: 326033778}
   camcorderModel: {fileID: 1716362536}
   pickupPrompt: camcorder
@@ -118017,6 +118046,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 532449872}
   subtitleEntries:
   - text: Just static...
@@ -118489,6 +118520,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 0
@@ -119567,6 +119600,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -126307,8 +126342,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -50, y: -0.00071167946}
-  m_SizeDelta: {x: 71.0601, y: 74.4425}
+  m_AnchoredPosition: {x: -43.4, y: 0.000020742}
+  m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1057862248
 MonoBehaviour:
@@ -126477,6 +126512,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 532449872}
   lines:
   - 'Strange... here it says:'
@@ -128184,6 +128221,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 532449872}
   subtitleEntries: []
   radioPrompt: radio
@@ -131928,6 +131967,8 @@ MonoBehaviour:
   uiPosition: 8
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: doorknob
   startLocked: 0
   playerCanToggle: 1
@@ -132209,6 +132250,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: key313
   startLocked: 0
   playerCanToggle: 0
@@ -214742,6 +214785,8 @@ MonoBehaviour:
   uiPosition: 8
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   itemId: key313
   prompt: .
   feedbackMessage: Key acquired
@@ -297199,6 +297244,8 @@ MonoBehaviour:
   uiPosition: 4
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   sprite: {fileID: 21300000, guid: 7514bf4d000e0ce45ba72d88457e8835, type: 3}
   pages:
   - 'Welcome to the <color=red><i>LMH Hotel</color></i> '
@@ -303311,6 +303358,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 532449872}
   lines:
   - An OLD TV
@@ -305471,6 +305520,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 532449872}
   lines:
   - Why is there a doormframe without a door?
@@ -312239,6 +312290,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 999748641}
+  promptOffset: {x: 0.08, y: 0.7, z: 0}
   correctCode: 1234
   isBroken: 0
   brokenMessage: 'Another broken phone. '
@@ -315489,6 +315542,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 532449872}
   lines:
   - Wood seems to be falling off.
@@ -316139,7 +316194,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -240.38354, y: -112}
-  m_SizeDelta: {x: 204.7618, y: 104.7546}
+  m_SizeDelta: {x: 140, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &1698497515
 CanvasGroup:
@@ -316166,7 +316221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.02641511, g: 0.02641511, b: 0.02641511, a: 0.78431374}
+  m_Color: {r: 0.02641511, g: 0.02641511, b: 0.02641511, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -318386,6 +318441,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 532449872}
   lines:
   - Being here...
@@ -389705,6 +389762,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -457083,6 +457142,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   correctCode: 1234
   isBroken: 0
   brokenMessage: Broken old phone. Great.
@@ -458872,6 +458933,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -459600,6 +459663,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 532449872}
   subtitleEntries: []
   radioPrompt: radio
@@ -460452,6 +460517,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -462606,6 +462673,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   correctCode: 1234
   isBroken: 0
   brokenMessage: El telefono no funciona
@@ -464884,6 +464953,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 0

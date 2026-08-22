@@ -28,12 +28,15 @@ public class PlayerHeadLook : MonoBehaviour
 
     private Transform _headBone;
     private Transform _currentTargetTransform;
+    private IInteractable _currentTarget;
     private PlayerMode _currentMode = PlayerMode.ExplorationMode;
     private Quaternion _currentLookRotation;
     private float _weight;
     private float _refreshTimer;
 
     private Collider[] _hits = new Collider[32];
+
+    public IInteractable CurrentTarget => HasValidTarget() ? _currentTarget : null;
 
     private void Awake()
     {
@@ -54,7 +57,7 @@ public class PlayerHeadLook : MonoBehaviour
 
         if (returningFromInteraction) _refreshTimer = 0f;
         else if (newMode == PlayerMode.InteractionMode && !holdTargetWhileInteracting)
-            _currentTargetTransform = null;
+            ClearTarget();
     }
 
     private void Update()
@@ -76,6 +79,7 @@ public class PlayerHeadLook : MonoBehaviour
 
         Vector3 eye = transform.TransformPoint(eyeOffset);
 
+        IInteractable best = null;
         Transform bestTransform = null;
         float bestDist = float.MaxValue;
         bool currentStillValid = false;
@@ -99,6 +103,7 @@ public class PlayerHeadLook : MonoBehaviour
             if (d < bestDist)
             {
                 bestDist = d;
+                best = interactable;
                 bestTransform = _hits[i].transform;
             }
         }
@@ -109,7 +114,14 @@ public class PlayerHeadLook : MonoBehaviour
             return;
         }
 
+        _currentTarget = best;
         _currentTargetTransform = bestTransform;
+    }
+
+    private void ClearTarget()
+    {
+        _currentTarget = null;
+        _currentTargetTransform = null;
     }
 
     private bool HasValidTarget()

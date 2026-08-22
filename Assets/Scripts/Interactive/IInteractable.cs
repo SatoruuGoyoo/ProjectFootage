@@ -8,6 +8,8 @@ public interface IInteractable
     bool BlockMovement { get; }
     Sprite PromptIcon { get; }
     Sprite ActiveIcon { get; }
+    Transform PromptAnchor { get; }
+    Vector3 PromptOffset { get; }
     void Interact();
     void Cancel();
 }
