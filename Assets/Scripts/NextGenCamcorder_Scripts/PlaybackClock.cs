@@ -13,8 +13,8 @@ public class PlaybackClock : MonoBehaviour
     public event Action OnPlay;
     public event Action OnPause;
     public event Action OnStop;
-    public event Action<float> OnSeek;     
-    public event Action OnComplete; 
+    public event Action<float> OnSeek;
+    public event Action OnComplete;
 
     private RecordingSession _session;
 

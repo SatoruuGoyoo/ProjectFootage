@@ -29,7 +29,7 @@ public class FeedbackUI : MonoBehaviour
 
     private void OnFeedback(string message, UIPositioner.ScreenPosition position, float duration)
     {
-        if (!UILayerManager.TryShow(UILayerManager.Layer.Feedback, ForceHide)) return;
+        if (!UILayerManager.TryShow(UILayerManager.Layer.Feedback, this, position, ForceHide)) return;
         positioner?.SetPosition(position);
         if (messageLabel != null) messageLabel.SetText(message);
         _timer = duration > 0f ? duration : defaultDisplayDuration;
@@ -38,15 +38,14 @@ public class FeedbackUI : MonoBehaviour
 
     private void Hide()
     {
-        UILayerManager.Release(UILayerManager.Layer.Feedback);
+        UILayerManager.Release(UILayerManager.Layer.Feedback, this);
         SetVisible(false);
     }
 
-    // Llamado por UILayerManager si algo de mayor prioridad nos desplaza.
     private void ForceHide()
     {
         _timer = 0f;
-        UILayerManager.Release(UILayerManager.Layer.Feedback);
+        UILayerManager.Release(UILayerManager.Layer.Feedback, this);
         SetVisible(false);
     }
 

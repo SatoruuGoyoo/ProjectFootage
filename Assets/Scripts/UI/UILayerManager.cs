@@ -2,119 +2,124 @@
 using System.Collections.Generic;
 
 /// <summary>
-/// Manages UI layer priorities so panels never overlap.
+/// Arbitra qué panel ocupa cada posición de pantalla.
 ///
-/// Each panel registers itself with a Layer. When a new panel wants to show:
-///   - If a HIGHER priority panel is open → rechazado (returns false).
-///   - If an EQUAL or LOWER priority panel is open → ese panel se cierra primero,
-///     luego el nuevo se muestra.
+/// Regla: dos paneles nunca comparten fila de pantalla (Upper / Middle / Lower).
+/// Se compara por fila y no por celda exacta porque un texto largo en
+/// LowerCenter invade LowerRight. Al pedir una fila ocupada, el ocupante recibe
+/// su callback de cierre y el nuevo se muestra. Confirmation es modal: mientras
+/// está abierta cierra todo y rechaza cualquier otro panel.
 ///
-/// Layers (de menor a mayor prioridad):
-///   1  InteractPrompt
-///   2  Feedback
-///   3  Readable
-///   4  Confirmation
-///   97 TutorialPrompt  ← pista paralela, solo bloqueada por Confirmation
-///   98 EntityFeedback  ← pista paralela, solo bloqueada por Confirmation
-///   99 Subtitles       ← pista paralela, solo bloqueada por Confirmation
+/// Cada layer admite un solo dueño a la vez. Si otra instancia de la misma
+/// layer pide mostrarse, la anterior se cierra primero (no queda huérfana).
 ///
 /// Uso:
-///   Al mostrar:  if (!UILayerManager.TryShow(Layer.X, OnForceHide)) return;
-///   Al ocultar:  UILayerManager.Release(Layer.X);
+///   if (!UILayerManager.TryShow(Layer.X, this, position, ForceHide)) return;
+///   UILayerManager.Release(Layer.X, this);
 /// </summary>
 public static class UILayerManager
 {
     public enum Layer
     {
-        InteractPrompt = 1,
-        Feedback = 2,
-        Readable = 3,
-        Confirmation = 4,
-        TutorialPrompt = 97,
-        EntityFeedback = 98,
-        Subtitles = 99,
+        Feedback = 10,
+        TutorialPrompt = 20,
+        EntityFeedback = 30,
+        Subtitles = 40,
+        Readable = 50,
+        Confirmation = 60,
     }
 
-    // Cada layer activo guarda el callback para forzar su cierre.
-    private static readonly Dictionary<Layer, Action> _active = new();
+    public static event Action<bool> OnModalChanged;
 
-    // ── Public API ────────────────────────────────────────────────────────────
-
-    /// <summary>
-    /// Intenta mostrar el panel de la layer dada.
-    /// - onForceHide: callback que se llama si otro panel de mayor prioridad
-    ///   desplaza a este (o si este desplaza a otro de menor prioridad).
-    /// Devuelve true si puede mostrarse, false si fue bloqueado.
-    /// </summary>
-    public static bool TryShow(Layer layer, Action onForceHide)
+    private struct Entry
     {
-        if (layer == Layer.Subtitles || layer == Layer.InteractPrompt
-            || layer == Layer.EntityFeedback || layer == Layer.TutorialPrompt)
-        {
-            if (_active.ContainsKey(Layer.Confirmation)) return false;
-            if (layer == Layer.InteractPrompt && _active.ContainsKey(Layer.Readable)) return false;
-            RegisterLayer(layer, onForceHide);
-            return true;
-        }
+        public object Owner;
+        public UIPositioner.ScreenPosition Slot;
+        public Action ForceHide;
+    }
 
+    private static readonly Dictionary<Layer, Entry> _active = new();
+    private static readonly List<Layer> _toClose = new();
+
+    public static bool IsModalOpen => _active.ContainsKey(Layer.Confirmation);
+
+    public static bool TryShow(Layer layer, object owner, UIPositioner.ScreenPosition slot, Action onForceHide)
+    {
+        if (owner == null) return false;
+
+        bool modal = layer == Layer.Confirmation;
+        if (IsModalOpen && !modal) return false;
+
+        _toClose.Clear();
         foreach (var kv in _active)
         {
-            if (kv.Key == Layer.Subtitles) continue;
-            if (kv.Key == Layer.InteractPrompt) continue;
-            if (kv.Key == Layer.EntityFeedback) continue;
-            if (kv.Key == Layer.TutorialPrompt) continue;
-            if ((int)kv.Key > (int)layer) return false;
+            if (kv.Key == layer)
+            {
+                if (!ReferenceEquals(kv.Value.Owner, owner)) _toClose.Add(kv.Key);
+                continue;
+            }
+
+            if (modal || RowOf(kv.Value.Slot) == RowOf(slot)) _toClose.Add(kv.Key);
         }
 
-        ForceCloseLayersUpTo(layer);
-        RegisterLayer(layer, onForceHide);
+        CloseEntries(_toClose);
+
+        bool wasModalOpen = IsModalOpen;
+
+        _active[layer] = new Entry
+        {
+            Owner = owner,
+            Slot = slot,
+            ForceHide = onForceHide,
+        };
+
+        if (modal && !wasModalOpen) OnModalChanged?.Invoke(true);
         return true;
     }
 
-    /// <summary>
-    /// Llama cuando el panel se oculta por sí solo (timer, input, etc.).
-    /// </summary>
-    public static void Release(Layer layer)
+    public static void Release(Layer layer, object owner)
     {
+        if (!_active.TryGetValue(layer, out var entry)) return;
+        if (!ReferenceEquals(entry.Owner, owner)) return;
+
         _active.Remove(layer);
+        if (layer == Layer.Confirmation) OnModalChanged?.Invoke(false);
     }
 
-    /// <summary>
-    /// Fuerza el cierre de todos los paneles activos (ej: cambio de escena).
-    /// </summary>
     public static void Reset()
     {
-        // Disparar todos los callbacks antes de limpiar.
-        foreach (var kv in new Dictionary<Layer, Action>(_active))
-            kv.Value?.Invoke();
+        _toClose.Clear();
+        foreach (var kv in _active) _toClose.Add(kv.Key);
+        CloseEntries(_toClose);
         _active.Clear();
+        OnModalChanged?.Invoke(false);
     }
 
-    // ── Internos ──────────────────────────────────────────────────────────────
-
-    private static void RegisterLayer(Layer layer, Action onForceHide)
+    private static int RowOf(UIPositioner.ScreenPosition position) => position switch
     {
-        // Si ya estaba registrado (ej: feedback nuevo antes de que expire el timer),
-        // actualizamos el callback pero NO disparamos el viejo.
-        _active[layer] = onForceHide;
-    }
+        UIPositioner.ScreenPosition.UpperLeft => 0,
+        UIPositioner.ScreenPosition.UpperCenter => 0,
+        UIPositioner.ScreenPosition.UpperRight => 0,
+        UIPositioner.ScreenPosition.MiddleLeft => 1,
+        UIPositioner.ScreenPosition.MiddleCenter => 1,
+        UIPositioner.ScreenPosition.MiddleRight => 1,
+        _ => 2,
+    };
 
-    private static void ForceCloseLayersUpTo(Layer incoming)
+    private static void CloseEntries(List<Layer> layers)
     {
-        var toClose = new List<Layer>();
-        foreach (var kv in _active)
+        if (layers.Count == 0) return;
+
+        bool closedModal = false;
+
+        for (int i = 0; i < layers.Count; i++)
         {
-            if (kv.Key == Layer.Subtitles) continue;
-            if (kv.Key == Layer.InteractPrompt) continue;
-            if (kv.Key == Layer.EntityFeedback) continue;
-            if (kv.Key == Layer.TutorialPrompt) continue;
-            if ((int)kv.Key <= (int)incoming)
-                toClose.Add(kv.Key);
+            if (!_active.TryGetValue(layers[i], out var entry)) continue;
+            _active.Remove(layers[i]);
+            if (layers[i] == Layer.Confirmation) closedModal = true;
+            entry.ForceHide?.Invoke();
         }
-        foreach (var l in toClose)
-        {
-            _active[l]?.Invoke();
-            _active.Remove(l);
-        }
+
+        if (closedModal) OnModalChanged?.Invoke(false);
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -29,19 +28,16 @@ public class ReadableUI : MonoBehaviour
 
     private Coroutine _animCoroutine;
     private InputAction _navigateAction;
-    private InputAction _cancelAction;
     private bool _isOpen;
     private bool _navigateNeutral = true;
     private string[] _pages;
     private int _currentPage;
-    private Action _onCloseRequested;
 
     private void Awake() => ForceHide();
 
     private void Start()
     {
         _navigateAction = PlayerInput.Actions.UI.Navigate;
-        _cancelAction = PlayerInput.Actions.UI.Cancel;
     }
 
     private void OnEnable()
@@ -60,12 +56,6 @@ public class ReadableUI : MonoBehaviour
     {
         if (!_isOpen) return;
 
-        if (_cancelAction.WasPressedThisFrame())
-        {
-            _onCloseRequested?.Invoke();
-            return;
-        }
-
         float h = _navigateAction.ReadValue<Vector2>().x;
 
         if (_navigateNeutral)
@@ -81,15 +71,14 @@ public class ReadableUI : MonoBehaviour
         }
     }
 
-    private void OnOpened(Sprite sprite, string[] pages, UIPositioner.ScreenPosition position, Action onCloseRequested)
+    private void OnOpened(Sprite sprite, string[] pages, UIPositioner.ScreenPosition position)
     {
-        if (!UILayerManager.TryShow(UILayerManager.Layer.Readable, ForceHide)) return;
+        if (!UILayerManager.TryShow(UILayerManager.Layer.Readable, this, position, ForceHide)) return;
         positioner?.SetPosition(position);
         if (itemSprite != null) itemSprite.sprite = sprite;
 
         _pages = (pages != null && pages.Length > 0) ? pages : new[] { "" };
         _currentPage = 0;
-        _onCloseRequested = onCloseRequested;
         _navigateNeutral = Mathf.Abs(_navigateAction.ReadValue<Vector2>().x) < 0.5f;
         RefreshPage();
         _isOpen = true;
@@ -118,7 +107,7 @@ public class ReadableUI : MonoBehaviour
     private void OnClosed()
     {
         _isOpen = false;
-        UILayerManager.Release(UILayerManager.Layer.Readable);
+        UILayerManager.Release(UILayerManager.Layer.Readable, this);
         if (_animCoroutine != null) StopCoroutine(_animCoroutine);
         _animCoroutine = StartCoroutine(AnimateOut());
     }
@@ -126,7 +115,7 @@ public class ReadableUI : MonoBehaviour
     private void ForceHide()
     {
         _isOpen = false;
-        UILayerManager.Release(UILayerManager.Layer.Readable);
+        UILayerManager.Release(UILayerManager.Layer.Readable, this);
         if (_animCoroutine != null) { StopCoroutine(_animCoroutine); _animCoroutine = null; }
         SetVisible(false);
     }

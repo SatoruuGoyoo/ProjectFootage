@@ -1,17 +1,9 @@
-﻿using System.Text;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-/// <summary>
-/// HUD visual del camcorder. Zero GC alloc por frame en condiciones normales.
-/// La jerarquía de UI se arma a mano en el Editor; este script solo controla
-/// las referencias asignadas por Inspector (no crea GameObjects en runtime).
-/// </summary>
 public sealed class CorderVisual : MonoBehaviour
 {
-    // ─── Inspector: referencias de cámara/lógica ───────────────────────────────
-
     [Header("References")]
     [SerializeField] private Camera camcorderCamera;
     [SerializeField] private VideoRecorder recorder;
@@ -28,44 +20,23 @@ public sealed class CorderVisual : MonoBehaviour
     [Header("Blink")]
     [SerializeField] private float recBlinkSpeed = 2.5f;
 
-    // ─── Inspector: referencias de UI (armadas a mano en el Editor) ───────────
-
     [Header("HUD UI (asignar a mano en el Editor)")]
-    [Tooltip("Root que se prende/apaga según si la cámara del camcorder está activa. Puede ser el Canvas, un panel, o un CanvasGroup, lo que vos quieras toggle-ar.")]
+    [Tooltip("Root que se prende/apaga según si la cámara del camcorder está activa.")]
     [SerializeField] private GameObject hudRoot;
     [SerializeField] private Image recDot;
     [SerializeField] private TMP_Text recText;
-    [SerializeField] private TMP_Text timecodeText;
+    [SerializeField] private Image recordingProgressBar;
     [SerializeField] private Image recordingIndicatorImage;
-
-    // ─── GL rendering ─────────────────────────────────────────────────────────
 
     private Material _glMat;
 
-    // Vértices del frustum reutilizados (sin new Vector3 cada frame)
-    private readonly Vector3[] _frustumVerts = new Vector3[4]; // tl, tr, bl, br
-
-    // Colores precalculados para los tres estados (evita new Color en hot-path)
+    private readonly Vector3[] _frustumVerts = new Vector3[4];
     private Color _idleFrameColor;
     private Color _recFrameColor;
     private Color _prepFrameColor;
 
-    // StringBuilder reutilizable para el timecode → 0 alloc
-    private readonly StringBuilder _sb = new StringBuilder(8, 8);
-
-    // ─── State ────────────────────────────────────────────────────────────────
-
-    private float _recordingTime;
     private bool _wasRecording;
-    private CamcorderMode _lastMode = (CamcorderMode)(-1); // fuerza primera actualización
-
-    // Cache para evitar reconstruir el string del timecode si nada cambió
-    private int _lastTotalSeconds = -1;
-    private char _lastSep = '\0';
-
-    // =========================================================================
-    // Unity lifecycle
-    // =========================================================================
+    private CamcorderMode _lastMode = (CamcorderMode)(-1);
 
     private void Awake()
     {
@@ -87,18 +58,16 @@ public sealed class CorderVisual : MonoBehaviour
 
         if (!camActive) return;
 
-        // Calcular el modo UNA SOLA VEZ por frame y cacharlo
         CamcorderMode mode = GetCurrentMode();
 
         UpdateRecIndicator(mode);
-        UpdateTimecode(mode);
+        UpdateProgressBar(mode);
 
         _lastMode = mode;
     }
 
     private void OnRenderObject()
     {
-        // Guard clauses baratas antes de hacer cualquier trabajo de GL
         if (_glMat == null) return;
         if (camcorderCamera == null) return;
         if (!camcorderCamera.gameObject.activeInHierarchy) return;
@@ -114,7 +83,6 @@ public sealed class CorderVisual : MonoBehaviour
         GL.Begin(GL.LINES);
         GL.Color(col);
 
-        // tl=0, tr=1, bl=2, br=3
         GL.Vertex(_frustumVerts[0]); GL.Vertex(_frustumVerts[1]); // top
         GL.Vertex(_frustumVerts[1]); GL.Vertex(_frustumVerts[3]); // right
         GL.Vertex(_frustumVerts[3]); GL.Vertex(_frustumVerts[2]); // bottom
@@ -129,11 +97,6 @@ public sealed class CorderVisual : MonoBehaviour
         if (_glMat != null) Destroy(_glMat);
     }
 
-    // =========================================================================
-    // GL helpers
-    // =========================================================================
-
-    /// <summary>Precalcula los 4 vértices del frustum en _frustumVerts (sin alloc).</summary>
     private void ComputeFrustumVerts()
     {
         Transform camT = camcorderCamera.transform;
@@ -161,10 +124,6 @@ public sealed class CorderVisual : MonoBehaviour
         _glMat.SetInt("_ZTest", (int)UnityEngine.Rendering.CompareFunction.Always);
     }
 
-    // =========================================================================
-    // State helpers
-    // =========================================================================
-
     private CamcorderMode GetCurrentMode()
     {
         if (controller != null) return controller.CurrentCamMode;
@@ -172,10 +131,6 @@ public sealed class CorderVisual : MonoBehaviour
         return CamcorderMode.Idle;
     }
 
-    /// <summary>
-    /// Precalcula los colores derivados de los campos serializados.
-    /// Llamar en Awake y también desde OnValidate para preview en Editor.
-    /// </summary>
     private void CacheFrameColors()
     {
         _recFrameColor = recColor;
@@ -183,7 +138,6 @@ public sealed class CorderVisual : MonoBehaviour
         _idleFrameColor = new Color(hudColor.r, hudColor.g, hudColor.b, 0.5f);
     }
 
-    // Retorna referencia a color precalculado → sin new Color en hot-path
     private Color GetFrameColor(CamcorderMode mode) => mode switch
     {
         CamcorderMode.Recording => _recFrameColor,
@@ -199,17 +153,13 @@ public sealed class CorderVisual : MonoBehaviour
             Debug.LogWarning($"[CorderVisual] '{name}': falta asignar recDot en el Inspector.", this);
         if (recText == null)
             Debug.LogWarning($"[CorderVisual] '{name}': falta asignar recText en el Inspector.", this);
-        if (timecodeText == null)
-            Debug.LogWarning($"[CorderVisual] '{name}': falta asignar timecodeText en el Inspector.", this);
+        if (recordingProgressBar == null)
+            Debug.LogWarning($"[CorderVisual] '{name}': falta asignar recordingProgressBar en el Inspector.", this);
     }
 
 #if UNITY_EDITOR
     private void OnValidate() => CacheFrameColors();
 #endif
-
-    // =========================================================================
-    // HUD – actualización por frame (hot-path, zero alloc)
-    // =========================================================================
 
     private void UpdateRecIndicator(CamcorderMode mode)
     {
@@ -239,7 +189,7 @@ public sealed class CorderVisual : MonoBehaviour
             recText.color = c;
 
             if (recordingIndicatorImage != null)
-                recordingIndicatorImage.color = _recFrameColor; // <- nuevo
+                recordingIndicatorImage.color = _recFrameColor;
 
             if (_lastMode != CamcorderMode.Recording)
                 recText.text = "REC";
@@ -261,54 +211,29 @@ public sealed class CorderVisual : MonoBehaviour
         }
     }
 
-    private void UpdateTimecode(CamcorderMode mode)
+    private void UpdateProgressBar(CamcorderMode mode)
     {
-        if (timecodeText == null) return;
+        if (recordingProgressBar == null) return;
 
         if (mode == CamcorderMode.Recording)
         {
-            _recordingTime += Time.deltaTime;
+            if (!recordingProgressBar.gameObject.activeSelf)
+                recordingProgressBar.gameObject.SetActive(true);
+
+            float target = controller != null ? controller.CurrentRecordingTarget : 0f;
+            float elapsed = controller != null ? controller.CurrentRecordingElapsed : 0f;
+            float progress = target > 0f ? Mathf.Clamp01(elapsed / target) : 0f;
+            recordingProgressBar.fillAmount = progress;
             _wasRecording = true;
         }
-        else if (_wasRecording && mode == CamcorderMode.Idle)
+        else
         {
-            _recordingTime = 0f;
+            if (recordingProgressBar.gameObject.activeSelf)
+            {
+                recordingProgressBar.fillAmount = 0f;
+                recordingProgressBar.gameObject.SetActive(false);
+            }
             _wasRecording = false;
         }
-
-        // Separador parpadeante sin alloc de string
-        char sep = (mode == CamcorderMode.Recording && Mathf.Sin(Time.time * 4f) > 0f)
-                 ? ':'
-                 : ' ';
-
-        int tot = Mathf.FloorToInt(_recordingTime);
-
-        // Si ni el segundo entero ni el separador parpadeante cambiaron, no hay nada
-        // que actualizar: nos ahorramos el ToString() (y su alloc) frame a frame.
-        if (tot == _lastTotalSeconds && sep == _lastSep) return;
-
-        _lastTotalSeconds = tot;
-        _lastSep = sep;
-
-        int hh = tot / 3600;
-        int mm = (tot % 3600) / 60;
-        int ss = tot % 60;
-
-        // Construir "HH:MM:SS" con StringBuilder (reutilizado) → 0 alloc
-        _sb.Clear();
-        AppendTwoDigits(_sb, hh);
-        _sb.Append(sep);
-        AppendTwoDigits(_sb, mm);
-        _sb.Append(sep);
-        AppendTwoDigits(_sb, ss);
-
-        timecodeText.SetText(_sb); // TMP_Text toma el StringBuilder directo → 0 alloc total
-    }
-
-    /// <summary>Escribe un entero de 0-99 como dos dígitos sin alloc.</summary>
-    private static void AppendTwoDigits(StringBuilder sb, int value)
-    {
-        sb.Append((char)('0' + value / 10));
-        sb.Append((char)('0' + value % 10));
     }
 }

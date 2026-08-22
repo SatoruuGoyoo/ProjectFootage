@@ -109,7 +109,7 @@ public class ConfirmationUI : MonoBehaviour
 
     private void OnRequested(string message, System.Action onConfirm, System.Action onDecline, UIPositioner.ScreenPosition position)
     {
-        UILayerManager.TryShow(UILayerManager.Layer.Confirmation, ForceHide);
+        if (!UILayerManager.TryShow(UILayerManager.Layer.Confirmation, this, position, ForceHide)) return;
         positioner?.SetPosition(position);
         _onConfirm = onConfirm;
         _onDecline = onDecline;
@@ -127,7 +127,7 @@ public class ConfirmationUI : MonoBehaviour
         _onConfirm = null;
         _onDecline = null;
         SetVisible(false);
-        UILayerManager.Release(UILayerManager.Layer.Confirmation);
+        UILayerManager.Release(UILayerManager.Layer.Confirmation, this);
         GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
     }
 
@@ -150,9 +150,9 @@ public class ConfirmationUI : MonoBehaviour
         _onConfirm = null;
         _onDecline = null;
         SetVisible(false);
-        UILayerManager.Release(UILayerManager.Layer.Confirmation);
-        //GameEvents.CloseConfirmation();
+        UILayerManager.Release(UILayerManager.Layer.Confirmation, this);
         GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
+        GameEvents.CloseConfirmation();
     }
 
     private void ForceHide()
@@ -160,7 +160,7 @@ public class ConfirmationUI : MonoBehaviour
         _onConfirm = null;
         _onDecline = null;
         SetVisible(false);
-        UILayerManager.Release(UILayerManager.Layer.Confirmation);
+        UILayerManager.Release(UILayerManager.Layer.Confirmation, this);
     }
 
     private void SetVisible(bool visible)

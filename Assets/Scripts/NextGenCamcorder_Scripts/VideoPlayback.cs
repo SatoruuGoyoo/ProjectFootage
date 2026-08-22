@@ -1,5 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
+using FMOD.Studio;
+using FMODUnity;
 
 [RequireComponent(typeof(PlaybackClock))]
 public class VideoPlayback : MonoBehaviour
@@ -15,6 +18,13 @@ public class VideoPlayback : MonoBehaviour
     private RecordingSession _session;
 
     private Texture2D _displayTexture;
+
+    private VideoPlayer _liveActionPlayer;
+    private RenderTexture _liveActionTexture;
+    private bool _playingLiveAction;
+
+    private EventInstance _liveActionAudioInstance;
+    private bool _hasLiveActionAudio;
 
     private void Awake()
     {
@@ -45,24 +55,29 @@ public class VideoPlayback : MonoBehaviour
 
         if (_displayTexture == null)
             _displayTexture = new Texture2D(640, 480, TextureFormat.RGB24, false);
-
-        displayImage.texture = _displayTexture;
     }
 
     private void OnPlay()
     {
-        Debug.Log($"[VideoPlayback] OnPlay | session null? {_session == null} | corrupted? {_session?.IsCorrupted} | displayImage null? {displayImage == null} | noDataOverlay null? {noDataOverlay == null}");
         playbackPanel.SetActive(true);
 
         if (_session != null && _session.IsCorrupted)
         {
-            Debug.Log("[VideoPlayback] CORRUPTA → ShowNoData");
             ShowNoData();
             return;
         }
 
         if (displayImage != null) displayImage.gameObject.SetActive(true);
         if (noDataOverlay != null) noDataOverlay.SetActive(false);
+
+        if (_session != null && _session.IsLiveAction)
+        {
+            StartLiveAction();
+            return;
+        }
+
+        _playingLiveAction = false;
+        displayImage.texture = _displayTexture;
 
         if (_session != null && _session.VideoFrames.Count > 0)
         {
@@ -75,37 +90,100 @@ public class VideoPlayback : MonoBehaviour
         }
     }
 
-    private void OnPause() { }
+    private void StartLiveAction()
+    {
+        _playingLiveAction = true;
+
+        if (_liveActionPlayer == null)
+        {
+            _liveActionPlayer = gameObject.AddComponent<VideoPlayer>();
+            _liveActionPlayer.playOnAwake = false;
+            _liveActionPlayer.isLooping = false;
+            _liveActionPlayer.renderMode = VideoRenderMode.RenderTexture;
+            _liveActionPlayer.audioOutputMode = VideoAudioOutputMode.None;
+        }
+
+        if (_liveActionTexture == null)
+            _liveActionTexture = new RenderTexture(1920, 1080, 0);
+
+        _liveActionPlayer.Stop();
+        _liveActionPlayer.clip = _session.LiveActionClip;
+        _liveActionPlayer.targetTexture = _liveActionTexture;
+        displayImage.texture = _liveActionTexture;
+
+        _liveActionPlayer.Play();
+
+        StartLiveActionAudio();
+    }
+
+    private void StartLiveActionAudio()
+    {
+        _hasLiveActionAudio = false;
+        if (_session == null || _session.LiveActionAudio.IsNull) return;
+
+        _liveActionAudioInstance = RuntimeManager.CreateInstance(_session.LiveActionAudio);
+        _liveActionAudioInstance.start();
+        _hasLiveActionAudio = true;
+    }
+
+    private void StopLiveActionAudio()
+    {
+        if (!_hasLiveActionAudio) return;
+        _liveActionAudioInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        _liveActionAudioInstance.release();
+        _hasLiveActionAudio = false;
+    }
+
+    private void OnPause()
+    {
+        if (_playingLiveAction && _liveActionPlayer != null)
+            _liveActionPlayer.Pause();
+
+        if (_hasLiveActionAudio)
+            _liveActionAudioInstance.setPaused(true);
+    }
 
     private void OnStop()
     {
         playbackPanel.SetActive(false);
         if (noDataOverlay != null) noDataOverlay.SetActive(false);
         if (displayImage != null) displayImage.gameObject.SetActive(true);
+
+        if (_liveActionPlayer != null) _liveActionPlayer.Stop();
+        StopLiveActionAudio();
+        _playingLiveAction = false;
         _session = null;
     }
 
     private void OnSeek(float time)
     {
         if (_session != null && _session.IsCorrupted) return;
+
+        if (_playingLiveAction)
+        {
+            if (_liveActionPlayer != null && _liveActionPlayer.canSetTime)
+                _liveActionPlayer.time = time;
+
+            if (_hasLiveActionAudio)
+                _liveActionAudioInstance.setTimelinePosition(Mathf.RoundToInt(time * 1000f));
+            return;
+        }
+
         ShowFrameAtTime(time);
     }
 
     private void Update()
     {
         if (_session != null && _session.IsCorrupted) return;
+        if (_playingLiveAction) return;
         if (_clock.IsPlaying)
             ShowFrameAtTime(_clock.CurrentTime);
     }
 
     private void ShowNoData()
     {
-        Debug.Log($"[VideoPlayback] ShowNoData | displayImage active before: {displayImage?.gameObject.activeSelf} | noDataOverlay active before: {noDataOverlay?.gameObject.activeSelf}");
-
         if (displayImage != null) displayImage.gameObject.SetActive(false);
         if (noDataOverlay != null) noDataOverlay.SetActive(true);
-
-        Debug.Log($"[VideoPlayback] ShowNoData DESPUÉS | displayImage active: {displayImage?.gameObject.activeSelf} | noDataOverlay active: {noDataOverlay?.gameObject.activeSelf}");
     }
 
     private void ShowFrameAtTime(float time)
@@ -123,5 +201,11 @@ public class VideoPlayback : MonoBehaviour
     {
         if (_displayTexture != null)
             Destroy(_displayTexture);
+        if (_liveActionTexture != null)
+        {
+            _liveActionTexture.Release();
+            Destroy(_liveActionTexture);
+        }
+        StopLiveActionAudio();
     }
 }
