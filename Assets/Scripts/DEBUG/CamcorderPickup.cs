@@ -2,24 +2,26 @@
 using FMODUnity;
 
 [RequireComponent(typeof(Collider))]
-public class CamcorderPickup : MonoBehaviour, IInteractable
+public class CamcorderPickup : Interactable
 {
     [Header("References")]
     [SerializeField] private GameObject camcorderSystem;
     [SerializeField] private GameObject camcorderModel;
+
+    [Header("Prompt")]
+    [SerializeField] private string pickupPrompt = "camcorder";
+
     [Header("Feedback")]
     [SerializeField] private string postPickupMessage = "";
+
     [Header("Audio")]
     [SerializeField] private EventReference pickupSound;
-    [Header("Prompt Icon")]
-    [SerializeField] private Sprite promptIcon;
-    public bool IsActive => false;
-    public Sprite ActiveIcon => null;
-    public string PromptMessage => "camcorder";
-    public bool CanInteract => true;
-    public bool BlockMovement => false;
-    public Sprite PromptIcon => promptIcon;
-    public bool KeepProximityKeyWhenActive => false;
+
+    private bool _taken;
+
+    public override string PromptMessage => pickupPrompt;
+    public override bool CanInteract => !_taken;
+    public override bool BlockMovement => false;
 
     private void Awake()
     {
@@ -29,17 +31,22 @@ public class CamcorderPickup : MonoBehaviour, IInteractable
         if (camcorderModel != null) camcorderModel.SetActive(false);
     }
 
-    public void Interact()
+    public override void Interact()
     {
+        if (_taken) return;
+        _taken = true;
+
         if (!pickupSound.IsNull)
             RuntimeManager.PlayOneShot(pickupSound, transform.position);
+
         if (camcorderSystem != null) camcorderSystem.SetActive(true);
         if (camcorderModel != null) camcorderModel.SetActive(true);
+
         GameEvents.CamcorderPickedUp();
+
         if (!string.IsNullOrEmpty(postPickupMessage))
-        {
-            GameEvents.FeedbackMessage(postPickupMessage);
-        }
+            GameEvents.FeedbackMessage(postPickupMessage, uiPosition);
+
         gameObject.SetActive(false);
     }
 }

@@ -7,109 +7,79 @@ public class InteractPromptUI : MonoBehaviour
     [Header("Root")]
     [SerializeField] private CanvasGroup container;
     [SerializeField] private UIPositioner positioner;
-    [SerializeField] private UIPositioner.ScreenPosition defaultPosition = UIPositioner.ScreenPosition.LowerCenter;
+    [SerializeField] private UIPositioner.ScreenPosition defaultPosition = UIPositioner.ScreenPosition.LowerRight;
 
     [Header("Interact Icon")]
     [SerializeField] private Image interactIcon;
+    [SerializeField] private Sprite defaultInteractSprite;
+    [SerializeField] private Sprite defaultCancelSprite;
 
-    [Header("Key Badge — assign sprite OR leave empty to use text")]
+    [Header("Key Badge — assign sprites OR leave empty to use text")]
     [SerializeField] private Image keyImage;
     [SerializeField] private TMP_Text keyLabel;
-
-    [Header("Key Badge — Active State (closes with Cancel)")]
-    [SerializeField] private Sprite activeKeySprite;
-    [SerializeField] private string activeKeyText = "[F]";
-
-    [Header("Icon Sprites")]
-    [SerializeField] private Sprite proximitySprite;
-    [SerializeField] private Sprite closeSprite;
+    [SerializeField] private Sprite interactKeySprite;
+    [SerializeField] private Sprite cancelKeySprite;
+    [SerializeField] private string interactKeyText = "[E]";
+    [SerializeField] private string cancelKeyText = "[F]";
 
     private bool _isVisible;
-    private bool _isActive;
-    private Sprite _proximityKeySprite;
-    private string _proximityKeyText;
+    private bool _hasPrompt;
 
     private void Awake()
     {
         _isVisible = true;
-        _proximityKeySprite = keyImage != null ? keyImage.sprite : null;
-        _proximityKeyText = keyLabel != null ? keyLabel.text : "";
         RefreshKeyBadgeMode();
-        ForceHide();
+        SetVisible(false);
     }
 
     private void OnEnable()
     {
-        GameEvents.OnInteractPromptChanged += OnPromptChanged;
-        GameEvents.OnInteractPromptActivated += OnActivated;
-        GameEvents.OnInteractPromptDeactivated += OnDeactivated;
+        GameEvents.OnInteractPromptShown += OnShown;
+        GameEvents.OnInteractPromptHidden += OnHidden;
+        UILayerManager.OnModalChanged += OnModalChanged;
     }
 
     private void OnDisable()
     {
-        GameEvents.OnInteractPromptChanged -= OnPromptChanged;
-        GameEvents.OnInteractPromptActivated -= OnActivated;
-        GameEvents.OnInteractPromptDeactivated -= OnDeactivated;
+        GameEvents.OnInteractPromptShown -= OnShown;
+        GameEvents.OnInteractPromptHidden -= OnHidden;
+        UILayerManager.OnModalChanged -= OnModalChanged;
     }
 
-    private void OnPromptChanged(string prompt, Sprite icon)
+    private void OnShown(InteractPrompt prompt)
     {
-        if (_isActive) return;
-
-        if (string.IsNullOrEmpty(prompt))
-        {
-            Hide();
-            return;
-        }
-
-        if (!UILayerManager.TryShow(UILayerManager.Layer.InteractPrompt, ForceHide)) return;
-
+        _hasPrompt = true;
         positioner?.SetPosition(defaultPosition);
+
         if (interactIcon != null)
-            interactIcon.sprite = icon != null ? icon : proximitySprite;
+            interactIcon.sprite = prompt.Icon != null ? prompt.Icon : DefaultIconFor(prompt.Key);
 
-        SetKeyBadge(active: false);
-        SetVisible(true);
+        SetKeyBadge(prompt.Key);
+        ApplyVisibility();
     }
 
-    private void OnActivated(string promptType, Sprite icon, bool keepProximityKey)
+    private void OnHidden()
     {
-        _isActive = true;
-        UILayerManager.Release(UILayerManager.Layer.InteractPrompt);
-        positioner?.SetPosition(defaultPosition);
-        if (interactIcon != null)
-            interactIcon.sprite = icon != null ? icon : closeSprite;
-
-        SetKeyBadge(active: !keepProximityKey);
-        SetVisible(true);
+        _hasPrompt = false;
+        ApplyVisibility();
     }
 
-    private void OnDeactivated()
-    {
-        _isActive = false;
-        SetVisible(false);
-    }
+    private void OnModalChanged(bool modalOpen) => ApplyVisibility();
 
-    private void Hide()
-    {
-        UILayerManager.Release(UILayerManager.Layer.InteractPrompt);
-        SetVisible(false);
-    }
+    private void ApplyVisibility() => SetVisible(_hasPrompt && !UILayerManager.IsModalOpen);
 
-    private void ForceHide()
-    {
-        if (_isActive) return;
-        UILayerManager.Release(UILayerManager.Layer.InteractPrompt);
-        SetVisible(false);
-    }
+    private Sprite DefaultIconFor(InteractPromptKey key) =>
+        key == InteractPromptKey.Cancel ? defaultCancelSprite : defaultInteractSprite;
 
-    private void SetKeyBadge(bool active)
+    private void SetKeyBadge(InteractPromptKey key)
     {
+        bool cancel = key == InteractPromptKey.Cancel;
+
         if (keyImage != null)
-            keyImage.sprite = (active && activeKeySprite != null) ? activeKeySprite : _proximityKeySprite;
+            keyImage.sprite = cancel ? cancelKeySprite : interactKeySprite;
 
         if (keyLabel != null)
-            keyLabel.SetText((active && !string.IsNullOrEmpty(activeKeyText)) ? activeKeyText : _proximityKeyText);
+            keyLabel.SetText(cancel ? cancelKeyText : interactKeyText);
     }
 
     private void SetVisible(bool visible)
@@ -125,7 +95,7 @@ public class InteractPromptUI : MonoBehaviour
     [ContextMenu("Refresh Key Badge Mode")]
     private void RefreshKeyBadgeMode()
     {
-        bool useSprite = keyImage != null && keyImage.sprite != null;
+        bool useSprite = interactKeySprite != null || cancelKeySprite != null;
         if (keyImage != null) keyImage.gameObject.SetActive(useSprite);
         if (keyLabel != null) keyLabel.gameObject.SetActive(!useSprite);
     }

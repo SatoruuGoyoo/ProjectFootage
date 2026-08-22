@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SecondPlane_Rain
+  m_Name: FirstPlane_Rain 1
   m_Shader: {fileID: -6465566751694194690, guid: 5946aba322be02a4698c85a59fc3a2f9, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -77,12 +77,24 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _RainTex:
+        m_Texture: {fileID: 2800000, guid: ed12909f514c1b04db46e6bd7b3fc011, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_062f4273200e4eea899ce21b7d2ee296_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: 94406cc72f5059843b2586e706f704a2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_50e936242f3a4af5b15ad9345810680b_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: 213582b71ef88654f9915e4464a1a583, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_5c7bdaf98ae54f8cbfb5c4974e2f5b7d_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: ed12909f514c1b04db46e6bd7b3fc011, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_f91420668f034e2fbca36435c21ebd64_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 32661c3b71a0ed747bfcf26c6e33902f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
@@ -113,17 +125,21 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
+    - _Density: 0.6
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
+    - _Dim: 0.6
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
+    - _Float: 1
+    - _Float_1: 0.5
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
-    - _Opacity: 0.11
+    - _Opacity: 1.19
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
@@ -141,8 +157,16 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Rainspeed: {r: -0.02, g: 1.5, b: 0, a: 0}
+    - _Rainspeed: {r: -2.16, g: 8, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _SpeedFar: {r: 0.1, g: 3.5, b: 0, a: 0}
+    - _SpeedMid: {r: 0.15, g: 6.2, b: 0, a: 0}
+    - _SpeedNear: {r: 0.25, g: 11, b: 0, a: 0}
+    - _TileFar: {r: 7, g: 5, b: 0, a: 0}
+    - _TileMid: {r: 3.1, g: 2.3, b: 0, a: 0}
+    - _TileNear: {r: -1.3, g: 0.9, b: 0, a: 0}
+    - _Tint: {r: 0.65, g: 0.7, b: 0.78, a: 0}
+    - _Vector2: {r: 1, g: 1, b: 0, a: 0}
     - _tiling: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

@@ -9,17 +9,22 @@ public class PlayerInteractor : MonoBehaviour
     [SerializeField] private LayerMask interactableMask = ~0;
     [SerializeField] private float refreshDelay = 0.1f;
 
+    [Header("Line of Sight")]
+    [SerializeField] private LayerMask occluderMask = 0;
+    [SerializeField] private Vector3 eyeOffset = new Vector3(0f, 1.4f, 0f);
+
+    private readonly Collider[] _hits = new Collider[32];
+
     private InputAction _interactAction;
     private InputAction _cancelAction;
-    private IInteractable current;
-    private PlayerMode currentMode = PlayerMode.ExplorationMode;
-    private bool _suppressInteractThisFrame;
 
-    private Collider[] hits = new Collider[32];
-    private float refreshTimer;
-    private string lastPrompt = "";
-    private Sprite lastIcon;
-    private bool lastActive;
+    private IInteractable _current;
+    private PlayerMode _mode = PlayerMode.ExplorationMode;
+    private float _refreshTimer;
+    private bool _skipInputThisFrame;
+
+    private InteractPrompt _published;
+    private bool _promptVisible;
 
     private void Start()
     {
@@ -32,123 +37,117 @@ public class PlayerInteractor : MonoBehaviour
     private void OnDisable()
     {
         GameEvents.OnPlayerModeChanged -= OnModeChanged;
-        SetCurrent(null);
-    }
-
-    private void OnModeChanged(PlayerMode newMode)
-    {
-        bool returningFromInteraction = currentMode == PlayerMode.InteractionMode && newMode == PlayerMode.ExplorationMode;
-        currentMode = newMode;
-
-        if (!returningFromInteraction)
-        {
-            if (newMode == PlayerMode.ExplorationMode) SetCurrent(null);
-            return;
-        }
-
-        _suppressInteractThisFrame = true;
-        current = null;
-        lastActive = false;
-        lastPrompt = "";
-        lastIcon = null;
-        RefreshCurrent();
-        refreshTimer = refreshDelay;
+        _current = null;
+        PublishPrompt();
     }
 
     private void Update()
     {
-        if (_suppressInteractThisFrame)
+        if (_mode == PlayerMode.ExplorationMode)
         {
-            _suppressInteractThisFrame = false;
+            _refreshTimer -= Time.deltaTime;
+            if (_refreshTimer <= 0f)
+            {
+                RefreshCurrent();
+                _refreshTimer = refreshDelay;
+            }
+        }
+
+        if (_skipInputThisFrame) _skipInputThisFrame = false;
+        else HandleInput();
+
+        PublishPrompt();
+    }
+
+    private void HandleInput()
+    {
+        if (!HasCurrent()) return;
+        if (_mode == PlayerMode.InteractionMode && !_current.BlockMovement) return;
+
+        if (_interactAction.WasPressedThisFrame())
+        {
+            if (!_current.CanInteract) return;
+            _current.Interact();
+        }
+        else if (_cancelAction.WasPressedThisFrame())
+        {
+            if (!_current.IsActive) return;
+            _current.Cancel();
+        }
+        else
+        {
             return;
         }
 
-        if (currentMode == PlayerMode.ExplorationMode)
-        {
-            UpdateExploration();
-        }
-        else if (currentMode == PlayerMode.InteractionMode && current != null && current.BlockMovement)
-        {
-            if (_interactAction.WasPressedThisFrame()) current.Interact();
-        }
+        if (_mode == PlayerMode.ExplorationMode) RefreshCurrent();
     }
 
-    private void UpdateExploration()
+    private void OnModeChanged(PlayerMode newMode)
     {
-        refreshTimer -= Time.deltaTime;
-        if (refreshTimer <= 0f)
-        {
-            RefreshCurrent();
-            refreshTimer = refreshDelay;
-        }
+        bool returningFromInteraction = _mode == PlayerMode.InteractionMode && newMode == PlayerMode.ExplorationMode;
+        _mode = newMode;
 
-        if (current != null && _interactAction.WasPressedThisFrame())
-        {
-            current.Interact();
-            RefreshCurrent();
-        }
+        if (!returningFromInteraction) return;
 
-        if (current != null && current.IsActive && !current.KeepProximityKeyWhenActive && _cancelAction.WasPressedThisFrame())
-        {
-            current.Interact();
-            RefreshCurrent();
-        }
+        _skipInputThisFrame = true;
+        RefreshCurrent();
+        _refreshTimer = refreshDelay;
     }
 
     private void RefreshCurrent()
     {
         Vector3 center = transform.TransformPoint(boxCenter);
-        int hitCount = Physics.OverlapBoxNonAlloc(center, boxSize * 0.5f, hits, transform.rotation, interactableMask);
+        int hitCount = Physics.OverlapBoxNonAlloc(center, boxSize * 0.5f, _hits, transform.rotation, interactableMask);
+
+        Vector3 eye = transform.TransformPoint(eyeOffset);
 
         IInteractable best = null;
         float bestDist = float.MaxValue;
 
         for (int i = 0; i < hitCount; i++)
         {
-            if (!hits[i].TryGetComponent<IInteractable>(out var interactable)) continue;
-            if (!interactable.CanInteract) continue;
+            var target = _hits[i].GetComponentInParent<IInteractable>();
+            if (target == null) continue;
+            if (!target.CanInteract && !target.IsActive) continue;
+            if (InteractionSight.IsBlocked(eye, _hits[i], target, occluderMask)) continue;
 
-            float d = (hits[i].transform.position - transform.position).sqrMagnitude;
+            if (target.IsActive)
+            {
+                best = target;
+                break;
+            }
+
+            float d = (_hits[i].transform.position - transform.position).sqrMagnitude;
             if (d < bestDist)
             {
                 bestDist = d;
-                best = interactable;
+                best = target;
             }
         }
 
-        SetCurrent(best);
+        _current = best;
     }
 
-    private void SetCurrent(IInteractable next)
+    private void PublishPrompt()
     {
-        bool nextActive = next != null && next.IsActive;
-        string prompt = next != null ? next.PromptMessage : "";
-        Sprite icon = next != null ? (nextActive ? next.ActiveIcon : next.PromptIcon) : null;
+        if (!HasCurrent()) _current = null;
 
-        if (next == current && nextActive == lastActive && prompt == lastPrompt && icon == lastIcon)
-            return;
+        InteractPrompt prompt = InteractPrompt.From(_current);
+        bool visible = prompt.IsVisible;
 
-        bool wasActive = lastActive;
-        current = next;
-        lastActive = nextActive;
-        lastPrompt = prompt;
-        lastIcon = icon;
+        if (visible == _promptVisible && prompt.Equals(_published)) return;
 
-        if (next == null)
-        {
-            GameEvents.InteractPromptDeactivated();
-            GameEvents.InteractPromptChanged("", null);
-            return;
-        }
+        _promptVisible = visible;
+        _published = prompt;
 
-        if (nextActive)
-        {
-            GameEvents.InteractPromptActivated(prompt, icon, next.KeepProximityKeyWhenActive);
-            return;
-        }
+        if (visible) GameEvents.InteractPromptShown(prompt);
+        else GameEvents.InteractPromptHidden();
+    }
 
-        if (wasActive) GameEvents.InteractPromptDeactivated();
-        GameEvents.InteractPromptChanged(prompt, icon);
+    private bool HasCurrent()
+    {
+        if (_current == null) return false;
+        return !(_current is Object obj) || obj != null;
     }
 
     private void OnDrawGizmosSelected()

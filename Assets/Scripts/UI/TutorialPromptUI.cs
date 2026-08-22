@@ -29,7 +29,7 @@ public class TutorialPromptUI : MonoBehaviour
 
     private void OnShown(string message, UIPositioner.ScreenPosition position)
     {
-        if (!UILayerManager.TryShow(UILayerManager.Layer.TutorialPrompt, ForceHide)) return;
+        if (!UILayerManager.TryShow(UILayerManager.Layer.TutorialPrompt, this, position, ForceHide)) return;
         positioner?.SetPosition(position);
         if (messageLabel != null) messageLabel.SetText(message);
         SetVisible(true);
@@ -37,13 +37,13 @@ public class TutorialPromptUI : MonoBehaviour
 
     private void OnHidden()
     {
-        UILayerManager.Release(UILayerManager.Layer.TutorialPrompt);
+        UILayerManager.Release(UILayerManager.Layer.TutorialPrompt, this);
         SetVisible(false);
     }
 
     private void ForceHide()
     {
-        UILayerManager.Release(UILayerManager.Layer.TutorialPrompt);
+        UILayerManager.Release(UILayerManager.Layer.TutorialPrompt, this);
         SetVisible(false);
     }
 

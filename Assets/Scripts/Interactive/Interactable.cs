@@ -12,9 +12,15 @@ public abstract class Interactable : MonoBehaviour, IInteractable
     public abstract string PromptMessage { get; }
     public abstract bool CanInteract { get; }
     public abstract bool BlockMovement { get; }
-    public virtual Sprite PromptIcon => promptIcon;
+
     public virtual bool IsActive => false;
+    public virtual Sprite PromptIcon => promptIcon;
     public virtual Sprite ActiveIcon => activeIcon;
-    public virtual bool KeepProximityKeyWhenActive => false;
+
     public abstract void Interact();
+
+    public virtual void Cancel() { }
+
+    protected static void EnterInteractionMode() => GameEvents.PlayerModeChanged(PlayerMode.InteractionMode);
+    protected static void ExitInteractionMode() => GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
 }
