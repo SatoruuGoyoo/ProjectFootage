@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.03.00">
 	<object class="Event" id="{77de726b-ecc6-4fc5-ad5c-6d1d7567a1f0}">
+		<property name="color">
+			<value>Purple</value>
+		</property>
 		<property name="name">
 			<value>MaleBreath</value>
 		</property>
@@ -82,9 +85,6 @@
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{85936bd4-8e9f-4c57-b78e-0358fb80130f}">
-		<property name="volume">
-			<value>10</value>
-		</property>
 		<property name="pitch">
 			<value>7.5</value>
 		</property>
@@ -108,9 +108,6 @@
 		<property name="length">
 			<value>10</value>
 		</property>
-		<property name="volume">
-			<value>-46</value>
-		</property>
 		<property name="pitch">
 			<value>11.5</value>
 		</property>
@@ -123,7 +120,7 @@
 	</object>
 	<object class="EventMixerGroup" id="{411ec4c9-5e26-4fa3-8531-4d6eeab72df2}">
 		<property name="volume">
-			<value>10</value>
+			<value>-40</value>
 		</property>
 		<property name="name">
 			<value>Audio 1</value>
@@ -142,9 +139,6 @@
 		<property name="length">
 			<value>11</value>
 		</property>
-		<property name="volume">
-			<value>-44</value>
-		</property>
 		<property name="pitch">
 			<value>-24</value>
 		</property>
@@ -156,6 +150,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{59409f13-61d0-4838-b3d7-9fae4e402921}">
+		<property name="volume">
+			<value>-44</value>
+		</property>
 		<property name="name">
 			<value>Audio 2</value>
 		</property>
@@ -172,7 +169,6 @@
 	<object class="MixerBusEffectChain" id="{46e4690b-452e-4b91-a4e1-fa2035f50fa0}">
 		<relationship name="effects">
 			<destination>{eaab6687-67f2-4365-b232-2be03d4910c7}</destination>
-			<destination>{aad026d4-358c-4da7-8d68-ac01d0db2677}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{1d29470c-e27f-42bd-9756-2c261204ab79}" />
@@ -206,7 +202,6 @@
 	</object>
 	<object class="MixerBusPanner" id="{9614b4f7-a791-4c0d-a9da-0d72b0b24bae}" />
 	<object class="MixerBusFader" id="{eaab6687-67f2-4365-b232-2be03d4910c7}" />
-	<object class="LoudnessMeter" id="{aad026d4-358c-4da7-8d68-ac01d0db2677}" />
 	<object class="AutomationPoint" id="{46d44115-33f0-44ac-93e5-ccb6ce39ae60}">
 		<property name="position">
 			<value>0</value>

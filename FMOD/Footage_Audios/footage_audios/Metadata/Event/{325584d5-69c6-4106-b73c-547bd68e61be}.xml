@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.03.00">
 	<object class="Event" id="{325584d5-69c6-4106-b73c-547bd68e61be}">
+		<property name="color">
+			<value>Blue</value>
+		</property>
 		<property name="name">
 			<value>Hum</value>
 		</property>
@@ -32,7 +35,7 @@
 			<destination>{462a3605-5ec9-414b-b251-1e39d3f119a2}</destination>
 		</relationship>
 		<relationship name="banks">
-			<destination>{fe4de4a9-dbf1-4a11-b795-fd9be20daf56}</destination>
+			<destination>{beb3c19f-89db-4749-8708-36ba6b8ce41e}</destination>
 		</relationship>
 	</object>
 	<object class="EventMixer" id="{74d8c9f8-f513-4541-841d-0454badb9c3f}">
@@ -53,7 +56,7 @@
 			<destination>{88cdd586-eec3-48f8-8392-3abf4dee18f8}</destination>
 		</relationship>
 		<relationship name="output">
-			<destination>{2b9d4de4-a83f-457b-a2f9-d7a3d6f8de3b}</destination>
+			<destination>{3f4cccfd-0b88-498c-ae5b-3411fabfd89c}</destination>
 		</relationship>
 	</object>
 	<object class="EventAutomatableProperties" id="{5ab0e952-e183-4dd0-8a3b-2a7acf05d470}" />
@@ -92,9 +95,6 @@
 		<property name="length">
 			<value>12</value>
 		</property>
-		<property name="volume">
-			<value>-25</value>
-		</property>
 		<property name="pitch">
 			<value>11.5</value>
 		</property>
@@ -106,6 +106,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{e896d21f-641d-4943-bcdb-9af97ef15b70}">
+		<property name="volume">
+			<value>-25</value>
+		</property>
 		<property name="name">
 			<value>Audio 1</value>
 		</property>
