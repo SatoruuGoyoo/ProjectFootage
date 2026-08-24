@@ -2,130 +2,263 @@
 using UnityEngine.UI;
 using TMPro;
 
+[DefaultExecutionOrder(1000)]
 public class InteractPromptUI : MonoBehaviour
 {
+    private enum PromptPlacement
+    {
+        ScreenSlot,
+        WorldAnchor,
+    }
+
     [Header("Root")]
     [SerializeField] private CanvasGroup container;
+    [SerializeField] private RectTransform promptRect;
+
+    [Header("Placement")]
+    [SerializeField] private PromptPlacement placement = PromptPlacement.WorldAnchor;
+
+    [Header("Screen Slot Mode")]
     [SerializeField] private UIPositioner positioner;
-    [SerializeField] private UIPositioner.ScreenPosition defaultPosition = UIPositioner.ScreenPosition.LowerCenter;
+    [SerializeField] private UIPositioner.ScreenPosition defaultPosition = UIPositioner.ScreenPosition.LowerRight;
+
+    [Header("Distance Falloff (World Anchor Mode)")]
+    [Tooltip("Dejar vacío para buscar por tag Player.")]
+    [SerializeField] private Transform player;
+    [Tooltip("A esta distancia o menos el badge está al 100%.")]
+    [SerializeField] private float fullDistance = 1.4f;
+    [Tooltip("Más lejos que esto el badge no se muestra.")]
+    [SerializeField] private float fadeDistance = 4f;
+    [Range(0.1f, 1f)][SerializeField] private float minScale = 0.55f;
+    [Range(0f, 1f)][SerializeField] private float minAlpha = 0.25f;
+    [SerializeField] private float blendSpeed = 6f;
+
+    [Header("World Anchor Mode")]
+    [Tooltip("Dejar vacío para usar CameraManager.ActiveCamera.")]
+    [SerializeField] private Camera promptCamera;
+    [SerializeField] private Vector2 screenPadding = new Vector2(48f, 48f);
+    [SerializeField] private bool clampToScreen = true;
 
     [Header("Interact Icon")]
     [SerializeField] private Image interactIcon;
+    [SerializeField] private Sprite defaultInteractSprite;
+    [SerializeField] private Sprite defaultCancelSprite;
 
-    [Header("Key Badge — assign sprite OR leave empty to use text")]
+    [Header("Key Badge — assign sprites OR leave empty to use text")]
     [SerializeField] private Image keyImage;
     [SerializeField] private TMP_Text keyLabel;
-
-    [Header("Key Badge — Active State (closes with Cancel)")]
-    [SerializeField] private Sprite activeKeySprite;
-    [SerializeField] private string activeKeyText = "[F]";
-
-    [Header("Icon Sprites")]
-    [SerializeField] private Sprite proximitySprite;
-    [SerializeField] private Sprite closeSprite;
+    [SerializeField] private Sprite interactKeySprite;
+    [SerializeField] private Sprite cancelKeySprite;
+    [SerializeField] private string interactKeyText = "[E]";
+    [SerializeField] private string cancelKeyText = "[F]";
 
     private bool _isVisible;
-    private bool _isActive;
-    private Sprite _proximityKeySprite;
-    private string _proximityKeyText;
+    private bool _hasPrompt;
+    private bool _inRange;
+    private bool _onScreen = true;
+    private Transform _anchor;
+    private Vector3 _offset;
+    private Camera _cameraOverride;
+    private float _strength;
+    private bool _playerSearched;
 
     private void Awake()
     {
+        if (promptRect == null && container != null) promptRect = container.transform as RectTransform;
+        if (promptRect != null && placement == PromptPlacement.ScreenSlot) promptRect.localScale = Vector3.one;
         _isVisible = true;
-        _proximityKeySprite = keyImage != null ? keyImage.sprite : null;
-        _proximityKeyText = keyLabel != null ? keyLabel.text : "";
         RefreshKeyBadgeMode();
-        ForceHide();
+        SetVisible(false);
     }
 
     private void OnEnable()
     {
-        GameEvents.OnInteractPromptChanged += OnPromptChanged;
-        GameEvents.OnInteractPromptActivated += OnActivated;
-        GameEvents.OnInteractPromptDeactivated += OnDeactivated;
+        GameEvents.OnInteractPromptShown += OnShown;
+        GameEvents.OnInteractPromptHidden += OnHidden;
+        UILayerManager.OnModalChanged += OnModalChanged;
     }
 
     private void OnDisable()
     {
-        GameEvents.OnInteractPromptChanged -= OnPromptChanged;
-        GameEvents.OnInteractPromptActivated -= OnActivated;
-        GameEvents.OnInteractPromptDeactivated -= OnDeactivated;
+        GameEvents.OnInteractPromptShown -= OnShown;
+        GameEvents.OnInteractPromptHidden -= OnHidden;
+        UILayerManager.OnModalChanged -= OnModalChanged;
     }
 
-    private void OnPromptChanged(string prompt, Sprite icon)
+    private void OnShown(InteractPrompt prompt)
     {
-        if (_isActive) return;
+        _hasPrompt = true;
+        _inRange = prompt.InRange;
+        _anchor = prompt.Anchor;
+        _offset = prompt.Offset;
 
-        if (string.IsNullOrEmpty(prompt))
+        if (placement == PromptPlacement.ScreenSlot)
         {
-            Hide();
+            positioner?.SetPosition(defaultPosition);
+            if (promptRect != null) promptRect.localScale = Vector3.one;
+            _onScreen = true;
+        }
+
+        if (interactIcon != null)
+            interactIcon.sprite = prompt.Icon != null ? prompt.Icon : DefaultIconFor(prompt.Key);
+
+        SetKeyBadge(prompt.Key);
+
+        if (placement == PromptPlacement.WorldAnchor) UpdateWorldPosition();
+        else ApplyVisibility();
+    }
+
+    private void OnHidden()
+    {
+        _hasPrompt = false;
+        _inRange = false;
+        _anchor = null;
+        ApplyVisibility();
+    }
+
+    private void OnModalChanged(bool modalOpen) => ApplyVisibility();
+
+    private void LateUpdate()
+    {
+        if (placement != PromptPlacement.WorldAnchor) return;
+        if (!_hasPrompt) return;
+        UpdateWorldPosition();
+        if (_isVisible) ApplyFalloff();
+    }
+
+    private void UpdateWorldPosition()
+    {
+        if (promptRect == null || _anchor == null)
+        {
+            _onScreen = false;
+            ApplyVisibility();
             return;
         }
 
-        if (!UILayerManager.TryShow(UILayerManager.Layer.InteractPrompt, ForceHide)) return;
+        Camera cam = ResolveCamera();
+        if (cam == null)
+        {
+            _onScreen = false;
+            ApplyVisibility();
+            return;
+        }
 
-        positioner?.SetPosition(defaultPosition);
-        if (interactIcon != null)
-            interactIcon.sprite = icon != null ? icon : proximitySprite;
+        Vector3 screenPoint = cam.WorldToScreenPoint(_anchor.position + _offset);
 
-        SetKeyBadge(active: false);
-        SetVisible(true);
+        if (screenPoint.z <= 0f)
+        {
+            _onScreen = false;
+            ApplyVisibility();
+            return;
+        }
+
+        if (clampToScreen)
+        {
+            screenPoint.x = Mathf.Clamp(screenPoint.x, screenPadding.x, Screen.width - screenPadding.x);
+            screenPoint.y = Mathf.Clamp(screenPoint.y, screenPadding.y, Screen.height - screenPadding.y);
+        }
+        else if (screenPoint.x < 0f || screenPoint.x > Screen.width || screenPoint.y < 0f || screenPoint.y > Screen.height)
+        {
+            _onScreen = false;
+            ApplyVisibility();
+            return;
+        }
+
+        screenPoint.z = 0f;
+        promptRect.position = screenPoint;
+
+        _onScreen = true;
+        ApplyVisibility();
     }
 
-    private void OnActivated(string promptType, Sprite icon, bool keepProximityKey)
-    {
-        _isActive = true;
-        UILayerManager.Release(UILayerManager.Layer.InteractPrompt);
-        positioner?.SetPosition(defaultPosition);
-        if (interactIcon != null)
-            interactIcon.sprite = icon != null ? icon : closeSprite;
+    public void SetCameraOverride(Camera camera) => _cameraOverride = camera;
 
-        SetKeyBadge(active: !keepProximityKey);
-        SetVisible(true);
+    public void ClearCameraOverride() => _cameraOverride = null;
+
+    private Camera ResolveCamera()
+    {
+        if (_cameraOverride != null && _cameraOverride.isActiveAndEnabled) return _cameraOverride;
+        if (promptCamera != null && promptCamera.isActiveAndEnabled) return promptCamera;
+
+        Camera active = CameraManager.Instance != null ? CameraManager.Instance.ActiveCamera : null;
+        if (active != null && active.isActiveAndEnabled) return active;
+
+        return Camera.main;
     }
 
-    private void OnDeactivated()
+    private void ApplyVisibility()
     {
-        _isActive = false;
-        SetVisible(false);
+        bool allowed = placement == PromptPlacement.WorldAnchor || _inRange;
+        SetVisible(_hasPrompt && allowed && _onScreen && !UILayerManager.IsModalOpen);
     }
 
-    private void Hide()
+    private void ApplyFalloff()
     {
-        UILayerManager.Release(UILayerManager.Layer.InteractPrompt);
-        SetVisible(false);
+        float target = TargetStrength();
+        _strength = Mathf.MoveTowards(_strength, target, blendSpeed * Time.deltaTime);
+
+        if (promptRect != null)
+            promptRect.localScale = Vector3.one * Mathf.Lerp(minScale, 1f, _strength);
+
+        if (container != null)
+            container.alpha = Mathf.Lerp(minAlpha, 1f, _strength);
     }
 
-    private void ForceHide()
+    private float TargetStrength()
     {
-        if (_isActive) return;
-        UILayerManager.Release(UILayerManager.Layer.InteractPrompt);
-        SetVisible(false);
+        if (_anchor == null) return 0f;
+
+        ResolvePlayer();
+        if (player == null) return 1f;
+
+        float distance = Vector3.Distance(player.position, _anchor.position + _offset);
+        if (fadeDistance <= fullDistance) return 1f;
+
+        return Mathf.InverseLerp(fadeDistance, fullDistance, distance);
     }
 
-    private void SetKeyBadge(bool active)
+    private void ResolvePlayer()
     {
+        if (player != null || _playerSearched) return;
+        _playerSearched = true;
+        var found = GameObject.FindGameObjectWithTag("Player");
+        if (found != null) player = found.transform;
+    }
+
+    private Sprite DefaultIconFor(InteractPromptKey key) =>
+        key == InteractPromptKey.Cancel ? defaultCancelSprite : defaultInteractSprite;
+
+    private void SetKeyBadge(InteractPromptKey key)
+    {
+        bool cancel = key == InteractPromptKey.Cancel;
+
         if (keyImage != null)
-            keyImage.sprite = (active && activeKeySprite != null) ? activeKeySprite : _proximityKeySprite;
+            keyImage.sprite = cancel ? cancelKeySprite : interactKeySprite;
 
         if (keyLabel != null)
-            keyLabel.SetText((active && !string.IsNullOrEmpty(activeKeyText)) ? activeKeyText : _proximityKeyText);
+            keyLabel.SetText(cancel ? cancelKeyText : interactKeyText);
     }
 
     private void SetVisible(bool visible)
     {
         if (_isVisible == visible) return;
         _isVisible = visible;
+
+        if (!visible) _strength = 0f;
+
         if (container == null) return;
-        container.alpha = visible ? 1f : 0f;
         container.interactable = visible;
         container.blocksRaycasts = visible;
+
+        if (!visible) container.alpha = 0f;
+        else if (placement == PromptPlacement.ScreenSlot) container.alpha = 1f;
+        else container.alpha = Mathf.Lerp(minAlpha, 1f, _strength);
     }
 
     [ContextMenu("Refresh Key Badge Mode")]
     private void RefreshKeyBadgeMode()
     {
-        bool useSprite = keyImage != null && keyImage.sprite != null;
+        bool useSprite = interactKeySprite != null || cancelKeySprite != null;
         if (keyImage != null) keyImage.gameObject.SetActive(useSprite);
         if (keyLabel != null) keyLabel.gameObject.SetActive(!useSprite);
     }

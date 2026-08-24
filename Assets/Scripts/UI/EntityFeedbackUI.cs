@@ -7,7 +7,6 @@ public class EntityFeedbackUI : MonoBehaviour
     [SerializeField] private TMP_Text messageLabel;
     [SerializeField] private float defaultDisplayDuration = 3f;
     [SerializeField] private UIPositioner positioner;
-    [SerializeField] private UIPositioner.ScreenPosition defaultPosition = UIPositioner.ScreenPosition.LowerCenter;
 
     private float _timer;
     private bool _isVisible;
@@ -30,7 +29,7 @@ public class EntityFeedbackUI : MonoBehaviour
 
     private void OnFeedback(string message, UIPositioner.ScreenPosition position, float duration)
     {
-        if (!UILayerManager.TryShow(UILayerManager.Layer.EntityFeedback, ForceHide)) return;
+        if (!UILayerManager.TryShow(UILayerManager.Layer.EntityFeedback, this, position, ForceHide)) return;
         positioner?.SetPosition(position);
         if (messageLabel != null) messageLabel.SetText(message);
         _timer = duration > 0f ? duration : defaultDisplayDuration;
@@ -39,14 +38,14 @@ public class EntityFeedbackUI : MonoBehaviour
 
     private void Hide()
     {
-        UILayerManager.Release(UILayerManager.Layer.EntityFeedback);
+        UILayerManager.Release(UILayerManager.Layer.EntityFeedback, this);
         SetVisible(false);
     }
 
     private void ForceHide()
     {
         _timer = 0f;
-        UILayerManager.Release(UILayerManager.Layer.EntityFeedback);
+        UILayerManager.Release(UILayerManager.Layer.EntityFeedback, this);
         SetVisible(false);
     }
 

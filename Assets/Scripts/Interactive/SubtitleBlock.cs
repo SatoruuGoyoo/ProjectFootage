@@ -11,27 +11,26 @@ public class SubtitleBlock : MonoBehaviour
     private string _pendingText;
     private UIPositioner.ScreenPosition _pendingPosition;
     private Coroutine _sequenceCoroutine;
+    private bool _isVisible;
 
-    private void Awake() => ForceHide();
+    private void Awake()
+    {
+        _isVisible = true;
+        ForceHide();
+    }
 
     private void OnEnable() => GameEvents.OnConfirmationClosed += OnConfirmationClosed;
+
     private void OnDisable()
     {
         GameEvents.OnConfirmationClosed -= OnConfirmationClosed;
-        StopSequence();
+        Hide();
     }
 
     public void Show(string text, UIPositioner.ScreenPosition position = UIPositioner.ScreenPosition.LowerCenter)
     {
-        if (string.IsNullOrEmpty(text)) return;
-        _pendingText = text;
-        _pendingPosition = position;
-
-        if (!UILayerManager.TryShow(UILayerManager.Layer.Subtitles, ForceHide)) return;
-
-        positioner?.SetPosition(position);
-        if (label != null) label.SetText(text);
-        SetVisible(true);
+        StopSequence();
+        ShowLine(text, position);
     }
 
     public void ShowSequence(SubtitleEntry[] entries)
@@ -45,48 +44,61 @@ public class SubtitleBlock : MonoBehaviour
     {
         StopSequence();
         _pendingText = null;
-        UILayerManager.Release(UILayerManager.Layer.Subtitles);
+        UILayerManager.Release(UILayerManager.Layer.Subtitles, this);
         SetVisible(false);
+    }
+
+    private void ShowLine(string text, UIPositioner.ScreenPosition position)
+    {
+        if (string.IsNullOrEmpty(text)) return;
+
+        _pendingText = text;
+        _pendingPosition = position;
+
+        if (!UILayerManager.TryShow(UILayerManager.Layer.Subtitles, this, position, ForceHide)) return;
+
+        positioner?.SetPosition(position);
+        if (label != null) label.SetText(text);
+        SetVisible(true);
     }
 
     private IEnumerator RunSequence(SubtitleEntry[] entries)
     {
         foreach (var entry in entries)
         {
-            Show(entry.text, entry.position);
+            ShowLine(entry.text, entry.position);
             yield return new WaitForSeconds(entry.duration);
         }
+        _sequenceCoroutine = null;
         Hide();
     }
 
     private void StopSequence()
     {
-        if (_sequenceCoroutine != null)
-        {
-            StopCoroutine(_sequenceCoroutine);
-            _sequenceCoroutine = null;
-        }
+        if (_sequenceCoroutine == null) return;
+        StopCoroutine(_sequenceCoroutine);
+        _sequenceCoroutine = null;
     }
 
     private void OnConfirmationClosed()
     {
         if (string.IsNullOrEmpty(_pendingText)) return;
-        Show(_pendingText, _pendingPosition);
-    }
-
-    private void SetVisible(bool visible)
-    {
-        if (container == null) return;
-        container.alpha = visible ? 1f : 0f;
-        container.interactable = visible;
-        container.blocksRaycasts = visible;
+        ShowLine(_pendingText, _pendingPosition);
     }
 
     private void ForceHide()
     {
+        UILayerManager.Release(UILayerManager.Layer.Subtitles, this);
+        SetVisible(false);
+    }
+
+    private void SetVisible(bool visible)
+    {
+        if (_isVisible == visible) return;
+        _isVisible = visible;
         if (container == null) return;
-        container.alpha = 0f;
-        container.interactable = false;
-        container.blocksRaycasts = false;
+        container.alpha = visible ? 1f : 0f;
+        container.interactable = visible;
+        container.blocksRaycasts = visible;
     }
 }

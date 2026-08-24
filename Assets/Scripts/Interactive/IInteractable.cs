@@ -4,10 +4,12 @@ public interface IInteractable
 {
     string PromptMessage { get; }
     bool CanInteract { get; }
+    bool IsActive { get; }
     bool BlockMovement { get; }
     Sprite PromptIcon { get; }
-    bool IsActive { get; }
     Sprite ActiveIcon { get; }
-    bool KeepProximityKeyWhenActive { get; }
+    Transform PromptAnchor { get; }
+    Vector3 PromptOffset { get; }
     void Interact();
+    void Cancel();
 }

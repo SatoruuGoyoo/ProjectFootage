@@ -8,19 +8,18 @@ public class ReadableItem : Interactable
     [TextArea(3, 10)]
     [SerializeField] private string[] pages = new[] { "" };
 
+    [Header("Prompt")]
+    [SerializeField] private string readPrompt = "leer";
+
     [SerializeField] private EventReference openSound;
     [SerializeField] private EventReference closeSound;
 
     private bool _isReading;
 
-    public override string PromptMessage => "readable";
-    public override bool CanInteract => true;
+    public override string PromptMessage => readPrompt;
+    public override bool CanInteract => !_isReading;
+    public override bool IsActive => _isReading;
     public override bool BlockMovement => true;
-
-    private void OnDisable()
-    {
-        if (_isReading) Close();
-    }
 
     public override void Interact()
     {
@@ -28,22 +27,30 @@ public class ReadableItem : Interactable
         Open();
     }
 
+    public override void Cancel()
+    {
+        if (!_isReading) return;
+        Close();
+    }
+
+    private void OnDisable()
+    {
+        if (_isReading) Close();
+    }
+
     private void Open()
     {
         _isReading = true;
-        RuntimeManager.PlayOneShot(openSound, transform.position);
-        GameEvents.ReadableOpened(sprite, pages, uiPosition, Close);
-        GameEvents.PlayerModeChanged(PlayerMode.InteractionMode);
-        GameEvents.InteractPromptActivated(PromptMessage, ActiveIcon);
+        if (!openSound.IsNull) RuntimeManager.PlayOneShot(openSound, transform.position);
+        GameEvents.ReadableOpened(sprite, pages, uiPosition);
+        EnterInteractionMode();
     }
 
     private void Close()
     {
         _isReading = false;
-        if (!closeSound.IsNull)
-            RuntimeManager.PlayOneShot(closeSound, transform.position);
+        if (!closeSound.IsNull) RuntimeManager.PlayOneShot(closeSound, transform.position);
         GameEvents.ReadableClosed();
-        GameEvents.InteractPromptDeactivated();
-        GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
+        ExitInteractionMode();
     }
 }

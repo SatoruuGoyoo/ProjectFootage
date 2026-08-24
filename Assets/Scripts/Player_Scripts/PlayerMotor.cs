@@ -169,7 +169,11 @@ public class PlayerMotor : MonoBehaviour
         euler.z = 0f;
         transform.eulerAngles = euler;
     }
-
+    public void ClearTurn()
+    {
+        IsTurningLeft = false;
+        IsTurningRight = false;
+    }
     public void StopPlayer()
     {
         currentSpeedTank = 0f;

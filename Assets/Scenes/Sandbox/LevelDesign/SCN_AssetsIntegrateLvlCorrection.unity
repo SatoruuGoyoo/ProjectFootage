@@ -19521,6 +19521,7 @@ MonoBehaviour:
   activeIcon: {fileID: 0}
   subtitles: {fileID: 532449872}
   subtitleEntries: []
+  radioPrompt: radio
   oneTimeOnly: 1
   OnTurnedOn:
     m_PersistentCalls:
@@ -21137,6 +21138,37 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   waitForCompletion: 0
+--- !u!1 &420824833
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 420824834}
+  m_Layer: 3
+  m_Name: PIVOT
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &420824834
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 420824833}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.04099846, y: 0.7157388, z: -0.18844843}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 676809833}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &427608145
 GameObject:
   m_ObjectHideFlags: 0
@@ -31996,12 +32028,14 @@ MonoBehaviour:
   positioner: {fileID: 0}
   defaultPosition: 4
   interactIcon: {fileID: 1057862248}
+  defaultInteractSprite: {fileID: 0}
+  defaultCancelSprite: {fileID: 0}
   keyImage: {fileID: 0}
   keyLabel: {fileID: 726005574}
-  activeKeySprite: {fileID: 21300000, guid: 7de602181d02a714cb2caf694457ca30, type: 3}
-  activeKeyText: F
-  proximitySprite: {fileID: 21300000, guid: 4b4a8cf2126b6ce42b79d7b760c8001b, type: 3}
-  closeSprite: {fileID: 21300000, guid: 7de602181d02a714cb2caf694457ca30, type: 3}
+  interactKeySprite: {fileID: 0}
+  cancelKeySprite: {fileID: 0}
+  interactKeyText: '[E]'
+  cancelKeyText: '[F]'
 --- !u!114 &532449877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32131,7 +32165,6 @@ MonoBehaviour:
   messageLabel: {fileID: 250786724}
   defaultDisplayDuration: 3
   positioner: {fileID: 1427332431}
-  defaultPosition: 4
 --- !u!114 &532449883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33257,6 +33290,7 @@ MonoBehaviour:
   - text: "A true tragedy\u2026"
     duration: 3
     position: 7
+  radioPrompt: radio
   oneTimeOnly: 0
   OnTurnedOn:
     m_PersistentCalls:
@@ -38587,6 +38621,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1692184876}
+  - {fileID: 420824834}
+  - {fileID: 7272638918231213327}
   - {fileID: 543450652327674955}
   - {fileID: 1157682466}
   - {fileID: 1478336752}
@@ -101853,8 +101889,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cb04b6e079f55547b6c4680e42a3a22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CamcorderPickup
+  uiPosition: 7
+  promptIcon: {fileID: 0}
+  activeIcon: {fileID: 0}
   camcorderSystem: {fileID: 326033778}
   camcorderModel: {fileID: 1716362536}
+  pickupPrompt: camcorder
   postPickupMessage: 
   pickupSound:
     Guid:
@@ -101863,7 +101903,6 @@ MonoBehaviour:
       Data3: 1342719116
       Data4: 1477158661
     Path: event:/SFX/Interactive/PickUp/PickUp
-  promptIcon: {fileID: 0}
 --- !u!65 &793080177
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -105128,6 +105167,7 @@ MonoBehaviour:
   - text: Just static...
     duration: 3
     position: 7
+  radioPrompt: radio
   oneTimeOnly: 0
   OnTurnedOn:
     m_PersistentCalls:
@@ -105419,6 +105459,15 @@ MonoBehaviour:
   door: {fileID: 0}
   openAngle: -90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0.9
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -105440,6 +105489,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -105447,6 +105506,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &880908124
@@ -106907,7 +106969,8 @@ MonoBehaviour:
   zoneId: RNG_Zone_Rooms_Beat1
   minInterval: 4
   maxInterval: 12
-  playAtZonePosition: 1
+  emissionPoints: []
+  preferClosestToPlayer: 0
 --- !u!65 &902904490
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -109420,7 +109483,7 @@ MonoBehaviour:
   hudRoot: {fileID: 725506197}
   recDot: {fileID: 1379803185}
   recText: {fileID: 274825142}
-  timecodeText: {fileID: 1047266767}
+  recordingProgressBar: {fileID: 0}
   recordingIndicatorImage: {fileID: 0}
 --- !u!1 &1017010270
 GameObject:
@@ -111818,6 +111881,14 @@ MonoBehaviour:
   centerGracePeriod: 0.5
   targetOverride: {fileID: 0}
   detectionRadius: 3
+  liveActionClip: {fileID: 0}
+  liveActionAudio:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!4 &1072698495
 Transform:
   m_ObjectHideFlags: 0
@@ -115040,6 +115111,15 @@ MonoBehaviour:
   door: {fileID: 0}
   openAngle: 90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0.9
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 1388873967
@@ -115061,6 +115141,16 @@ MonoBehaviour:
       Data3: 1076765590
       Data4: -704320750
     Path: event:/SFX/Door/LockedDoor/LockedDoor
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls:
@@ -115080,6 +115170,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!65 &1154864157
@@ -116052,6 +116145,15 @@ MonoBehaviour:
   door: {fileID: 0}
   openAngle: 90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0.9
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -116073,6 +116175,16 @@ MonoBehaviour:
       Data3: 1076765590
       Data4: -704320750
     Path: event:/SFX/Door/LockedDoor/LockedDoor
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -116080,6 +116192,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!65 &1180672862
@@ -196639,7 +196754,8 @@ MonoBehaviour:
   zoneId: RNG_Zone_Balcony_Beat1
   minInterval: 4
   maxInterval: 12
-  playAtZonePosition: 1
+  emissionPoints: []
+  preferClosestToPlayer: 0
 --- !u!65 &1241473845
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -198956,6 +199072,15 @@ MonoBehaviour:
   door: {fileID: 0}
   openAngle: 90
   speed: 250
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0.9
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -198977,6 +199102,16 @@ MonoBehaviour:
       Data3: 1076765590
       Data4: -704320750
     Path: event:/SFX/Door/LockedDoor/LockedDoor
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -198984,6 +199119,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!65 &1291413180
@@ -281030,6 +281168,7 @@ MonoBehaviour:
   - 'Welcome to the <color=red><i>LMH Hotel</color></i> '
   - Experience the calm and beautiful resort and the wonders it helds within
   - (texts becomes blurry after this point)
+  readPrompt: leer
   openSound:
     Guid:
       Data1: 628579962
@@ -282790,7 +282929,7 @@ MonoBehaviour:
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
   requiredItemId: 
-  startLocked: 1
+  startLocked: 0
   playerCanToggle: 1
   canClose: 1
   lockedFeedback: Locked...
@@ -282798,10 +282937,19 @@ MonoBehaviour:
   confirmationText: 
   startOpen: 0
   interactCooldown: 3
-  pivot: {fileID: 0}
-  door: {fileID: 0}
+  pivot: {fileID: 420824834}
+  door: {fileID: 7272638918231213327}
   openAngle: 90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0.95
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 1388873967
@@ -282823,6 +282971,16 @@ MonoBehaviour:
       Data3: 1076765590
       Data4: -704320750
     Path: event:/SFX/Door/LockedDoor/LockedDoor
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -282830,6 +282988,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!65 &1380934563
@@ -358661,7 +358822,8 @@ MonoBehaviour:
   zoneId: RNG_Zone_Bathroom_312_Beat1
   minInterval: 4
   maxInterval: 12
-  playAtZonePosition: 1
+  emissionPoints: []
+  preferClosestToPlayer: 0
 --- !u!65 &1788530506
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -436503,6 +436665,7 @@ MonoBehaviour:
   activeIcon: {fileID: 0}
   subtitles: {fileID: 532449872}
   subtitleEntries: []
+  radioPrompt: radio
   oneTimeOnly: 1
   OnTurnedOn:
     m_PersistentCalls:
@@ -442432,7 +442595,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7272638918231213327}
   - {fileID: 3406458826133111947}
   m_Father: {fileID: 676809833}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -442580,7 +442742,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!1 &1155298509300019533
 GameObject:
@@ -442600,7 +442762,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!1001 &1894420459450266619
 PrefabInstance:
@@ -442720,7 +442882,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7651256740276716514, guid: 5b8f8b8138eaad84bba31e9a53e0981f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 21.6
+      value: 23.17818
       objectReference: {fileID: 0}
     - target: {fileID: 7651256740276716514, guid: 5b8f8b8138eaad84bba31e9a53e0981f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -442728,11 +442890,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7651256740276716514, guid: 5b8f8b8138eaad84bba31e9a53e0981f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -9.8
+      value: -0.7508565
       objectReference: {fileID: 0}
     - target: {fileID: 7651256740276716514, guid: 5b8f8b8138eaad84bba31e9a53e0981f, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.70710653
+      value: 0.60876197
       objectReference: {fileID: 0}
     - target: {fileID: 7651256740276716514, guid: 5b8f8b8138eaad84bba31e9a53e0981f, type: 3}
       propertyPath: m_LocalRotation.x
@@ -442740,7 +442902,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7651256740276716514, guid: 5b8f8b8138eaad84bba31e9a53e0981f, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.70710707
+      value: 0.7933529
       objectReference: {fileID: 0}
     - target: {fileID: 7651256740276716514, guid: 5b8f8b8138eaad84bba31e9a53e0981f, type: 3}
       propertyPath: m_LocalRotation.z
@@ -442752,7 +442914,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7651256740276716514, guid: 5b8f8b8138eaad84bba31e9a53e0981f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -90
+      value: 105
       objectReference: {fileID: 0}
     - target: {fileID: 7651256740276716514, guid: 5b8f8b8138eaad84bba31e9a53e0981f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -443032,15 +443194,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1155298509300019533}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0.025, y: -0.021876141, z: -0.67244804}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0.04099846, y: 0.7157388, z: -0.18844843}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 404262039782711681}
   - {fileID: 4764825491628851189}
-  m_Father: {fileID: 543450652327674955}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Father: {fileID: 676809833}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!23 &7381349416998448465
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -443533,7 +443695,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!23 &9045642809276741988
 MeshRenderer:
