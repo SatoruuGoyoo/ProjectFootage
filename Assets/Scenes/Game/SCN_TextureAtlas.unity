@@ -20,13 +20,13 @@ RenderSettings:
   m_FogDensity: 0.06
   m_LinearFogStart: 0
   m_LinearFogEnd: 7
-  m_AmbientSkyColor: {r: 0.014317816, g: 0.015341268, b: 0.030660376, a: 1}
+  m_AmbientSkyColor: {r: 0, g: 0, b: 0, a: 1}
   m_AmbientEquatorColor: {r: 0.15250088, g: 0.19087866, b: 0.21698111, a: 1}
   m_AmbientGroundColor: {r: 0.11320752, g: 0.11320752, b: 0.11320752, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0, g: 0, b: 0, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 6efdd452764894b43a132bd9b6dfe79a, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 1121732364}
+  m_Sun: {fileID: 0}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -93,7 +93,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: d1731955079a50245a73528ec4353aad, type: 2}
+  m_LightingDataAsset: {fileID: 0}
   m_LightingSettings: {fileID: 4890085278179872738, guid: 6a5e0b6be75cb7746ac5c65a14900bd5, type: 2}
 --- !u!196 &4
 NavMeshSettings:
@@ -8847,6 +8847,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 532449872}
   lines:
   - 
@@ -14504,6 +14506,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 0
@@ -14515,8 +14519,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 1352344598}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: 90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -14538,6 +14552,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -14545,6 +14569,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!65 &251205951
@@ -21982,8 +22009,11 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 532449872}
   subtitleEntries: []
+  radioPrompt: radio
   oneTimeOnly: 1
   OnTurnedOn:
     m_PersistentCalls:
@@ -25769,6 +25799,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 0
@@ -25780,8 +25812,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 1593625711}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: 90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -25803,6 +25845,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -25810,6 +25862,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1001 &434326938
@@ -33420,6 +33475,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 532449872}
   lines:
   - 'Strange... here it says:'
@@ -37789,15 +37846,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractPromptUI
   container: {fileID: 1698497515}
+  promptRect: {fileID: 0}
+  placement: 1
   positioner: {fileID: 0}
   defaultPosition: 4
+  player: {fileID: 0}
+  fullDistance: 1.4
+  fadeDistance: 4
+  minScale: 0.55
+  minAlpha: 0.25
+  blendSpeed: 6
+  promptCamera: {fileID: 0}
+  screenPadding: {x: 48, y: 48}
+  clampToScreen: 1
   interactIcon: {fileID: 1057862248}
+  defaultInteractSprite: {fileID: 0}
+  defaultCancelSprite: {fileID: 0}
   keyImage: {fileID: 0}
   keyLabel: {fileID: 726005574}
-  activeKeySprite: {fileID: 21300000, guid: 7de602181d02a714cb2caf694457ca30, type: 3}
-  activeKeyText: F
-  proximitySprite: {fileID: 21300000, guid: 4b4a8cf2126b6ce42b79d7b760c8001b, type: 3}
-  closeSprite: {fileID: 21300000, guid: 7de602181d02a714cb2caf694457ca30, type: 3}
+  interactKeySprite: {fileID: 0}
+  cancelKeySprite: {fileID: 0}
+  interactKeyText: '[E]'
+  cancelKeyText: '[F]'
 --- !u!114 &532449877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37927,7 +37997,6 @@ MonoBehaviour:
   messageLabel: {fileID: 250786724}
   defaultDisplayDuration: 3
   positioner: {fileID: 1427332431}
-  defaultPosition: 4
 --- !u!114 &532449883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39119,6 +39188,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 532449872}
   subtitleEntries:
   - text: The neighbors of [BEEP] are shaken by the brutal murder of [BEEP], the
@@ -39135,6 +39206,7 @@ MonoBehaviour:
   - text: "A true tragedy\u2026"
     duration: 3
     position: 7
+  radioPrompt: radio
   oneTimeOnly: 0
   OnTurnedOn:
     m_PersistentCalls:
@@ -42266,27 +42338,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2239b22ed2b55714dbcc2e8b63adc689, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PhoneDialer
+  phone: {fileID: 2108997843}
+  phoneAudio: {fileID: 0}
   displayText: {fileID: 1360619404}
-  numberButtons:
-  - {fileID: 229903474}
-  - {fileID: 387498609}
-  - {fileID: 1613356620}
-  - {fileID: 1643505515}
-  - {fileID: 1614520068}
-  - {fileID: 695724480}
-  - {fileID: 1619954464}
-  - {fileID: 1217134543}
-  - {fileID: 806222370}
-  - {fileID: 1908051036}
-  btnClear: {fileID: 1904238569}
-  btnCall: {fileID: 735974529}
   buttonGrid: {fileID: 2146184611}
   columns: 3
-  correctCode: 8611
+  clearButton: {fileID: 0}
+  callButton: {fileID: 0}
+  keyNamePrefix: Btn_
   maxDigits: 4
   normalColor: {r: 1, g: 1, b: 1, a: 1}
   highlightColor: {r: 1, g: 0.85, b: 0.3, a: 1}
-  phone: {fileID: 2108997843}
 --- !u!1 &613382510
 GameObject:
   m_ObjectHideFlags: 0
@@ -46474,6 +46536,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -46485,8 +46549,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 0}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: -90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -46508,6 +46582,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -46515,6 +46599,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!65 &665305691
@@ -46574,6 +46661,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 1
   playerCanToggle: 0
@@ -46585,8 +46674,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 1117737311}
   door: {fileID: 665305686}
+  audioOrigin: {fileID: 0}
   openAngle: -90
   speed: 300
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -46608,6 +46707,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -46615,6 +46724,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &667654089
@@ -46895,6 +47007,14 @@ MonoBehaviour:
   centerGracePeriod: 0.5
   targetOverride: {fileID: 0}
   detectionRadius: 3
+  liveActionClip: {fileID: 0}
+  liveActionAudio:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!1 &670398553
 GameObject:
   m_ObjectHideFlags: 0
@@ -113406,8 +113526,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cb04b6e079f55547b6c4680e42a3a22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CamcorderPickup
+  uiPosition: 7
+  promptIcon: {fileID: 0}
+  activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   camcorderSystem: {fileID: 326033778}
   camcorderModel: {fileID: 1716362536}
+  pickupPrompt: camcorder
   postPickupMessage: 
   pickupSound:
     Guid:
@@ -113416,7 +113542,6 @@ MonoBehaviour:
       Data3: -262504298
       Data4: -670472311
     Path: event:/SFX/Pick_Up_Camera
-  promptIcon: {fileID: 0}
 --- !u!65 &793080177
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -117424,11 +117549,14 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 532449872}
   subtitleEntries:
   - text: Just static...
     duration: 3
     position: 7
+  radioPrompt: radio
   oneTimeOnly: 0
   OnTurnedOn:
     m_PersistentCalls:
@@ -117895,6 +118023,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 0
@@ -117906,8 +118036,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 879073609}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: -90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -117929,6 +118069,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -117936,6 +118086,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &879450995
@@ -122221,6 +122374,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 0
@@ -122232,8 +122387,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 829128398}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: 90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -122255,6 +122420,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -122262,6 +122437,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!65 &985384690
@@ -123849,7 +124027,7 @@ MonoBehaviour:
   hudRoot: {fileID: 725506197}
   recDot: {fileID: 1379803185}
   recText: {fileID: 274825142}
-  timecodeText: {fileID: 1047266767}
+  recordingProgressBar: {fileID: 0}
   recordingIndicatorImage: {fileID: 0}
 --- !u!1 &1017010270
 GameObject:
@@ -125689,6 +125867,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 532449872}
   lines:
   - 'Strange... here it says:'
@@ -126829,6 +127009,14 @@ MonoBehaviour:
   centerGracePeriod: 0.5
   targetOverride: {fileID: 0}
   detectionRadius: 3
+  liveActionClip: {fileID: 0}
+  liveActionAudio:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!4 &1072698495
 Transform:
   m_ObjectHideFlags: 0
@@ -130978,6 +131166,8 @@ MonoBehaviour:
   uiPosition: 8
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: doorknob
   startLocked: 0
   playerCanToggle: 1
@@ -130989,8 +131179,18 @@ MonoBehaviour:
   interactCooldown: 3
   pivot: {fileID: 1747866664}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: 90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 1388873967
@@ -131012,6 +131212,16 @@ MonoBehaviour:
       Data3: 1076765590
       Data4: -704320750
     Path: event:/SFX/Door/LockedDoor/LockedDoor
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls:
@@ -131031,6 +131241,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!65 &1154864157
@@ -131348,6 +131561,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: key313
   startLocked: 0
   playerCanToggle: 0
@@ -131359,8 +131574,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 550117926}
   door: {fileID: 1194258455}
+  audioOrigin: {fileID: 0}
   openAngle: 90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 1388873967
@@ -131382,6 +131607,16 @@ MonoBehaviour:
       Data3: 1076765590
       Data4: -704320750
     Path: event:/SFX/Door/LockedDoor/LockedDoor
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls:
@@ -131401,6 +131636,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &1164961735
@@ -213210,6 +213448,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 532449872}
   lines:
   - 
@@ -213608,6 +213848,8 @@ MonoBehaviour:
   uiPosition: 8
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   itemId: key313
   prompt: .
   feedbackMessage: Key acquired
@@ -217739,6 +217981,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -217750,8 +217994,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 0}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: -90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -217773,6 +218027,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -217780,6 +218044,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!65 &1318833602
@@ -296928,11 +297195,14 @@ MonoBehaviour:
   uiPosition: 4
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   sprite: {fileID: 21300000, guid: 7514bf4d000e0ce45ba72d88457e8835, type: 3}
   pages:
   - 'Welcome to the <color=red><i>LMH Hotel</color></i> '
   - Experience the calm and beautiful resort and the wonders it helds within
   - (texts becomes blurry after this point)
+  readPrompt: leer
   openSound:
     Guid:
       Data1: 628579962
@@ -304052,6 +304322,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 0
@@ -304063,8 +304335,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 125554949}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: 90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -304086,6 +304368,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -304093,6 +304385,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!65 &1474770052
@@ -306402,6 +306697,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 532449872}
   lines:
   - Why is there a doormframe without a door?
@@ -312583,57 +312880,20 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
+  correctCode: 1234
   isBroken: 1
   brokenMessage: 'Another broken phone. '
   brokenMessagePosition: 7
   brokenSubtitles: {fileID: 532449872}
   brokenSubtitleDuration: 3
-  putUpPhoneReference:
-    Guid:
-      Data1: 1949342055
-      Data2: 1144802349
-      Data3: 1143032719
-      Data4: 421286046
-    Path: event:/SFX/RedTelephone/PickUpPhone
-  putDownPhoneReference:
-    Guid:
-      Data1: 114735553
-      Data2: 1104765467
-      Data3: 1830789528
-      Data4: 635056998
-    Path: event:/SFX/RedTelephone/PutDownPhone
-  markNumberReference:
-    Guid:
-      Data1: 693859562
-      Data2: 1317104237
-      Data3: -1244027470
-      Data4: -1683326502
-    Path: event:/SFX/RedTelephone/MarkNumber
-  wrongCodeReference:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  correctCodeReference:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  navigateSound:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  _phoneUI: {fileID: 1446203212}
-  _openPrompt: .
-  _closePrompt: .
-  _answerPrompt: .
+  phoneAudio: {fileID: 0}
+  dialer: {fileID: 0}
+  phoneUI: {fileID: 1446203212}
+  openPrompt: .
+  closePrompt: .
+  answerPrompt: .
   OnPickedUp:
     m_PersistentCalls:
       m_Calls: []
@@ -317255,6 +317515,8 @@ MonoBehaviour:
   uiPosition: 6
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -317266,8 +317528,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 1123620645}
   door: {fileID: 1514766477}
+  audioOrigin: {fileID: 0}
   openAngle: 90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 1388873967
@@ -317289,6 +317561,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -317296,6 +317578,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!65 &1718474469
@@ -318051,6 +318336,14 @@ MonoBehaviour:
   centerGracePeriod: 0.5
   targetOverride: {fileID: 0}
   detectionRadius: 2
+  liveActionClip: {fileID: 0}
+  liveActionAudio:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!1 &1724735955
 GameObject:
   m_ObjectHideFlags: 0
@@ -318584,6 +318877,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 532449872}
   lines:
   - Being here...
@@ -457487,57 +457782,20 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
+  correctCode: 1234
   isBroken: 1
   brokenMessage: Broken old phone. Great.
   brokenMessagePosition: 7
   brokenSubtitles: {fileID: 532449872}
   brokenSubtitleDuration: 3
-  putUpPhoneReference:
-    Guid:
-      Data1: 1949342055
-      Data2: 1144802349
-      Data3: 1143032719
-      Data4: 421286046
-    Path: event:/SFX/RedTelephone/PickUpPhone
-  putDownPhoneReference:
-    Guid:
-      Data1: 114735553
-      Data2: 1104765467
-      Data3: 1830789528
-      Data4: 635056998
-    Path: event:/SFX/RedTelephone/PutDownPhone
-  markNumberReference:
-    Guid:
-      Data1: 693859562
-      Data2: 1317104237
-      Data3: -1244027470
-      Data4: -1683326502
-    Path: event:/SFX/RedTelephone/MarkNumber
-  wrongCodeReference:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  correctCodeReference:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  navigateSound:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  _phoneUI: {fileID: 633956825}
-  _openPrompt: .
-  _closePrompt: .
-  _answerPrompt: .
+  phoneAudio: {fileID: 0}
+  dialer: {fileID: 0}
+  phoneUI: {fileID: 633956825}
+  openPrompt: .
+  closePrompt: .
+  answerPrompt: .
   OnPickedUp:
     m_PersistentCalls:
       m_Calls: []
@@ -459651,8 +459909,11 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 532449872}
   subtitleEntries: []
+  radioPrompt: radio
   oneTimeOnly: 1
   OnTurnedOn:
     m_PersistentCalls:
@@ -462284,57 +462545,20 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
+  correctCode: 1234
   isBroken: 0
   brokenMessage: El telefono no funciona
   brokenMessagePosition: 7
   brokenSubtitles: {fileID: 0}
   brokenSubtitleDuration: 3
-  putUpPhoneReference:
-    Guid:
-      Data1: 1949342055
-      Data2: 1144802349
-      Data3: 1143032719
-      Data4: 421286046
-    Path: event:/SFX/RedTelephone/PickUpPhone
-  putDownPhoneReference:
-    Guid:
-      Data1: 114735553
-      Data2: 1104765467
-      Data3: 1830789528
-      Data4: 635056998
-    Path: event:/SFX/RedTelephone/PutDownPhone
-  markNumberReference:
-    Guid:
-      Data1: 693859562
-      Data2: 1317104237
-      Data3: -1244027470
-      Data4: -1683326502
-    Path: event:/SFX/RedTelephone/MarkNumber
-  wrongCodeReference:
-    Guid:
-      Data1: 2095422076
-      Data2: 1133244098
-      Data3: -1625079412
-      Data4: -1721760021
-    Path: event:/SFX/RedTelephone/DeadCall
-  correctCodeReference:
-    Guid:
-      Data1: -850358447
-      Data2: 1140375011
-      Data3: 419948194
-      Data4: -1746732197
-    Path: event:/SFX/RedTelephone/Call
-  navigateSound:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  _phoneUI: {fileID: 1113736674}
-  _openPrompt: .
-  _closePrompt: .
-  _answerPrompt: .
+  phoneAudio: {fileID: 0}
+  dialer: {fileID: 0}
+  phoneUI: {fileID: 1113736674}
+  openPrompt: .
+  closePrompt: .
+  answerPrompt: .
   OnPickedUp:
     m_PersistentCalls:
       m_Calls: []
@@ -464729,6 +464953,14 @@ MonoBehaviour:
   centerGracePeriod: 0.5
   targetOverride: {fileID: 1318833596}
   detectionRadius: 3
+  liveActionClip: {fileID: 0}
+  liveActionAudio:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!1 &2133416446
 GameObject:
   m_ObjectHideFlags: 0

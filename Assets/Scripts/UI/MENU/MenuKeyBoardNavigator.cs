@@ -15,10 +15,13 @@ public sealed class MenuKeyBoardNavigator : MonoBehaviour
     private ButtonHoverEffect[] _hoverEffects;
     private int _currentIndex;
     private bool _submitQueued;
+    private bool _navigationEnabled;
 
     private InputAction _moveUpAction;
     private InputAction _moveDownAction;
     private InputAction _submitAction;
+
+    public bool NavigationEnabled => _navigationEnabled;
 
     private void Awake()
     {
@@ -43,22 +46,15 @@ public sealed class MenuKeyBoardNavigator : MonoBehaviour
 
     private void OnEnable()
     {
-        _moveUpAction.Enable();
-        _moveDownAction.Enable();
-        _submitAction.Enable();
-
-        _currentIndex = 0;
-        HighlightCurrent();
+        if (_navigationEnabled)
+            EnableInput();
     }
 
     private void OnDisable()
     {
         _submitQueued = false;
         UnhighlightCurrent();
-
-        _moveUpAction.Disable();
-        _moveDownAction.Disable();
-        _submitAction.Disable();
+        DisableInput();
     }
 
     private void OnDestroy()
@@ -70,6 +66,42 @@ public sealed class MenuKeyBoardNavigator : MonoBehaviour
         _moveUpAction.Dispose();
         _moveDownAction.Dispose();
         _submitAction.Dispose();
+    }
+
+    public void SetNavigationEnabled(bool value)
+    {
+        if (_navigationEnabled == value) return;
+
+        _navigationEnabled = value;
+        _submitQueued = false;
+
+        if (!isActiveAndEnabled) return;
+
+        if (value)
+        {
+            EnableInput();
+            _currentIndex = FirstSelectableIndex();
+            HighlightCurrent();
+        }
+        else
+        {
+            UnhighlightCurrent();
+            DisableInput();
+        }
+    }
+
+    private void EnableInput()
+    {
+        _moveUpAction.Enable();
+        _moveDownAction.Enable();
+        _submitAction.Enable();
+    }
+
+    private void DisableInput()
+    {
+        _moveUpAction.Disable();
+        _moveDownAction.Disable();
+        _submitAction.Disable();
     }
 
     private void OnMoveUp(InputAction.CallbackContext ctx) => Move(-1);
@@ -84,11 +116,14 @@ public sealed class MenuKeyBoardNavigator : MonoBehaviour
         if (!_submitQueued) return;
 
         _submitQueued = false;
-        Confirm();
+
+        if (_navigationEnabled)
+            Confirm();
     }
 
     private void Move(int direction)
     {
+        if (!_navigationEnabled) return;
         if (menuButtons == null || menuButtons.Length == 0) return;
 
         UnhighlightCurrent();
@@ -98,7 +133,7 @@ public sealed class MenuKeyBoardNavigator : MonoBehaviour
         {
             _currentIndex = (_currentIndex + direction + menuButtons.Length) % menuButtons.Length;
             Button candidate = menuButtons[_currentIndex];
-            if (candidate != null && candidate.isActiveAndEnabled && candidate.interactable)
+            if (candidate != null && candidate.isActiveAndEnabled && candidate.IsInteractable())
                 break;
         }
 
@@ -113,12 +148,28 @@ public sealed class MenuKeyBoardNavigator : MonoBehaviour
         if (menuButtons == null || _currentIndex < 0 || _currentIndex >= menuButtons.Length) return;
 
         Button target = menuButtons[_currentIndex];
-        if (target != null && target.interactable)
+        if (target != null && target.IsInteractable())
             target.onClick.Invoke();
+    }
+
+    private int FirstSelectableIndex()
+    {
+        if (menuButtons == null) return 0;
+
+        for (int i = 0; i < menuButtons.Length; i++)
+        {
+            Button candidate = menuButtons[i];
+            if (candidate != null && candidate.isActiveAndEnabled && candidate.IsInteractable())
+                return i;
+        }
+
+        return 0;
     }
 
     private void HighlightCurrent()
     {
+        if (!_navigationEnabled) return;
+
         if (_currentIndex >= 0 && _currentIndex < _hoverEffects.Length)
         {
             _hoverEffects[_currentIndex]?.SetHighlighted(true);
@@ -128,6 +179,8 @@ public sealed class MenuKeyBoardNavigator : MonoBehaviour
 
     private void UnhighlightCurrent()
     {
+        if (_hoverEffects == null) return;
+
         if (_currentIndex >= 0 && _currentIndex < _hoverEffects.Length)
             _hoverEffects[_currentIndex]?.SetHighlighted(false);
     }
