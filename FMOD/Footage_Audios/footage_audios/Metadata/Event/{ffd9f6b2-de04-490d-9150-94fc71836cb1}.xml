@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.03.00">
 	<object class="Event" id="{ffd9f6b2-de04-490d-9150-94fc71836cb1}">
+		<property name="color">
+			<value>Blue</value>
+		</property>
 		<property name="name">
 			<value>Primera aparicion</value>
 		</property>
@@ -46,6 +49,9 @@
 		</relationship>
 	</object>
 	<object class="MixerInput" id="{9d42b4b2-a403-4449-8615-5b658e5f7929}">
+		<property name="color">
+			<value>Blue</value>
+		</property>
 		<relationship name="effectChain">
 			<destination>{22faa1d9-00ad-4316-817d-09d133753f67}</destination>
 		</relationship>
@@ -72,9 +78,6 @@
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{5dc43009-2154-4d25-8111-3cb00100cebc}">
-		<property name="volume">
-			<value>-10</value>
-		</property>
 		<relationship name="effectChain">
 			<destination>{ed90e7d7-69a3-48d0-8866-89cce90628dc}</destination>
 		</relationship>
@@ -100,6 +103,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{96103226-575a-48d8-a808-70488b0c026f}">
+		<property name="volume">
+			<value>-14.5</value>
+		</property>
 		<property name="name">
 			<value>Audio 1</value>
 		</property>
