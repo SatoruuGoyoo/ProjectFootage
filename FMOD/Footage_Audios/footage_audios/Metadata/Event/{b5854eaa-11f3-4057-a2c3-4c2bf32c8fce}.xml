@@ -95,6 +95,9 @@
 		<property name="length">
 			<value>1.04</value>
 		</property>
+		<relationship name="fadeInCurve">
+			<destination>{eae68a96-3a27-491b-95f7-9cd9c6c35b5d}</destination>
+		</relationship>
 		<relationship name="fadeOutCurve">
 			<destination>{e4f7f493-cc6e-4a43-9570-0c6f5e0c4940}</destination>
 		</relationship>
@@ -103,6 +106,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{872e5568-5216-48ec-aef4-0412985718e2}">
+		<property name="volume">
+			<value>-12</value>
+		</property>
 		<property name="name">
 			<value>Audio 1</value>
 		</property>
@@ -125,6 +131,14 @@
 	</object>
 	<object class="MixerBusPanner" id="{7a575383-5a87-4619-a195-e751c3971257}" />
 	<object class="MixerBusFader" id="{ea23953f-3a47-4dc0-afc5-16efde91d60e}" />
+	<object class="FadeCurve" id="{eae68a96-3a27-491b-95f7-9cd9c6c35b5d}">
+		<relationship name="startPoint">
+			<destination>{562da7a8-e271-4027-b7c3-2b847d858318}</destination>
+		</relationship>
+		<relationship name="endPoint">
+			<destination>{d7a12a4e-ba20-436f-a2b1-1ae453678d5f}</destination>
+		</relationship>
+	</object>
 	<object class="FadeCurve" id="{e4f7f493-cc6e-4a43-9570-0c6f5e0c4940}">
 		<relationship name="startPoint">
 			<destination>{623020b4-e8b6-4aea-b4c7-8eb76f304a8a}</destination>
@@ -155,6 +169,25 @@
 	</object>
 	<object class="MixerBusFader" id="{b5d9a9d2-17a0-48f9-873e-4cfa5acee8d5}" />
 	<object class="SFXReverbEffect" id="{82888c3b-742d-477c-a434-f7783d5346ef}" />
+	<object class="AutomationPoint" id="{562da7a8-e271-4027-b7c3-2b847d858318}">
+		<property name="position">
+			<value>0</value>
+		</property>
+		<property name="value">
+			<value>0</value>
+		</property>
+		<property name="curveShape">
+			<value>-0.2547189</value>
+		</property>
+	</object>
+	<object class="AutomationPoint" id="{d7a12a4e-ba20-436f-a2b1-1ae453678d5f}">
+		<property name="position">
+			<value>0.27000000000000002</value>
+		</property>
+		<property name="value">
+			<value>1</value>
+		</property>
+	</object>
 	<object class="AutomationPoint" id="{623020b4-e8b6-4aea-b4c7-8eb76f304a8a}">
 		<property name="position">
 			<value>0.46000000000000002</value>
