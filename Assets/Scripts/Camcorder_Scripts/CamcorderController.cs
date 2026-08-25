@@ -187,7 +187,8 @@ public class CamcorderController : MonoBehaviour
 
             var re = objectiveTarget as RecordableEvent;
             FMODUnity.EventReference audio = re != null ? re.LiveActionAudio : default;
-            _activeSession.SetLiveAction(clip, audio);
+            Sprite thumb = re != null ? re.LiveActionThumbnail : null;
+            _activeSession.SetLiveAction(clip, audio, thumb);
 
             CurrentRecordingTarget = re != null ? re.RecordDuration : recordDuration;
         }

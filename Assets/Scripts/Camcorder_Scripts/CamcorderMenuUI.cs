@@ -53,9 +53,17 @@ public class CamcorderMenuUI : MonoBehaviour
 
             if (hasData)
             {
-                VideoFrame? firstFrame = recordings[i].GetFrameAtTime(0f);
-                if (firstFrame.HasValue)
-                    recordingSlots[i].sprite = FrameToSprite(i, firstFrame.Value);
+                if (recordings[i].IsLiveAction)
+                {
+                    if (recordings[i].LiveActionThumbnail != null)
+                        recordingSlots[i].sprite = recordings[i].LiveActionThumbnail;
+                }
+                else
+                {
+                    VideoFrame? firstFrame = recordings[i].GetFrameAtTime(0f);
+                    if (firstFrame.HasValue)
+                        recordingSlots[i].sprite = FrameToSprite(i, firstFrame.Value);
+                }
 
                 recordingSlots[i].color = isSelected ? colorSelected : colorUnselected;
             }
