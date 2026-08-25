@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 public class PauseMenuUI : MonoBehaviour
 {
+    [Header("Navigation")]
+    [SerializeField] private MenuKeyBoardNavigator keyboardNavigator;
+
     [Header("Controller")]
     [SerializeField] private PauseController controller;
 
@@ -58,11 +61,19 @@ public class PauseMenuUI : MonoBehaviour
         RegisterListeners();
         gameObject.SetActive(true);
         if (menuAnimator != null) menuAnimator.PlayOpen();
+        if (keyboardNavigator != null)
+        {
+            keyboardNavigator.SetNavigationEnabled(true);
+            
+        }
     }
 
     public void Hide(System.Action onFinished)
     {
         _onHideFinished = onFinished;
+
+        if (keyboardNavigator != null)
+            keyboardNavigator.SetNavigationEnabled(false);
 
         if (menuAnimator != null)
         {
