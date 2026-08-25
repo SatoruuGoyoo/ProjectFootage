@@ -1,7 +1,3 @@
-// CamcorderMenuController.cs
-// Cambio principal: ya no manejamos _activeFixedCamera para esconder/mostrar.
-// En overlay el canvas tapa todo visualmente solo.
-
 using UnityEngine;
 
 [RequireComponent(typeof(CamcorderStorage))]
