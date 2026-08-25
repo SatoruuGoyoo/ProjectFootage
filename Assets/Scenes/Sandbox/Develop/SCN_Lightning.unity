@@ -93,7 +93,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: 48153493ea96b014cafa26e372fd0d90, type: 2}
+  m_LightingDataAsset: {fileID: 112000000, guid: 222a8b1982e410f479b7e8e56cfa7fe1, type: 2}
   m_LightingSettings: {fileID: 4890085278179872738, guid: 0e332a5ed07df6140bc90ebe53500287, type: 2}
 --- !u!196 &4
 NavMeshSettings:
@@ -1203,7 +1203,7 @@ MonoBehaviour:
   - {fileID: 2138660887}
   - {fileID: 1979380058}
   - {fileID: 1075052870}
-  - {fileID: 1797757500}
+  - {fileID: 0}
   colliders:
   - {fileID: 1463543280}
   lights:
@@ -2850,6 +2850,8 @@ MonoBehaviour:
   uiPosition: 8
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: doorknob
   startLocked: 0
   playerCanToggle: 1
@@ -2861,8 +2863,18 @@ MonoBehaviour:
   interactCooldown: 3
   pivot: {fileID: 863638156}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: 90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 1388873967
@@ -2884,6 +2896,16 @@ MonoBehaviour:
       Data3: 1076765590
       Data4: -704320750
     Path: event:/SFX/Door/LockedDoor/LockedDoor
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls:
@@ -2903,6 +2925,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!65 &35004574
@@ -9269,6 +9294,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 677589477}
   lines:
   - 'Strange... here it says:'
@@ -10465,6 +10492,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 0
@@ -10476,8 +10505,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 559463923}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: 90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -10499,6 +10538,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -10506,6 +10555,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &139591635
@@ -20499,6 +20551,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 677589477}
   lines:
   - Why is there a doormframe without a door?
@@ -22039,6 +22093,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -22050,8 +22106,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 1972657204}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: 90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -22073,6 +22139,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -22080,6 +22156,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &314173198 stripped
@@ -27563,6 +27642,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -27574,8 +27655,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 1808744742}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: 90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -27597,6 +27688,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -27604,6 +27705,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &411554260
@@ -28925,6 +29029,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -28936,8 +29042,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 1086600522}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: 90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -28959,6 +29075,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -28966,6 +29092,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &445573884
@@ -33758,6 +33887,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 1
   playerCanToggle: 0
@@ -33769,8 +33900,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 1965000800}
   door: {fileID: 1225082766}
+  audioOrigin: {fileID: 0}
   openAngle: -90
   speed: 300
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -33792,6 +33933,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -33799,6 +33950,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!4 &519613899 stripped
@@ -37269,6 +37423,8 @@ MonoBehaviour:
   uiPosition: 6
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 1
   playerCanToggle: 0
@@ -37280,8 +37436,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 0}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: 90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 1388873967
@@ -37303,6 +37469,16 @@ MonoBehaviour:
       Data3: 1076765590
       Data4: -704320750
     Path: event:/SFX/Door/LockedDoor/LockedDoor
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -37310,6 +37486,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!65 &561717480
@@ -38294,8 +38473,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cb04b6e079f55547b6c4680e42a3a22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CamcorderPickup
+  uiPosition: 7
+  promptIcon: {fileID: 0}
+  activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   camcorderSystem: {fileID: 730880155}
   camcorderModel: {fileID: 599269817}
+  pickupPrompt: camcorder
   postPickupMessage: 
   pickupSound:
     Guid:
@@ -38304,7 +38489,6 @@ MonoBehaviour:
       Data3: -262504298
       Data4: -670472311
     Path: event:/SFX/Pick_Up_Camera
-  promptIcon: {fileID: 0}
 --- !u!65 &580118600
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -40920,6 +41104,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -40931,8 +41117,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 0}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: -90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -40954,6 +41150,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -40961,6 +41167,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &623787315
@@ -42089,6 +42298,8 @@ MonoBehaviour:
   uiPosition: 6
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -42100,8 +42311,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 1043666147}
   door: {fileID: 1888826994}
+  audioOrigin: {fileID: 0}
   openAngle: 90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 1388873967
@@ -42123,6 +42344,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -42130,6 +42361,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!65 &639040320
@@ -43630,6 +43864,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 0
@@ -43641,8 +43877,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 786461784}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: 90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -43664,6 +43910,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -43671,6 +43927,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &653356678
@@ -46164,7 +46423,6 @@ MonoBehaviour:
   messageLabel: {fileID: 1102904412}
   defaultDisplayDuration: 3
   positioner: {fileID: 1523985786}
-  defaultPosition: 4
 --- !u!114 &677589483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46206,15 +46464,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractPromptUI
   container: {fileID: 2145729100}
+  promptRect: {fileID: 0}
+  placement: 1
   positioner: {fileID: 0}
   defaultPosition: 4
+  player: {fileID: 0}
+  fullDistance: 1.4
+  fadeDistance: 4
+  minScale: 0.55
+  minAlpha: 0.25
+  blendSpeed: 6
+  promptCamera: {fileID: 0}
+  screenPadding: {x: 48, y: 48}
+  clampToScreen: 1
   interactIcon: {fileID: 712534545}
+  defaultInteractSprite: {fileID: 0}
+  defaultCancelSprite: {fileID: 0}
   keyImage: {fileID: 0}
   keyLabel: {fileID: 1657880603}
-  activeKeySprite: {fileID: 21300000, guid: 7de602181d02a714cb2caf694457ca30, type: 3}
-  activeKeyText: F
-  proximitySprite: {fileID: 21300000, guid: 4b4a8cf2126b6ce42b79d7b760c8001b, type: 3}
-  closeSprite: {fileID: 21300000, guid: 7de602181d02a714cb2caf694457ca30, type: 3}
+  interactKeySprite: {fileID: 0}
+  cancelKeySprite: {fileID: 0}
+  interactKeyText: '[E]'
+  cancelKeyText: '[F]'
 --- !u!114 &677589486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125970,6 +126241,8 @@ MonoBehaviour:
   uiPosition: 6
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 1
   playerCanToggle: 0
@@ -125981,8 +126254,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 0}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: 90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -126004,6 +126287,16 @@ MonoBehaviour:
       Data3: 1076765590
       Data4: -704320750
     Path: event:/SFX/Door/LockedDoor/LockedDoor
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -126011,6 +126304,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!65 &731589213
@@ -134544,6 +134840,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: key313
   startLocked: 0
   playerCanToggle: 0
@@ -134555,8 +134853,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 414233874}
   door: {fileID: 1334607011}
+  audioOrigin: {fileID: 0}
   openAngle: 90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 1388873967
@@ -134578,6 +134886,16 @@ MonoBehaviour:
       Data3: 1076765590
       Data4: -704320750
     Path: event:/SFX/Door/LockedDoor/LockedDoor
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls:
@@ -134597,6 +134915,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!65 &871960745
@@ -135289,6 +135610,8 @@ MonoBehaviour:
   uiPosition: 8
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   itemId: key313
   prompt: .
   feedbackMessage: Key acquired
@@ -136408,57 +136731,20 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
+  correctCode: 1234
   isBroken: 1
   brokenMessage: Broken old phone. Great.
   brokenMessagePosition: 7
   brokenSubtitles: {fileID: 677589477}
   brokenSubtitleDuration: 3
-  putUpPhoneReference:
-    Guid:
-      Data1: 1949342055
-      Data2: 1144802349
-      Data3: 1143032719
-      Data4: 421286046
-    Path: event:/SFX/RedTelephone/PickUpPhone
-  putDownPhoneReference:
-    Guid:
-      Data1: 114735553
-      Data2: 1104765467
-      Data3: 1830789528
-      Data4: 635056998
-    Path: event:/SFX/RedTelephone/PutDownPhone
-  markNumberReference:
-    Guid:
-      Data1: 693859562
-      Data2: 1317104237
-      Data3: -1244027470
-      Data4: -1683326502
-    Path: event:/SFX/RedTelephone/MarkNumber
-  wrongCodeReference:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  correctCodeReference:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  navigateSound:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  _phoneUI: {fileID: 2031561622}
-  _openPrompt: .
-  _closePrompt: .
-  _answerPrompt: .
+  phoneAudio: {fileID: 0}
+  dialer: {fileID: 0}
+  phoneUI: {fileID: 2031561622}
+  openPrompt: .
+  closePrompt: .
+  answerPrompt: .
   OnPickedUp:
     m_PersistentCalls:
       m_Calls: []
@@ -137354,27 +137640,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2239b22ed2b55714dbcc2e8b63adc689, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PhoneDialer
+  phone: {fileID: 1995243562}
+  phoneAudio: {fileID: 0}
   displayText: {fileID: 265308480}
-  numberButtons:
-  - {fileID: 1405315500}
-  - {fileID: 817861404}
-  - {fileID: 606222398}
-  - {fileID: 85207701}
-  - {fileID: 1829688273}
-  - {fileID: 2017302166}
-  - {fileID: 1606407450}
-  - {fileID: 1711394413}
-  - {fileID: 784825378}
-  - {fileID: 1774833032}
-  btnClear: {fileID: 692193445}
-  btnCall: {fileID: 1382196588}
   buttonGrid: {fileID: 733265514}
   columns: 3
-  correctCode: 8611
+  clearButton: {fileID: 0}
+  callButton: {fileID: 0}
+  keyNamePrefix: Btn_
   maxDigits: 4
   normalColor: {r: 1, g: 1, b: 1, a: 1}
   highlightColor: {r: 1, g: 0.85, b: 0.3, a: 1}
-  phone: {fileID: 1995243562}
 --- !u!4 &934845790 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e9d14b76a380f854fa1d21dd58d42e25, type: 3}
@@ -139207,6 +139483,8 @@ MonoBehaviour:
   uiPosition: 6
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 1
   playerCanToggle: 0
@@ -139218,8 +139496,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 0}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: 90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -139241,6 +139529,16 @@ MonoBehaviour:
       Data3: 1076765590
       Data4: -704320750
     Path: event:/SFX/Door/LockedDoor/LockedDoor
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -139248,6 +139546,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!65 &960265942
@@ -139898,6 +140199,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -139909,8 +140212,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 0}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: -90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -139932,6 +140245,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -139939,6 +140262,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!23 &976441781 stripped
@@ -140442,6 +140768,14 @@ MonoBehaviour:
   centerGracePeriod: 0.5
   targetOverride: {fileID: 0}
   detectionRadius: 3
+  liveActionClip: {fileID: 0}
+  liveActionAudio:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!1 &984275591
 GameObject:
   m_ObjectHideFlags: 0
@@ -140676,6 +141010,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 1
   playerCanToggle: 0
@@ -140687,8 +141023,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 1352478526}
   door: {fileID: 974330076}
+  audioOrigin: {fileID: 0}
   openAngle: -90
   speed: 300
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -140710,6 +141056,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -140717,6 +141073,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &986786270
@@ -151517,6 +151876,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -151528,8 +151889,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 0}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: -90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -151551,6 +151922,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -151558,6 +151939,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!23 &1098426279 stripped
@@ -151755,6 +152139,8 @@ MonoBehaviour:
   uiPosition: 6
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 1
   playerCanToggle: 0
@@ -151766,8 +152152,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 0}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: 90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -151789,6 +152185,16 @@ MonoBehaviour:
       Data3: 1076765590
       Data4: -704320750
     Path: event:/SFX/Door/LockedDoor/LockedDoor
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -151796,6 +152202,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!65 &1102073056
@@ -229332,6 +229741,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -229343,8 +229754,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 0}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: -90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -229366,6 +229787,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -229373,6 +229804,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1001 &1120692607
@@ -232612,7 +233046,7 @@ MonoBehaviour:
   hudRoot: {fileID: 285913629}
   recDot: {fileID: 2045334823}
   recText: {fileID: 862011079}
-  timecodeText: {fileID: 274577076}
+  recordingProgressBar: {fileID: 0}
   recordingIndicatorImage: {fileID: 0}
 --- !u!114 &1180907613
 MonoBehaviour:
@@ -233842,184 +234276,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1205555038}
   m_Mesh: {fileID: 8733429697405204941, guid: 8448176c16cd7bf4a85ff959b963dbd7, type: 3}
---- !u!43 &1208521010
-Mesh:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-21166
-  serializedVersion: 12
-  m_SubMeshes:
-  - serializedVersion: 2
-    firstByte: 0
-    indexCount: 216
-    topology: 0
-    baseVertex: 0
-    firstVertex: 0
-    vertexCount: 49
-    localAABB:
-      m_Center: {x: 0, y: 0, z: 0}
-      m_Extent: {x: 15.3, y: 0, z: 5}
-  m_Shapes:
-    vertices: []
-    shapes: []
-    channels: []
-    fullWeights: []
-  m_BindPose: []
-  m_BoneNameHashes: 
-  m_RootBoneNameHash: 0
-  m_BonesAABB: []
-  m_VariableBoneCountWeights:
-    m_Data: 
-  m_MeshCompression: 0
-  m_IsReadable: 1
-  m_KeepVertices: 1
-  m_KeepIndices: 1
-  m_IndexFormat: 0
-  m_IndexBuffer: 00000100020001000300020001000400030004000500030004000600050006000700050006000800070008000900070008000a0009000a000b0009000a000c000b000c000d000b00020003000e0003000f000e00030005000f00050010000f0005000700100007001100100007000900110009001200110009000b0012000b00130012000b000d0013000d00140013000e000f0015000f00160015000f001000160010001700160010001100170011001800170011001200180012001900180012001300190013001a001900130014001a0014001b001a00150016001c0016001d001c00160017001d0017001e001d00170018001e0018001f001e00180019001f00190020001f0019001a0020001a00210020001a001b0021001b00220021001c001d0023001d00240023001d001e0024001e00250024001e001f0025001f00260025001f0020002600200027002600200021002700210028002700210022002800220029002800230024002a0024002b002a00240025002b0025002c002b00250026002c0026002d002c00260027002d0027002e002d00270028002e0028002f002e00280029002f00290030002f00
-  m_VertexData:
-    serializedVersion: 3
-    m_VertexCount: 49
-    m_Channels:
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 3
-    - stream: 0
-      offset: 12
-      format: 0
-      dimension: 3
-    - stream: 0
-      offset: 24
-      format: 0
-      dimension: 4
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 40
-      format: 0
-      dimension: 2
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    m_DataSize: 2352
-    _typelessdata: cdcc74c1000000000000a0c0000000000000803f000000000000803f0000000000000000000080bfcdcc74c10000a0c0cdcc74c100000000565555c0000000000000803f000000000000803f0000000000000000000080bfcdcc74c1565555c0343323c1000000000000a0c0000000000000803f000000000000803f0000000000000000000080bf343323c10000a0c0343323c100000000565555c0000000000000803f000000000000803f0000000000000000000080bf343323c1565555c0cdcc74c1000000005655d5bf000000000000803f000000000000803f0000000000000000000080bfcdcc74c15655d5bf343323c1000000005655d5bf000000000000803f000000000000803f0000000000000000000080bf343323c15655d5bfcdcc74c10000000000000000000000000000803f000000000000803f0000000000000000000080bfcdcc74c100000000343323c10000000000000000000000000000803f000000000000803f0000000000000000000080bf343323c100000000cdcc74c1000000005655d53f000000000000803f000000000000803f0000000000000000000080bfcdcc74c15655d53f343323c1000000005655d53f000000000000803f000000000000803f0000000000000000000080bf343323c15655d53fcdcc74c10000000056555540000000000000803f000000000000803f0000000000000000000080bfcdcc74c156555540343323c10000000056555540000000000000803f000000000000803f0000000000000000000080bf343323c156555540cdcc74c1000000000000a040000000000000803f000000000000803f0000000000000000000080bfcdcc74c10000a040343323c1000000000000a040000000000000803f000000000000803f0000000000000000000080bf343323c10000a0403433a3c0000000000000a0c0000000000000803f000000000000803f0000000000000000000080bf3433a3c00000a0c03433a3c000000000565555c0000000000000803f000000000000803f0000000000000000000080bf3433a3c0565555c03433a3c0000000005655d5bf000000000000803f000000000000803f0000000000000000000080bf3433a3c05655d5bf3433a3c00000000000000000000000000000803f000000000000803f0000000000000000000080bf3433a3c0000000003433a3c0000000005655d53f000000000000803f000000000000803f0000000000000000000080bf3433a3c05655d53f3433a3c00000000056555540000000000000803f000000000000803f0000000000000000000080bf3433a3c0565555403433a3c0000000000000a040000000000000803f000000000000803f0000000000000000000080bf3433a3c00000a04000000000000000000000a0c0000000000000803f000000000000803f0000000000000000000080bf000000000000a0c00000000000000000565555c0000000000000803f000000000000803f0000000000000000000080bf00000000565555c000000000000000005655d5bf000000000000803f000000000000803f0000000000000000000080bf000000005655d5bf000000000000000000000000000000000000803f000000000000803f0000000000000000000080bf000000000000000000000000000000005655d53f000000000000803f000000000000803f0000000000000000000080bf000000005655d53f000000000000000056555540000000000000803f000000000000803f0000000000000000000080bf000000005655554000000000000000000000a040000000000000803f000000000000803f0000000000000000000080bf000000000000a0403433a340000000000000a0c0000000000000803f000000000000803f0000000000000000000080bf3433a3400000a0c03433a34000000000565555c0000000000000803f000000000000803f0000000000000000000080bf3433a340565555c03433a340000000005655d5bf000000000000803f000000000000803f0000000000000000000080bf3433a3405655d5bf3433a3400000000000000000000000000000803f000000000000803f0000000000000000000080bf3433a340000000003433a340000000005655d53f000000000000803f000000000000803f0000000000000000000080bf3433a3405655d53f3433a3400000000056555540000000000000803f000000000000803f0000000000000000000080bf3433a340565555403433a340000000000000a040000000000000803f000000000000803f0000000000000000000080bf3433a3400000a04034332341000000000000a0c0000000000000803f000000000000803f0000000000000000000080bf343323410000a0c03433234100000000565555c0000000000000803f000000000000803f0000000000000000000080bf34332341565555c034332341000000005655d5bf000000000000803f000000000000803f0000000000000000000080bf343323415655d5bf343323410000000000000000000000000000803f000000000000803f0000000000000000000080bf343323410000000034332341000000005655d53f000000000000803f000000000000803f0000000000000000000080bf343323415655d53f343323410000000056555540000000000000803f000000000000803f0000000000000000000080bf343323415655554034332341000000000000a040000000000000803f000000000000803f0000000000000000000080bf343323410000a040cdcc7441000000000000a0c0000000000000803f000000000000803f0000000000000000000080bfcdcc74410000a0c0cdcc744100000000565555c0000000000000803f000000000000803f0000000000000000000080bfcdcc7441565555c0cdcc7441000000005655d5bf000000000000803f000000000000803f0000000000000000000080bfcdcc74415655d5bfcdcc74410000000000000000000000000000803f000000000000803f0000000000000000000080bfcdcc744100000000cdcc7441000000005655d53f000000000000803f000000000000803f0000000000000000000080bfcdcc74415655d53fcdcc74410000000056555540000000000000803f000000000000803f0000000000000000000080bfcdcc744156555540cdcc7441000000000000a040000000000000803f000000000000803f0000000000000000000080bfcdcc74410000a040
-  m_CompressedMesh:
-    m_Vertices:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_UV:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Normals:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Tangents:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Weights:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_NormalSigns:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_TangentSigns:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_FloatColors:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_BoneIndices:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Triangles:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_UVInfo: 0
-  m_LocalAABB:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 15.3, y: 0, z: 5}
-  m_MeshUsageFlags: 0
-  m_CookingOptions: 30
-  m_BakedConvexCollisionMesh: 
-  m_BakedTriangleCollisionMesh: 
-  'm_MeshMetrics[0]': 1
-  'm_MeshMetrics[1]': 1
-  m_MeshOptimizationFlags: 1
-  m_StreamData:
-    serializedVersion: 2
-    offset: 0
-    size: 0
-    path: 
-  m_MeshLodInfo:
-    serializedVersion: 2
-    m_LodSelectionCurve:
-      serializedVersion: 1
-      m_LodSlope: 0
-      m_LodBias: 0
-    m_NumLevels: 1
-    m_SubMeshes:
-    - serializedVersion: 2
-      m_Levels:
-      - serializedVersion: 1
-        m_IndexStart: 0
-        m_IndexCount: 0
 --- !u!1 &1210108391
 GameObject:
   m_ObjectHideFlags: 0
@@ -234530,6 +234786,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -234541,8 +234799,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 0}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: -90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -234564,6 +234832,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -234571,6 +234849,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &1226746742
@@ -237800,6 +238081,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 677589477}
   subtitleEntries:
   - text: The neighbors of [BEEP] are shaken by the brutal murder of [BEEP], the
@@ -237816,6 +238099,7 @@ MonoBehaviour:
   - text: "A true tragedy\u2026"
     duration: 3
     position: 7
+  radioPrompt: radio
   oneTimeOnly: 0
   OnTurnedOn:
     m_PersistentCalls:
@@ -239519,8 +239803,11 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 677589477}
   subtitleEntries: []
+  radioPrompt: radio
   oneTimeOnly: 1
   OnTurnedOn:
     m_PersistentCalls:
@@ -241822,6 +242109,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -241833,8 +242122,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 1660696590}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: 90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -241856,6 +242155,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -241863,6 +242172,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &1280921369
@@ -246623,6 +246935,14 @@ MonoBehaviour:
   centerGracePeriod: 0.5
   targetOverride: {fileID: 0}
   detectionRadius: 3
+  liveActionClip: {fileID: 0}
+  liveActionAudio:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!1 &1318063612
 GameObject:
   m_ObjectHideFlags: 0
@@ -246719,6 +247039,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -246730,8 +247052,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 0}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: -90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -246753,6 +247085,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -246760,6 +247102,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &1322352449
@@ -252527,6 +252872,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -252538,8 +252885,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 690951432}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: 90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -252561,6 +252918,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -252568,6 +252935,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &1346044250
@@ -255524,6 +255894,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -255535,8 +255907,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 0}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: -90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -255558,6 +255940,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -255565,6 +255957,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &1404638058
@@ -255910,6 +256305,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 0
@@ -255921,8 +256318,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 690951432}
   door: {fileID: 1405927036}
+  audioOrigin: {fileID: 0}
   openAngle: 90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 1388873967
@@ -255944,6 +256351,16 @@ MonoBehaviour:
       Data3: 1076765590
       Data4: -704320750
     Path: event:/SFX/Door/LockedDoor/LockedDoor
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -255951,6 +256368,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!4 &1405927036 stripped
@@ -256579,57 +256999,20 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
+  correctCode: 1234
   isBroken: 1
   brokenMessage: 'Another broken phone. '
   brokenMessagePosition: 7
   brokenSubtitles: {fileID: 677589477}
   brokenSubtitleDuration: 3
-  putUpPhoneReference:
-    Guid:
-      Data1: 1949342055
-      Data2: 1144802349
-      Data3: 1143032719
-      Data4: 421286046
-    Path: event:/SFX/RedTelephone/PickUpPhone
-  putDownPhoneReference:
-    Guid:
-      Data1: 114735553
-      Data2: 1104765467
-      Data3: 1830789528
-      Data4: 635056998
-    Path: event:/SFX/RedTelephone/PutDownPhone
-  markNumberReference:
-    Guid:
-      Data1: 693859562
-      Data2: 1317104237
-      Data3: -1244027470
-      Data4: -1683326502
-    Path: event:/SFX/RedTelephone/MarkNumber
-  wrongCodeReference:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  correctCodeReference:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  navigateSound:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  _phoneUI: {fileID: 11378165}
-  _openPrompt: .
-  _closePrompt: .
-  _answerPrompt: .
+  phoneAudio: {fileID: 0}
+  dialer: {fileID: 0}
+  phoneUI: {fileID: 11378165}
+  openPrompt: .
+  closePrompt: .
+  answerPrompt: .
   OnPickedUp:
     m_PersistentCalls:
       m_Calls: []
@@ -258042,6 +258425,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -258053,8 +258438,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 1039578883}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: 90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -258076,6 +258471,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -258083,6 +258488,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &1438441050
@@ -259325,6 +259733,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 677589477}
   lines:
   - Being here...
@@ -260194,6 +260604,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 0
@@ -260205,8 +260617,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 309148020}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: 90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -260228,6 +260650,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -260235,6 +260667,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!23 &1477235113 stripped
@@ -260288,6 +260723,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 0
@@ -260299,8 +260736,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 722222177}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: 90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -260322,6 +260769,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -260329,6 +260786,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &1480034448
@@ -319614,6 +320074,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 677589477}
   lines:
   - Wood seems to be falling off.
@@ -324983,6 +325445,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 677589477}
   lines:
   - 'Strange... here it says:'
@@ -325545,6 +326009,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 0
@@ -325556,8 +326022,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 1586896958}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: -90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -325579,6 +326055,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -325586,6 +326072,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!65 &1586896960
@@ -329599,6 +330088,8 @@ MonoBehaviour:
   uiPosition: 6
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 1
   playerCanToggle: 0
@@ -329610,8 +330101,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 0}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: 90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -329633,6 +330134,16 @@ MonoBehaviour:
       Data3: 1076765590
       Data4: -704320750
     Path: event:/SFX/Door/LockedDoor/LockedDoor
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -329640,6 +330151,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!65 &1661221485
@@ -331263,6 +331777,14 @@ MonoBehaviour:
   centerGracePeriod: 0.5
   targetOverride: {fileID: 1204892854}
   detectionRadius: 3
+  liveActionClip: {fileID: 0}
+  liveActionAudio:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!1 &1687716729
 GameObject:
   m_ObjectHideFlags: 0
@@ -331421,6 +331943,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 0
@@ -331432,8 +331956,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 1027128225}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: 90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -331455,6 +331989,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -331462,6 +332006,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1001 &1693230282
@@ -392149,6 +392696,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -392160,8 +392709,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 0}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: -90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -392183,6 +392742,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -392190,6 +392759,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &1737604361
@@ -395131,1252 +395703,6 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: d722f5bf674539045b0a8148fa7cb39d, type: 3}
   m_PrefabInstance: {fileID: 1270249743}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1797757499
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1797757504}
-  - component: {fileID: 1797757503}
-  - component: {fileID: 1797757502}
-  - component: {fileID: 1797757500}
-  - component: {fileID: 1797757501}
-  m_Layer: 0
-  m_Name: RAIN (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!23 &1797757500
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1797757499}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 9259ae3bba413194dbf4c1b99cca1e4e, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_MaskInteraction: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &1797757501
-MeshFilter:
-  m_ObjectHideFlags: 10
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1797757499}
-  m_Mesh: {fileID: 1208521010}
---- !u!114 &1797757502
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1797757499}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ca002da428252441b92f28d83c8a65f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.ProBuilder::UnityEngine.ProBuilder.Shapes.ProBuilderShape
-  m_Shape:
-    rid: 992788833525039188
-  m_ShapeRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_UnmodifiedMeshVersion: 291
-  m_Size: {x: 30.6, y: 1, z: 10}
-  m_LocalCenter: {x: 0, y: 0, z: 0}
-  references:
-    version: 2
-    RefIds:
-    - rid: 992788833525039188
-      type: {class: Plane, ns: UnityEngine.ProBuilder.Shapes, asm: Unity.ProBuilder}
-      data:
-        m_HeightSegments: 5
-        m_WidthSegments: 5
---- !u!114 &1797757503
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1797757499}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8233d90336aea43098adf6dbabd606a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.ProBuilder::UnityEngine.ProBuilder.ProBuilderMesh
-  m_MeshFormatVersion: 2
-  m_Faces:
-  - m_Indexes: 000000000100000002000000010000000300000002000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 040000000500000006000000050000000700000006000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 08000000090000000a000000090000000b0000000a000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 0c0000000d0000000e0000000d0000000f0000000e000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 100000001100000012000000110000001300000012000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 140000001500000016000000150000001700000016000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 18000000190000001a000000190000001b0000001a000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 1c0000001d0000001e0000001d0000001f0000001e000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 200000002100000022000000210000002300000022000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 240000002500000026000000250000002700000026000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 28000000290000002a000000290000002b0000002a000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 2c0000002d0000002e0000002d0000002f0000002e000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 300000003100000032000000310000003300000032000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 340000003500000036000000350000003700000036000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 38000000390000003a000000390000003b0000003a000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 3c0000003d0000003e0000003d0000003f0000003e000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 400000004100000042000000410000004300000042000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 440000004500000046000000450000004700000046000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 48000000490000004a000000490000004b0000004a000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 4c0000004d0000004e0000004d0000004f0000004e000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 500000005100000052000000510000005300000052000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 540000005500000056000000550000005700000056000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 58000000590000005a000000590000005b0000005a000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 5c0000005d0000005e0000005d0000005f0000005e000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 600000006100000062000000610000006300000062000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 640000006500000066000000650000006700000066000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 68000000690000006a000000690000006b0000006a000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 6c0000006d0000006e0000006d0000006f0000006e000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 700000007100000072000000710000007300000072000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 740000007500000076000000750000007700000076000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 78000000790000007a000000790000007b0000007a000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 7c0000007d0000007e0000007d0000007f0000007e000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 800000008100000082000000810000008300000082000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 840000008500000086000000850000008700000086000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 88000000890000008a000000890000008b0000008a000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  - m_Indexes: 8c0000008d0000008e0000008d0000008f0000008e000000
-    m_SmoothingGroup: 0
-    m_Uv:
-      m_UseWorldSpace: 0
-      m_FlipU: 0
-      m_FlipV: 0
-      m_SwapUV: 0
-      m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
-      m_Rotation: 0
-      m_Anchor: 9
-    m_Material: {fileID: 0}
-    m_SubmeshIndex: 0
-    m_ManualUV: 0
-    elementGroup: -1
-    m_TextureGroup: -1
-  m_SharedVertices:
-  - m_Vertices: 00000000
-  - m_Vertices: 0100000004000000
-  - m_Vertices: 0200000018000000
-  - m_Vertices: 0300000006000000190000001c000000
-  - m_Vertices: 0500000008000000
-  - m_Vertices: 070000000a0000001d00000020000000
-  - m_Vertices: 090000000c000000
-  - m_Vertices: 0b0000000e0000002100000024000000
-  - m_Vertices: 0d00000010000000
-  - m_Vertices: 0f000000120000002500000028000000
-  - m_Vertices: 1100000014000000
-  - m_Vertices: 1300000016000000290000002c000000
-  - m_Vertices: 15000000
-  - m_Vertices: 170000002d000000
-  - m_Vertices: 1a00000030000000
-  - m_Vertices: 1b0000001e0000003100000034000000
-  - m_Vertices: 1f000000220000003500000038000000
-  - m_Vertices: 2300000026000000390000003c000000
-  - m_Vertices: 270000002a0000003d00000040000000
-  - m_Vertices: 2b0000002e0000004100000044000000
-  - m_Vertices: 2f00000045000000
-  - m_Vertices: 3200000048000000
-  - m_Vertices: 3300000036000000490000004c000000
-  - m_Vertices: 370000003a0000004d00000050000000
-  - m_Vertices: 3b0000003e0000005100000054000000
-  - m_Vertices: 3f000000420000005500000058000000
-  - m_Vertices: 4300000046000000590000005c000000
-  - m_Vertices: 470000005d000000
-  - m_Vertices: 4a00000060000000
-  - m_Vertices: 4b0000004e0000006100000064000000
-  - m_Vertices: 4f000000520000006500000068000000
-  - m_Vertices: 5300000056000000690000006c000000
-  - m_Vertices: 570000005a0000006d00000070000000
-  - m_Vertices: 5b0000005e0000007100000074000000
-  - m_Vertices: 5f00000075000000
-  - m_Vertices: 6200000078000000
-  - m_Vertices: 6300000066000000790000007c000000
-  - m_Vertices: 670000006a0000007d00000080000000
-  - m_Vertices: 6b0000006e0000008100000084000000
-  - m_Vertices: 6f000000720000008500000088000000
-  - m_Vertices: 7300000076000000890000008c000000
-  - m_Vertices: 770000008d000000
-  - m_Vertices: 7a000000
-  - m_Vertices: 7b0000007e000000
-  - m_Vertices: 7f00000082000000
-  - m_Vertices: 8300000086000000
-  - m_Vertices: 870000008a000000
-  - m_Vertices: 8b0000008e000000
-  - m_Vertices: 8f000000
-  m_SharedTextures: []
-  m_Positions:
-  - {x: -15.3, y: 0, z: -5}
-  - {x: -15.3, y: 0, z: -3.3333335}
-  - {x: -10.200001, y: 0, z: -5}
-  - {x: -10.200001, y: 0, z: -3.3333335}
-  - {x: -15.3, y: 0, z: -3.3333335}
-  - {x: -15.3, y: 0, z: -1.6666667}
-  - {x: -10.200001, y: 0, z: -3.3333335}
-  - {x: -10.200001, y: 0, z: -1.6666667}
-  - {x: -15.3, y: 0, z: -1.6666667}
-  - {x: -15.3, y: 0, z: 0}
-  - {x: -10.200001, y: 0, z: -1.6666667}
-  - {x: -10.200001, y: 0, z: 0}
-  - {x: -15.3, y: 0, z: 0}
-  - {x: -15.3, y: 0, z: 1.6666667}
-  - {x: -10.200001, y: 0, z: 0}
-  - {x: -10.200001, y: 0, z: 1.6666667}
-  - {x: -15.3, y: 0, z: 1.6666667}
-  - {x: -15.3, y: 0, z: 3.3333335}
-  - {x: -10.200001, y: 0, z: 1.6666667}
-  - {x: -10.200001, y: 0, z: 3.3333335}
-  - {x: -15.3, y: 0, z: 3.3333335}
-  - {x: -15.3, y: 0, z: 5}
-  - {x: -10.200001, y: 0, z: 3.3333335}
-  - {x: -10.200001, y: 0, z: 5}
-  - {x: -10.200001, y: 0, z: -5}
-  - {x: -10.200001, y: 0, z: -3.3333335}
-  - {x: -5.1000004, y: 0, z: -5}
-  - {x: -5.1000004, y: 0, z: -3.3333335}
-  - {x: -10.200001, y: 0, z: -3.3333335}
-  - {x: -10.200001, y: 0, z: -1.6666667}
-  - {x: -5.1000004, y: 0, z: -3.3333335}
-  - {x: -5.1000004, y: 0, z: -1.6666667}
-  - {x: -10.200001, y: 0, z: -1.6666667}
-  - {x: -10.200001, y: 0, z: 0}
-  - {x: -5.1000004, y: 0, z: -1.6666667}
-  - {x: -5.1000004, y: 0, z: 0}
-  - {x: -10.200001, y: 0, z: 0}
-  - {x: -10.200001, y: 0, z: 1.6666667}
-  - {x: -5.1000004, y: 0, z: 0}
-  - {x: -5.1000004, y: 0, z: 1.6666667}
-  - {x: -10.200001, y: 0, z: 1.6666667}
-  - {x: -10.200001, y: 0, z: 3.3333335}
-  - {x: -5.1000004, y: 0, z: 1.6666667}
-  - {x: -5.1000004, y: 0, z: 3.3333335}
-  - {x: -10.200001, y: 0, z: 3.3333335}
-  - {x: -10.200001, y: 0, z: 5}
-  - {x: -5.1000004, y: 0, z: 3.3333335}
-  - {x: -5.1000004, y: 0, z: 5}
-  - {x: -5.1000004, y: 0, z: -5}
-  - {x: -5.1000004, y: 0, z: -3.3333335}
-  - {x: 0, y: 0, z: -5}
-  - {x: 0, y: 0, z: -3.3333335}
-  - {x: -5.1000004, y: 0, z: -3.3333335}
-  - {x: -5.1000004, y: 0, z: -1.6666667}
-  - {x: 0, y: 0, z: -3.3333335}
-  - {x: 0, y: 0, z: -1.6666667}
-  - {x: -5.1000004, y: 0, z: -1.6666667}
-  - {x: -5.1000004, y: 0, z: 0}
-  - {x: 0, y: 0, z: -1.6666667}
-  - {x: 0, y: 0, z: 0}
-  - {x: -5.1000004, y: 0, z: 0}
-  - {x: -5.1000004, y: 0, z: 1.6666667}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1.6666667}
-  - {x: -5.1000004, y: 0, z: 1.6666667}
-  - {x: -5.1000004, y: 0, z: 3.3333335}
-  - {x: 0, y: 0, z: 1.6666667}
-  - {x: 0, y: 0, z: 3.3333335}
-  - {x: -5.1000004, y: 0, z: 3.3333335}
-  - {x: -5.1000004, y: 0, z: 5}
-  - {x: 0, y: 0, z: 3.3333335}
-  - {x: 0, y: 0, z: 5}
-  - {x: 0, y: 0, z: -5}
-  - {x: 0, y: 0, z: -3.3333335}
-  - {x: 5.1000004, y: 0, z: -5}
-  - {x: 5.1000004, y: 0, z: -3.3333335}
-  - {x: 0, y: 0, z: -3.3333335}
-  - {x: 0, y: 0, z: -1.6666667}
-  - {x: 5.1000004, y: 0, z: -3.3333335}
-  - {x: 5.1000004, y: 0, z: -1.6666667}
-  - {x: 0, y: 0, z: -1.6666667}
-  - {x: 0, y: 0, z: 0}
-  - {x: 5.1000004, y: 0, z: -1.6666667}
-  - {x: 5.1000004, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1.6666667}
-  - {x: 5.1000004, y: 0, z: 0}
-  - {x: 5.1000004, y: 0, z: 1.6666667}
-  - {x: 0, y: 0, z: 1.6666667}
-  - {x: 0, y: 0, z: 3.3333335}
-  - {x: 5.1000004, y: 0, z: 1.6666667}
-  - {x: 5.1000004, y: 0, z: 3.3333335}
-  - {x: 0, y: 0, z: 3.3333335}
-  - {x: 0, y: 0, z: 5}
-  - {x: 5.1000004, y: 0, z: 3.3333335}
-  - {x: 5.1000004, y: 0, z: 5}
-  - {x: 5.1000004, y: 0, z: -5}
-  - {x: 5.1000004, y: 0, z: -3.3333335}
-  - {x: 10.200001, y: 0, z: -5}
-  - {x: 10.200001, y: 0, z: -3.3333335}
-  - {x: 5.1000004, y: 0, z: -3.3333335}
-  - {x: 5.1000004, y: 0, z: -1.6666667}
-  - {x: 10.200001, y: 0, z: -3.3333335}
-  - {x: 10.200001, y: 0, z: -1.6666667}
-  - {x: 5.1000004, y: 0, z: -1.6666667}
-  - {x: 5.1000004, y: 0, z: 0}
-  - {x: 10.200001, y: 0, z: -1.6666667}
-  - {x: 10.200001, y: 0, z: 0}
-  - {x: 5.1000004, y: 0, z: 0}
-  - {x: 5.1000004, y: 0, z: 1.6666667}
-  - {x: 10.200001, y: 0, z: 0}
-  - {x: 10.200001, y: 0, z: 1.6666667}
-  - {x: 5.1000004, y: 0, z: 1.6666667}
-  - {x: 5.1000004, y: 0, z: 3.3333335}
-  - {x: 10.200001, y: 0, z: 1.6666667}
-  - {x: 10.200001, y: 0, z: 3.3333335}
-  - {x: 5.1000004, y: 0, z: 3.3333335}
-  - {x: 5.1000004, y: 0, z: 5}
-  - {x: 10.200001, y: 0, z: 3.3333335}
-  - {x: 10.200001, y: 0, z: 5}
-  - {x: 10.200001, y: 0, z: -5}
-  - {x: 10.200001, y: 0, z: -3.3333335}
-  - {x: 15.3, y: 0, z: -5}
-  - {x: 15.3, y: 0, z: -3.3333335}
-  - {x: 10.200001, y: 0, z: -3.3333335}
-  - {x: 10.200001, y: 0, z: -1.6666667}
-  - {x: 15.3, y: 0, z: -3.3333335}
-  - {x: 15.3, y: 0, z: -1.6666667}
-  - {x: 10.200001, y: 0, z: -1.6666667}
-  - {x: 10.200001, y: 0, z: 0}
-  - {x: 15.3, y: 0, z: -1.6666667}
-  - {x: 15.3, y: 0, z: 0}
-  - {x: 10.200001, y: 0, z: 0}
-  - {x: 10.200001, y: 0, z: 1.6666667}
-  - {x: 15.3, y: 0, z: 0}
-  - {x: 15.3, y: 0, z: 1.6666667}
-  - {x: 10.200001, y: 0, z: 1.6666667}
-  - {x: 10.200001, y: 0, z: 3.3333335}
-  - {x: 15.3, y: 0, z: 1.6666667}
-  - {x: 15.3, y: 0, z: 3.3333335}
-  - {x: 10.200001, y: 0, z: 3.3333335}
-  - {x: 10.200001, y: 0, z: 5}
-  - {x: 15.3, y: 0, z: 3.3333335}
-  - {x: 15.3, y: 0, z: 5}
-  m_Textures0:
-  - {x: -15.3, y: -5}
-  - {x: -15.3, y: -3.3333335}
-  - {x: -10.200001, y: -5}
-  - {x: -10.200001, y: -3.3333335}
-  - {x: -15.3, y: -3.3333335}
-  - {x: -15.3, y: -1.6666667}
-  - {x: -10.200001, y: -3.3333335}
-  - {x: -10.200001, y: -1.6666667}
-  - {x: -15.3, y: -1.6666667}
-  - {x: -15.3, y: 0}
-  - {x: -10.200001, y: -1.6666667}
-  - {x: -10.200001, y: 0}
-  - {x: -15.3, y: 0}
-  - {x: -15.3, y: 1.6666667}
-  - {x: -10.200001, y: 0}
-  - {x: -10.200001, y: 1.6666667}
-  - {x: -15.3, y: 1.6666667}
-  - {x: -15.3, y: 3.3333335}
-  - {x: -10.200001, y: 1.6666667}
-  - {x: -10.200001, y: 3.3333335}
-  - {x: -15.3, y: 3.3333335}
-  - {x: -15.3, y: 5}
-  - {x: -10.200001, y: 3.3333335}
-  - {x: -10.200001, y: 5}
-  - {x: -10.200001, y: -5}
-  - {x: -10.200001, y: -3.3333335}
-  - {x: -5.1000004, y: -5}
-  - {x: -5.1000004, y: -3.3333335}
-  - {x: -10.200001, y: -3.3333335}
-  - {x: -10.200001, y: -1.6666667}
-  - {x: -5.1000004, y: -3.3333335}
-  - {x: -5.1000004, y: -1.6666667}
-  - {x: -10.200001, y: -1.6666667}
-  - {x: -10.200001, y: 0}
-  - {x: -5.1000004, y: -1.6666667}
-  - {x: -5.1000004, y: 0}
-  - {x: -10.200001, y: 0}
-  - {x: -10.200001, y: 1.6666667}
-  - {x: -5.1000004, y: 0}
-  - {x: -5.1000004, y: 1.6666667}
-  - {x: -10.200001, y: 1.6666667}
-  - {x: -10.200001, y: 3.3333335}
-  - {x: -5.1000004, y: 1.6666667}
-  - {x: -5.1000004, y: 3.3333335}
-  - {x: -10.200001, y: 3.3333335}
-  - {x: -10.200001, y: 5}
-  - {x: -5.1000004, y: 3.3333335}
-  - {x: -5.1000004, y: 5}
-  - {x: -5.1000004, y: -5}
-  - {x: -5.1000004, y: -3.3333335}
-  - {x: 0, y: -5}
-  - {x: 0, y: -3.3333335}
-  - {x: -5.1000004, y: -3.3333335}
-  - {x: -5.1000004, y: -1.6666667}
-  - {x: 0, y: -3.3333335}
-  - {x: 0, y: -1.6666667}
-  - {x: -5.1000004, y: -1.6666667}
-  - {x: -5.1000004, y: 0}
-  - {x: 0, y: -1.6666667}
-  - {x: 0, y: 0}
-  - {x: -5.1000004, y: 0}
-  - {x: -5.1000004, y: 1.6666667}
-  - {x: 0, y: 0}
-  - {x: 0, y: 1.6666667}
-  - {x: -5.1000004, y: 1.6666667}
-  - {x: -5.1000004, y: 3.3333335}
-  - {x: 0, y: 1.6666667}
-  - {x: 0, y: 3.3333335}
-  - {x: -5.1000004, y: 3.3333335}
-  - {x: -5.1000004, y: 5}
-  - {x: 0, y: 3.3333335}
-  - {x: 0, y: 5}
-  - {x: 0, y: -5}
-  - {x: 0, y: -3.3333335}
-  - {x: 5.1000004, y: -5}
-  - {x: 5.1000004, y: -3.3333335}
-  - {x: 0, y: -3.3333335}
-  - {x: 0, y: -1.6666667}
-  - {x: 5.1000004, y: -3.3333335}
-  - {x: 5.1000004, y: -1.6666667}
-  - {x: 0, y: -1.6666667}
-  - {x: 0, y: 0}
-  - {x: 5.1000004, y: -1.6666667}
-  - {x: 5.1000004, y: 0}
-  - {x: 0, y: 0}
-  - {x: 0, y: 1.6666667}
-  - {x: 5.1000004, y: 0}
-  - {x: 5.1000004, y: 1.6666667}
-  - {x: 0, y: 1.6666667}
-  - {x: 0, y: 3.3333335}
-  - {x: 5.1000004, y: 1.6666667}
-  - {x: 5.1000004, y: 3.3333335}
-  - {x: 0, y: 3.3333335}
-  - {x: 0, y: 5}
-  - {x: 5.1000004, y: 3.3333335}
-  - {x: 5.1000004, y: 5}
-  - {x: 5.1000004, y: -5}
-  - {x: 5.1000004, y: -3.3333335}
-  - {x: 10.200001, y: -5}
-  - {x: 10.200001, y: -3.3333335}
-  - {x: 5.1000004, y: -3.3333335}
-  - {x: 5.1000004, y: -1.6666667}
-  - {x: 10.200001, y: -3.3333335}
-  - {x: 10.200001, y: -1.6666667}
-  - {x: 5.1000004, y: -1.6666667}
-  - {x: 5.1000004, y: 0}
-  - {x: 10.200001, y: -1.6666667}
-  - {x: 10.200001, y: 0}
-  - {x: 5.1000004, y: 0}
-  - {x: 5.1000004, y: 1.6666667}
-  - {x: 10.200001, y: 0}
-  - {x: 10.200001, y: 1.6666667}
-  - {x: 5.1000004, y: 1.6666667}
-  - {x: 5.1000004, y: 3.3333335}
-  - {x: 10.200001, y: 1.6666667}
-  - {x: 10.200001, y: 3.3333335}
-  - {x: 5.1000004, y: 3.3333335}
-  - {x: 5.1000004, y: 5}
-  - {x: 10.200001, y: 3.3333335}
-  - {x: 10.200001, y: 5}
-  - {x: 10.200001, y: -5}
-  - {x: 10.200001, y: -3.3333335}
-  - {x: 15.3, y: -5}
-  - {x: 15.3, y: -3.3333335}
-  - {x: 10.200001, y: -3.3333335}
-  - {x: 10.200001, y: -1.6666667}
-  - {x: 15.3, y: -3.3333335}
-  - {x: 15.3, y: -1.6666667}
-  - {x: 10.200001, y: -1.6666667}
-  - {x: 10.200001, y: 0}
-  - {x: 15.3, y: -1.6666667}
-  - {x: 15.3, y: 0}
-  - {x: 10.200001, y: 0}
-  - {x: 10.200001, y: 1.6666667}
-  - {x: 15.3, y: 0}
-  - {x: 15.3, y: 1.6666667}
-  - {x: 10.200001, y: 1.6666667}
-  - {x: 10.200001, y: 3.3333335}
-  - {x: 15.3, y: 1.6666667}
-  - {x: 15.3, y: 3.3333335}
-  - {x: 10.200001, y: 3.3333335}
-  - {x: 10.200001, y: 5}
-  - {x: 15.3, y: 3.3333335}
-  - {x: 15.3, y: 5}
-  m_Textures2: []
-  m_Textures3: []
-  m_Tangents:
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  m_Colors: []
-  m_UnwrapParameters:
-    m_HardAngle: 88
-    m_PackMargin: 20
-    m_AngleError: 8
-    m_AreaError: 15
-  m_PreserveMeshAssetOnDestroy: 0
-  assetGuid: 
-  m_Mesh: {fileID: 1208521010}
-  m_VersionIndex: 291
-  m_IsSelectable: 1
-  m_SelectedFaces: 
-  m_SelectedEdges: []
-  m_SelectedVertices: 
---- !u!4 &1797757504
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1797757499}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.50000083, y: 0.49999925, z: 0.49999973, w: -0.50000024}
-  m_LocalPosition: {x: -0.608, y: 6.62, z: -7.896}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1937047116}
-  m_LocalEulerAnglesHint: {x: -90, y: -360, z: -90}
 --- !u!1 &1798084698 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 752f4053e364fe14a914dfc325137f69, type: 3}
@@ -397169,6 +396495,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -397180,8 +396508,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 0}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: -90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -397203,6 +396541,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -397210,6 +396558,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &1821660451
@@ -458048,11 +457399,14 @@ MonoBehaviour:
   uiPosition: 4
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   sprite: {fileID: 21300000, guid: 7514bf4d000e0ce45ba72d88457e8835, type: 3}
   pages:
   - 'Welcome to the <color=red><i>LMH Hotel</color></i> '
   - Experience the calm and beautiful resort and the wonders it helds within
   - (texts becomes blurry after this point)
+  readPrompt: leer
   openSound:
     Guid:
       Data1: 628579962
@@ -459974,6 +459328,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -459985,8 +459341,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 0}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: -90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -460008,6 +459374,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -460015,6 +459391,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &1899415126
@@ -460387,11 +459766,14 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 677589477}
   subtitleEntries:
   - text: Just static...
     duration: 3
     position: 7
+  radioPrompt: radio
   oneTimeOnly: 0
   OnTurnedOn:
     m_PersistentCalls:
@@ -461463,7 +460845,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1075052866}
-  - {fileID: 1797757504}
   m_Father: {fileID: 10760248}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1937047141
@@ -461932,6 +461313,8 @@ MonoBehaviour:
   uiPosition: 6
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 1
   playerCanToggle: 0
@@ -461943,8 +461326,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 0}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: 90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -461966,6 +461359,16 @@ MonoBehaviour:
       Data3: 1076765590
       Data4: -704320750
     Path: event:/SFX/Door/LockedDoor/LockedDoor
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -461973,6 +461376,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!65 &1946138036
@@ -463903,6 +463309,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 677589477}
   lines:
   - Wood seems to be falling off.
@@ -465373,6 +464781,8 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -465384,8 +464794,18 @@ MonoBehaviour:
   interactCooldown: 0.5
   pivot: {fileID: 1503699447}
   door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: 90
   speed: 120
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 0
@@ -465407,6 +464827,16 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
   OnFirstLockedInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -465414,6 +464844,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &1990723999
@@ -465900,57 +465333,20 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
+  correctCode: 1234
   isBroken: 0
   brokenMessage: El telefono no funciona
   brokenMessagePosition: 7
   brokenSubtitles: {fileID: 0}
   brokenSubtitleDuration: 3
-  putUpPhoneReference:
-    Guid:
-      Data1: 1949342055
-      Data2: 1144802349
-      Data3: 1143032719
-      Data4: 421286046
-    Path: event:/SFX/RedTelephone/PickUpPhone
-  putDownPhoneReference:
-    Guid:
-      Data1: 114735553
-      Data2: 1104765467
-      Data3: 1830789528
-      Data4: 635056998
-    Path: event:/SFX/RedTelephone/PutDownPhone
-  markNumberReference:
-    Guid:
-      Data1: 693859562
-      Data2: 1317104237
-      Data3: -1244027470
-      Data4: -1683326502
-    Path: event:/SFX/RedTelephone/MarkNumber
-  wrongCodeReference:
-    Guid:
-      Data1: 2095422076
-      Data2: 1133244098
-      Data3: -1625079412
-      Data4: -1721760021
-    Path: event:/SFX/RedTelephone/DeadCall
-  correctCodeReference:
-    Guid:
-      Data1: -850358447
-      Data2: 1140375011
-      Data3: 419948194
-      Data4: -1746732197
-    Path: event:/SFX/RedTelephone/Call
-  navigateSound:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  _phoneUI: {fileID: 1952821470}
-  _openPrompt: .
-  _closePrompt: .
-  _answerPrompt: .
+  phoneAudio: {fileID: 0}
+  dialer: {fileID: 0}
+  phoneUI: {fileID: 1952821470}
+  openPrompt: .
+  closePrompt: .
+  answerPrompt: .
   OnPickedUp:
     m_PersistentCalls:
       m_Calls: []
@@ -467489,8 +466885,11 @@ MonoBehaviour:
   uiPosition: 7
   promptIcon: {fileID: 0}
   activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 677589477}
   subtitleEntries: []
+  radioPrompt: radio
   oneTimeOnly: 1
   OnTurnedOn:
     m_PersistentCalls:
@@ -473046,6 +472445,14 @@ MonoBehaviour:
   centerGracePeriod: 0.5
   targetOverride: {fileID: 0}
   detectionRadius: 2
+  liveActionClip: {fileID: 0}
+  liveActionAudio:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!33 &2131661482
 MeshFilter:
   m_ObjectHideFlags: 0

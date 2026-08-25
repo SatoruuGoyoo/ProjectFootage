@@ -3,20 +3,12 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using FMODUnity;
+using SM.UI;
 
-
-/// <summary>
-/// Drives the main menu intro sequence:
-///   1. Wait for player input (Space, via el nuevo Input System).
-///   2. Animate the camera from a wide shot to the menu screen.
-///   3. Reveal the main menu canvas.
-///
-/// Uses a coroutine-based state machine instead of Update() booleans
-/// for clarity and zero per-frame overhead while idle.
-/// </summary>
 public sealed class MainMenuIntro : MonoBehaviour
 {
     // ── Events ────────────────────────────────────────────────────────────
+    public event Action OnMenuRevealed;
     public event Action OnIntroComplete;
 
     // ── Inspector Config ──────────────────────────────────────────────────
@@ -26,21 +18,24 @@ public sealed class MainMenuIntro : MonoBehaviour
     [SerializeField] private GameObject mainMenuCanvas;
     [SerializeField] private GameObject titleObject;
     [SerializeField] private GameObject subtitleObject;
+    [SerializeField] private MainMenuManager menuManager;
 
-    [Header("Camera — Wide Shot (start)")]
-    [SerializeField] private Vector3 startPosition;
-    [SerializeField] private Vector3 startRotation;
+    [Header("Camera Points")]
+    [SerializeField] private Transform startPoint;
+    [SerializeField] private Transform endPoint;
 
-    [Header("Camera — Menu Screen (end)")]
-    [SerializeField] private Vector3 endPosition;
-    [SerializeField] private Vector3 endRotation;
+    [Header("Camcorder Screen")]
+    [SerializeField] private Transform camcorderScreen;
+    [SerializeField] private Vector3 screenRotationOffset = new Vector3(0f, 0f, -90f);
 
-    [Header("Settings")]
-    [SerializeField, Min(0.1f)] private float moveDuration = 2f;
+    [Header("Transition")]
+    [SerializeField, Min(0.1f)] private float transitionDuration = 2f;
+    [SerializeField] private AnimationCurve cameraCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
+    [SerializeField] private AnimationCurve screenCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
+    [SerializeField, Range(0f, 1f)] private float menuRevealAt = 0.5f;
 
-    // ── Cached rotations ──────────────────────────────────────────────────
-    private Quaternion _startRot;
-    private Quaternion _endRot;
+    [Header("Audio")]
+    [SerializeField] private string startEvent = "event:/MainMenu/UI - UX/UI - ButtonClick";
 
     // ── Input ─────────────────────────────────────────────────────────────
     private InputAction _startAction;
@@ -50,9 +45,6 @@ public sealed class MainMenuIntro : MonoBehaviour
 
     private void Awake()
     {
-        _startRot = Quaternion.Euler(startRotation);
-        _endRot = Quaternion.Euler(endRotation);
-
         _startAction = new InputAction(name: "MenuStart", type: InputActionType.Button, binding: "<Keyboard>/space");
         _startAction.performed += ctx => _startPressed = true;
     }
@@ -73,11 +65,16 @@ public sealed class MainMenuIntro : MonoBehaviour
 
     private void InitialState()
     {
-        mainCamera.SetPositionAndRotation(startPosition, _startRot);
+        if (mainCamera != null && startPoint != null)
+            mainCamera.SetPositionAndRotation(startPoint.position, startPoint.rotation);
+
         SetActive(pressStartText, true);
         SetActive(titleObject, true);
         SetActive(subtitleObject, true);
         SetActive(mainMenuCanvas, false);
+
+        if (menuManager != null)
+            menuManager.DisableInteraction();
     }
 
     // ── Intro Sequence ────────────────────────────────────────────────────
@@ -90,10 +87,7 @@ public sealed class MainMenuIntro : MonoBehaviour
         SetActive(titleObject, false);
         SetActive(subtitleObject, false);
 
-        yield return AnimateCamera();
-
-        SetActive(mainMenuCanvas, true);
-        OnIntroComplete?.Invoke();
+        yield return Transition();
     }
 
     private IEnumerator WaitForStartKey()
@@ -102,28 +96,67 @@ public sealed class MainMenuIntro : MonoBehaviour
         while (!_startPressed)
             yield return null;
 
-        FMODUnity.RuntimeManager.PlayOneShot("event:/MainMenu/UI - UX/UI - ButtonClick");
+        if (!string.IsNullOrEmpty(startEvent))
+            RuntimeManager.PlayOneShot(startEvent);
     }
 
-    private IEnumerator AnimateCamera()
+    private IEnumerator Transition()
     {
-        for (float t = 0f; t < moveDuration; t += Time.deltaTime)
+        bool hasCamera = mainCamera != null && startPoint != null && endPoint != null;
+        bool hasScreen = camcorderScreen != null;
+
+        Vector3 camFromPos = hasCamera ? startPoint.position : Vector3.zero;
+        Vector3 camToPos = hasCamera ? endPoint.position : Vector3.zero;
+        Quaternion camFromRot = hasCamera ? startPoint.rotation : Quaternion.identity;
+        Quaternion camToRot = hasCamera ? endPoint.rotation : Quaternion.identity;
+
+        Quaternion screenFromRot = hasScreen ? camcorderScreen.localRotation : Quaternion.identity;
+        Quaternion screenToRot = screenFromRot * Quaternion.Euler(screenRotationOffset);
+
+        bool menuRevealed = false;
+
+        for (float t = 0f; t < transitionDuration; t += Time.deltaTime)
         {
-            float smooth = EaseInOut(t / moveDuration);
-            mainCamera.SetPositionAndRotation(
-                Vector3.Lerp(startPosition, endPosition, smooth),
-                Quaternion.Slerp(_startRot, _endRot, smooth)
-            );
+            float normalized = Mathf.Clamp01(t / transitionDuration);
+
+            if (hasCamera)
+            {
+                float k = cameraCurve.Evaluate(normalized);
+                mainCamera.SetPositionAndRotation(
+                    Vector3.LerpUnclamped(camFromPos, camToPos, k),
+                    Quaternion.SlerpUnclamped(camFromRot, camToRot, k)
+                );
+            }
+
+            if (hasScreen)
+                camcorderScreen.localRotation = Quaternion.SlerpUnclamped(screenFromRot, screenToRot, screenCurve.Evaluate(normalized));
+
+            if (!menuRevealed && normalized >= menuRevealAt)
+            {
+                menuRevealed = true;
+                SetActive(mainMenuCanvas, true);
+                OnMenuRevealed?.Invoke();
+            }
+
             yield return null;
         }
 
-        mainCamera.SetPositionAndRotation(endPosition, _endRot);
+        if (hasCamera) mainCamera.SetPositionAndRotation(camToPos, camToRot);
+        if (hasScreen) camcorderScreen.localRotation = screenToRot;
+
+        if (!menuRevealed)
+        {
+            SetActive(mainMenuCanvas, true);
+            OnMenuRevealed?.Invoke();
+        }
+
+        if (menuManager != null)
+            menuManager.EnableInteraction();
+
+        OnIntroComplete?.Invoke();
     }
 
     // ── Utility ───────────────────────────────────────────────────────────
-
-    /// <summary>Smoothstep easing (slow in, slow out).</summary>
-    private static float EaseInOut(float t) => t * t * (3f - 2f * t);
 
     private static void SetActive(GameObject go, bool active)
     {
@@ -131,11 +164,40 @@ public sealed class MainMenuIntro : MonoBehaviour
     }
 
 #if UNITY_EDITOR
+    [ContextMenu("Capture Start Point From Camera")]
+    private void CaptureStartPoint() => CapturePoint(startPoint);
+
+    [ContextMenu("Capture End Point From Camera")]
+    private void CaptureEndPoint() => CapturePoint(endPoint);
+
+    [ContextMenu("Preview Start Point")]
+    private void PreviewStartPoint() => MoveCameraTo(startPoint);
+
+    [ContextMenu("Preview End Point")]
+    private void PreviewEndPoint() => MoveCameraTo(endPoint);
+
+    private void CapturePoint(Transform point)
+    {
+        if (mainCamera == null || point == null) return;
+        UnityEditor.Undo.RecordObject(point, "Capture Camera Point");
+        point.SetPositionAndRotation(mainCamera.position, mainCamera.rotation);
+        UnityEditor.EditorUtility.SetDirty(point);
+    }
+
+    private void MoveCameraTo(Transform point)
+    {
+        if (mainCamera == null || point == null) return;
+        UnityEditor.Undo.RecordObject(mainCamera, "Preview Camera Point");
+        mainCamera.SetPositionAndRotation(point.position, point.rotation);
+    }
+
     private void OnValidate()
     {
         if (mainCamera == null) Debug.LogWarning($"[{nameof(MainMenuIntro)}] mainCamera not assigned.", this);
-        if (pressStartText == null) Debug.LogWarning($"[{nameof(MainMenuIntro)}] pressStartText not assigned.", this);
+        if (startPoint == null) Debug.LogWarning($"[{nameof(MainMenuIntro)}] startPoint not assigned.", this);
+        if (endPoint == null) Debug.LogWarning($"[{nameof(MainMenuIntro)}] endPoint not assigned.", this);
         if (mainMenuCanvas == null) Debug.LogWarning($"[{nameof(MainMenuIntro)}] mainMenuCanvas not assigned.", this);
+        if (menuManager == null) Debug.LogWarning($"[{nameof(MainMenuIntro)}] menuManager not assigned.", this);
     }
 #endif
 }

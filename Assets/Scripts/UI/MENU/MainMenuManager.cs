@@ -15,6 +15,7 @@ namespace SM.UI
 
         [Header("Navigation")]
         [SerializeField] private GameObject mainPanelFirstSelected;
+        [SerializeField] private MenuKeyBoardNavigator keyboardNavigator;
 
         [Header("Unavailable Features")]
         [SerializeField] private Button optionsButton;
@@ -22,6 +23,8 @@ namespace SM.UI
 
         [Header("Canvas")]
         [SerializeField] private Canvas menuCanvas;
+        [SerializeField] private CanvasGroup menuGroup;
+        [SerializeField] private bool startLocked = true;
 
         [Header("Sounds")]
         [SerializeField] private FMODUnity.EventReference clickEvent;
@@ -30,11 +33,18 @@ namespace SM.UI
 
         private FMOD.Studio.EventInstance _ambience;
         private bool _menuLocked;
+        private bool _interactable;
+
+        public bool IsInteractable => _interactable && !_menuLocked;
+
+        private void Awake()
+        {
+            _interactable = !startLocked;
+            ApplyInteractable();
+        }
 
         private void Start()
         {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
             ShowMainPanel();
 
             if (!ambienceEvent.IsNull)
@@ -57,9 +67,26 @@ namespace SM.UI
             _ambience.release();
         }
 
+        public void EnableInteraction()
+        {
+            if (_menuLocked || _interactable) return;
+
+            _interactable = true;
+            ApplyInteractable();
+            FocusFirstSelected();
+        }
+
+        public void DisableInteraction()
+        {
+            if (!_interactable) return;
+
+            _interactable = false;
+            ApplyInteractable();
+        }
+
         public void OnPlayClicked()
         {
-            if (_menuLocked) return;
+            if (!IsInteractable) return;
 
             FMODUnity.RuntimeManager.PlayOneShot(clickEvent);
             _ambience.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
@@ -72,27 +99,27 @@ namespace SM.UI
 
         public void OnOptionsClicked()
         {
-            if (_menuLocked) return;
+            if (!IsInteractable) return;
             FMODUnity.RuntimeManager.PlayOneShot(clickEvent);
             ShowOptionsPanel();
         }
 
         public void OnLoadGameClicked()
         {
-            if (_menuLocked) return;
+            if (!IsInteractable) return;
             ShowUnavailable(loadGameButton);
         }
 
         public void OnBackClicked()
         {
-            if (_menuLocked) return;
+            if (!IsInteractable) return;
             FMODUnity.RuntimeManager.PlayOneShot(clickEvent);
             ShowMainPanel();
         }
 
         public void OnExitClicked()
         {
-            if (_menuLocked) return;
+            if (!IsInteractable) return;
             FMODUnity.RuntimeManager.PlayOneShot(clickEvent);
             LockMenu();
 
@@ -118,6 +145,8 @@ namespace SM.UI
         private void LockMenu()
         {
             _menuLocked = true;
+            ApplyInteractable();
+
             if (menuCanvas != null)
                 menuCanvas.gameObject.SetActive(false);
         }
@@ -130,9 +159,7 @@ namespace SM.UI
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
 
-
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(mainPanelFirstSelected);
+            FocusFirstSelected();
         }
 
         private void ShowOptionsPanel()
@@ -143,10 +170,36 @@ namespace SM.UI
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
 
-
-            EventSystem.current.SetSelectedGameObject(null);
+            if (EventSystem.current != null)
+                EventSystem.current.SetSelectedGameObject(null);
         }
 
+        private void FocusFirstSelected()
+        {
+            if (keyboardNavigator != null) return;
+            if (!IsInteractable || EventSystem.current == null) return;
+            if (mainPanel == null || !mainPanel.activeInHierarchy) return;
+
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(mainPanelFirstSelected);
+        }
+
+        private void ApplyInteractable()
+        {
+            bool active = IsInteractable;
+
+            if (menuGroup != null)
+            {
+                menuGroup.interactable = active;
+                menuGroup.blocksRaycasts = active;
+            }
+
+            if (keyboardNavigator != null)
+                keyboardNavigator.SetNavigationEnabled(active);
+
+            if (!active && EventSystem.current != null)
+                EventSystem.current.SetSelectedGameObject(null);
+        }
 
         private static void SetPanel(GameObject panel, bool active)
         {
@@ -162,6 +215,8 @@ namespace SM.UI
                 Debug.LogWarning($"[{nameof(MainMenuManager)}] optionsPanel is not assigned.", this);
             if (menuCanvas == null)
                 Debug.LogWarning($"[{nameof(MainMenuManager)}] menuCanvas is not assigned.", this);
+            if (menuGroup == null)
+                Debug.LogWarning($"[{nameof(MainMenuManager)}] menuGroup is not assigned — la interacción no se va a poder bloquear durante la intro.", this);
         }
 #endif
     }
