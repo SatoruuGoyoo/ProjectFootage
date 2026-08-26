@@ -17,6 +17,10 @@ public class CamcorderMenuController : MonoBehaviour
     [SerializeField] private Canvas menuCanvas;
     [SerializeField] private CamcorderMenuAnimator _menuAnimator;
 
+    [Header("Views")]
+    [SerializeField] private GameObject gridPanel;
+    [SerializeField] private GameObject playbackPanel;
+
     [Header("Timing/TweakDesigner")]
     [SerializeField] private float rffStep = 1f;
     [SerializeField] private float rffDelay = 0.15f;
@@ -48,7 +52,6 @@ public class CamcorderMenuController : MonoBehaviour
         _videoPlayback = GetComponent<VideoPlayback>();
         _audioPlayback = GetComponent<AudioPlayback>();
         _audio = GetComponent<CamcorderMenuAudio>();
-        //_menuAnimator = GetComponent<CamcorderMenuAnimator>();
     }
 
     private void OnEnable()
@@ -87,6 +90,7 @@ public class CamcorderMenuController : MonoBehaviour
         IsMenuOpen = true;
         GameEvents.PlayerModeChanged(PlayerMode.MenuCameraMode);
         menuCanvas.gameObject.SetActive(true);
+        ShowGridView();
         _ui.UpdateUI(_currentIndex);
         _menuAnimator.PlayOpen();
     }
@@ -108,6 +112,18 @@ public class CamcorderMenuController : MonoBehaviour
         if (!IsMenuOpen && MenuInputBlocked) return;
         if (IsMenuOpen) CloseMenu();
         else OpenMenu();
+    }
+
+    private void ShowGridView()
+    {
+        if (gridPanel != null) gridPanel.SetActive(true);
+        if (playbackPanel != null) playbackPanel.SetActive(false);
+    }
+
+    private void ShowPlaybackView()
+    {
+        if (gridPanel != null) gridPanel.SetActive(false);
+        if (playbackPanel != null) playbackPanel.SetActive(true);
     }
 
     private void HandlePlayback()
@@ -132,6 +148,7 @@ public class CamcorderMenuController : MonoBehaviour
             _videoPlayback.Load(session);
             _audioPlayback.Load(session);
             _clock.Play();
+            ShowPlaybackView();
         }
     }
 
@@ -172,6 +189,7 @@ public class CamcorderMenuController : MonoBehaviour
         _audio.PlayStopDiscard();
 
         StopEverything();
+        ShowGridView();
         _ui.UpdateUI(_currentIndex);
     }
 
@@ -217,6 +235,8 @@ public class CamcorderMenuController : MonoBehaviour
 
     private void OnPlaybackComplete()
     {
+        ShowGridView();
+        _ui.UpdateUI(_currentIndex);
     }
 
     private void StopEverything()
@@ -224,6 +244,7 @@ public class CamcorderMenuController : MonoBehaviour
         if (!_clock.HasSession) return;
         _clock.Stop();
     }
+
     private void HandleCloseAnimationFinished()
     {
         menuCanvas.gameObject.SetActive(false);
