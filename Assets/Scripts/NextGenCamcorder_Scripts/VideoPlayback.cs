@@ -9,7 +9,6 @@ public class VideoPlayback : MonoBehaviour
 {
     [Header("Setup")]
     public RawImage displayImage;
-    public GameObject playbackPanel;
 
     [Header("No Data")]
     public GameObject noDataOverlay;
@@ -59,8 +58,6 @@ public class VideoPlayback : MonoBehaviour
 
     private void OnPlay()
     {
-        playbackPanel.SetActive(true);
-
         if (_session != null && _session.IsCorrupted)
         {
             ShowNoData();
@@ -145,7 +142,6 @@ public class VideoPlayback : MonoBehaviour
 
     private void OnStop()
     {
-        playbackPanel.SetActive(false);
         if (noDataOverlay != null) noDataOverlay.SetActive(false);
         if (displayImage != null) displayImage.gameObject.SetActive(true);
 
