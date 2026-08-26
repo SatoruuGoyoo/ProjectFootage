@@ -22,6 +22,11 @@ public class InteractPromptUI : MonoBehaviour
     [SerializeField] private UIPositioner positioner;
     [SerializeField] private UIPositioner.ScreenPosition defaultPosition = UIPositioner.ScreenPosition.LowerRight;
 
+    [Header("Panel Fallback — cuando el interactuable abre un panel")]
+    [Tooltip("Si se asigna, el badge se coloca sobre este RectTransform (ej: encima del sprite del readable).")]
+    [SerializeField] private RectTransform panelAnchor;
+    [SerializeField] private UIPositioner.ScreenPosition panelPosition = UIPositioner.ScreenPosition.UpperRight;
+
     [Header("Distance Falloff (World Anchor Mode)")]
     [Tooltip("Dejar vacío para buscar por tag Player.")]
     [SerializeField] private Transform player;
@@ -41,20 +46,30 @@ public class InteractPromptUI : MonoBehaviour
 
     [Header("Interact Icon")]
     [SerializeField] private Image interactIcon;
+    [SerializeField] private Sprite defaultDetectedSprite;
     [SerializeField] private Sprite defaultInteractSprite;
     [SerializeField] private Sprite defaultCancelSprite;
+    [Tooltip("Oculta la tecla hasta estar en rango, para que el ícono lejano no prometa un input que todavía no funciona.")]
+    [SerializeField] private bool showKeyOnlyInRange = true;
 
     [Header("Key Badge — assign sprites OR leave empty to use text")]
-    [SerializeField] private Image keyImage;
-    [SerializeField] private TMP_Text keyLabel;
+    [Tooltip("Raíz de cada badge. Ponelos como hermanos bajo un Horizontal Layout Group para que queden lado a lado.")]
+    [SerializeField] private GameObject interactKeyRoot;
+    [SerializeField] private Image interactKeyImage;
+    [SerializeField] private TMP_Text interactKeyLabel;
     [SerializeField] private Sprite interactKeySprite;
-    [SerializeField] private Sprite cancelKeySprite;
     [SerializeField] private string interactKeyText = "[E]";
+
+    [SerializeField] private GameObject cancelKeyRoot;
+    [SerializeField] private Image cancelKeyImage;
+    [SerializeField] private TMP_Text cancelKeyLabel;
+    [SerializeField] private Sprite cancelKeySprite;
     [SerializeField] private string cancelKeyText = "[F]";
 
     private bool _isVisible;
     private bool _hasPrompt;
     private bool _inRange;
+    private bool _forceScreen;
     private bool _onScreen = true;
     private Transform _anchor;
     private Vector3 _offset;
@@ -89,41 +104,61 @@ public class InteractPromptUI : MonoBehaviour
     {
         _hasPrompt = true;
         _inRange = prompt.InRange;
+        _forceScreen = prompt.ForceScreenPlacement;
         _anchor = prompt.Anchor;
         _offset = prompt.Offset;
 
-        if (placement == PromptPlacement.ScreenSlot)
-        {
-            positioner?.SetPosition(defaultPosition);
-            if (promptRect != null) promptRect.localScale = Vector3.one;
-            _onScreen = true;
-        }
-
         if (interactIcon != null)
-            interactIcon.sprite = prompt.Icon != null ? prompt.Icon : DefaultIconFor(prompt.Key);
+            interactIcon.sprite = prompt.Icon != null ? prompt.Icon : DefaultIconFor(prompt);
 
-        SetKeyBadge(prompt.Key);
+        SetKeyBadge(prompt);
 
-        if (placement == PromptPlacement.WorldAnchor) UpdateWorldPosition();
-        else ApplyVisibility();
+        if (UsingWorldPlacement) UpdateWorldPosition();
+        else ApplyScreenPlacement();
     }
 
     private void OnHidden()
     {
         _hasPrompt = false;
         _inRange = false;
+        _forceScreen = false;
         _anchor = null;
         ApplyVisibility();
     }
 
     private void OnModalChanged(bool modalOpen) => ApplyVisibility();
 
+    private bool UsingWorldPlacement => placement == PromptPlacement.WorldAnchor && !_forceScreen;
+
     private void LateUpdate()
     {
-        if (placement != PromptPlacement.WorldAnchor) return;
         if (!_hasPrompt) return;
-        UpdateWorldPosition();
-        if (_isVisible) ApplyFalloff();
+
+        if (UsingWorldPlacement)
+        {
+            UpdateWorldPosition();
+            if (_isVisible) ApplyFalloff();
+            return;
+        }
+
+        if (_forceScreen && panelAnchor != null && promptRect != null)
+            promptRect.position = panelAnchor.position;
+    }
+
+    private void ApplyScreenPlacement()
+    {
+        if (promptRect != null) promptRect.localScale = Vector3.one;
+
+        if (_forceScreen && panelAnchor != null && promptRect != null)
+            promptRect.position = panelAnchor.position;
+        else
+            positioner?.SetPosition(_forceScreen ? panelPosition : defaultPosition);
+
+        _onScreen = true;
+        _strength = 1f;
+        ApplyVisibility();
+
+        if (container != null && _isVisible) container.alpha = 1f;
     }
 
     private void UpdateWorldPosition()
@@ -188,7 +223,7 @@ public class InteractPromptUI : MonoBehaviour
 
     private void ApplyVisibility()
     {
-        bool allowed = placement == PromptPlacement.WorldAnchor || _inRange;
+        bool allowed = UsingWorldPlacement || _inRange;
         SetVisible(_hasPrompt && allowed && _onScreen && !UILayerManager.IsModalOpen);
     }
 
@@ -225,18 +260,43 @@ public class InteractPromptUI : MonoBehaviour
         if (found != null) player = found.transform;
     }
 
-    private Sprite DefaultIconFor(InteractPromptKey key) =>
-        key == InteractPromptKey.Cancel ? defaultCancelSprite : defaultInteractSprite;
-
-    private void SetKeyBadge(InteractPromptKey key)
+    private Sprite DefaultIconFor(InteractPrompt prompt)
     {
-        bool cancel = key == InteractPromptKey.Cancel;
+        if (!prompt.Active && !prompt.InRange && defaultDetectedSprite != null)
+            return defaultDetectedSprite;
 
-        if (keyImage != null)
-            keyImage.sprite = cancel ? cancelKeySprite : interactKeySprite;
+        return prompt.Key == InteractPromptKey.Cancel ? defaultCancelSprite : defaultInteractSprite;
+    }
 
-        if (keyLabel != null)
-            keyLabel.SetText(cancel ? cancelKeyText : interactKeyText);
+    private void SetKeyBadge(InteractPrompt prompt)
+    {
+        bool allowed = prompt.InRange || !showKeyOnlyInRange;
+
+        ApplyBadge(interactKeyRoot, interactKeyImage, interactKeyLabel, interactKeySprite, interactKeyText,
+            allowed && prompt.ShowInteractKey);
+
+        ApplyBadge(cancelKeyRoot, cancelKeyImage, cancelKeyLabel, cancelKeySprite, cancelKeyText,
+            allowed && prompt.ShowCancelKey);
+    }
+
+    private static void ApplyBadge(GameObject root, Image image, TMP_Text label, Sprite sprite, string text, bool show)
+    {
+        if (root != null) root.SetActive(show);
+        if (!show) return;
+
+        bool useSprite = sprite != null;
+
+        if (image != null)
+        {
+            image.gameObject.SetActive(useSprite);
+            if (useSprite) image.sprite = sprite;
+        }
+
+        if (label != null)
+        {
+            label.gameObject.SetActive(!useSprite);
+            if (!useSprite) label.SetText(text);
+        }
     }
 
     private void SetVisible(bool visible)
@@ -251,15 +311,14 @@ public class InteractPromptUI : MonoBehaviour
         container.blocksRaycasts = visible;
 
         if (!visible) container.alpha = 0f;
-        else if (placement == PromptPlacement.ScreenSlot) container.alpha = 1f;
+        else if (!UsingWorldPlacement) container.alpha = 1f;
         else container.alpha = Mathf.Lerp(minAlpha, 1f, _strength);
     }
 
     [ContextMenu("Refresh Key Badge Mode")]
     private void RefreshKeyBadgeMode()
     {
-        bool useSprite = interactKeySprite != null || cancelKeySprite != null;
-        if (keyImage != null) keyImage.gameObject.SetActive(useSprite);
-        if (keyLabel != null) keyLabel.gameObject.SetActive(!useSprite);
+        ApplyBadge(interactKeyRoot, interactKeyImage, interactKeyLabel, interactKeySprite, interactKeyText, true);
+        ApplyBadge(cancelKeyRoot, cancelKeyImage, cancelKeyLabel, cancelKeySprite, cancelKeyText, true);
     }
 }
