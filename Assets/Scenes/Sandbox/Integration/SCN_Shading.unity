@@ -702,18 +702,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70411757c9ebe7b468af6ccde1ac5e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
+  uiPosition: 7
+  promptIcon: {fileID: 0}
+  activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: doorknob
   startLocked: 0
   playerCanToggle: 1
-  lockedPrompt: Press E to grab/interact with objects
-  openPrompt: Open
-  closePrompt: Close
+  canClose: 1
   lockedFeedback: Damn... locked
+  lockedFeedbackDuration: 3
+  confirmationText: 
   startOpen: 0
+  interactCooldown: 0.5
   pivot: {fileID: 1220855772}
+  door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: 90
   speed: 120
-  lockedShake: {fileID: 8701792}
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 1388873967
@@ -735,6 +751,28 @@ MonoBehaviour:
       Data3: 1076765590
       Data4: -704320750
     Path: event:/SFX/Door/LockedDoor/LockedDoor
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  OnFirstLockedInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLockedInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!65 &8701789
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8991,6 +9029,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraZone
   zoneCamera: {fileID: 610198567}
+  priority: 0
 --- !u!65 &111069649
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11373,6 +11412,14 @@ MonoBehaviour:
   centerGracePeriod: 0.5
   targetOverride: {fileID: 0}
   detectionRadius: 0.8
+  liveActionClip: {fileID: 0}
+  liveActionAudio:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!64 &141494853
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -17649,16 +17696,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cb04b6e079f55547b6c4680e42a3a22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CamcorderPickup
+  uiPosition: 7
+  promptIcon: {fileID: 0}
+  activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   camcorderSystem: {fileID: 645518375}
   camcorderModel: {fileID: 359210999}
-  pickupKey: 101
-  promptUI: {fileID: 1842205025}
-  pickupPromptText: Pickup the camcorder
-  postPickupPromptText: Press TAB to open corder menu
-  postPickupDisplayDuration: 3
-  audioSource: {fileID: 0}
-  pickupSound: {fileID: 0}
-  playerTag: Player
+  pickupPrompt: camcorder
+  postPickupMessage: 
+  pickupSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!65 &199524932
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20729,6 +20782,7 @@ MonoBehaviour:
   pairedTeleporter: {fileID: 1058064964}
   playerTag: Player
   cooldownSeconds: 0.1
+  isDestinationOnly: 0
   minTravelDistance: 8
   redirectOnIteration: 3
   alternateDestination: {fileID: 898842129}
@@ -27949,8 +28003,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractPromptUI
   container: {fileID: 271125355}
-  label: {fileID: 1144868264}
-  feedbackDuration: 3
+  promptRect: {fileID: 0}
+  placement: 1
+  positioner: {fileID: 0}
+  defaultPosition: 8
+  player: {fileID: 0}
+  fullDistance: 1.4
+  fadeDistance: 4
+  minScale: 0.55
+  minAlpha: 0.25
+  blendSpeed: 6
+  promptCamera: {fileID: 0}
+  screenPadding: {x: 48, y: 48}
+  clampToScreen: 1
+  interactIcon: {fileID: 0}
+  defaultInteractSprite: {fileID: 0}
+  defaultCancelSprite: {fileID: 0}
+  keyImage: {fileID: 0}
+  keyLabel: {fileID: 0}
+  interactKeySprite: {fileID: 0}
+  cancelKeySprite: {fileID: 0}
+  interactKeyText: '[E]'
+  cancelKeyText: '[F]'
 --- !u!114 &271125351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38718,18 +38792,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70411757c9ebe7b468af6ccde1ac5e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
+  uiPosition: 7
+  promptIcon: {fileID: 0}
+  activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 0
-  lockedPrompt: Press E to Open
-  openPrompt: 
-  closePrompt: 
+  canClose: 1
   lockedFeedback: Im trapped !
+  lockedFeedbackDuration: 3
+  confirmationText: 
   startOpen: 1
+  interactCooldown: 0.5
   pivot: {fileID: 2092289209}
+  door: {fileID: 0}
+  audioOrigin: {fileID: 0}
   openAngle: 90
   speed: 500
-  lockedShake: {fileID: 395296825}
+  player: {fileID: 0}
+  leafEdge: {fileID: 0}
+  leafWidth: 0
+  playerRadius: 0.35
+  openAwayFromPlayer: 1
+  blockWhenPlayerInArc: 1
+  holdWhilePlayerInArc: 1
+  blockedFeedback: 
+  blockedFeedbackDuration: 2
   openSound:
     Guid:
       Data1: 1388873967
@@ -38751,6 +38841,28 @@ MonoBehaviour:
       Data3: 1076765590
       Data4: -704320750
     Path: event:/SFX/Door/LockedDoor/LockedDoor
+  blockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnFirstInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  OnFirstLockedInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLockedInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  OnUnlockedWithItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlockedByPlayer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!65 &395296822
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -41096,9 +41208,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CamcorderRecLight
   recordingLight: {fileID: 449051897}
-  redColor: {r: 1, g: 0, b: 0, a: 1}
-  greenColor: {r: 0, g: 1, b: 0, a: 1}
-  blinkSpeed: 2
+  objectiveColor: {r: 0, g: 1, b: 0, a: 1}
+  deadZoneColor: {r: 1, g: 0, b: 0, a: 1}
+  noneColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  objectiveBlinkSpeed: 2
+  deadZoneBlinkSpeed: 0
+  noneBlinkSpeed: 0
   recLightEvent:
     Guid:
       Data1: 1476803983
@@ -41106,12 +41221,15 @@ MonoBehaviour:
       Data3: -1145183557
       Data4: -1026901526
     Path: event:/Camcorder/RecLight
-  redBeepsPerBurst: 1
-  redBeepInterval: 0.3
-  redBurstCooldown: 15
-  greenBeepsPerBurst: 2
-  greenBeepInterval: 0.3
-  greenBurstCooldown: 6
+  objectiveBeepsPerBurst: 3
+  objectiveBeepInterval: 0.3
+  objectiveBurstCooldown: 2
+  deadZoneBeepsPerBurst: 1
+  deadZoneBeepInterval: 0.3
+  deadZoneBurstCooldown: 5
+  noneBeepsPerBurst: 0
+  noneBeepInterval: 0.5
+  noneBurstCooldown: 10
 --- !u!114 &449051896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41253,6 +41371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraZone
   zoneCamera: {fileID: 1157625140}
+  priority: 0
 --- !u!65 &450856268
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -52790,6 +52909,7 @@ GameObject:
   - component: {fileID: 645518379}
   - component: {fileID: 645518378}
   - component: {fileID: 645518377}
+  - component: {fileID: 645518391}
   m_Layer: 0
   m_Name: Camcorder
   m_TagString: Untagged
@@ -52937,6 +53057,8 @@ MonoBehaviour:
   colorSelected: {r: 1, g: 1, b: 1, a: 1}
   colorUnselected: {r: 0.45, g: 0.45, b: 0.45, a: 1}
   borderColor: {r: 1, g: 0.3, b: 0.3, a: 1}
+  noRecordingsMessage: NO RECORDINGS
+  selectFootageMessage: SELECT A FOOTAGE
 --- !u!114 &645518386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52949,9 +53071,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40864402fa79fba469e021c56de5dd63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CamcorderMenuController
-  fpsCamera: {fileID: 915031246}
-  fpsHandModel: {fileID: 855562922}
   menuCanvas: {fileID: 481304598}
+  _menuAnimator: {fileID: 0}
   rffStep: 1
   rffDelay: 0.15
 --- !u!114 &645518387
@@ -53012,6 +53133,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CamcorderController
   camcorderVisual: {fileID: 350588032}
   playerMotor: {fileID: 1151235508}
+  recordingCamera: {fileID: 0}
   prepareTimer: 0
   recordTimer: 0
   prepareDuration: 0
@@ -53024,7 +53146,53 @@ MonoBehaviour:
       Data3: -2037995890
       Data4: -862189175
     Path: event:/Camcorder/Toggle
-  storageFullMessage: Need to delete recordings
+--- !u!114 &645518391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 645518375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50a1788efef3c0a469284a27b418d8c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CamcorderMenuAudio
+  navigateSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  navigateBlockedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  playPauseSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  rffSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  stopDiscardSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!1 &648551542
 GameObject:
   m_ObjectHideFlags: 0
@@ -56086,10 +56254,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1502959278efd4438ef7c64bb4eb961, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableRadio
-  onPrompt: Turn on radio
-  offPrompt: Turn off radio
+  uiPosition: 7
+  promptIcon: {fileID: 0}
+  activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 0}
-  subtitleText: 
+  subtitleEntries: []
+  radioPrompt: radio
+  oneTimeOnly: 0
+  OnTurnedOn:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTurnedOff:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &715921499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63074,6 +63253,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e9ad4083f776d848811476d8e7121d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Collectible
+  uiPosition: 7
+  promptIcon: {fileID: 0}
+  activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   itemId: doorknob
   prompt: Press E to grab/interact with objects
   feedbackMessage: I got the doorknob
@@ -63084,6 +63268,8 @@ MonoBehaviour:
       Data3: 1342719116
       Data4: 1477158661
     Path: event:/SFX/Interactive/PickUp/PickUp
+  requiresConfirmation: 0
+  confirmationText: 
 --- !u!64 &798821868
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -65721,38 +65907,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4da7311af2bd9449bda8198d2aa5859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PhoneInteractable
-  _player: {fileID: 1151235509}
-  _maxDistance: 1.5
-  _phoneCamera: {fileID: 437052552}
-  _playerCamera: {fileID: 1157625140}
-  putUpPhoneReference:
-    Guid:
-      Data1: 1949342055
-      Data2: 1144802349
-      Data3: 1143032719
-      Data4: 421286046
-    Path: event:/SFX/RedTelephone/PickUpPhone
-  putDownPhoneReference:
-    Guid:
-      Data1: 114735553
-      Data2: 1104765467
-      Data3: 1830789528
-      Data4: 635056998
-    Path: event:/SFX/RedTelephone/PutDownPhone
-  markNumberReference:
-    Guid:
-      Data1: 693859562
-      Data2: 1317104237
-      Data3: -1244027470
-      Data4: -1683326502
-    Path: event:/SFX/RedTelephone/MarkNumber
-  _phoneUI: {fileID: 1864096651}
-  _openPrompt: Pick PHONE
-  _closePrompt: E to Close Phone
-  OnPhoneOpened:
+  uiPosition: 7
+  promptIcon: {fileID: 0}
+  activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
+  correctCode: 1234
+  isBroken: 0
+  brokenMessage: El telefono no funciona
+  brokenMessagePosition: 7
+  brokenSubtitles: {fileID: 0}
+  brokenSubtitleDuration: 3
+  phoneAudio: {fileID: 0}
+  dialer: {fileID: 0}
+  phoneUI: {fileID: 1864096651}
+  openPrompt: Pick PHONE
+  closePrompt: E to Close Phone
+  answerPrompt: 
+  OnPickedUp:
     m_PersistentCalls:
       m_Calls: []
-  OnPhoneClosed:
+  OnHungUp:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCodeCorrect:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCodeWrong:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCallAnswered:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBrokenInteract:
     m_PersistentCalls:
       m_Calls: []
 --- !u!65 &891026409
@@ -70920,8 +71107,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db0f6f9b7028b30499de125845b36dd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameWarmup
+  camcorderRootGO: {fileID: 0}
   camcorderCameraGO: {fileID: 1182824445}
-  camcorderVisualGO: {fileID: 359210999}
   warmupFrames: 3
   textsToWarm:
   - {fileID: 1144868264}
@@ -71995,39 +72182,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2239b22ed2b55714dbcc2e8b63adc689, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PhoneDialer
-  displayText: {fileID: 220941655}
-  numberButtons:
-  - {fileID: 953859496}
-  - {fileID: 184377921}
-  - {fileID: 1785175399}
-  - {fileID: 1057885852}
-  - {fileID: 381828773}
-  - {fileID: 94617827}
-  - {fileID: 218833380}
-  - {fileID: 1410809913}
-  - {fileID: 1828220949}
-  - {fileID: 835701016}
-  btnClear: {fileID: 29978797}
-  btnCall: {fileID: 1655998106}
-  correctCode: 8611
-  maxDigits: 4
   phone: {fileID: 891026408}
-  objectToActivate: {fileID: 1097666483}
-  onPuzzleSolved:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 919850537}
-        m_TargetAssemblyTypeName: ElevatorArrival, Assembly-CSharp
-        m_MethodName: PlayArrival
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  phoneAudio: {fileID: 0}
+  displayText: {fileID: 220941655}
+  buttonGrid: {fileID: 0}
+  columns: 3
+  clearButton: {fileID: 0}
+  callButton: {fileID: 0}
+  keyNamePrefix: Btn_
+  maxDigits: 4
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightColor: {r: 1, g: 0.85, b: 0.3, a: 1}
 --- !u!1 &1017898008
 GameObject:
   m_ObjectHideFlags: 0
@@ -73974,6 +74139,7 @@ MonoBehaviour:
   pairedTeleporter: {fileID: 212924995}
   playerTag: Player
   cooldownSeconds: 0.1
+  isDestinationOnly: 0
   minTravelDistance: 15
   redirectOnIteration: 3
   alternateDestination: {fileID: 898842129}
@@ -74102,6 +74268,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraZone
   zoneCamera: {fileID: 1368254158}
+  priority: 0
 --- !u!65 &1059793261
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -75081,6 +75248,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraZone
   zoneCamera: {fileID: 799497791}
+  priority: 0
 --- !u!65 &1102355826
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -76361,6 +76529,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraZone
   zoneCamera: {fileID: 2045460313}
+  priority: 0
 --- !u!65 &1138941159
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -77245,11 +77414,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9687057719cacfc478338d3d7efacbf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteractor
-  interactRange: 1
+  boxSize: {x: 2, y: 2, z: 2}
+  boxCenter: {x: 0, y: 0, z: 0}
   interactableMask:
     serializedVersion: 2
     m_Bits: 8
   refreshDelay: 0.1
+  headLook: {fileID: 0}
+  occluderMask:
+    serializedVersion: 2
+    m_Bits: 0
+  eyeOffset: {x: 0, y: 1.4, z: 0}
 --- !u!114 &1151235512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77461,10 +77636,6 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
-  walkStepInterval: 1.5
-  runStepInterval: 0.75
-  minMoveSpeed: 0.1
-  teleportThreshold: 5
 --- !u!43 &1154793811
 Mesh:
   m_ObjectHideFlags: 0
@@ -80701,10 +80872,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1502959278efd4438ef7c64bb4eb961, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableRadio
-  onPrompt: Turn ON radio
-  offPrompt: Turn OFF radio
+  uiPosition: 7
+  promptIcon: {fileID: 0}
+  activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 0}
-  subtitleText: 
+  subtitleEntries: []
+  radioPrompt: radio
+  oneTimeOnly: 0
+  OnTurnedOn:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTurnedOff:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1227251240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97161,6 +97343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraZone
   zoneCamera: {fileID: 2017257271}
+  priority: 0
 --- !u!65 &1471960914
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -99716,7 +99899,7 @@ MonoBehaviour:
       Data2: 1322041378
       Data3: 714251691
       Data4: -2042874761
-    Path: event:/Horror/Unsettling_SFX/Eerie_SFX
+    Path: event:/Horror/Ambience/Ambience
   playerTag: Player
   triggerOnce: 1
   retriggerCooldown: 0
@@ -105192,6 +105375,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraZone
   zoneCamera: {fileID: 1963583306}
+  priority: 0
 --- !u!1 &1639717820
 GameObject:
   m_ObjectHideFlags: 0
@@ -110154,8 +110338,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c67fe281c35bfdf478e94f09a23aaae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SubtitleBlock
-  group: {fileID: 1729958101}
+  container: {fileID: 0}
   label: {fileID: 679023614}
+  positioner: {fileID: 0}
 --- !u!225 &1729958101
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -112115,30 +112300,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Stalker
   player: {fileID: 1151235509}
-  playerMotor: {fileID: 1151235508}
-  walkDistance: 5.5
-  sprintDistance: 2.5
-  distanceLerpSpeed: 3
-  followSmooth: 10
+  spawnPoint: {fileID: 0}
+  approachSpeed: 2.5
   heightOffset: 0
-  walkFootstep:
+  footstepEvent:
     Guid:
-      Data1: -544163972
-      Data2: 1144922663
-      Data3: 1120269718
-      Data4: 1537886360
-    Path: event:/Horror/Stalker_footsteps_WALK
-  sprintFootstep:
-    Guid:
-      Data1: -47336291
-      Data2: 1126062942
-      Data3: -1982762608
-      Data4: -1207087329
-    Path: event:/Horror/Stalker_footsteps_RUN
-  walkStepInterval: 1.5
-  sprintStepInterval: 1
-  minMoveSpeed: 1
-  teleportThreshold: 2
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  stepInterval: 0.7
+  arrivalDistance: 1
+  OnReachedPlayer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &1752025677
 Transform:
   m_ObjectHideFlags: 0
@@ -114026,6 +114202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraZone
   zoneCamera: {fileID: 2028148130}
+  priority: 0
 --- !u!65 &1777091357
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -116514,6 +116691,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraZone
   zoneCamera: {fileID: 2103347897}
+  priority: 0
 --- !u!65 &1815705091
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -120069,14 +120247,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1502959278efd4438ef7c64bb4eb961, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableRadio
-  onPrompt: Turn ON radio
-  offPrompt: Turn OFF radio
+  uiPosition: 7
+  promptIcon: {fileID: 0}
+  activeIcon: {fileID: 0}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 0}
   subtitles: {fileID: 1729958100}
-  subtitleText: "The neighbors of [BEEP] are shaken by the brutal murder of [BEEP],
-    the beloved daughter of the [BEEP] family. The incident, though details remain
-    uncharted, recounts: first the killer's approach and then his subsequent escape.
-    The stabbing was repeated until she lay lifeless and there was no more left to
-    count. A true tragedy\u2026"
+  subtitleEntries: []
+  radioPrompt: radio
+  oneTimeOnly: 0
+  OnTurnedOn:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTurnedOff:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1868637323
 MonoBehaviour:
   m_ObjectHideFlags: 0

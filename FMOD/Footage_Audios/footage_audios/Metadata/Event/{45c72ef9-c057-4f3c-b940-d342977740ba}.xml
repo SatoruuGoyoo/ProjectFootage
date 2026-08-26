@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.03.00">
 	<object class="Event" id="{45c72ef9-c057-4f3c-b940-d342977740ba}">
+		<property name="color">
+			<value>Blue</value>
+		</property>
 		<property name="name">
 			<value>Rain_Interior</value>
 		</property>
@@ -48,6 +51,9 @@
 		</relationship>
 	</object>
 	<object class="MixerInput" id="{d263b3a7-e6f7-4aba-ba5c-1689cee5e034}">
+		<property name="color">
+			<value>Blue</value>
+		</property>
 		<relationship name="effectChain">
 			<destination>{b225e4fb-f787-4480-8b0f-b036011b927f}</destination>
 		</relationship>
@@ -95,9 +101,6 @@
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{e1e6eda0-620f-41d5-b5da-6a053ddfcd0d}">
-		<property name="volume">
-			<value>5</value>
-		</property>
 		<relationship name="effectChain">
 			<destination>{737ab3c3-a840-4e1b-96d8-5531ebfaaf7f}</destination>
 		</relationship>
@@ -124,7 +127,7 @@
 	</object>
 	<object class="EventMixerGroup" id="{683fdfaa-43b6-4741-b763-24ccb24e981d}">
 		<property name="volume">
-			<value>-11.5</value>
+			<value>5</value>
 		</property>
 		<property name="name">
 			<value>Audio 1</value>
@@ -149,7 +152,7 @@
 	</object>
 	<object class="EventMixerGroup" id="{0b73dc1a-3b92-4374-9c08-d67072e3c2f0}">
 		<property name="volume">
-			<value>-24.5</value>
+			<value>-5</value>
 		</property>
 		<property name="name">
 			<value>Audio 2</value>
@@ -174,7 +177,7 @@
 	</object>
 	<object class="EventMixerGroup" id="{10764104-04e5-4cd0-9aca-9c40c4bcb617}">
 		<property name="volume">
-			<value>-14</value>
+			<value>-5</value>
 		</property>
 		<property name="name">
 			<value>Audio 3</value>

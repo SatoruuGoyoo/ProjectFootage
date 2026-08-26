@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.03.00">
 	<object class="Event" id="{0a0eac34-7e60-4ce6-ad79-9dbe2315b84d}">
+		<property name="color">
+			<value>Purple</value>
+		</property>
 		<property name="name">
 			<value>ScreamAnalog</value>
 		</property>
@@ -33,6 +36,7 @@
 		</relationship>
 		<relationship name="banks">
 			<destination>{085440a9-e857-437e-9c85-960389f1c31a}</destination>
+			<destination>{fe4de4a9-dbf1-4a11-b795-fd9be20daf56}</destination>
 		</relationship>
 	</object>
 	<object class="EventMixer" id="{47e0945c-e0e2-486f-94f7-9797b4e0ecd2}">
@@ -53,7 +57,7 @@
 			<destination>{3a5dfff0-296f-46b2-bc39-6f3cd6f5495d}</destination>
 		</relationship>
 		<relationship name="output">
-			<destination>{2b9d4de4-a83f-457b-a2f9-d7a3d6f8de3b}</destination>
+			<destination>{14d38ddc-32ac-4adf-a34a-4663c182b3de}</destination>
 		</relationship>
 	</object>
 	<object class="EventAutomatableProperties" id="{cde2e86f-cf58-4c49-88de-43280d40cd7e}" />
@@ -95,9 +99,6 @@
 		<property name="timelockedOffset">
 			<value>1.5</value>
 		</property>
-		<property name="volume">
-			<value>-64</value>
-		</property>
 		<property name="pitch">
 			<value>-1.20000005</value>
 		</property>
@@ -112,6 +113,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{fbb4c615-dcf1-4fa0-a76a-8e2725fe2cdd}">
+		<property name="volume">
+			<value>-60</value>
+		</property>
 		<property name="name">
 			<value>Audio 1</value>
 		</property>
