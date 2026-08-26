@@ -167,9 +167,6 @@ namespace SM.UI
             SetPanel(mainPanel, false);
             SetPanel(optionsPanel, true);
 
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-
             if (EventSystem.current != null)
                 EventSystem.current.SetSelectedGameObject(null);
         }

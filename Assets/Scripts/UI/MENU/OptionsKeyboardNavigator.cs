@@ -18,7 +18,6 @@ public sealed class OptionsKeyboardNavigator : MonoBehaviour
     private ButtonHoverEffect _backHover;
     private SliderHoverEffect[] _sliderHovers;
     private int _currentIndex;
-    private bool _editing;
     private bool _submitQueued;
 
     private InputAction _moveUpAction;
@@ -68,14 +67,12 @@ public sealed class OptionsKeyboardNavigator : MonoBehaviour
         _cancelAction.Enable();
 
         _currentIndex = 0;
-        _editing = false;
         HighlightCurrent();
     }
 
     private void OnDisable()
     {
         _submitQueued = false;
-        _editing = false;
         UnhighlightCurrent();
 
         _moveUpAction.Disable();
@@ -98,13 +95,13 @@ public sealed class OptionsKeyboardNavigator : MonoBehaviour
         _cancelAction.Dispose();
     }
 
-    private void OnMoveUp(InputAction.CallbackContext ctx) { if (!_editing) Move(-1); }
-    private void OnMoveDown(InputAction.CallbackContext ctx) { if (!_editing) Move(1); }
+    private void OnMoveUp(InputAction.CallbackContext ctx) => Move(-1);
+    private void OnMoveDown(InputAction.CallbackContext ctx) => Move(1);
     private void OnSubmit(InputAction.CallbackContext ctx) => _submitQueued = true;
 
     private void Update()
     {
-        if (_editing && !OnBackButton)
+        if (!OnBackButton && _currentIndex >= 0 && _currentIndex < sliders.Length)
         {
             float axis = _adjustAction.ReadValue<float>();
             if (Mathf.Abs(axis) > 0.1f)
@@ -122,8 +119,7 @@ public sealed class OptionsKeyboardNavigator : MonoBehaviour
 
         if (_cancelAction.WasPressedThisFrame())
         {
-            if (_editing) _editing = false;
-            else if (backButton != null) backButton.onClick.Invoke();
+            if (backButton != null) backButton.onClick.Invoke();
         }
     }
 
@@ -144,10 +140,7 @@ public sealed class OptionsKeyboardNavigator : MonoBehaviour
         if (OnBackButton)
         {
             if (backButton.interactable) backButton.onClick.Invoke();
-            return;
         }
-
-        _editing = !_editing;
     }
 
     private void HighlightCurrent()
