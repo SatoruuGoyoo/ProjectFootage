@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.03.00">
 	<object class="Event" id="{52c888ef-c25b-45b1-b0a4-704a84bc820e}">
+		<property name="color">
+			<value>Purple</value>
+		</property>
 		<property name="name">
 			<value>OpenDoor</value>
 		</property>
@@ -72,9 +75,6 @@
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{aea22bde-65c3-4978-be31-f15e9132de2f}">
-		<property name="volume">
-			<value>-14</value>
-		</property>
 		<relationship name="effectChain">
 			<destination>{f214154b-3bec-4e71-92d6-d078a943c8af}</destination>
 		</relationship>
@@ -103,6 +103,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{ba531058-7a82-4d1f-8fa5-1c3713208f06}">
+		<property name="volume">
+			<value>-14</value>
+		</property>
 		<property name="name">
 			<value>Audio 1</value>
 		</property>
