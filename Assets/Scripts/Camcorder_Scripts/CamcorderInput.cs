@@ -15,6 +15,8 @@ public class CamcorderInput : MonoBehaviour
     public bool OpenCloseMenu { get; private set; }
     public bool NavigateRight { get; private set; }
     public bool NavigateLeft { get; private set; }
+    public bool NavigateUp { get; private set; }
+    public bool NavigateDown { get; private set; }
     public bool PlayPauseRecording { get; private set; }
     public bool RewindRecording { get; private set; }
     public bool FastForwardRecording { get; private set; }
@@ -25,6 +27,8 @@ public class CamcorderInput : MonoBehaviour
     public bool OpenCloseMenuHeld { get; private set; }
     public bool NavigateRightHeld { get; private set; }
     public bool NavigateLeftHeld { get; private set; }
+    public bool NavigateUpHeld { get; private set; }
+    public bool NavigateDownHeld { get; private set; }
     public bool PlayPauseRecordingHeld { get; private set; }
     public bool DiscardRecordingHeld { get; private set; }
     public bool StopRecordingHeld { get; private set; }
@@ -74,8 +78,15 @@ public class CamcorderInput : MonoBehaviour
         IsRecordingReleased = actions.Camera.StartRecordingRecording.WasReleasedThisFrame();
 
         OpenCloseMenu = actions.MenuCamera.OpenClose.WasPressedThisFrame();
-        NavigateRight = actions.MenuCamera.Navigate.WasPressedThisFrame() && actions.MenuCamera.Navigate.ReadValue<float>() > 0.1f;
-        NavigateLeft = actions.MenuCamera.Navigate.WasPressedThisFrame() && actions.MenuCamera.Navigate.ReadValue<float>() < -0.1f;
+
+        Vector2 nav = actions.MenuCamera.Navigate.ReadValue<Vector2>();
+        bool navPressedThisFrame = actions.MenuCamera.Navigate.WasPressedThisFrame();
+
+        NavigateRight = navPressedThisFrame && nav.x > 0.5f;
+        NavigateLeft = navPressedThisFrame && nav.x < -0.5f;
+        NavigateUp = navPressedThisFrame && nav.y > 0.5f;
+        NavigateDown = navPressedThisFrame && nav.y < -0.5f;
+
         PlayPauseRecording = actions.MenuCamera.PlayPause.WasPressedThisFrame();
         RewindRecording = actions.MenuCamera.Rewind.IsPressed();
         FastForwardRecording = actions.MenuCamera.FastForward.IsPressed();
@@ -84,8 +95,13 @@ public class CamcorderInput : MonoBehaviour
         StopRecording = actions.MenuCamera.Stop.WasPressedThisFrame();
 
         OpenCloseMenuHeld = actions.MenuCamera.OpenClose.IsPressed();
-        NavigateRightHeld = actions.MenuCamera.Navigate.IsPressed() && actions.MenuCamera.Navigate.ReadValue<float>() > 0.1f;
-        NavigateLeftHeld = actions.MenuCamera.Navigate.IsPressed() && actions.MenuCamera.Navigate.ReadValue<float>() < -0.1f;
+
+        bool navHeld = actions.MenuCamera.Navigate.IsPressed();
+        NavigateRightHeld = navHeld && nav.x > 0.5f;
+        NavigateLeftHeld = navHeld && nav.x < -0.5f;
+        NavigateUpHeld = navHeld && nav.y > 0.5f;
+        NavigateDownHeld = navHeld && nav.y < -0.5f;
+
         PlayPauseRecordingHeld = actions.MenuCamera.PlayPause.IsPressed();
         DiscardRecordingHeld = actions.MenuCamera.Discard.IsPressed();
         StopRecordingHeld = actions.MenuCamera.Stop.IsPressed();
@@ -103,6 +119,8 @@ public class CamcorderInput : MonoBehaviour
         OpenCloseMenu = false;
         NavigateRight = false;
         NavigateLeft = false;
+        NavigateUp = false;
+        NavigateDown = false;
         PlayPauseRecording = false;
         RewindRecording = false;
         FastForwardRecording = false;
@@ -112,6 +130,8 @@ public class CamcorderInput : MonoBehaviour
         OpenCloseMenuHeld = false;
         NavigateRightHeld = false;
         NavigateLeftHeld = false;
+        NavigateUpHeld = false;
+        NavigateDownHeld = false;
         PlayPauseRecordingHeld = false;
         DiscardRecordingHeld = false;
         StopRecordingHeld = false;

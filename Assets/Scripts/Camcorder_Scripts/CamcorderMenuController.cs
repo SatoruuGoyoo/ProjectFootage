@@ -21,6 +21,9 @@ public class CamcorderMenuController : MonoBehaviour
     [SerializeField] private GameObject gridPanel;
     [SerializeField] private GameObject playbackPanel;
 
+    [Header("Grid Navigation")]
+    [SerializeField] private int columns = 2;
+
     [Header("Timing/TweakDesigner")]
     [SerializeField] private float rffStep = 1f;
     [SerializeField] private float rffDelay = 0.15f;
@@ -198,7 +201,8 @@ public class CamcorderMenuController : MonoBehaviour
         if (_storage.Count == 0) return;
 
         bool blockedByActiveSession = _clock.HasSession && !_clock.IsFinished;
-        bool attemptedNavigate = _input.NavigateRight || _input.NavigateLeft;
+        bool attemptedNavigate = _input.NavigateRight || _input.NavigateLeft
+                              || _input.NavigateUp || _input.NavigateDown;
 
         if (blockedByActiveSession)
         {
@@ -208,11 +212,31 @@ public class CamcorderMenuController : MonoBehaviour
         }
 
         int previousIndex = _currentIndex;
+        int count = _storage.Count;
+        int cols = Mathf.Max(1, columns);
 
-        if (_input.NavigateRight) _currentIndex++;
-        else if (_input.NavigateLeft) _currentIndex--;
+        if (_input.NavigateRight)
+        {
+            if (_currentIndex % cols < cols - 1 && _currentIndex + 1 < count)
+                _currentIndex++;
+        }
+        else if (_input.NavigateLeft)
+        {
+            if (_currentIndex % cols > 0)
+                _currentIndex--;
+        }
+        else if (_input.NavigateDown)
+        {
+            if (_currentIndex + cols < count)
+                _currentIndex += cols;
+        }
+        else if (_input.NavigateUp)
+        {
+            if (_currentIndex - cols >= 0)
+                _currentIndex -= cols;
+        }
 
-        _currentIndex = Mathf.Clamp(_currentIndex, 0, _storage.Count - 1);
+        _currentIndex = Mathf.Clamp(_currentIndex, 0, count - 1);
 
         if (_currentIndex != previousIndex)
             _audio.PlayNavigate();
