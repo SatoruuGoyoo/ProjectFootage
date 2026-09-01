@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,7 +6,10 @@ public class ItemRegistry : MonoBehaviour
 {
     public static ItemRegistry Instance { get; private set; }
 
-    private readonly HashSet<string> collected = new();
+    public event Action<ItemData> OnItemAdded ;
+
+    private readonly HashSet<string> _collectedIds = new();
+    private readonly List<ItemData> _items = new();
 
     private void Awake()
     {
@@ -18,11 +22,14 @@ public class ItemRegistry : MonoBehaviour
         if (Instance == this) Instance = null;
     }
 
-    public void Collect(string itemId)
+    public void Collect(ItemData item)
     {
-        if (string.IsNullOrEmpty(itemId)) return;
-        collected.Add(itemId);
+        if (_items == null || string.IsNullOrEmpty(item.itemId)) return;
+        if(!_collectedIds.Add(item.itemId)) return;
+
+        _items.Add(item);
+        OnItemAdded?.Invoke(item);
     }
 
-    public bool Has(string itemId) => collected.Contains(itemId);
+    public bool Has(string itemId) => _collectedIds.Contains(itemId);
 }

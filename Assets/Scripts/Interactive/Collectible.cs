@@ -4,7 +4,7 @@ using FMOD.Studio;
 
 public class Collectible : Interactable
 {
-    [SerializeField] private string itemId;
+    [SerializeField] private ItemData item;
     [SerializeField] private string prompt = "";
     [SerializeField] private string feedbackMessage = "";
     [SerializeField] private EventReference collectSound;
@@ -12,6 +12,8 @@ public class Collectible : Interactable
     [Header("Confirmation")]
     [SerializeField] private bool requiresConfirmation = false;
     [SerializeField] private string confirmationText = "";
+
+  
 
     private bool _collected;
     private bool _pendingConfirmation;
@@ -59,8 +61,8 @@ public class Collectible : Interactable
         if (_collected) return;
         _collected = true;
 
-        ItemRegistry.Instance.Collect(itemId);
-        GameEvents.ItemCollected(itemId);
+        ItemRegistry.Instance.Collect(item);
+        GameEvents.ItemCollected(item.itemId);
         GameEvents.FeedbackMessage(feedbackMessage, uiPosition);
 
         RuntimeManager.PlayOneShot(collectSound, transform.position);
