@@ -8,11 +8,16 @@ public class PlayerAnimator : MonoBehaviour
     private CharacterController characterController;
     private PlayerMotor motor;
 
+    [Header("Triggers")]
+    [SerializeField] private string pushTriggerName = "Push";
+
+
     private static readonly int IsWalkingHash = Animator.StringToHash("IsWalking");
     private static readonly int IsWalkingBackHash = Animator.StringToHash("IsWalkingBack");
     private static readonly int IsSprintingHash = Animator.StringToHash("IsSprinting");
     private static readonly int IsTurningLeftHash = Animator.StringToHash("IsTurningLeft");
     private static readonly int IsTurningRightHash = Animator.StringToHash("IsTurningRight");
+    private int _pushHash;
 
     private PlayerMode currentMode = PlayerMode.ExplorationMode;
 
@@ -27,12 +32,30 @@ public class PlayerAnimator : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
         motor = GetComponent<PlayerMotor>();
-
+        _pushHash = Animator.StringToHash(pushTriggerName);
         if (animator == null)
             animator = GetComponentInChildren<Animator>();
 
         //animator.applyRootMotion = false;
     }
+    public void TriggerPush() => PlayTrigger(_pushHash);
+    public void TriggerPush(string overrideName)
+    {
+        if (string.IsNullOrEmpty(overrideName)) TriggerPush();
+        else PlayTrigger(Animator.StringToHash(overrideName));
+    }
+    private void PlayTrigger(int hash)
+    {
+        if (animator == null) return;
+        animator.ResetTrigger(hash);
+        animator.SetTrigger(hash);
+    }
+    public void ClearPush()
+    {
+        if (animator == null) return;
+        animator.ResetTrigger(_pushHash);
+    }
+
 
     private void Update()
     {

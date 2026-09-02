@@ -1,27 +1,16 @@
 ﻿using UnityEngine;
-using FMODUnity;
+using UnityEngine.Events;
 
 public class WindowInteractable : Interactable
 {
-    [System.Serializable]
-    public class IterationEntry
-    {
-        [Tooltip("Número de iteración del CorridorTeleporter en que aplica esta entrada (empieza en 1).")]
-        public int iteration = 1;
-
-        [Tooltip("GameObject que se activa mientras el jugador mira en esta iteración. " +
-                 "Se desactiva al dejar de mirar o al cambiar de iteración.")]
-        public GameObject visibleObject;
-
-        [Tooltip("Sonido FMOD que suena al abrir la ventana en esta iteración. Opcional.")]
-        public EventReference sound;
-    }
-
-    [Header("Interacción")]
+    [Header("Prompts")]
     [SerializeField] private string promptOpen = "Mirar por la ventana";
     [SerializeField] private string promptClose = "Dejar de mirar";
+
+    [Header("Feedback")]
     [SerializeField] private string feedbackOpen = "";
     [SerializeField] private string feedbackClose = "";
+    [SerializeField] private float feedbackDuration = -1f;
 
     [Header("Confirmation")]
     [SerializeField] private bool requiresConfirmation = false;
@@ -32,42 +21,33 @@ public class WindowInteractable : Interactable
     [SerializeField] private Camera windowCamera;
     [SerializeField] private bool toggleCameraGameObject = true;
 
-    [Header("Corridor Teleporters")]
-    [SerializeField] private GameObject[] teleporterObjects;
-
-    [Header("Contenido por iteración")]
-    [SerializeField] private IterationEntry[] iterationEntries;
+    [Header("Events")]
+    [Tooltip("Sólo la primera vez que el jugador mira.")]
+    public UnityEvent OnFirstLook;
+    [Tooltip("Cada vez que el jugador mira.")]
+    public UnityEvent OnLook;
+    [Tooltip("Sólo la primera vez que el jugador deja de mirar.")]
+    public UnityEvent OnFirstStopLooking;
+    [Tooltip("Cada vez que el jugador deja de mirar.")]
+    public UnityEvent OnStopLooking;
 
     private bool _isLooking;
     private bool _pendingConfirmation;
-    private IterationEntry _activeEntry;
+    private bool _lookedOnce;
+    private bool _stoppedOnce;
 
     public override string PromptMessage => _isLooking ? promptClose : promptOpen;
     public override bool CanInteract => !_isLooking && !_pendingConfirmation;
     public override bool IsActive => _isLooking;
     public override bool BlockMovement => true;
 
-    private void Awake()
-    {
-        SetCameraActive(false);
-        SetTeleporterObjectsActive(false);
+    private void Awake() => SetCameraActive(false);
 
-        if (iterationEntries == null) return;
-        foreach (var entry in iterationEntries)
-            if (entry.visibleObject != null)
-                entry.visibleObject.SetActive(false);
-    }
-
-    private void OnEnable()
-    {
-        GameEvents.OnConfirmationClosed += OnConfirmationClosed;
-        CorridorTeleporter.OnIterationChanged += OnIterationChanged;
-    }
+    private void OnEnable() => GameEvents.OnConfirmationClosed += OnConfirmationClosed;
 
     private void OnDisable()
     {
         GameEvents.OnConfirmationClosed -= OnConfirmationClosed;
-        CorridorTeleporter.OnIterationChanged -= OnIterationChanged;
         _pendingConfirmation = false;
         if (_isLooking) StopLooking();
     }
@@ -102,63 +82,40 @@ public class WindowInteractable : Interactable
 
     private void OnConfirmationClosed() => _pendingConfirmation = false;
 
-    private void OnIterationChanged(int iteration)
-    {
-        SetTeleporterObjectsActive(false);
-        HideActiveEntry();
-    }
-
     private void StartLooking()
     {
         _isLooking = true;
         SetCameraActive(true);
-        RefreshIterationContent(CorridorTeleporter.IterationCount);
         EnterInteractionMode();
 
         if (!string.IsNullOrEmpty(feedbackOpen))
-            GameEvents.FeedbackMessage(feedbackOpen, uiPosition);
+            GameEvents.FeedbackMessage(feedbackOpen, uiPosition, feedbackDuration);
+
+        if (!_lookedOnce)
+        {
+            _lookedOnce = true;
+            OnFirstLook?.Invoke();
+        }
+
+        OnLook?.Invoke();
     }
 
     private void StopLooking()
     {
         _isLooking = false;
-        HideActiveEntry();
         SetCameraActive(false);
-        SetTeleporterObjectsActive(true);
         ExitInteractionMode();
 
         if (!string.IsNullOrEmpty(feedbackClose))
-            GameEvents.FeedbackMessage(feedbackClose, uiPosition);
-    }
+            GameEvents.FeedbackMessage(feedbackClose, uiPosition, feedbackDuration);
 
-    private void RefreshIterationContent(int iteration)
-    {
-        HideActiveEntry();
+        if (!_stoppedOnce)
+        {
+            _stoppedOnce = true;
+            OnFirstStopLooking?.Invoke();
+        }
 
-        _activeEntry = FindEntry(iteration);
-        if (_activeEntry == null) return;
-
-        if (_activeEntry.visibleObject != null)
-            _activeEntry.visibleObject.SetActive(true);
-
-        if (!_activeEntry.sound.IsNull)
-            RuntimeManager.PlayOneShot(_activeEntry.sound, transform.position);
-    }
-
-    private void HideActiveEntry()
-    {
-        if (_activeEntry == null) return;
-        if (_activeEntry.visibleObject != null)
-            _activeEntry.visibleObject.SetActive(false);
-        _activeEntry = null;
-    }
-
-    private IterationEntry FindEntry(int iteration)
-    {
-        if (iterationEntries == null) return null;
-        foreach (var entry in iterationEntries)
-            if (entry.iteration == iteration) return entry;
-        return null;
+        OnStopLooking?.Invoke();
     }
 
     private void SetCameraActive(bool active)
@@ -169,14 +126,6 @@ public class WindowInteractable : Interactable
             windowCamera.gameObject.SetActive(active);
         else
             windowCamera.enabled = active;
-    }
-
-    private void SetTeleporterObjectsActive(bool active)
-    {
-        if (teleporterObjects == null) return;
-        foreach (var go in teleporterObjects)
-            if (go != null)
-                go.SetActive(active);
     }
 
 #if UNITY_EDITOR

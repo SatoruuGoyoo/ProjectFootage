@@ -34,6 +34,11 @@ public class PlayerInteractor : MonoBehaviour
     private void Awake()
     {
         if (headLook == null) headLook = GetComponentInParent<PlayerHeadLook>();
+        if (headLook == null) headLook = GetComponentInChildren<PlayerHeadLook>();
+        if (headLook == null) headLook = FindObjectOfType<PlayerHeadLook>();
+
+        if (headLook == null)
+            Debug.LogWarning("[PlayerInteractor] Sin PlayerHeadLook: el prompt sólo va a aparecer dentro del rango de interacción.", this);
     }
 
     private void Start()
@@ -101,8 +106,7 @@ public class PlayerInteractor : MonoBehaviour
         if (!returningFromInteraction) return;
 
         _skipInputThisFrame = true;
-        RefreshCurrent();
-        _refreshTimer = refreshDelay;
+        _refreshTimer = 0f;
     }
 
     private void RefreshCurrent()
@@ -114,7 +118,7 @@ public class PlayerInteractor : MonoBehaviour
     private IInteractable FindNearest(Vector3 size)
     {
         Vector3 center = transform.TransformPoint(boxCenter);
-        int hitCount = Physics.OverlapBoxNonAlloc(center, size * 0.5f, _hits, transform.rotation, interactableMask);
+        int hitCount = Physics.OverlapBoxNonAlloc(center, size * 0.5f, _hits, transform.rotation, interactableMask, QueryTriggerInteraction.Collide);
 
         Vector3 eye = transform.TransformPoint(eyeOffset);
 

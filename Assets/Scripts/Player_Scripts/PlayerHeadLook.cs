@@ -75,7 +75,7 @@ public class PlayerHeadLook : MonoBehaviour
     private void RefreshTarget()
     {
         Vector3 center = transform.TransformPoint(boxCenter);
-        int hitCount = Physics.OverlapBoxNonAlloc(center, boxSize * 0.5f, _hits, transform.rotation, interactableMask);
+        int hitCount = Physics.OverlapBoxNonAlloc(center, boxSize * 0.5f, _hits, transform.rotation, interactableMask, QueryTriggerInteraction.Collide);
 
         Vector3 eye = transform.TransformPoint(eyeOffset);
 

@@ -10,6 +10,8 @@ public class ExplorationInteractable : Interactable
 
     [Header("Prompt")]
     [SerializeField] private string examinePrompt = "examinar";
+    [Tooltip("Ícono al llegar a la última línea. Vacío usa el Active Icon normal.")]
+    [SerializeField] private Sprite lastLineIcon;
 
     [Header("Settings")]
     [SerializeField] private bool oneTimeOnly = false;
@@ -28,6 +30,7 @@ public class ExplorationInteractable : Interactable
     public override bool CanInteract => !_used && HasLines && !OnLastLine;
     public override bool IsActive => _index >= 0;
     public override bool BlockMovement => true;
+    public override Sprite ActiveIcon => OnLastLine && lastLineIcon != null ? lastLineIcon : base.ActiveIcon;
 
     public override void Interact()
     {
