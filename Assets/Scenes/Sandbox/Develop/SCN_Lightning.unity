@@ -2726,8 +2726,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af31c75b45afc974c943f4088dd4268e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameObjectActiveStep
-  targetGameObject: {fileID: 0}
-  setActive: 1
 --- !u!1 &36009783
 GameObject:
   m_ObjectHideFlags: 0
@@ -2892,8 +2890,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af31c75b45afc974c943f4088dd4268e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameObjectActiveStep
-  targetGameObject: {fileID: 0}
-  setActive: 1
 --- !u!1 &36076992
 GameObject:
   m_ObjectHideFlags: 0
@@ -4065,8 +4061,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af31c75b45afc974c943f4088dd4268e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameObjectActiveStep
-  targetGameObject: {fileID: 0}
-  setActive: 1
 --- !u!1 &60163701 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8068073526183931155, guid: 77149a477ba20f64aabc9b4e786c2bcf, type: 3}
@@ -4126,9 +4120,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 506934182}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.349}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1667.1852, y: -44.533}
   m_SizeDelta: {x: 164.6342, y: 52.3657}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &60571090
@@ -4235,9 +4229,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 849c4041ac6b74049b218317d978579b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InvokeStep
-  onExecute:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &64541453
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4395,17 +4386,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20a3cee1c17b95d499170388e3f57dac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSpeakStep
-  line:
-    audioEvent:
-      Guid:
-        Data1: 0
-        Data2: 0
-        Data3: 0
-        Data4: 0
-      Path: 
-    text: 
-    displayDurationNoAudio: 3
-    graceTimeAfterAudio: 0.5
 --- !u!1 &68174715
 GameObject:
   m_ObjectHideFlags: 0
@@ -7957,30 +7937,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a98d796f6e7c9fe43b7fcd24bf8063fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CinematicBarsStep
-  action: 0
-  fadeDuration: 1
-  curve:
-    m_Curve:
-    - time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  waitForCompletion: 1
 --- !u!4 &100672781 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8135426111661466322, guid: 77149a477ba20f64aabc9b4e786c2bcf, type: 3}
@@ -10108,8 +10064,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af31c75b45afc974c943f4088dd4268e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameObjectActiveStep
-  targetGameObject: {fileID: 0}
-  setActive: 1
 --- !u!1 &123046786
 GameObject:
   m_ObjectHideFlags: 0
@@ -10343,30 +10297,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a98d796f6e7c9fe43b7fcd24bf8063fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CinematicBarsStep
-  action: 0
-  fadeDuration: 1
-  curve:
-    m_Curve:
-    - time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  waitForCompletion: 1
 --- !u!1 &126249044
 GameObject:
   m_ObjectHideFlags: 0
@@ -16024,7 +15954,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &211981459
 Transform:
   m_ObjectHideFlags: 0
@@ -19852,8 +19782,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af31c75b45afc974c943f4088dd4268e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameObjectActiveStep
-  targetGameObject: {fileID: 0}
-  setActive: 1
 --- !u!4 &252980497 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9a60beeede7a23244ba2b3e5d35d2179, type: 3}
@@ -19903,10 +19831,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f8b5785c8dcea24297e371326eaec2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LoadLevelStep
-  targetScene: {sceneAsset: {fileID: 0}, sceneName: }
-  fadeOutDuration: 0.8
-  fadeInDuration: 0.8
-  fadeInAfterLoad: 1
 --- !u!1 &255439200
 GameObject:
   m_ObjectHideFlags: 0
@@ -20480,9 +20404,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1853813589}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 542.0723, y: -30.23115}
   m_SizeDelta: {x: 88.3613, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &259069747
@@ -22287,8 +22211,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af31c75b45afc974c943f4088dd4268e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameObjectActiveStep
-  targetGameObject: {fileID: 0}
-  setActive: 1
 --- !u!1 &264040277
 GameObject:
   m_ObjectHideFlags: 0
@@ -24323,11 +24245,11 @@ MonoBehaviour:
   blockedFeedbackDuration: 2
   openSound:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 1388873967
+      Data2: 1169277531
+      Data3: 1248896176
+      Data4: 243448964
+    Path: event:/SFX/Door/OpenDoor/OpenDoor
   closeSound:
     Guid:
       Data1: 0
@@ -25847,10 +25769,10 @@ RectTransform:
   - {fileID: 1708994686}
   m_Father: {fileID: 695284566}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 688, y: -350.849}
+  m_SizeDelta: {x: 300, y: 190}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &327742881
 GameObject:
@@ -27382,8 +27304,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af31c75b45afc974c943f4088dd4268e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameObjectActiveStep
-  targetGameObject: {fileID: 0}
-  setActive: 1
 --- !u!1001 &345384880
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27673,8 +27593,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 353324775}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 186.2, y: 0, z: 105.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -27682,7 +27602,7 @@ Transform:
   - {fileID: 1171577183}
   - {fileID: 748358251}
   - {fileID: 253065944}
-  m_Father: {fileID: 1587948668}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &353324777
 MonoBehaviour:
@@ -28203,7 +28123,7 @@ GameObject:
   m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &365704322
 Transform:
   m_ObjectHideFlags: 0
@@ -30191,7 +30111,6 @@ Transform:
   - {fileID: 1322352450}
   - {fileID: 16097026}
   - {fileID: 1301140500}
-  - {fileID: 940515654}
   - {fileID: 792472277}
   - {fileID: 636901965}
   - {fileID: 1263205558}
@@ -30393,7 +30312,7 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 421524402}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 12
   m_Type: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -31316,7 +31235,7 @@ MonoBehaviour:
   phoneAudio: {fileID: 438269443}
   dialer: {fileID: 438269442}
   phoneUI: {fileID: 2031561622}
-  openPrompt: .
+  openPrompt: Broken old phone.
   closePrompt: .
   answerPrompt: .
   OnPickedUp:
@@ -32975,8 +32894,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0765cda513405e045b411e88fe635ca6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityFeedbackStep
-  message: 
-  duration: -1
 --- !u!1 &467162744
 GameObject:
   m_ObjectHideFlags: 0
@@ -34102,9 +34019,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f29e5b3cdcd47f5418b4e3ecc6b51ff0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LockCamcorderInputs
-  blockLift: 1
-  blockRecord: 1
-  blockMenu: 1
 --- !u!1 &489636779
 GameObject:
   m_ObjectHideFlags: 0
@@ -34450,8 +34364,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af31c75b45afc974c943f4088dd4268e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameObjectActiveStep
-  targetGameObject: {fileID: 0}
-  setActive: 1
 --- !u!1 &496061842
 GameObject:
   m_ObjectHideFlags: 0
@@ -40271,7 +40183,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &555333486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41695,9 +41607,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 506934182}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 62.70757, y: -44.533}
   m_SizeDelta: {x: 50, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &571347983
@@ -42046,9 +41958,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 506934182}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.349}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1169.903, y: -44.533}
   m_SizeDelta: {x: 362.7, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &578014945
@@ -43168,9 +43080,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1853813589}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 62.794662, y: -30.23115}
   m_SizeDelta: {x: 95.6968, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &592688287
@@ -43667,8 +43579,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af31c75b45afc974c943f4088dd4268e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameObjectActiveStep
-  targetGameObject: {fileID: 0}
-  setActive: 1
 --- !u!1 &599269817 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5412732141011941280, guid: 5b8f8b8138eaad84bba31e9a53e0981f, type: 3}
@@ -43982,8 +43892,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af31c75b45afc974c943f4088dd4268e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameObjectActiveStep
-  targetGameObject: {fileID: 0}
-  setActive: 1
 --- !u!1 &602138813
 GameObject:
   m_ObjectHideFlags: 0
@@ -45427,8 +45335,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 775b19b93bdc0f346be657a61a101f50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputTutorialStep
-  prompts: []
-  textPosition: 7
 --- !u!1 &625417661
 GameObject:
   m_ObjectHideFlags: 0
@@ -45473,8 +45379,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af31c75b45afc974c943f4088dd4268e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameObjectActiveStep
-  targetGameObject: {fileID: 0}
-  setActive: 1
 --- !u!1 &627037459
 GameObject:
   m_ObjectHideFlags: 0
@@ -45519,17 +45423,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20a3cee1c17b95d499170388e3f57dac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSpeakStep
-  line:
-    audioEvent:
-      Guid:
-        Data1: 0
-        Data2: 0
-        Data3: 0
-        Data4: 0
-      Path: 
-    text: 
-    displayDurationNoAudio: 3
-    graceTimeAfterAudio: 0.5
 --- !u!1 &629789561
 GameObject:
   m_ObjectHideFlags: 0
@@ -46054,11 +45947,11 @@ MonoBehaviour:
   playerAnimator: {fileID: 2084421742}
   pushSound:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -709434390
+      Data2: 1252722547
+      Data3: -1356064376
+      Data4: -1248591598
+    Path: event:/SFX/Beat 2/Creepy move 2
   OnPushStarted:
     m_PersistentCalls:
       m_Calls:
@@ -49116,8 +49009,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af31c75b45afc974c943f4088dd4268e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameObjectActiveStep
-  targetGameObject: {fileID: 0}
-  setActive: 1
 --- !u!1001 &667515495
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -127361,9 +127252,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 506934182}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 704.93787, y: -44.533}
   m_SizeDelta: {x: 100, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &686774053
@@ -129797,8 +129688,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af31c75b45afc974c943f4088dd4268e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameObjectActiveStep
-  targetGameObject: {fileID: 0}
-  setActive: 1
 --- !u!1 &727750158
 GameObject:
   m_ObjectHideFlags: 0
@@ -131924,8 +131813,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af31c75b45afc974c943f4088dd4268e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameObjectActiveStep
-  targetGameObject: {fileID: 0}
-  setActive: 1
 --- !u!4 &772808768 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0d114d908d688834590b0845979fbf99, type: 3}
@@ -137670,8 +137557,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 725395f403722e746b7ffa5fdf7d398b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CamcorderStateStep
-  camcorderController: {fileID: 0}
-  action: 0
 --- !u!1 &838082881
 GameObject:
   m_ObjectHideFlags: 0
@@ -139510,8 +139395,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af31c75b45afc974c943f4088dd4268e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameObjectActiveStep
-  targetGameObject: {fileID: 0}
-  setActive: 1
 --- !u!1 &861694379
 GameObject:
   m_ObjectHideFlags: 0
@@ -139976,8 +139859,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af31c75b45afc974c943f4088dd4268e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameObjectActiveStep
-  targetGameObject: {fileID: 0}
-  setActive: 1
 --- !u!1001 &863007885
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -140000,7 +139881,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 40d34575324cc2c4e80f0a559e5ec2cb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -11.223722
+      value: -11.521
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 40d34575324cc2c4e80f0a559e5ec2cb, type: 3}
       propertyPath: m_LocalPosition.y
@@ -140008,7 +139889,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 40d34575324cc2c4e80f0a559e5ec2cb, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 12.426313
+      value: 12.312
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 40d34575324cc2c4e80f0a559e5ec2cb, type: 3}
       propertyPath: m_LocalRotation.w
@@ -141673,17 +141554,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20a3cee1c17b95d499170388e3f57dac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSpeakStep
-  line:
-    audioEvent:
-      Guid:
-        Data1: 0
-        Data2: 0
-        Data3: 0
-        Data4: 0
-      Path: 
-    text: 
-    displayDurationNoAudio: 3
-    graceTimeAfterAudio: 0.5
 --- !u!1 &895227557
 GameObject:
   m_ObjectHideFlags: 0
@@ -144006,11 +143876,11 @@ Transform:
   m_GameObject: {fileID: 940515653}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 15.846008, y: 5.47697, z: 23.904007}
+  m_LocalPosition: {x: 11.34, y: 0, z: -6.45}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 416553193}
+  m_Father: {fileID: 1746448828}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &940515655
 MonoBehaviour:
@@ -144451,9 +144321,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 849c4041ac6b74049b218317d978579b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InvokeStep
-  onExecute:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &948488128
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -146712,8 +146579,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af31c75b45afc974c943f4088dd4268e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameObjectActiveStep
-  targetGameObject: {fileID: 0}
-  setActive: 1
 --- !u!1 &968844573
 GameObject:
   m_ObjectHideFlags: 0
@@ -147694,7 +147559,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 55ac71d6b152e7043bd1a22e632dd8f4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.16
+      value: -5.32
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 55ac71d6b152e7043bd1a22e632dd8f4, type: 3}
       propertyPath: m_LocalPosition.y
@@ -147854,8 +147719,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.1246443, y: 2.0328786, z: 1.2390171}
-  m_Center: {x: 0.0000019073486, y: 0.016439376, z: 0.018595187}
+  m_Size: {x: 2.124644, y: 2.0328784, z: 1.3977543}
+  m_Center: {x: 0.000001889533, y: 0.016439388, z: 0.097964}
 --- !u!1 &977995718
 GameObject:
   m_ObjectHideFlags: 0
@@ -149304,7 +149169,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f49cbd71ab5222a4baae7ea4eb568893, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1583065254}
   m_SourcePrefab: {fileID: 100100000, guid: f49cbd71ab5222a4baae7ea4eb568893, type: 3}
 --- !u!4 &1000160995 stripped
 Transform:
@@ -149489,7 +149357,7 @@ MonoBehaviour:
   targetOverride: {fileID: 0}
   detectionRadius: 0.8
   liveActionClip: {fileID: 32900000, guid: 19c5d0e88f996a642baf01ff54f972a6, type: 3}
-  liveActionThumbnail: {fileID: 21300000, guid: da9e2f54af7abd44dadb7fe6a6d421b1, type: 3}
+  liveActionThumbnail: {fileID: 21300000, guid: 7fe10073cbc88e1429468b37a51e689c, type: 3}
   liveActionAudio:
     Guid:
       Data1: 844465365
@@ -150141,7 +150009,7 @@ MonoBehaviour:
   phoneAudio: {fileID: 1024283475}
   dialer: {fileID: 1024283474}
   phoneUI: {fileID: 11378165}
-  openPrompt: .
+  openPrompt: 'Another broken phone. '
   closePrompt: .
   answerPrompt: .
   OnPickedUp:
@@ -151275,8 +151143,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0765cda513405e045b411e88fe635ca6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityFeedbackStep
-  message: 
-  duration: -1
 --- !u!1001 &1052450088
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -157112,8 +156978,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af31c75b45afc974c943f4088dd4268e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameObjectActiveStep
-  targetGameObject: {fileID: 0}
-  setActive: 1
 --- !u!1001 &1064092307
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -159037,6 +158901,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ColumnBrkn
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c38d8763dcf79494e8896dd337d32a69, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -159044,6 +158912,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c38d8763dcf79494e8896dd337d32a69, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1078902035}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c38d8763dcf79494e8896dd337d32a69, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1078902041}
   m_SourcePrefab: {fileID: 100100000, guid: c38d8763dcf79494e8896dd337d32a69, type: 3}
 --- !u!1 &1078902034 stripped
 GameObject:
@@ -159069,13 +158940,44 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3.294189, y: 0.55295616, z: 0.5785978}
-  m_Center: {x: -0.015291514, y: 0.02794363, z: -0.04004155}
+  m_Size: {x: 3.294189, y: 0.55295616, z: 0.7989311}
+  m_Center: {x: -0.0152915185, y: 0.027943626, z: 0.07012532}
 --- !u!4 &1078902038 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c38d8763dcf79494e8896dd337d32a69, type: 3}
   m_PrefabInstance: {fileID: 1078902033}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1078902041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1078902034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: faf8bda70109cd94994dce0d0376ff85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ExplorationInteractable
+  uiPosition: 7
+  detectedIcon: {fileID: 21300000, guid: b8d9241c90e58cf4c8540713f123ef25, type: 3}
+  promptIcon: {fileID: 21300000, guid: 7ed4216d721434141b85a2b31545b7ae, type: 3}
+  activeIcon: {fileID: 21300000, guid: fa171aecdc9e2cb4db92a92580c580e0, type: 3}
+  promptAnchor: {fileID: 0}
+  promptOffset: {x: 0, y: 0.25, z: 1.08}
+  activePrompt: 0
+  subtitles: {fileID: 677589477}
+  lines:
+  - "Not going over there, that\xB4s for sure."
+  examinePrompt: .
+  lastLineIcon: {fileID: 21300000, guid: fa171aecdc9e2cb4db92a92580c580e0, type: 3}
+  oneTimeOnly: 0
+  OnExamineStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  OnExamineFinished:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1079867377
 GameObject:
   m_ObjectHideFlags: 0
@@ -159360,9 +159262,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 506934182}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 371.3227, y: -44.533}
   m_SizeDelta: {x: 100, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1084150645
@@ -160504,17 +160406,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20a3cee1c17b95d499170388e3f57dac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSpeakStep
-  line:
-    audioEvent:
-      Guid:
-        Data1: 0
-        Data2: 0
-        Data3: 0
-        Data4: 0
-      Path: 
-    text: 
-    displayDurationNoAudio: 3
-    graceTimeAfterAudio: 0.5
 --- !u!1001 &1104792441
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -239914,8 +239805,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec2b6ee7ae31d4448bf1236061b167ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoorActionStep
-  targetDoor: {fileID: 0}
-  action: 0
 --- !u!1 &1150251727 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 19c0b667eed3d524484400dd9aaecd35, type: 3}
@@ -240060,10 +239949,10 @@ RectTransform:
   - {fileID: 168602931}
   m_Father: {fileID: 695284566}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1012, y: -350.849}
+  m_SizeDelta: {x: 300, y: 190}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1159645200 stripped
 GameObject:
@@ -240543,7 +240432,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb7ebeb607c48724eb43f57f8891e7c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BlockAllInputsStep
-  block: 1
 --- !u!1 &1171577182
 GameObject:
   m_ObjectHideFlags: 0
@@ -240588,8 +240476,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af31c75b45afc974c943f4088dd4268e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameObjectActiveStep
-  targetGameObject: {fileID: 0}
-  setActive: 1
 --- !u!1 &1173505036
 GameObject:
   m_ObjectHideFlags: 0
@@ -242159,30 +242045,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a98d796f6e7c9fe43b7fcd24bf8063fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CinematicBarsStep
-  action: 0
-  fadeDuration: 1
-  curve:
-    m_Curve:
-    - time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  waitForCompletion: 1
 --- !u!1 &1200321208
 GameObject:
   m_ObjectHideFlags: 0
@@ -243150,8 +243012,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af31c75b45afc974c943f4088dd4268e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameObjectActiveStep
-  targetGameObject: {fileID: 0}
-  setActive: 1
 --- !u!1 &1214352820
 GameObject:
   m_ObjectHideFlags: 0
@@ -243504,7 +243364,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03ca2231543db8e4fb95079b51696dd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LockPlayerMovementStep
-  playerMotor: {fileID: 0}
 --- !u!1 &1225082765 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5092708244707826562, guid: 77149a477ba20f64aabc9b4e786c2bcf, type: 3}
@@ -243756,17 +243615,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20a3cee1c17b95d499170388e3f57dac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSpeakStep
-  line:
-    audioEvent:
-      Guid:
-        Data1: 0
-        Data2: 0
-        Data3: 0
-        Data4: 0
-      Path: 
-    text: 
-    displayDurationNoAudio: 3
-    graceTimeAfterAudio: 0.5
 --- !u!1 &1227944507
 GameObject:
   m_ObjectHideFlags: 0
@@ -244132,8 +243980,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af31c75b45afc974c943f4088dd4268e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameObjectActiveStep
-  targetGameObject: {fileID: 0}
-  setActive: 1
 --- !u!1 &1229111985
 GameObject:
   m_ObjectHideFlags: 0
@@ -250467,9 +250313,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 687649681}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 262.03934, y: -31}
   m_SizeDelta: {x: 144.067, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1278425361
@@ -255524,9 +255370,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1885608371}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 227.38795, y: -27.3645}
   m_SizeDelta: {x: 430.319, y: 50.3992}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1320004520
@@ -264279,17 +264125,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20a3cee1c17b95d499170388e3f57dac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSpeakStep
-  line:
-    audioEvent:
-      Guid:
-        Data1: 0
-        Data2: 0
-        Data3: 0
-        Data4: 0
-      Path: 
-    text: 
-    displayDurationNoAudio: 3
-    graceTimeAfterAudio: 0.5
 --- !u!1 &1399242452
 GameObject:
   m_ObjectHideFlags: 0
@@ -267003,17 +266838,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20a3cee1c17b95d499170388e3f57dac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSpeakStep
-  line:
-    audioEvent:
-      Guid:
-        Data1: 0
-        Data2: 0
-        Data3: 0
-        Data4: 0
-      Path: 
-    text: 
-    displayDurationNoAudio: 3
-    graceTimeAfterAudio: 0.5
 --- !u!1 &1435083725
 GameObject:
   m_ObjectHideFlags: 0
@@ -267913,8 +267737,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 775b19b93bdc0f346be657a61a101f50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputTutorialStep
-  prompts: []
-  textPosition: 7
 --- !u!1 &1449991741
 GameObject:
   m_ObjectHideFlags: 0
@@ -268071,8 +267893,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af31c75b45afc974c943f4088dd4268e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameObjectActiveStep
-  targetGameObject: {fileID: 0}
-  setActive: 1
 --- !u!43 &1451583207
 Mesh:
   m_ObjectHideFlags: 0
@@ -268984,10 +268804,10 @@ RectTransform:
   - {fileID: 1326454420}
   m_Father: {fileID: 695284566}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 688, y: -136.849}
+  m_SizeDelta: {x: 300, y: 190}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1469200330
 GameObject:
@@ -269361,8 +269181,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af31c75b45afc974c943f4088dd4268e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameObjectActiveStep
-  targetGameObject: {fileID: 0}
-  setActive: 1
 --- !u!1 &1473756149
 GameObject:
   m_ObjectHideFlags: 0
@@ -331481,9 +331299,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1853813589}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 304.2674, y: -30.23115}
   m_SizeDelta: {x: 327.4636, y: 43.9521}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1524612243
@@ -332897,8 +332715,8 @@ MonoBehaviour:
   activePrompt: 1
   promptOpen: .
   promptClose: .
-  feedbackOpen: asdad
-  feedbackClose: adas
+  feedbackOpen: Looks like there is a balcony
+  feedbackClose: Maybe if I move the drawer over there...
   feedbackDuration: 2
   requiresConfirmation: 1
   confirmationText: Look throught the window?
@@ -333250,17 +333068,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20a3cee1c17b95d499170388e3f57dac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSpeakStep
-  line:
-    audioEvent:
-      Guid:
-        Data1: 0
-        Data2: 0
-        Data3: 0
-        Data4: 0
-      Path: 
-    text: 
-    displayDurationNoAudio: 3
-    graceTimeAfterAudio: 0.5
 --- !u!1 &1557437380
 GameObject:
   m_ObjectHideFlags: 0
@@ -335535,10 +335342,10 @@ RectTransform:
   - {fileID: 1662405163}
   m_Father: {fileID: 695284566}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1012, y: -136.849}
+  m_SizeDelta: {x: 300, y: 190}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1578282432
 GameObject:
@@ -335995,6 +335802,32 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 406303352}
   m_SourcePrefab: {fileID: 100100000, guid: c2da6c6c032942e41b79ba09cbc99bc1, type: 3}
+--- !u!1 &1583065251 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f49cbd71ab5222a4baae7ea4eb568893, type: 3}
+  m_PrefabInstance: {fileID: 1000160994}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1583065254
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1583065251}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 70.39069, y: 180.43283, z: 243.77415}
+  m_Center: {x: -2.1069026, y: 9.861297, z: -26.817982}
 --- !u!1 &1583547279
 GameObject:
   m_ObjectHideFlags: 0
@@ -336413,7 +336246,6 @@ Transform:
   m_Children:
   - {fileID: 467778936}
   - {fileID: 574033803}
-  - {fileID: 353324776}
   m_Father: {fileID: 416553193}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1587972139
@@ -336760,8 +336592,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af31c75b45afc974c943f4088dd4268e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameObjectActiveStep
-  targetGameObject: {fileID: 0}
-  setActive: 1
 --- !u!1 &1592309240
 GameObject:
   m_ObjectHideFlags: 0
@@ -339097,7 +338927,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb7ebeb607c48724eb43f57f8891e7c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BlockAllInputsStep
-  block: 1
 --- !u!43 &1636196689
 Mesh:
   m_ObjectHideFlags: 0
@@ -340536,30 +340365,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a98d796f6e7c9fe43b7fcd24bf8063fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CinematicBarsStep
-  action: 0
-  fadeDuration: 1
-  curve:
-    m_Curve:
-    - time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  waitForCompletion: 1
 --- !u!1 &1658846625
 GameObject:
   m_ObjectHideFlags: 0
@@ -405373,6 +405178,7 @@ Transform:
   - {fileID: 1955446495}
   - {fileID: 1060246335}
   - {fileID: 1109978532}
+  - {fileID: 940515654}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1749581828
@@ -406286,8 +406092,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af31c75b45afc974c943f4088dd4268e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameObjectActiveStep
-  targetGameObject: {fileID: 0}
-  setActive: 1
 --- !u!1 &1764899109
 GameObject:
   m_ObjectHideFlags: 0
@@ -407291,17 +407095,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20a3cee1c17b95d499170388e3f57dac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSpeakStep
-  line:
-    audioEvent:
-      Guid:
-        Data1: 0
-        Data2: 0
-        Data3: 0
-        Data4: 0
-      Path: 
-    text: 
-    displayDurationNoAudio: 3
-    graceTimeAfterAudio: 0.5
 --- !u!1 &1777280245
 GameObject:
   m_ObjectHideFlags: 0
@@ -408105,8 +407898,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af31c75b45afc974c943f4088dd4268e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameObjectActiveStep
-  targetGameObject: {fileID: 0}
-  setActive: 1
 --- !u!1 &1801761587
 GameObject:
   m_ObjectHideFlags: 0
@@ -408151,17 +407942,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20a3cee1c17b95d499170388e3f57dac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSpeakStep
-  line:
-    audioEvent:
-      Guid:
-        Data1: 0
-        Data2: 0
-        Data3: 0
-        Data4: 0
-      Path: 
-    text: 
-    displayDurationNoAudio: 3
-    graceTimeAfterAudio: 0.5
 --- !u!1 &1801994668
 GameObject:
   m_ObjectHideFlags: 0
@@ -468469,10 +468249,10 @@ RectTransform:
   - {fileID: 968212408}
   m_Father: {fileID: 695284566}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 688, y: -564.849}
+  m_SizeDelta: {x: 300, y: 190}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &1846527800
 PrefabInstance:
@@ -469876,17 +469656,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20a3cee1c17b95d499170388e3f57dac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSpeakStep
-  line:
-    audioEvent:
-      Guid:
-        Data1: 0
-        Data2: 0
-        Data3: 0
-        Data4: 0
-      Path: 
-    text: 
-    displayDurationNoAudio: 3
-    graceTimeAfterAudio: 0.5
 --- !u!1 &1866776813
 GameObject:
   m_ObjectHideFlags: 0
@@ -470928,8 +470697,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0765cda513405e045b411e88fe635ca6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityFeedbackStep
-  message: 
-  duration: -1
 --- !u!1 &1884434448
 GameObject:
   m_ObjectHideFlags: 0
@@ -471522,7 +471289,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 64.41809, y: 74.95923}
+  m_AnchoredPosition: {x: 64.41821, y: 74.95923}
   m_SizeDelta: {x: -217.8499, y: -252.9868}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1890269148
@@ -472600,8 +472367,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af31c75b45afc974c943f4088dd4268e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameObjectActiveStep
-  targetGameObject: {fileID: 0}
-  setActive: 1
 --- !u!1001 &1906822533
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -473202,8 +472967,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af31c75b45afc974c943f4088dd4268e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameObjectActiveStep
-  targetGameObject: {fileID: 0}
-  setActive: 1
 --- !u!114 &1921078401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -475005,8 +474768,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af31c75b45afc974c943f4088dd4268e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameObjectActiveStep
-  targetGameObject: {fileID: 0}
-  setActive: 1
 --- !u!1 &1947375076
 GameObject:
   m_ObjectHideFlags: 0
@@ -476579,7 +476340,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb7ebeb607c48724eb43f57f8891e7c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BlockAllInputsStep
-  block: 1
 --- !u!1 &1968013178
 GameObject:
   m_ObjectHideFlags: 0
@@ -478578,11 +478338,11 @@ MonoBehaviour:
     Path: 
   lockedSound:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -313959837
+      Data2: 1172062706
+      Data3: 1076765590
+      Data4: -704320750
+    Path: event:/SFX/Door/LockedDoor/LockedDoor
   blockedSound:
     Guid:
       Data1: 0
@@ -481715,7 +481475,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2028499176
 Transform:
   m_ObjectHideFlags: 0
@@ -483309,9 +483069,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 687649681}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 93.126625, y: -31}
   m_SizeDelta: {x: 178.7481, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2055237299
@@ -485302,8 +485062,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0765cda513405e045b411e88fe635ca6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityFeedbackStep
-  message: 
-  duration: -1
 --- !u!1 &2091315741
 GameObject:
   m_ObjectHideFlags: 0
@@ -487675,17 +487433,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20a3cee1c17b95d499170388e3f57dac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSpeakStep
-  line:
-    audioEvent:
-      Guid:
-        Data1: 0
-        Data2: 0
-        Data3: 0
-        Data4: 0
-      Path: 
-    text: 
-    displayDurationNoAudio: 3
-    graceTimeAfterAudio: 0.5
 --- !u!1 &2145729098
 GameObject:
   m_ObjectHideFlags: 0
@@ -487985,6 +487732,7 @@ SceneRoots:
   - {fileID: 1943730913}
   - {fileID: 1746448828}
   - {fileID: 820481553}
+  - {fileID: 353324776}
   - {fileID: 416553193}
   - {fileID: 586782064}
   - {fileID: 169702610}
