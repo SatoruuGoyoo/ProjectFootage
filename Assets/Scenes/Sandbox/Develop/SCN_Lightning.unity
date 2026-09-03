@@ -149694,7 +149694,7 @@ MonoBehaviour:
   centerGracePeriod: 0.5
   targetOverride: {fileID: 0}
   detectionRadius: 0.8
-  liveActionClip: {fileID: 32900000, guid: 19c5d0e88f996a642baf01ff54f972a6, type: 3}
+  liveActionClip: {fileID: 32900000, guid: 395693b3b75e4494690ac837b2274dd3, type: 3}
   liveActionThumbnail: {fileID: 21300000, guid: 7fe10073cbc88e1429468b37a51e689c, type: 3}
   liveActionAudio:
     Guid:
@@ -243488,6 +243488,7 @@ GameObject:
   - component: {fileID: 1227944509}
   - component: {fileID: 1227944508}
   - component: {fileID: 1227944511}
+  - component: {fileID: 1227944512}
   m_Layer: 0
   m_Name: Spot Light
   m_TagString: Untagged
@@ -243619,6 +243620,47 @@ MonoBehaviour:
   anisotropy: 0.25
   scattering: 0.1
   radius: 0.2
+--- !u!114 &1227944512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1227944507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74add88d82885bb41b79e432bf5eb218, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HorrorFlickerLight
+  _mode: 0
+  _config:
+    minIntensityRatio: 0
+    maxIntensityRatio: 1
+    randomEventIntervalMin: 3
+    randomEventIntervalMax: 4
+    randomOnTimeMin: 0.05
+    randomOnTimeMax: 0.3
+    randomOffTimeMin: 0.02
+    randomOffTimeMax: 0.15
+    flickersPerEventMin: 2
+    flickersPerEventMax: 7
+    rhythmOnDuration: 0.1
+    rhythmOffDuration: 0.1
+    rhythmBurstCount: 0
+    rhythmPauseMin: 1
+    rhythmPauseMax: 3
+    stableTimeMin: 2
+    stableTimeMax: 6
+    malfunctionTimeMin: 0.5
+    malfunctionTimeMax: 2
+    malfunctionBaseRatio: 0.4
+    noiseSpeed: 1.5
+    noiseIntensity: 0.4
+  _useColorShift: 0
+  _stableColor: {r: 1, g: 1, b: 1, a: 1}
+  _flickerColor: {r: 1, g: 0.85, b: 0.6, a: 1}
+  _colorShiftIntensity: 0.5
+  _syncPhaseOffset: 0
 --- !u!43 &1228410612
 Mesh:
   m_ObjectHideFlags: 0
