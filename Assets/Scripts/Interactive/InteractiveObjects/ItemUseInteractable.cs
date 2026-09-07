@@ -74,7 +74,7 @@ public class ItemUseInteractable : Interactable
         if (requiresConfirmation)
         {
             _pendingConfirmation = true;
-            GameEvents.RequestConfirmation(confirmationText, OnConfirmed, OnDeclined, uiPosition);
+            RequestConfirmation(confirmationText, OnConfirmed, OnDeclined);
             return;
         }
 

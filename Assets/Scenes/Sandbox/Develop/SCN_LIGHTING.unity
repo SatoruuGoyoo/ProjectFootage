@@ -1640,6 +1640,14 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 6c2000e0eeba6944bb6ffb97c176ac71, type: 3}
+      propertyPath: m_ReceiveGI
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 6c2000e0eeba6944bb6ffb97c176ac71, type: 3}
+      propertyPath: m_StaticShadowCaster
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 6c2000e0eeba6944bb6ffb97c176ac71, type: 3}
       propertyPath: m_Name
       value: ChestOfDrawersActSmall (2)
@@ -1734,7 +1742,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 4
+  m_RenderingLayerMask: 7
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c6c106d16fdbf6c48bcf58d77e421118, type: 2}
@@ -7035,15 +7043,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fc1443aa5cd60bb4b87373b1e1fb0273, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.024299705
+      value: 0.019
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fc1443aa5cd60bb4b87373b1e1fb0273, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.3569112
+      value: 2.357
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fc1443aa5cd60bb4b87373b1e1fb0273, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.076291226
+      value: 0.013
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fc1443aa5cd60bb4b87373b1e1fb0273, type: 3}
       propertyPath: m_LocalRotation.w
@@ -9555,6 +9563,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 0
@@ -13232,7 +13245,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 4
+  m_RenderingLayerMask: 7
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c6c106d16fdbf6c48bcf58d77e421118, type: 2}
@@ -19182,7 +19195,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 4
+  m_RenderingLayerMask: 7
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c6c106d16fdbf6c48bcf58d77e421118, type: 2}
@@ -19814,7 +19827,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 4
+  m_RenderingLayerMask: 7
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c6c106d16fdbf6c48bcf58d77e421118, type: 2}
@@ -20775,6 +20788,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   requiredItemId: 
   startLocked: 1
   playerCanToggle: 0
@@ -21509,6 +21527,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -24578,7 +24601,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 4
+  m_RenderingLayerMask: 7
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c6c106d16fdbf6c48bcf58d77e421118, type: 2}
@@ -26248,7 +26271,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 4
+  m_RenderingLayerMask: 7
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c6c106d16fdbf6c48bcf58d77e421118, type: 2}
@@ -26568,11 +26591,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PhoneDialer
   phone: {fileID: 438269445}
   phoneAudio: {fileID: 438269443}
-  displayText: {fileID: 0}
-  buttonGrid: {fileID: 0}
+  displayText: {fileID: 941045484}
+  buttonGrid: {fileID: 501667586}
   columns: 3
-  clearButton: {fileID: 0}
-  callButton: {fileID: 0}
+  clearButton: {fileID: 393368468}
+  callButton: {fileID: 1425268300}
   keyNamePrefix: Btn_
   maxDigits: 4
   normalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -26671,6 +26694,13 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 2
+  instructions:
+  - icon: {fileID: 21300000, guid: fa171aecdc9e2cb4db92a92580c580e0, type: 3}
+    text: CLOSE
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   correctCode: 1234
   isBroken: 0
   brokenMessage: Broken old phone. Great.
@@ -26851,6 +26881,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -30218,7 +30253,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 4
+  m_RenderingLayerMask: 7
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c6c106d16fdbf6c48bcf58d77e421118, type: 2}
@@ -33022,32 +33057,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 544493412}
   m_Mesh: {fileID: 8733429697405204941, guid: 8448176c16cd7bf4a85ff959b963dbd7, type: 3}
---- !u!1 &545356917 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -8068073526183931155, guid: 77149a477ba20f64aabc9b4e786c2bcf, type: 3}
-  m_PrefabInstance: {fileID: 1053730701}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &545356920
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 545356917}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.1162993, y: 0.03358221, z: 0.20646204}
-  m_Center: {x: 0.2163345, y: -2.0765603, z: 0.07688044}
 --- !u!23 &545356921 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: -305091885687274788, guid: 77149a477ba20f64aabc9b4e786c2bcf, type: 3}
@@ -34508,6 +34517,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   requiredItemId: 
   startLocked: 1
   playerCanToggle: 0
@@ -35326,7 +35340,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 4
+  m_RenderingLayerMask: 7
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c6c106d16fdbf6c48bcf58d77e421118, type: 2}
@@ -35666,6 +35680,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   camcorderSystem: {fileID: 730880155}
   camcorderModel: {fileID: 599269817}
   pickupPrompt: camcorder
@@ -35836,7 +35855,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 4
+  m_RenderingLayerMask: 7
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c6c106d16fdbf6c48bcf58d77e421118, type: 2}
@@ -38354,7 +38373,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 4
+  m_RenderingLayerMask: 7
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c6c106d16fdbf6c48bcf58d77e421118, type: 2}
@@ -38418,6 +38437,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -39217,6 +39241,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   pushPrompt: .
   spots:
   - anchor: {fileID: 636463105}
@@ -39942,7 +39971,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 4
+  m_RenderingLayerMask: 7
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c6c106d16fdbf6c48bcf58d77e421118, type: 2}
@@ -40467,6 +40496,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 0
@@ -42418,15 +42452,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fc1443aa5cd60bb4b87373b1e1fb0273, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.054255612
+      value: 0.049
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fc1443aa5cd60bb4b87373b1e1fb0273, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.111342
+      value: 3.111
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fc1443aa5cd60bb4b87373b1e1fb0273, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.1175509
+      value: -0.028
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fc1443aa5cd60bb4b87373b1e1fb0273, type: 3}
       propertyPath: m_LocalRotation.w
@@ -42732,6 +42766,7 @@ RectTransform:
   - {fileID: 1991684151}
   - {fileID: 2145729099}
   - {fileID: 1532266071}
+  - {fileID: 1825528051}
   m_Father: {fileID: 42301392}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -42870,21 +42905,16 @@ MonoBehaviour:
   promptCamera: {fileID: 0}
   screenPadding: {x: 48, y: 48}
   clampToScreen: 1
-  interactIcon: {fileID: 712534545}
   defaultDetectedSprite: {fileID: 21300000, guid: b8d9241c90e58cf4c8540713f123ef25, type: 3}
   defaultInteractSprite: {fileID: 21300000, guid: 7ed4216d721434141b85a2b31545b7ae, type: 3}
-  defaultCancelSprite: {fileID: 21300000, guid: fa171aecdc9e2cb4db92a92580c580e0, type: 3}
+  defaultActiveSprite: {fileID: 0}
   showKeyOnlyInRange: 1
-  interactKeyRoot: {fileID: 0}
-  interactKeyImage: {fileID: 0}
-  interactKeyLabel: {fileID: 0}
-  interactKeySprite: {fileID: 0}
-  interactKeyText: '[E]'
-  cancelKeyRoot: {fileID: 0}
-  cancelKeyImage: {fileID: 0}
-  cancelKeyLabel: {fileID: 0}
-  cancelKeySprite: {fileID: 0}
-  cancelKeyText: '[F]'
+  blockRoot: {fileID: 0}
+  iconImage: {fileID: 712534545}
+  keyImage: {fileID: 0}
+  keyLabel: {fileID: 0}
+  keySprite: {fileID: 0}
+  keyText: '[E]'
 --- !u!114 &677589486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42907,6 +42937,12 @@ MonoBehaviour:
   yesHighlight: {fileID: 838082883}
   noHighlight: {fileID: 819522768}
   highlightColor: {r: 0, g: 0.057769794, b: 0.4113207, a: 1}
+  instructions:
+  - icon: {fileID: 21300000, guid: b8d9241c90e58cf4c8540713f123ef25, type: 3}
+    text: MOVE
+  - icon: {fileID: 21300000, guid: 7ed4216d721434141b85a2b31545b7ae, type: 3}
+    text: CLOSE
+  instructionsPosition: 2
   selectSound:
     Guid:
       Data1: -1396879681
@@ -122656,6 +122692,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 731589211}
   promptOffset: {x: 0, y: 0.3, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   requiredItemId: 
   startLocked: 1
   playerCanToggle: 0
@@ -127697,15 +127738,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fc1443aa5cd60bb4b87373b1e1fb0273, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.112651825
+      value: -0.118
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fc1443aa5cd60bb4b87373b1e1fb0273, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.716405
+      value: 2.716
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fc1443aa5cd60bb4b87373b1e1fb0273, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.08479703
+      value: 0.005
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fc1443aa5cd60bb4b87373b1e1fb0273, type: 3}
       propertyPath: m_LocalRotation.w
@@ -128915,6 +128956,108 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 831236230}
   m_CullTransparentMesh: 1
+--- !u!1 &831673565
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 831673566}
+  - component: {fileID: 831673568}
+  - component: {fileID: 831673567}
+  - component: {fileID: 831673569}
+  m_Layer: 5
+  m_Name: 'Entries '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &831673566
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 831673565}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1825528051}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &831673567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 831673565}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &831673568
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 831673565}
+  m_CullTransparentMesh: 1
+--- !u!114 &831673569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 831673565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.HorizontalLayoutGroup
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 4
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &832022035
 GameObject:
   m_ObjectHideFlags: 0
@@ -129225,7 +129368,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 4
+  m_RenderingLayerMask: 7
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c6c106d16fdbf6c48bcf58d77e421118, type: 2}
@@ -130151,7 +130294,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 4
+  m_RenderingLayerMask: 7
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c6c106d16fdbf6c48bcf58d77e421118, type: 2}
@@ -130223,9 +130366,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1822386452}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 104.98236, y: -25}
   m_SizeDelta: {x: 201.2444, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &862011078
@@ -130440,6 +130583,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 863007887}
   promptOffset: {x: 0, y: 0.4, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   item: {fileID: 11400000, guid: 9e34e70b620107b4b8d215e38031992f, type: 2}
   prompt: .
   feedbackMessage: <color="red">CD</color> acquired
@@ -130752,6 +130900,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   requiredItemId: key313
   startLocked: 0
   playerCanToggle: 0
@@ -131388,8 +131541,13 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.4, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 2
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 6
   item: {fileID: 11400000, guid: e3d5bcf3fe050f34b956a60258a8d2d9, type: 2}
-  prompt: .
+  prompt: asdads
   feedbackMessage: <color="red">Key</color> acquired
   collectSound:
     Guid:
@@ -131949,7 +132107,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 4
+  m_RenderingLayerMask: 7
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c6c106d16fdbf6c48bcf58d77e421118, type: 2}
@@ -132578,7 +132736,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 4
+  m_RenderingLayerMask: 7
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c6c106d16fdbf6c48bcf58d77e421118, type: 2}
@@ -132709,7 +132867,7 @@ Transform:
   m_GameObject: {fileID: 917573728}
   serializedVersion: 2
   m_LocalRotation: {x: -0.000000026692538, y: -0.70710677, z: 0.000000026692538, w: 0.7071068}
-  m_LocalPosition: {x: -6.8774385, y: 0.011288643, z: 3.1252596}
+  m_LocalPosition: {x: -6.867404, y: -0.005002022, z: 3.0891044}
   m_LocalScale: {x: 1.5, y: 1.1999999, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -135004,6 +135162,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   requiredItemId: 
   startLocked: 1
   playerCanToggle: 0
@@ -136105,6 +136268,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.6, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   requiredItem: {fileID: 11400000, guid: 9e34e70b620107b4b8d215e38031992f, type: 2}
   consumeItem: 1
   promptWithItem: .
@@ -136517,6 +136685,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   requiredItemId: key1
   startLocked: 0
   playerCanToggle: 0
@@ -138077,6 +138250,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 1558702424}
   promptOffset: {x: 0.08, y: 0.7, z: 0}
   activePrompt: 2
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   correctCode: 1234
   isBroken: 0
   brokenMessage: 'Another broken phone. '
@@ -139155,9 +139333,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 77149a477ba20f64aabc9b4e786c2bcf, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1280321552}
-    - targetCorrespondingSourceObject: {fileID: -8068073526183931155, guid: 77149a477ba20f64aabc9b4e786c2bcf, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 545356920}
   m_SourcePrefab: {fileID: 100100000, guid: 77149a477ba20f64aabc9b4e786c2bcf, type: 3}
 --- !u!1 &1056790368
 GameObject:
@@ -146217,6 +146392,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 1.08}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   subtitles: {fileID: 677589477}
   lines:
   - "Not going over there, that\xB4s for sure."
@@ -147065,6 +147245,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   requiredItemId: 
   startLocked: 1
   playerCanToggle: 0
@@ -224594,6 +224779,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -224738,15 +224928,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1740302659166322422, guid: 5b8f8b8138eaad84bba31e9a53e0981f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1996100882864789031, guid: 5b8f8b8138eaad84bba31e9a53e0981f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1996100882864789031, guid: 5b8f8b8138eaad84bba31e9a53e0981f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.705
+      value: 4.91
       objectReference: {fileID: 0}
     - target: {fileID: 1996100882864789031, guid: 5b8f8b8138eaad84bba31e9a53e0981f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -224754,23 +224944,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1996100882864789031, guid: 5b8f8b8138eaad84bba31e9a53e0981f, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071066
       objectReference: {fileID: 0}
     - target: {fileID: 1996100882864789031, guid: 5b8f8b8138eaad84bba31e9a53e0981f, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.707107
       objectReference: {fileID: 0}
     - target: {fileID: 1996100882864789031, guid: 5b8f8b8138eaad84bba31e9a53e0981f, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0.00000009685753
       objectReference: {fileID: 0}
     - target: {fileID: 1996100882864789031, guid: 5b8f8b8138eaad84bba31e9a53e0981f, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: 0.0000000745058
       objectReference: {fileID: 0}
     - target: {fileID: 1996100882864789031, guid: 5b8f8b8138eaad84bba31e9a53e0981f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 2441157122174702548, guid: 5b8f8b8138eaad84bba31e9a53e0981f, type: 3}
       propertyPath: occluderMask.m_Bits
@@ -225042,11 +225232,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8365216236012476066, guid: 5b8f8b8138eaad84bba31e9a53e0981f, type: 3}
       propertyPath: m_Intensity
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8365216236012476066, guid: 5b8f8b8138eaad84bba31e9a53e0981f, type: 3}
       propertyPath: m_SpotAngle
-      value: 23.737698
+      value: 57.575127
       objectReference: {fileID: 0}
     - target: {fileID: 8365216236012476066, guid: 5b8f8b8138eaad84bba31e9a53e0981f, type: 3}
       propertyPath: m_Lightmapping
@@ -225058,11 +225248,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8365216236012476066, guid: 5b8f8b8138eaad84bba31e9a53e0981f, type: 3}
       propertyPath: m_InnerSpotAngle
-      value: 0
+      value: 33.837425
       objectReference: {fileID: 0}
     - target: {fileID: 8365216236012476066, guid: 5b8f8b8138eaad84bba31e9a53e0981f, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8420180375098703308, guid: 5b8f8b8138eaad84bba31e9a53e0981f, type: 3}
       propertyPath: m_IsActive
@@ -227173,7 +227363,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1180907612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231628,9 +231818,13 @@ MonoBehaviour:
   OnTurnedOn:
     m_PersistentCalls:
       m_Calls: []
+    m_CallsDirty: 1
   OnTurnedOff:
     m_PersistentCalls:
       m_Calls: []
+    m_CallsDirty: 1
+  _source: {fileID: 0}
+  _used: 0
 --- !u!114 &1239385398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233671,7 +233865,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1262297392
 RectTransform:
   m_ObjectHideFlags: 0
@@ -234008,13 +234202,20 @@ MonoBehaviour:
   activeIcon: {fileID: 21300000, guid: 7ed4216d721434141b85a2b31545b7ae, type: 3}
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.6, z: 0}
-  activePrompt: 0
+  activePrompt: 1
+  instructions:
+  - icon: {fileID: 21300000, guid: fa171aecdc9e2cb4db92a92580c580e0, type: 3}
+    text: CLOSE
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   subtitles: {fileID: 677589477}
   lines:
   - An OLD TV
   - "Doesn\xB4t look like it\xB4s gonna work tho"
   examinePrompt: .
-  lastLineIcon: {fileID: 21300000, guid: fa171aecdc9e2cb4db92a92580c580e0, type: 3}
+  lastLineIcon: {fileID: 21300000, guid: 7ed4216d721434141b85a2b31545b7ae, type: 3}
   oneTimeOnly: 0
   OnExamineStarted:
     m_PersistentCalls:
@@ -234564,7 +234765,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 4
+  m_RenderingLayerMask: 7
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c6c106d16fdbf6c48bcf58d77e421118, type: 2}
@@ -234959,6 +235160,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -236514,7 +236720,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 4
+  m_RenderingLayerMask: 7
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c6c106d16fdbf6c48bcf58d77e421118, type: 2}
@@ -240011,6 +240217,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -245716,6 +245927,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -246816,7 +247032,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 4
+  m_RenderingLayerMask: 7
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c6c106d16fdbf6c48bcf58d77e421118, type: 2}
@@ -247149,7 +247365,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 4
+  m_RenderingLayerMask: 7
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c6c106d16fdbf6c48bcf58d77e421118, type: 2}
@@ -247564,7 +247780,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 4
+  m_RenderingLayerMask: 7
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c6c106d16fdbf6c48bcf58d77e421118, type: 2}
@@ -248154,6 +248370,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -248470,6 +248691,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 0
@@ -249387,7 +249613,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1423402076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250330,6 +250556,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -251157,6 +251388,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   subtitles: {fileID: 677589477}
   lines:
   - Being here...
@@ -251949,6 +252185,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 0
@@ -252070,6 +252311,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 0
@@ -311450,6 +311696,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.4, z: -0.4}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   subtitles: {fileID: 677589477}
   lines:
   - Wood seems to be falling off.
@@ -312065,7 +312316,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 4
+  m_RenderingLayerMask: 7
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c6c106d16fdbf6c48bcf58d77e421118, type: 2}
@@ -314192,11 +314443,18 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0.4, y: 0.25, z: 0}
   activePrompt: 1
+  instructions:
+  - icon: {fileID: 21300000, guid: fa171aecdc9e2cb4db92a92580c580e0, type: 3}
+    text: CLOSE
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   promptOpen: .
   promptClose: .
-  feedbackOpen: Looks like there is a balcony
-  feedbackClose: Maybe if I move the drawer over there...
-  feedbackDuration: 2
+  subtitles: {fileID: 677589477}
+  linesOnLook: []
+  linesOnStopLooking: []
   requiresConfirmation: 1
   confirmationText: Look throught the window?
   windowCamera: {fileID: 1863050956}
@@ -314992,7 +315250,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 4
+  m_RenderingLayerMask: 7
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c6c106d16fdbf6c48bcf58d77e421118, type: 2}
@@ -317194,6 +317452,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 0
@@ -320886,6 +321149,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   requiredItemId: 
   startLocked: 1
   playerCanToggle: 0
@@ -322062,7 +322330,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 4
+  m_RenderingLayerMask: 7
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c6c106d16fdbf6c48bcf58d77e421118, type: 2}
@@ -322743,6 +323011,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 0
@@ -382049,7 +382322,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 4
+  m_RenderingLayerMask: 7
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c6c106d16fdbf6c48bcf58d77e421118, type: 2}
@@ -383489,6 +383762,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -387073,6 +387351,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -387611,7 +387894,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 4
+  m_RenderingLayerMask: 7
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c6c106d16fdbf6c48bcf58d77e421118, type: 2}
@@ -387646,6 +387929,135 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1825061618}
   m_Mesh: {fileID: -629719859055844128, guid: 8448176c16cd7bf4a85ff959b963dbd7, type: 3}
+--- !u!1 &1825528050
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1825528051}
+  - component: {fileID: 1825528053}
+  - component: {fileID: 1825528052}
+  - component: {fileID: 1825528056}
+  - component: {fileID: 1825528055}
+  - component: {fileID: 1825528054}
+  m_Layer: 5
+  m_Name: 'InstructionsBar '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1825528051
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825528050}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 831673566}
+  m_Father: {fileID: 677589478}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 753.53516, y: 221.01349}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1825528052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825528050}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1825528053
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825528050}
+  m_CullTransparentMesh: 1
+--- !u!114 &1825528054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825528050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 991ae24320cd97940a081b5355d155c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIPositioner
+  upperLeft: {fileID: 243084682}
+  upperCenter: {fileID: 1025295433}
+  upperRight: {fileID: 1951160071}
+  middleLeft: {fileID: 142189132}
+  middleCenter: {fileID: 900779103}
+  middleRight: {fileID: 905940180}
+  lowerLeft: {fileID: 1256642032}
+  lowerCenter: {fileID: 844227776}
+  lowerRight: {fileID: 918999356}
+--- !u!114 &1825528055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825528050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6c6280f1ca7d5c46b71d687aca43568, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InstructionsUI
+  container: {fileID: 1825528056}
+  positioner: {fileID: 1825528054}
+  entryContainer: {fileID: 831673566}
+  entryPrefab: {fileID: 7440780865528442352, guid: 07dbd1778a580fd45aa1b7bfb91424d0, type: 3}
+  prewarmCount: 4
+--- !u!225 &1825528056
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825528050}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1825562039 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8068073526183931155, guid: 77149a477ba20f64aabc9b4e786c2bcf, type: 3}
@@ -387870,7 +388282,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 4
+  m_RenderingLayerMask: 7
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c6c106d16fdbf6c48bcf58d77e421118, type: 2}
@@ -447478,7 +447890,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 78
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -447552,12 +447964,20 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.4, z: 0}
   activePrompt: 2
+  instructions:
+  - icon: {fileID: 21300000, guid: fa171aecdc9e2cb4db92a92580c580e0, type: 3}
+    text: CLOSE
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   sprite: {fileID: 21300000, guid: 7514bf4d000e0ce45ba72d88457e8835, type: 3}
   pages:
   - 'Welcome to the <color=red><i>LMH Hotel</color></i> '
   - Experience the calm and beautiful resort and the wonders it helds within
   - (texts becomes blurry after this point)
-  readPrompt: leer
+  openPrompt: leer
+  closePrompt: cerrar
   openSound:
     Guid:
       Data1: 628579962
@@ -449829,6 +450249,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -450160,6 +450585,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 0
@@ -450266,6 +450696,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   requiredItemId: 
   startLocked: 0
   playerCanToggle: 1
@@ -450503,9 +450938,13 @@ MonoBehaviour:
   OnTurnedOn:
     m_PersistentCalls:
       m_Calls: []
+    m_CallsDirty: 1
   OnTurnedOff:
     m_PersistentCalls:
       m_Calls: []
+    m_CallsDirty: 1
+  _source: {fileID: 0}
+  _used: 0
 --- !u!114 &1921078402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -451370,7 +451809,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 4
+  m_RenderingLayerMask: 7
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c6c106d16fdbf6c48bcf58d77e421118, type: 2}
@@ -451941,6 +452380,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   requiredItemId: 
   startLocked: 1
   playerCanToggle: 0
@@ -455034,6 +455478,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   requiredItemId: 
   startLocked: 1
   playerCanToggle: 0
@@ -455640,6 +456089,11 @@ MonoBehaviour:
   promptAnchor: {fileID: 0}
   promptOffset: {x: 0, y: 0.25, z: 0}
   activePrompt: 0
+  instructions: []
+  instructionsPosition: 8
+  overrideConfirmationInstructions: 0
+  confirmationInstructions: []
+  confirmationInstructionsPosition: 7
   correctCode: 1234
   isBroken: 0
   brokenMessage: El telefono no funciona
@@ -458552,7 +459006,7 @@ MonoBehaviour:
   - {fileID: 1497853538}
   - {fileID: 1384726658}
   - {fileID: 871960745}
-  - {fileID: 545356920}
+  - {fileID: 0}
   - {fileID: 599659618}
   - {fileID: 1649532296}
   - {fileID: 712628628}
@@ -458642,9 +459096,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1822386452}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 237.06502, y: -25}
   m_SizeDelta: {x: 45.480286, y: 45.48}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2045334822
@@ -459162,7 +459616,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 4
+  m_RenderingLayerMask: 7
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c6c106d16fdbf6c48bcf58d77e421118, type: 2}

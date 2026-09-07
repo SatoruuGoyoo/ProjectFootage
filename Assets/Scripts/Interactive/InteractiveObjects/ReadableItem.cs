@@ -9,28 +9,23 @@ public class ReadableItem : Interactable
     [SerializeField] private string[] pages = new[] { "" };
 
     [Header("Prompt")]
-    [SerializeField] private string readPrompt = "leer";
+    [SerializeField] private string openPrompt = "leer";
+    [SerializeField] private string closePrompt = "cerrar";
 
     [SerializeField] private EventReference openSound;
     [SerializeField] private EventReference closeSound;
 
     private bool _isReading;
 
-    public override string PromptMessage => readPrompt;
-    public override bool CanInteract => !_isReading;
+    public override string PromptMessage => _isReading ? closePrompt : openPrompt;
+    public override bool CanInteract => true;
     public override bool IsActive => _isReading;
     public override bool BlockMovement => true;
 
     public override void Interact()
     {
-        if (_isReading) return;
-        Open();
-    }
-
-    public override void Cancel()
-    {
-        if (!_isReading) return;
-        Close();
+        if (_isReading) Close();
+        else Open();
     }
 
     private void OnDisable()

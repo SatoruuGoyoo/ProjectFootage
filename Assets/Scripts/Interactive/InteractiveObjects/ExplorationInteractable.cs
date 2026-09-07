@@ -27,7 +27,7 @@ public class ExplorationInteractable : Interactable
     private bool OnLastLine => _index >= 0 && _index >= lines.Length - 1;
 
     public override string PromptMessage => examinePrompt;
-    public override bool CanInteract => !_used && HasLines && !OnLastLine;
+    public override bool CanInteract => !_used && HasLines;
     public override bool IsActive => _index >= 0;
     public override bool BlockMovement => true;
     public override Sprite ActiveIcon => OnLastLine && lastLineIcon != null ? lastLineIcon : base.ActiveIcon;
@@ -47,13 +47,13 @@ public class ExplorationInteractable : Interactable
             _index++;
         }
 
-        subtitles.Show(lines[_index], uiPosition);
-    }
+        if (_index >= lines.Length)
+        {
+            EndSequence();
+            return;
+        }
 
-    public override void Cancel()
-    {
-        if (_index < 0) return;
-        EndSequence();
+        subtitles.Show(lines[_index], uiPosition);
     }
 
     private void EndSequence()

@@ -222,7 +222,7 @@ public class Door : Interactable
         {
             if (_pendingConfirm) return;
             _pendingConfirm = true;
-            GameEvents.RequestConfirmation(confirmationText, OnConfirmed, OnDeclined, uiPosition);
+            RequestConfirmation(confirmationText, OnConfirmed, OnDeclined);
             return;
         }
 

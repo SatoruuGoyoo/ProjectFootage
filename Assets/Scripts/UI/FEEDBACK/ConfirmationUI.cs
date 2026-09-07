@@ -24,6 +24,10 @@ public class ConfirmationUI : MonoBehaviour
     [SerializeField] private Image noHighlight;
     [SerializeField] private Color highlightColor = new Color(0.1f, 0.2f, 0.8f, 1f);
 
+    [Header("Instrucciones (default, pisables por el interactuable)")]
+    [SerializeField] private InteractionInstruction[] instructions;
+    [SerializeField] private UIPositioner.ScreenPosition instructionsPosition = UIPositioner.ScreenPosition.LowerCenter;
+
     [Header("Audio")]
     [SerializeField] private EventReference selectSound;
     [SerializeField] private EventReference confirmSound;
@@ -107,18 +111,19 @@ public class ConfirmationUI : MonoBehaviour
         if (noHighlight != null) noHighlight.gameObject.SetActive(!yes);
     }
 
-    private void OnRequested(string message, System.Action onConfirm, System.Action onDecline, UIPositioner.ScreenPosition position)
+    private void OnRequested(ConfirmationRequest request)
     {
-        if (!UILayerManager.TryShow(UILayerManager.Layer.Confirmation, this, position, ForceHide)) return;
-        positioner?.SetPosition(position);
-        _onConfirm = onConfirm;
-        _onDecline = onDecline;
-        if (messageLabel != null) messageLabel.SetText(message);
+        if (!UILayerManager.TryShow(UILayerManager.Layer.Confirmation, this, request.Position, ForceHide)) return;
+        positioner?.SetPosition(request.Position);
+        _onConfirm = request.OnConfirm;
+        _onDecline = request.OnDecline;
+        if (messageLabel != null) messageLabel.SetText(request.Message);
         SetSelected(false);
         _navigateNeutral = Mathf.Abs(_navigateAction.ReadValue<Vector2>().x) < 0.5f;
         _suppressSubmitThisFrame = true;
         SetVisible(true);
         GameEvents.PlayerModeChanged(PlayerMode.InteractionMode);
+        ShowInstructions(request);
     }
 
     private void OnClosedExternally()
@@ -128,6 +133,7 @@ public class ConfirmationUI : MonoBehaviour
         _onDecline = null;
         SetVisible(false);
         UILayerManager.Release(UILayerManager.Layer.Confirmation, this);
+        HideInstructions();
         GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
     }
 
@@ -151,6 +157,7 @@ public class ConfirmationUI : MonoBehaviour
         _onDecline = null;
         SetVisible(false);
         UILayerManager.Release(UILayerManager.Layer.Confirmation, this);
+        HideInstructions();
         GameEvents.PlayerModeChanged(PlayerMode.ExplorationMode);
         GameEvents.CloseConfirmation();
     }
@@ -161,7 +168,25 @@ public class ConfirmationUI : MonoBehaviour
         _onDecline = null;
         SetVisible(false);
         UILayerManager.Release(UILayerManager.Layer.Confirmation, this);
+        HideInstructions();
     }
+
+    private void ShowInstructions(ConfirmationRequest request)
+    {
+        System.Collections.Generic.IReadOnlyList<InteractionInstruction> set = instructions;
+        UIPositioner.ScreenPosition position = instructionsPosition;
+
+        if (request.OverridesInstructions)
+        {
+            set = request.Instructions;
+            position = request.InstructionsPosition;
+        }
+
+        if (set == null || set.Count == 0) return;
+        GameEvents.ModalInstructionsShown(set, position);
+    }
+
+    private void HideInstructions() => GameEvents.ModalInstructionsHidden();
 
     private void SetVisible(bool visible)
     {

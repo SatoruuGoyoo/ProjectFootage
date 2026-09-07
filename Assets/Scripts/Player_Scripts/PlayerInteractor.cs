@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -20,7 +21,6 @@ public class PlayerInteractor : MonoBehaviour
     private readonly Collider[] _hits = new Collider[32];
 
     private InputAction _interactAction;
-    private InputAction _cancelAction;
 
     private IInteractable _current;
     private IInteractable _promptTarget;
@@ -30,6 +30,8 @@ public class PlayerInteractor : MonoBehaviour
 
     private InteractPrompt _published;
     private bool _promptVisible;
+    private IReadOnlyList<InteractionInstruction> _publishedInstructions;
+    private UIPositioner.ScreenPosition _publishedInstructionsPosition;
 
     private void Awake()
     {
@@ -44,7 +46,6 @@ public class PlayerInteractor : MonoBehaviour
     private void Start()
     {
         _interactAction = PlayerInput.Actions.Exploration.Interact;
-        _cancelAction = PlayerInput.Actions.UI.Cancel;
     }
 
     private void OnEnable() => GameEvents.OnPlayerModeChanged += OnModeChanged;
@@ -55,6 +56,7 @@ public class PlayerInteractor : MonoBehaviour
         _current = null;
         _promptTarget = null;
         PublishPrompt();
+        PublishInstructions();
     }
 
     private void Update()
@@ -73,6 +75,7 @@ public class PlayerInteractor : MonoBehaviour
         else HandleInput();
 
         PublishPrompt();
+        PublishInstructions();
     }
 
     private void HandleInput()
@@ -80,20 +83,10 @@ public class PlayerInteractor : MonoBehaviour
         if (!HasCurrent()) return;
         if (_mode == PlayerMode.InteractionMode && !_current.BlockMovement) return;
 
-        if (_interactAction.WasPressedThisFrame())
-        {
-            if (!_current.CanInteract) return;
-            _current.Interact();
-        }
-        else if (_cancelAction.WasPressedThisFrame())
-        {
-            if (!_current.IsActive) return;
-            _current.Cancel();
-        }
-        else
-        {
-            return;
-        }
+        if (!_interactAction.WasPressedThisFrame()) return;
+        if (!_current.CanInteract) return;
+
+        _current.Interact();
 
         if (_mode == PlayerMode.ExplorationMode) RefreshCurrent();
     }
@@ -161,6 +154,30 @@ public class PlayerInteractor : MonoBehaviour
 
         if (visible) GameEvents.InteractPromptShown(prompt);
         else GameEvents.InteractPromptHidden();
+    }
+
+    private void PublishInstructions()
+    {
+        IReadOnlyList<InteractionInstruction> next = null;
+        UIPositioner.ScreenPosition nextPosition = _publishedInstructionsPosition;
+
+        if (IsAlive(_current) && _current.IsActive)
+        {
+            var list = _current.Instructions;
+            if (list != null && list.Count > 0)
+            {
+                next = list;
+                nextPosition = _current.InstructionsPosition;
+            }
+        }
+
+        if (ReferenceEquals(next, _publishedInstructions) && nextPosition == _publishedInstructionsPosition) return;
+
+        _publishedInstructions = next;
+        _publishedInstructionsPosition = nextPosition;
+
+        if (next != null) GameEvents.InstructionsShown(next, nextPosition);
+        else GameEvents.InstructionsHidden();
     }
 
     private bool HasCurrent() => IsAlive(_current);

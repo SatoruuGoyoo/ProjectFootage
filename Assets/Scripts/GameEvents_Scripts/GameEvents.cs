@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 public static class GameEvents
 {
@@ -9,6 +10,12 @@ public static class GameEvents
     // Interact Prompt
     public static event Action<InteractPrompt> OnInteractPromptShown;
     public static event Action OnInteractPromptHidden;
+
+    // Instructions
+    public static event Action<IReadOnlyList<InteractionInstruction>, UIPositioner.ScreenPosition> OnInstructionsShown;
+    public static event Action OnInstructionsHidden;
+    public static event Action<IReadOnlyList<InteractionInstruction>, UIPositioner.ScreenPosition> OnModalInstructionsShown;
+    public static event Action OnModalInstructionsHidden;
 
     // Items
     public static event Action<string> OnItemCollected;
@@ -47,7 +54,7 @@ public static class GameEvents
     public static event Action<RecordingSession> OnRecordingDiscarded;
 
     // Confirmation
-    public static event Action<string, Action, Action, UIPositioner.ScreenPosition> OnConfirmationRequested;
+    public static event Action<ConfirmationRequest> OnConfirmationRequested;
     public static event Action OnConfirmationClosed;
 
     // Readable
@@ -65,6 +72,14 @@ public static class GameEvents
     // ── INTERACTION ──────────────────────────────────────────────────────────
     public static void InteractPromptShown(InteractPrompt prompt) => OnInteractPromptShown?.Invoke(prompt);
     public static void InteractPromptHidden() => OnInteractPromptHidden?.Invoke();
+
+    public static void InstructionsShown(IReadOnlyList<InteractionInstruction> instructions, UIPositioner.ScreenPosition position)
+        => OnInstructionsShown?.Invoke(instructions, position);
+    public static void InstructionsHidden() => OnInstructionsHidden?.Invoke();
+
+    public static void ModalInstructionsShown(IReadOnlyList<InteractionInstruction> instructions, UIPositioner.ScreenPosition position)
+        => OnModalInstructionsShown?.Invoke(instructions, position);
+    public static void ModalInstructionsHidden() => OnModalInstructionsHidden?.Invoke();
 
     // ── ITEMS ────────────────────────────────────────────────────────────────
     public static void ItemCollected(string itemId) => OnItemCollected?.Invoke(itemId);
@@ -98,8 +113,11 @@ public static class GameEvents
     public static void RecordingDiscarded(RecordingSession session) => OnRecordingDiscarded?.Invoke(session);
 
     // ── CONFIRMATION ─────────────────────────────────────────────────────────
+    public static void RequestConfirmation(ConfirmationRequest request)
+        => OnConfirmationRequested?.Invoke(request);
+
     public static void RequestConfirmation(string message, Action onConfirm, Action onDecline = null, UIPositioner.ScreenPosition position = UIPositioner.ScreenPosition.MiddleCenter)
-        => OnConfirmationRequested?.Invoke(message, onConfirm, onDecline, position);
+        => OnConfirmationRequested?.Invoke(new ConfirmationRequest(message, onConfirm, onDecline, position, null, UIPositioner.ScreenPosition.LowerCenter, false));
     public static void CloseConfirmation() => OnConfirmationClosed?.Invoke();
 
     // ── READABLE ─────────────────────────────────────────────────────────────

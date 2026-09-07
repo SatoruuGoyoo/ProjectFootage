@@ -13,7 +13,7 @@ public class Collectible : Interactable
     [SerializeField] private bool requiresConfirmation = false;
     [SerializeField] private string confirmationText = "";
 
-  
+
 
     private bool _collected;
     private bool _pendingConfirmation;
@@ -32,13 +32,13 @@ public class Collectible : Interactable
 
     public override void Interact()
     {
-        
+
         if (_collected) return;
 
         if (requiresConfirmation)
         {
             _pendingConfirmation = true;
-            GameEvents.RequestConfirmation(confirmationText, OnConfirmed, OnDeclined, uiPosition);
+            RequestConfirmation(confirmationText, OnConfirmed, OnDeclined);
         }
         else
         {

@@ -7,10 +7,10 @@ public class WindowInteractable : Interactable
     [SerializeField] private string promptOpen = "Mirar por la ventana";
     [SerializeField] private string promptClose = "Dejar de mirar";
 
-    [Header("Feedback")]
-    [SerializeField] private string feedbackOpen = "";
-    [SerializeField] private string feedbackClose = "";
-    [SerializeField] private float feedbackDuration = -1f;
+    [Header("Subtítulos")]
+    [SerializeField] private SubtitleBlock subtitles;
+    [SerializeField] private SubtitleEntry[] linesOnLook;
+    [SerializeField] private SubtitleEntry[] linesOnStopLooking;
 
     [Header("Confirmation")]
     [SerializeField] private bool requiresConfirmation = false;
@@ -37,7 +37,7 @@ public class WindowInteractable : Interactable
     private bool _stoppedOnce;
 
     public override string PromptMessage => _isLooking ? promptClose : promptOpen;
-    public override bool CanInteract => !_isLooking && !_pendingConfirmation;
+    public override bool CanInteract => !_pendingConfirmation;
     public override bool IsActive => _isLooking;
     public override bool BlockMovement => true;
 
@@ -50,26 +50,27 @@ public class WindowInteractable : Interactable
         GameEvents.OnConfirmationClosed -= OnConfirmationClosed;
         _pendingConfirmation = false;
         if (_isLooking) StopLooking();
+        if (subtitles != null) subtitles.Hide();
     }
 
     public override void Interact()
     {
         if (!CanInteract) return;
 
+        if (_isLooking)
+        {
+            StopLooking();
+            return;
+        }
+
         if (requiresConfirmation)
         {
             _pendingConfirmation = true;
-            GameEvents.RequestConfirmation(confirmationText, OnConfirmed, OnDeclined, uiPosition);
+            RequestConfirmation(confirmationText, OnConfirmed, OnDeclined);
             return;
         }
 
         StartLooking();
-    }
-
-    public override void Cancel()
-    {
-        if (!_isLooking) return;
-        StopLooking();
     }
 
     private void OnConfirmed()
@@ -88,8 +89,7 @@ public class WindowInteractable : Interactable
         SetCameraActive(true);
         EnterInteractionMode();
 
-        if (!string.IsNullOrEmpty(feedbackOpen))
-            GameEvents.FeedbackMessage(feedbackOpen, uiPosition, feedbackDuration);
+        PlayLines(linesOnLook);
 
         if (!_lookedOnce)
         {
@@ -106,8 +106,7 @@ public class WindowInteractable : Interactable
         SetCameraActive(false);
         ExitInteractionMode();
 
-        if (!string.IsNullOrEmpty(feedbackClose))
-            GameEvents.FeedbackMessage(feedbackClose, uiPosition, feedbackDuration);
+        PlayLines(linesOnStopLooking);
 
         if (!_stoppedOnce)
         {
@@ -116,6 +115,13 @@ public class WindowInteractable : Interactable
         }
 
         OnStopLooking?.Invoke();
+    }
+
+    private void PlayLines(SubtitleEntry[] entries)
+    {
+        if (subtitles == null) return;
+        if (entries == null || entries.Length == 0) return;
+        subtitles.ShowSequence(entries);
     }
 
     private void SetCameraActive(bool active)

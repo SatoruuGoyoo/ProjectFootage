@@ -58,9 +58,12 @@ public class PhoneInteractable : Interactable
         _ => "",
     };
 
-    public override bool CanInteract => _state == PhoneState.Idle || _state == PhoneState.Ringing;
+    public override bool CanInteract => _state == PhoneState.Idle
+        || _state == PhoneState.Ringing
+        || _state == PhoneState.Open;
     public override bool IsActive => _state == PhoneState.Open || _state == PhoneState.Answered;
     public override bool BlockMovement => true;
+    //public override bool UseScreenPrompt => IsActive && screenPromptWhileActive;
 
     private void Awake()
     {
@@ -80,13 +83,11 @@ public class PhoneInteractable : Interactable
             case PhoneState.Ringing:
                 AnswerCall();
                 break;
-        }
-    }
 
-    public override void Cancel()
-    {
-        if (_state != PhoneState.Open) return;
-        HangUp();
+            case PhoneState.Open:
+                HangUp();
+                break;
+        }
     }
 
     public void SetRinging(bool ringing)
